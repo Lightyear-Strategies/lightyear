@@ -1,14 +1,23 @@
 import validate_email
 import pandas as pd
 
-#INPUT: filename
+#INPUT: filename, type
 #OUTPUT: dataframe
 #DESCRIPTION: Checks the csv file for valid email columns
-def checkCSV(filanemae):
-	try:
-		df = pd.read_csv(filanemae)
-	except:
-		raise("File not found")
+#			  Accepted filetype: csv, tsv,xlsx
+def checkCSV(filename, type):
+	if(type == "csv"):
+		try:
+			df = pd.read_csv(filename)
+		except:
+			raise Exception("File not found")
+	elif(type == "xlsx"):
+		try:
+			df = pd.read_excel(filename)
+		except:
+			raise Exception("File not found")
+	else:
+		raise Exception("Invalid file type")
 
 	if "email" in df.columns:
 		return df
@@ -17,14 +26,14 @@ def checkCSV(filanemae):
 		return df
 
 	else:
-		raise("Column not found")
+		raise Exception("Column not found")
 
-#INPUT: filename, debug
+#INPUT: filename, debug, type
 #OUTPUT: updated dataframe
 #DESCRIPTION: Goes through the csv file and checks the email column for valid emails
 #			  Removes invalid emails and returns a dataframe
-def checkTheMail(filename, debug=False):
-	df = checkCSV(filename)
+def checkTheMail(filename, type, debug):
+	df = checkCSV(filename, type)
 
 	for i in range(0, len(df["email"])):
 		if debug:
@@ -42,20 +51,22 @@ def checkTheMail(filename, debug=False):
 
 	return df
 
-#INPUT: filename, debug
+#INPUT: filename, debug, type
 #OUTPUT: saved dataframe
 #DESCRIPTION: Save the dataframe to a csv file
-def checkAndSave(filename, debug=False):
-	df = checkTheMail(filename, debug)
+# 			  Use type to specify the file type
+def checkAndSave(filename, type, debug=False):
+	df = checkTheMail(filename, type, debug)
 	filename = filename.split(".")
 	df.to_csv(filename[0]+"_updated.csv", index=False)
 
-#INPUT: filename
+#INPUT: filename, debug, type
 #OUTPUT: dataframe
 #DESCRIPTION: Returns the checked dataframe
-def checkAndShow(filename, debug=False):
-	return checkTheMail(filename, debug)
+# 			  Use type to specify the file type
+def checkAndShow(filename, type, debug=False):
+	return checkTheMail(filename, type, debug)
 
 
 if __name__ == '__main__':
-	checkAndSave("test.csv", debug=True)
+	checkAndSave("test.csv", debug=True, type="csv")
