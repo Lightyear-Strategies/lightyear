@@ -3,7 +3,6 @@ import pandas as pd
 
 df = pd.read_csv("test.csv")
 
-
 def checkTheMail(name):
 	try:
 		isValid=validate_email.validate_email_or_fail(
