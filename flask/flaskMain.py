@@ -1,31 +1,24 @@
-from flask import Flask
+from flask import Flask, render_template
 import sys
-sys.path.insert(0, "/Users/rutkovskii/lightyear/emailValidity")
+
+sys.path.insert(0, "../emailValidity")
 import emailValidity
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='HTML')
 
-#site_link = "http://localhost/5000/"
-
-pages = "http://127.0.0.1:5000/hello \n http://127.0.0.1:5000/everify"
 @app.route("/")
 def welcome():
-    return(pages)
-
-@app.route("/hello")
-def hello():
-    return("hello")
-
-@app.route("/everify2")
-def everify2():
-    emailValidity.checkAndSave("/Users/rutkovskii/lightyear/emailValidity/test.csv", debug=True, type="csv")
-    return "Done"
+    return render_template('welcome.html')
 
 @app.route("/everify")
 def everify():
-    csv = "/Users/rutkovskii/lightyear/flask/static/ChoiceNYjournalists.csv"
-    save_path = "/Users/rutkovskii/lightyear/flask/results/"
-    emailValidity.checkAndSave2(csv,save_path, debug=True, type="csv")
+
+    file = "../flask/static/ChoiceNYjournalists.csv"  # did not make the proper name
+    #file = "../emailValidity/test.csv"
+
+    valid = emailValidity.emailValidation(filename=file,
+                                          type="csv", debug=True, multi=True)
+    valid.check(save=True)
     return "Done"
 
 

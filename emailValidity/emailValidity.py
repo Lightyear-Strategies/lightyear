@@ -46,17 +46,21 @@ class emailValidation:
 	# Validate the email
 	# @param: data — either .self.df or a list of emails
 	# @return: Validates the email or removes it from the dataframe
-	def checkTheMail(self, data=None):
+	def checkTheMail(self, data=None, thread_num = None):
 		if data is None:
 			data = self.df
 		total = len(data)
-		for i in range(0, len(data["email"])):
-			currLength = len(data["email"])
+		#print(data["email"])
+		for i in range(0, len(data["Email(s)"])):
+			currLength = len(data["Email(s)"])
 			if self.debug:
-				print("Checked ", i+1, "out of ", total, "(current length: ", currLength, ")")
+				if thread_num:
+					print(f"Checked {i+1} out of {total} (current length: {currLength}) in Thread №{thread_num}")
+				else:
+					print(f"Checked {i + 1} out of {total} (current length: {currLength})")
 			try:
 				validate_email.validate_email_or_fail(
-									email_address=data["email"][i],
+									email_address=data["Email(s)"][i],
 									check_format=True,
 									check_dns=True,
 									check_smtp=True,
@@ -91,10 +95,10 @@ class emailValidation:
 		df4.index = range(0, len(df4))
 
 		# create threads
-		t1 = Thread(target=self.checkTheMail, args=(df1,))
-		t2 = Thread(target=self.checkTheMail, args=(df2,))
-		t3 = Thread(target=self.checkTheMail, args=(df3,))
-		t4 = Thread(target=self.checkTheMail, args=(df4,))
+		t1 = Thread(target=self.checkTheMail, args=(df1,"1"))
+		t2 = Thread(target=self.checkTheMail, args=(df2,"2"))
+		t3 = Thread(target=self.checkTheMail, args=(df3,"3"))
+		t4 = Thread(target=self.checkTheMail, args=(df4,"4"))
 
 		# start threads
 		t1.start()
