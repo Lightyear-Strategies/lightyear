@@ -19,10 +19,10 @@ def checkCSV(filename, type):
 	else:
 		raise Exception("Invalid file type")
 
-	if "email" in df.columns:
+	if "email(s)" in df.columns:
 		return df
-	elif "Email" in df.columns:
-		df.rename(columns={"Email":"email"}, inplace=True)
+	elif "Email(s)" in df.columns:
+		df.rename(columns={"Email(s)":"email"}, inplace=True)
 		return df
 
 	else:
@@ -59,6 +59,12 @@ def checkAndSave(filename, type, debug=False):
 	df = checkTheMail(filename, type, debug)
 	filename = filename.split(".")
 	df.to_csv(filename[0]+"_updated.csv", index=False)
+
+def checkAndSave2(filepath,safepath, type, debug=False):
+	df = checkTheMail(filepath, type, debug)
+	filename = filepath.split("/")[-1]
+	filename = filename.split(".")[0]
+	df.to_csv(safepath+filename+"_updated.csv", index=False)
 
 #INPUT: filename, debug, type
 #OUTPUT: dataframe
