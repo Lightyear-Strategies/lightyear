@@ -12,10 +12,7 @@ def welcome():
 
 @app.route("/everify")
 def everify():
-
     file = "../flask/static/ChoiceNYjournalists.csv"  # did not make the proper name
-    #file = "../emailValidity/test.csv"
-
     valid = emailValidity.emailValidation(filename=file,
                                           type="csv", debug=True, multi=True)
     valid.check(save=True)

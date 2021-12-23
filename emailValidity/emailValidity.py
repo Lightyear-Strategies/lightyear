@@ -46,7 +46,7 @@ class emailValidation:
 	# Validate the email
 	# @param: data — either .self.df or a list of emails
 	# @return: Validates the email or removes it from the dataframe
-	def checkTheMail(self, data=None, thread_num = None):
+	def checkTheMail(self, data=None, threadNum = None):
 		if data is None:
 			data = self.df
 		total = len(data)
@@ -54,8 +54,8 @@ class emailValidation:
 		for i in range(0, len(data["Email(s)"])):
 			currLength = len(data["Email(s)"])
 			if self.debug:
-				if thread_num:
-					print(f"Checked {i+1} out of {total} (current length: {currLength}) in Thread №{thread_num}")
+				if threadNum:
+					print(f"Checked {i+1} out of {total} (current length: {currLength}) in Thread №{threadNum}")
 				else:
 					print(f"Checked {i + 1} out of {total} (current length: {currLength})")
 			try:
@@ -66,7 +66,7 @@ class emailValidation:
 									check_smtp=True,
 									smtp_from_address="xakel6@gmail.com")
 			except Exception as e:
-				if "Hui" in str(e):
+				if "550" in str(e):
 					continue
 				else:
 					if self.debug:
