@@ -46,8 +46,6 @@ class Muckrack:
 
 
 
-
-
 if __name__ == '__main__':
     test = Muckrack("https://muckrack.com/joseph-masha/articles")
     test.readHTML("savedHTML.txt")
