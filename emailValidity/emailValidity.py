@@ -46,23 +46,27 @@ class emailValidation:
 	# Validate the email
 	# @param: data — either .self.df or a list of emails
 	# @return: Validates the email or removes it from the dataframe
-	def checkTheMail(self, data=None):
+	def checkTheMail(self, data=None, threadNum = None):
 		if data is None:
 			data = self.df
 		total = len(data)
-		for i in range(0, len(data["email"])):
-			currLength = len(data["email"])
+		#print(data["email"])
+		for i in range(0, len(data["Email(s)"])):
+			currLength = len(data["Email(s)"])
 			if self.debug:
-				print("Checked ", i+1, "out of ", total, "(current length: ", currLength, ")")
+				if threadNum:
+					print(f"Checked {i+1} out of {total} (current length: {currLength}) in Thread №{threadNum}")
+				else:
+					print(f"Checked {i + 1} out of {total} (current length: {currLength})")
 			try:
 				validate_email.validate_email_or_fail(
-									email_address=data["email"][i],
+									email_address=data["Email(s)"][i],
 									check_format=True,
 									check_dns=True,
 									check_smtp=True,
 									smtp_from_address="xakel6@gmail.com")
 			except Exception as e:
-				if "Hui" in str(e):
+				if "550" in str(e):
 					continue
 				else:
 					if self.debug:
@@ -91,10 +95,10 @@ class emailValidation:
 		df4.index = range(0, len(df4))
 
 		# create threads
-		t1 = Thread(target=self.checkTheMail, args=(df1,))
-		t2 = Thread(target=self.checkTheMail, args=(df2,))
-		t3 = Thread(target=self.checkTheMail, args=(df3,))
-		t4 = Thread(target=self.checkTheMail, args=(df4,))
+		t1 = Thread(target=self.checkTheMail, args=(df1,"1"))
+		t2 = Thread(target=self.checkTheMail, args=(df2,"2"))
+		t3 = Thread(target=self.checkTheMail, args=(df3,"3"))
+		t4 = Thread(target=self.checkTheMail, args=(df4,"4"))
 
 		# start threads
 		t1.start()
@@ -130,15 +134,22 @@ class emailValidation:
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
 	# @return: cleaned dataframe
-	def check(self, save=False):
+	def check(self, save=False, saveLocation = None):
 		if self.multi:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
 
 		if save:
-			filename = self.filename.split(".")
-			self.df.to_csv(filename[0]+"_clean.csv", index=False)
+			filename = self.filename
+			if "/" in filename:
+				filename = filename.split("/")[-1]
+			filename = filename.split(".")
+
+			if saveLocation:
+				self.df.to_csv(saveLocation+filename[0]+"_clean.csv", index=False)
+			else:
+				self.df.to_csv(filename[0] + "_clean.csv", index=False)
 			return self.df
 		else:
 			return self.df
@@ -172,4 +183,3 @@ class emailValidation:
 if __name__ == '__main__':
 	valid = emailValidation(filename="test.csv", type="csv", debug=True, multi=True)
 	valid.check(save=True)
-

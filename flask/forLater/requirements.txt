@@ -1,0 +1,3 @@
+flask
+py3_validate_emai
+pandas
