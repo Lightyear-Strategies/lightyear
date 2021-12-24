@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from utils import *
-import time
 
 import sys
 sys.path.insert(0, "../emailValidity") # to import emailValidity.py
