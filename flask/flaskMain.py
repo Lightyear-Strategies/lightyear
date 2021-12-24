@@ -28,6 +28,8 @@ def upload_file():
 
 @app.route('/', methods=['POST'])
 def upload_files():
+    #ulpoad file and read it flask
+
     uploaded_file = request.files['file']
     filename = secure_filename(uploaded_file.filename)
     if filename != '':
