@@ -1,7 +1,9 @@
 from flask import Flask, render_template
-import sys
+from utils import *
+import time
 
-sys.path.insert(0, "../emailValidity")
+import sys
+sys.path.insert(0, "../emailValidity") # to import emailValidity.py
 import emailValidity
 
 app = Flask(__name__,template_folder='HTML')
@@ -10,13 +12,17 @@ app = Flask(__name__,template_folder='HTML')
 def welcome():
     return render_template('welcome.html')
 
+
 @app.route("/everify")
-def everify():
-    file = "../flask/static/ChoiceNYjournalists.csv"  # did not make the proper name
-    valid = emailValidity.emailValidation(filename=file,
-                                          type="csv", debug=True, multi=True)
-    valid.check(save=True)
-    return "Done"
+@timethis
+def emailVerify():
+
+    file = "../flask/static/ChoiceNYjournalists.csv" #"../emailValidity/test.csv"
+    saveLocation = None #"../flask/results/"
+
+    valid = emailValidity.emailValidation(filename=file,type="csv", debug=True, multi=True)
+    valid.check(save=True,saveLocation=saveLocation)
+    return render_template('repeat.html')
 
 
 if __name__ == '__main__':

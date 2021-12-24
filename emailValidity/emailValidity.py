@@ -134,15 +134,23 @@ class emailValidation:
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
 	# @return: cleaned dataframe
-	def check(self, save=False):
+	def check(self, save=False, saveLocation = None):
 		if self.multi:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
 
 		if save:
-			filename = self.filename.split(".")
-			self.df.to_csv(filename[0]+"_clean.csv", index=False)
+			filename = self.filename
+			if "/" in filename:
+				filename = filename.split("/")[-1]
+			filename = filename.split(".")
+
+			if saveLocation:
+				self.df.to_csv(saveLocation+filename[0]+"_clean.csv", index=False)
+			else:
+				self.df.to_csv(filename[0] + "_clean.csv", index=False)
+
 			return self.df
 		else:
 			return self.df
