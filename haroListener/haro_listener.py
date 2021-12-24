@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import datetime
 import time
 import os.path 
 
@@ -36,7 +37,8 @@ def authorize():
     return creds
 
 # @params email: a string of the users email, debug: do you want to debug ??
-def find_haro(email : str, debug : bool = False):
+# @return json-like dict object representing the most recent HARO email
+def find_recent_haro(email : str, debug : bool = False):
     """searches through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
     creds = authorize()
     try:
@@ -73,7 +75,36 @@ def find_haro(email : str, debug : bool = False):
         # TO ADD: Handle errors from gmail API.
         print(f'An error occurred: {error}')
 
+# @params: email: the users email, debug: do you want to debug to stdout ??
+# @return: a json-like dict object of the new HARO email
+def listen(email : str, debug : bool = False):
+    """Listens to email: checks one minute after HARO emails are scheduled to be release using the find_recent_haro function to return the newest HARO email"""
+    est_tz = datetime.timezone(datetime.timedelta(hours = -5), "EST")
+
+    morning_haro = datetime.time(hour=5, minute=40, second=0, tzinfo=est_tz)
+    afternoon_haro = datetime.time(hour=12, minute=40, second=0, tzinfo=est_tz)
+    night_haro = datetime.time(hour=17, minute=40, second=0, tzinfo=est_tz)
+
+    while True:
+        time_now = datetime.datetime.now(est_tz)
+        morn = datetime.datetime.combine(time_now.date(), morning_haro)
+        aft = datetime.datetime.combine(time_now.date(), afternoon_haro)
+        night = datetime.datetime.combine(time_now.date(), night_haro)
+        # update datetimes if needed
+        if time_now > morn and time_now > aft and time_now > night:
+            morn = morn + datetime.timedelta(days=1)
+            aft = aft + datetime.timedelta(days=1)
+            night = night + datetime.timedelta(days=1)
+        # find next haro
+        next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
+        time.sleep(next_haro.total_seconds())
+        # need to find a way to port this somewhere, maybe dump to json
+        find_recent_haro(email, debug)
+        # to ensure time_now updates correctly
+        time.sleep(60)
+
+
 
 if __name__ == '__main__':
     # can write to output file, or use with Chris's parser
-    find_haro("liam@lightyearstrategies.com", False)
+    listen("liam@lightyearstrategies.com", False)
