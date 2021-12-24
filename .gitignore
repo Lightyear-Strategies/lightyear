@@ -1,4 +1,7 @@
+emailValidity/PAST
+emailValidity/toCheck
+emailValidity/.DS_Store
+emailValidity/.DS_Store
+.idea/
 .DS_Store
-.idea
-.localized
-__pycache__/
+haroListener/config/*

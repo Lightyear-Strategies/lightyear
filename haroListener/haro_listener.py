@@ -2,6 +2,7 @@
 
 from __future__ import print_function
 
+import time
 import os.path 
 
 from google.auth.transport.requests import Request
@@ -13,37 +14,66 @@ from googleapiclient.errors import HttpError
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
-
-def print_label():
+# @params = none
+# @return credentials: a set of google api credentials
+def authorize():
+    """takes user through credentials and OAuth process, returns a set of credentials for later api use"""
     creds = None
-    # YOU WILL NEED TO GENERATE YOUR OWN OAUTH CLIENT CREDENTIALS
-    # REPLACE WITH PATH TO YOUR CREDENTIALS
-    if os.path.exists('/Users/liammurphy/Downloads/creds_secret/token.json'):
-        creds = Credentials.from_authorized_user_file('/Users/liammurphy/Downloads/creds_secret/token.json', SCOPES)
+    if os.path.exists('config/token.json'):
+        creds = Credentials.from_authorized_user_file('config/token.json', SCOPES)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                '/Users/liammurphy/Downloads/creds_secret/credentials.json', SCOPES)
+                'config/credentials.json', SCOPES)
             # WILL NEED TO UPDATE FOR FLASK DEPLOYMENT
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open('/Users/liammurphy/Downloads/creds_secret/token.json', 'w') as token:
+        with open('config/token.json', 'w') as token:
             token.write(creds.to_json())
+    return creds
 
+# @params email: a string of the users email, debug: do you want to debug ??
+def find_haro(email : str, debug : bool = False):
+    """searches through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
+    creds = authorize()
     try:
-        # check for new mail
-        # read subject lines
-        # if HARO in subject line
-        # return email body as either string or dataframe
-        pass
+        service = build("gmail", "v1", credentials=creds)
+        messages = service.users().messages()
+        request = messages.list(userId=email, includeSpamTrash=True, maxResults=500)
+        # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
+        messages_dict = request.execute()["messages"]
+        if debug:
+            print(messages_dict)
+
+        if debug:
+            request = messages.get(userId=email, id=messages_dict[24]['id'], format="full")
+            headers = request.execute()['payload']['headers']
+            to_print = None
+            for dic in headers:
+                if dic['name'] == "Subject":
+                    to_print = dic['value']
+            print(to_print)
+
+        for mes in messages_dict:
+            # to not overrun rate limit of 50 calls per second
+            time.sleep(1 / 40)
+            request = messages.get(userId=email, id=mes['id'], format='full')
+            headers = request.execute()['payload']['headers']
+            for dic in headers:
+                if dic['name'] == "Subject":
+                    if "[HARO]" in dic['value']:
+                        # returns full message json of HARO email
+                        return request.execute()
+        service.close()
 
     except HttpError as error:
-        # TODO(developer) - Handle errors from gmail API.
+        # TO ADD: Handle errors from gmail API.
         print(f'An error occurred: {error}')
 
 
 if __name__ == '__main__':
-    print_label()
+    # can write to output file, or use with Chris's parser
+    find_haro("liam@lightyearstrategies.com", False)
