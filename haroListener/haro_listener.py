@@ -37,7 +37,7 @@ class HaroListener():
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'config/credentials.json', self.scopes)
-                # WILL NEED TO UPDATE FOR FLASK DEPLOYMENT
+                # TODO WILL NEED TO UPDATE FOR FLASK DEPLOYMENT
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open('config/token.json', 'w') as token:
@@ -80,7 +80,7 @@ class HaroListener():
             service.close()
 
         except HttpError as error:
-            # TO ADD: Handle errors from gmail API.
+            # TODO Handle errors from gmail API.
             print(f'An error occurred: {error}')
 
     # @params: None
@@ -106,7 +106,7 @@ class HaroListener():
             # find next haro
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
-            # need to find a way to port this somewhere, maybe dump to json
+            # TODO need to find a way to port this somewhere, maybe dump to json
             self.find_recent_haro()
             # to ensure time_now updates correctly
             time.sleep(60)
@@ -114,5 +114,5 @@ class HaroListener():
 
 
 if __name__ == '__main__':
-    # can write to output file, or use with Chris's parser
+    # TODO can write to output file, or use with Chris's parser
     HaroListener("liam@lightyearstrategies.com", False).listen()
