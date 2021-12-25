@@ -5,3 +5,6 @@ emailValidity/.DS_Store
 .idea/*
 **/.DS_Store
 env/*
+flask/token.json
+flask/credentials.json
+flask/__pycache__/utils.cpython-37.pyc
