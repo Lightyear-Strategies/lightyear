@@ -9,3 +9,5 @@ flask/token.json
 flask/credentials.json
 flask/__pycache__/utils.cpython-37.pyc
 flask/client.json
+flask/token.pickle
+flask/__pycache__/quick.cpython-37.pyc

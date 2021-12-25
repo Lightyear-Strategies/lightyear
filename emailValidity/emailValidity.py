@@ -135,7 +135,7 @@ class emailValidation:
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
 	# @return: cleaned dataframe
-	def check(self, save=False, saveLocation = None, inplace=False):
+	def check(self, save=False, inplace=False):
 		if self.multi:
 			self.multiprocess()
 		else:
@@ -143,16 +143,17 @@ class emailValidation:
 
 		if save:
 			filename = os.path.basename(self.filename)
-			filename = filename.split(".")
-
-			if saveLocation:
-				self.df.to_csv(saveLocation+filename[0]+"_clean.csv", index=False)
+			if inplace:
+				saveLocation = "../flask/uploadFolder/"
+				filename = saveLocation+filename
 			else:
-				self.df.to_csv(filename[0] + "_clean.csv", index=False)
+				saveLoaction = "../flask/results/"
+				filename = saveLocation+filename.split(".")+"_clean.csv"
+
+			self.df.to_csv(filename, index=False)
 			return self.df
 		else:
 			return self.df
-
 
 	def setFilename(self, filename):
 		if type(filename) is str:

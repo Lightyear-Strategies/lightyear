@@ -3,6 +3,7 @@
 from flask import Flask, render_template,request
 from werkzeug.utils import secure_filename
 from utils import *
+from emailReport import gmailReport
 
 import os
 import sys
@@ -47,13 +48,19 @@ def upload_files():
 #@timethis #wrapper
 def emailVerify(path):
 
-    #file = "../flask/static/ChoiceNYjournalists.csv" #"../emailValidity/test.csv"
-    saveLocation = "../flask/results/"
-
     valid = emailValidity.emailValidation(filename=path,type="csv", debug=True, multi=True)
-    valid.check(save=True,saveLocation=saveLocation)
+    valid.check(save=True, inplace=True)
+
+    gmail = gmailReport("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
+                        "this is the subject line", "This is the message body", path,
+                        "me")
+    gmail.send()
+
     return render_template('repeat.html') # send to email
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    gmailReport("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
+                "this is the subject line", "This is the message body", "test.csv",
+                "me")
+    #app.run(debug=True)
