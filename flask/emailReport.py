@@ -12,8 +12,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-
-class emailReport():
+class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
         self.sender = sender
         self.to = to
@@ -103,7 +102,7 @@ class emailReport():
 
 if __name__ == "__main__":
     #sender, to, subject, text, file, user_id=None"
-    gmail = gmailReport("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
+    gmail = report("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
                         "this is the subject line", "This is the message body", "./test.csv",
                         "me")
     gmail.sendMessage()

@@ -3,7 +3,7 @@
 from flask import Flask, render_template,request
 from werkzeug.utils import secure_filename
 from utils import *
-from emailReport import gmailReport
+import emailReport
 
 import os
 import sys
@@ -27,6 +27,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def upload_file():
     return render_template('upload.html')
 
+#
+# Implement:
+# 1) check the extension of the file
+# 2) remove the file right after it's sent
+#
 @app.route('/', methods=['POST'])
 def upload_files():
     #ulpoad file and read it flask
@@ -46,21 +51,18 @@ def upload_files():
     #return redirect(url_for('index'))
 
 #@timethis #wrapper
-def emailVerify(path):
+def emailVerify(path, recepients=None):
 
     valid = emailValidity.emailValidation(filename=path,type="csv", debug=True, multi=True)
     valid.check(save=True, inplace=True)
 
-    gmail = gmailReport("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
-                        "this is the subject line", "This is the message body", path,
-                        "me")
-    gmail.send()
+    report = emailReport.report("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
+                       "this is the subject line", "This is the message body", path,
+                       "me")
+    report.sendMessage()
 
     return render_template('repeat.html') # send to email
 
 
 if __name__ == '__main__':
-    gmailReport("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
-                "this is the subject line", "This is the message body", "test.csv",
-                "me")
-    #app.run(debug=True)
+    app.run(debug=True)
