@@ -1,6 +1,7 @@
 from threading import Thread
 import validate_email
 import pandas as pd
+import os
 
 
 class emailValidation:
@@ -134,16 +135,14 @@ class emailValidation:
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
 	# @return: cleaned dataframe
-	def check(self, save=False, saveLocation = None):
+	def check(self, save=False, saveLocation = None, inplace=False):
 		if self.multi:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
 
 		if save:
-			filename = self.filename
-			if "/" in filename:
-				filename = filename.split("/")[-1]
+			filename = os.path.basename(self.filename)
 			filename = filename.split(".")
 
 			if saveLocation:
