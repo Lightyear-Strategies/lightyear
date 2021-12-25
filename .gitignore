@@ -8,3 +8,4 @@ env/*
 flask/token.json
 flask/credentials.json
 flask/__pycache__/utils.cpython-37.pyc
+flask/client.json
