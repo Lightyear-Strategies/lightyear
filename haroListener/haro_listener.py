@@ -21,7 +21,7 @@ class HaroListener():
     def __init__(self, email : str, debug : bool = False):
         self.email = email
         self.debug = debug
-        self.scopes = ['https://www.googleapis.com/auth/gmail.readonly']
+        self.scopes = ["https://www.googleapis.com/auth/gmail.readonly"]
 
     # @params = none
     # @return credentials: a set of google api credentials
@@ -50,16 +50,16 @@ class HaroListener():
         """searches through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
         creds = self.authorize()
         try:
-            service = build("gmail", "v1", credentials=creds)
+            service = build('gmail', 'v1', credentials=creds)
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
-            messages_dict = request.execute()["messages"]
+            messages_list = request.execute()['messages']
             if self.debug:
-                print(messages_dict)
+                print(messages_list)
 
             if self.debug:
-                request = messages.get(userId=self.email, id=messages_dict[24]['id'], format="full")
+                request = messages.get(userId=self.email, id=messages_list[24]['id'], format='full')
                 headers = request.execute()['payload']['headers']
                 to_print = None
                 for dic in headers:
@@ -68,19 +68,19 @@ class HaroListener():
                 print(to_print)
 
             found = False # flag to check for messages found
-            for mes in messages_dict:
+            for mes in messages_list:
                 # to not overrun rate limit of 50 calls per second
                 time.sleep(1 / 40)
                 request = messages.get(userId=self.email, id=mes['id'], format='full')
-                headers = request.execute()['payload']['headers']
+                message = request.execute()
+                headers = message['payload']['headers']
                 for dic in headers:
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value']:
                             # returns full message json of HARO email
                             found = True
-                            to_ret = request.execute()
                             service.close()
-                            return to_ret
+                            return message
             if not found:
                 service.close()
                 print("NO HARO FOUND")
@@ -88,14 +88,14 @@ class HaroListener():
 
         except HttpError as error:
             # TODO Handle errors from gmail API.
-            print(f'An error occurred: {error}')
+            print(f"An error occurred: {error}")
             print("NO HARO FOUND")
 
     # @params: None
     # @return: a json-like dict object of the new HARO email
     def listen(self):
         """Listens to email: checks one minute after HARO emails are scheduled to be release using the find_recent_haro function to return the newest HARO email"""
-        est_tz = datetime.timezone(datetime.timedelta(hours = -5), "EST")
+        est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
         morning_haro = datetime.time(hour=5, minute=40, second=0, tzinfo=est_tz)
         afternoon_haro = datetime.time(hour=12, minute=40, second=0, tzinfo=est_tz)
@@ -119,6 +119,74 @@ class HaroListener():
             # to ensure time_now updates correctly
             time.sleep(60)
 
+    # @params: from_date: a string in "yyyy-mm-dd" format
+    # @return: a list of json-like dict objects representing HARO emails from `from_date` to current date.
+    def find_haro_from(self, from_date : str = None):
+        """finds and returns a list of message objects for every HARO email from from_date til now. returns only most recent HARO when from_date = None
+
+        input
+        from_date: string date in format yyyy-mm-dd"""
+        # return most recent HARO on no input
+        if from_date == None:
+            return self.find_recent_haro()
+        # from_date MUST be in correct ISO format
+        from_datetime = datetime.date.fromisoformat(from_date)
+        creds = self.authorize()
+        try: 
+            service = build('gmail', 'v1', credentials=creds)
+            messages = service.users().messages()
+            request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
+            page = request.execute()
+            messages_list = page['messages']
+
+            if len(messages_list) == 0:
+                print("NO HARO FOUND")
+                service.close()
+                return None
+
+            while "nextPageToken" in page.keys():
+                # check for final date
+                time.sleep(1 / 40)
+                request = messages.get(userId=self.email, id=messages_list[-1]['id'], format='full')
+                last_message = request.execute()
+                last_date = datetime.date.fromtimestamp(int(last_message['internalDate']) // 1000)
+                if last_date < from_datetime:
+                    break
+
+                # add next page if it exists
+                time.sleep(1 / 40)
+                request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, pageToken=page['nextPageToken'], q='subject:[HARO]')
+                page = request.execute()
+                messages_list = messages_list + page['messages']
+            
+            # ensure only relevant HARO emails
+            to_ret = list()
+            found = False
+            for mes in messages_list:
+                # to not overrun rate limit of 50 calls per second
+                time.sleep(1 / 40)
+                request = messages.get(userId=self.email, id=mes['id'], format='full')
+                message = request.execute()
+                headers = message['payload']['headers']
+                for dic in headers:
+                    if dic['name'] == "Subject":
+                        if "[HARO]" in dic['value'] and from_datetime <= datetime.date.fromtimestamp(int(message['internalDate']) // 1000):
+                            # returns full message json of HARO email
+                            found = True
+                            to_ret.append(message)
+            if not found:
+                service.close()
+                print("NO HARO FOUND")
+                return None
+            service.close()
+            return to_ret
+
+        except HttpError as error:
+            # TODO Handle errors from gmail API.
+            print(f"An error occurred: {error}")
+            print("NO HARO FOUND")
+
+        
 if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
-    obj = HaroListener("liam@lightyearstrategies.com", False)
+    obj = HaroListener('liam@lightyearstrategies.com', False)
