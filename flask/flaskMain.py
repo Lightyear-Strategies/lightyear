@@ -31,6 +31,7 @@ def upload_file():
 # Implement:
 # 1) check the extension of the file
 # 2) remove the file right after it's sent
+# 3) Implement sessions to share the variables between the functions
 #
 @app.route('/', methods=['POST'])
 def upload_files():
