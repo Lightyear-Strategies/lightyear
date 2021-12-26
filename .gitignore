@@ -5,3 +5,4 @@ emailValidity/.DS_Store
 .idea/
 .DS_Store
 haroListener/config/*
+haroListener/haro_jsons/*

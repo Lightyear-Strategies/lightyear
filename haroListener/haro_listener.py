@@ -3,6 +3,7 @@
 from __future__ import print_function
 
 import datetime
+import json
 import time
 import os.path 
 
@@ -25,8 +26,8 @@ class HaroListener():
 
     # @params = none
     # @return credentials: a set of google api credentials
-    def authorize(self):
-        """takes user through credentials and OAuth process, returns a set of credentials for later api use"""
+    def __authorize(self):
+        """a helper method that takes user through credentials and OAuth process, returns a set of credentials for later api use"""
         creds = None
         if os.path.exists('config/token.json'):
             creds = Credentials.from_authorized_user_file('config/token.json', self.scopes)
@@ -46,9 +47,9 @@ class HaroListener():
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
-    def find_recent_haro(self):
-        """searches through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
-        creds = self.authorize()
+    def __find_recent_haro(self):
+        """a helper method to sort through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
+        creds = self.__authorize()
         try:
             service = build('gmail', 'v1', credentials=creds)
             messages = service.users().messages()
@@ -92,9 +93,9 @@ class HaroListener():
             print("NO HARO FOUND")
 
     # @params: None
-    # @return: a json-like dict object of the new HARO email
+    # @return: None
     def listen(self):
-        """Listens to email: checks one minute after HARO emails are scheduled to be release using the find_recent_haro function to return the newest HARO email"""
+        """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
         morning_haro = datetime.time(hour=5, minute=40, second=0, tzinfo=est_tz)
@@ -115,7 +116,7 @@ class HaroListener():
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
             # TODO need to find a way to port this somewhere, maybe dump to json
-            self.find_recent_haro()
+            self.haros_to_json([self.__find_recent_haro()])
             # to ensure time_now updates correctly
             time.sleep(60)
 
@@ -128,10 +129,10 @@ class HaroListener():
         from_date: string date in format yyyy-mm-dd"""
         # return most recent HARO on no input
         if from_date == None:
-            return self.find_recent_haro()
+            return [self.__find_recent_haro()]
         # from_date MUST be in correct ISO format
         from_datetime = datetime.date.fromisoformat(from_date)
-        creds = self.authorize()
+        creds = self.__authorize()
         try: 
             service = build('gmail', 'v1', credentials=creds)
             messages = service.users().messages()
@@ -171,7 +172,6 @@ class HaroListener():
                 for dic in headers:
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value'] and from_datetime <= datetime.date.fromtimestamp(int(message['internalDate']) // 1000):
-                            # returns full message json of HARO email
                             found = True
                             to_ret.append(message)
             if not found:
@@ -186,7 +186,25 @@ class HaroListener():
             print(f"An error occurred: {error}")
             print("NO HARO FOUND")
 
+    # @params: haros: a list of message objects
+    # @return: None
+    def haros_to_json(self, haros : list):
+        """A method for dumping a list of HARO email objects to an output json file
         
+        input
+        
+        haros: a list of HARO email objects from google api"""
+        if len(haros) == 1:
+            timestamp = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000)
+            time_out = timestamp.isoformat(timespec='seconds')
+            with open('haro_jsons/HARO' + time_out + '.json', 'w') as outfile:
+                json.dump(haros, outfile, indent=4)
+        else:
+            from_time = datetime.datetime.fromtimestamp(int(haros[-1]['internalDate']) // 1000).isoformat(timespec='seconds')
+            to_time = end_time = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000).isoformat(timespec='seconds')
+            with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
+                json.dump(haros, outfile, indent=4)
+
 if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
-    obj = HaroListener('liam@lightyearstrategies.com', False)
+    listener = HaroListener('liam@lightyearstrategies.com', False)
