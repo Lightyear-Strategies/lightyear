@@ -2,3 +2,5 @@
 **/.DS_Store
 env/*
 flask/client.json
+/flask/uploadFolder/test.csv
+/flask/results/test_clean.csv
