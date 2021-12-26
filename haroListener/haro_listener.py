@@ -52,7 +52,7 @@ class HaroListener():
         try:
             service = build("gmail", "v1", credentials=creds)
             messages = service.users().messages()
-            request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500)
+            request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
             messages_dict = request.execute()["messages"]
             if self.debug:
@@ -119,7 +119,6 @@ class HaroListener():
             # to ensure time_now updates correctly
             time.sleep(60)
 
-
 if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
-    HaroListener("liam@lightyearstrategies.com", False).listen()
+    obj = HaroListener("liam@lightyearstrategies.com", False)
