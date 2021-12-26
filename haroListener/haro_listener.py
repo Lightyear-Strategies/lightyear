@@ -67,6 +67,7 @@ class HaroListener():
                         to_print = dic['value']
                 print(to_print)
 
+            found = False # flag to check for messages found
             for mes in messages_dict:
                 # to not overrun rate limit of 50 calls per second
                 time.sleep(1 / 40)
@@ -76,12 +77,19 @@ class HaroListener():
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value']:
                             # returns full message json of HARO email
-                            return request.execute()
-            service.close()
+                            found = True
+                            to_ret = request.execute()
+                            service.close()
+                            return to_ret
+            if not found:
+                service.close()
+                print("NO HARO FOUND")
+                return None
 
         except HttpError as error:
             # TODO Handle errors from gmail API.
             print(f'An error occurred: {error}')
+            print("NO HARO FOUND")
 
     # @params: None
     # @return: a json-like dict object of the new HARO email
@@ -110,7 +118,6 @@ class HaroListener():
             self.find_recent_haro()
             # to ensure time_now updates correctly
             time.sleep(60)
-
 
 
 if __name__ == '__main__':
