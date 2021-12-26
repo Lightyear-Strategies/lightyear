@@ -13,3 +13,7 @@ flask/token.pickle
 flask/__pycache__/quick.cpython-37.pyc
 emailValidity/__pycache__/emailValidity.cpython-37.pyc
 emailValidity/__pycache__/emailValidity.cpython-37.pyc
+.idea/
+.DS_Store
+haroListener/config/*
+haroListener/haro_jsons/*
