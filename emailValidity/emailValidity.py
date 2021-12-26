@@ -13,6 +13,9 @@ class emailValidation:
 		self.debug = debug
 		self.multi = multi
 		self.df = None
+		#length
+		self.initialLength = None
+		self.finalLength = None
 
 		self.checkCSV()
 
@@ -43,6 +46,7 @@ class emailValidation:
 			raise Exception("Column not found")
 
 		self.df = df
+		self.initialLength = len(df)
 
 	# Validate the email
 	# @param: data — either .self.df or a list of emails
@@ -78,6 +82,7 @@ class emailValidation:
 			return data
 		else:
 			self.df = data
+			self.finalLength = len(data)
 
 	# Validate the emails in a thread
 	# @return: Validates the emails or throws an error
@@ -131,6 +136,7 @@ class emailValidation:
 		print("Initial length: ", initial)
 		print("Final length: ", len(df))
 		self.df = df
+		self.finalLength = len(df)
 
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
@@ -179,7 +185,14 @@ class emailValidation:
 		else:
 			raise Exception("Invalid file type")
 
+	def getFinalLength(self):
+		return self.finalLength
+
+	def getInitialLength(self):
+		return self.initialLength
+
 
 if __name__ == '__main__':
 	valid = emailValidation(filename="test.csv", type="csv", debug=True, multi=True)
 	valid.check(save=True)
+

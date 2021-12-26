@@ -101,7 +101,6 @@ class report():
 
 
 if __name__ == "__main__":
-    #sender, to, subject, text, file, user_id=None"
     gmail = report("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
                         "this is the subject line", "This is the message body", "./test.csv",
                         "me")
