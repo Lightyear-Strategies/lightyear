@@ -5,6 +5,7 @@ from __future__ import print_function
 import datetime
 import json
 import time
+import os
 import os.path 
 
 from google.auth.transport.requests import Request
@@ -29,6 +30,8 @@ class HaroListener():
     def __authorize(self):
         """a helper method that takes user through credentials and OAuth process, returns a set of credentials for later api use"""
         creds = None
+        if not os.path.exists('config/'):
+            os.mkdir('config/')
         if os.path.exists('config/token.json'):
             creds = Credentials.from_authorized_user_file('config/token.json', self.scopes)
         # If there are no (valid) credentials available, let the user log in.
@@ -194,6 +197,10 @@ class HaroListener():
         input
         
         haros: a list of HARO email objects from google api"""
+        if not os.path.exists('haro_jsons/'):
+            os.mkdir('haro_jsons/')
+        if len(haros) == 0:
+            return None
         if len(haros) == 1:
             timestamp = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000)
             time_out = timestamp.isoformat(timespec='seconds')
@@ -201,10 +208,9 @@ class HaroListener():
                 json.dump(haros, outfile, indent=4)
         else:
             from_time = datetime.datetime.fromtimestamp(int(haros[-1]['internalDate']) // 1000).isoformat(timespec='seconds')
-            to_time = end_time = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000).isoformat(timespec='seconds')
+            to_time = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000).isoformat(timespec='seconds')
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
 if __name__ == '__main__':
-    # TODO can write to output file, or use with Chris's parser
     listener = HaroListener('liam@lightyearstrategies.com', False)
