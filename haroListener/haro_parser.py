@@ -28,7 +28,7 @@ class Haro():
     def __repr__(self):
         instance = "HARO("
         if(self.json_string is not None):
-            instance += ' '.join(self.date.split(" ")[1:5])+");"
+            instance += ' '.join(self.date.split(" ")[1:5])+")"
         return instance
 
 
