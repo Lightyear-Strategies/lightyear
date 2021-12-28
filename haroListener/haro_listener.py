@@ -40,7 +40,7 @@ class HaroListener():
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'client.json', self.scopes)
+                    './config/client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
@@ -211,6 +211,6 @@ class HaroListener():
 
 if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
-    listener = HaroListener('chris@lightyearstrategies.com', False)
+    listener = HaroListener('aleksei@lightyearstrategies.com', False)
     haros = listener.find_haro_from("2021-12-23")
     listener.haros_to_json(haros)
