@@ -15,6 +15,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from haro_parser import Haro
+
 class HaroListener():
     """A class to wrap our haro listening function"""
 
@@ -84,7 +86,8 @@ class HaroListener():
                             # returns full message json of HARO email
                             found = True
                             service.close()
-                            return message
+                            haro_obj = Haro([message])
+                            return haro_obj
             if not found:
                 service.close()
                 print("NO HARO FOUND")
@@ -175,7 +178,8 @@ class HaroListener():
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value'] and from_datetime <= datetime.date.fromtimestamp(int(message['internalDate']) // 1000):
                             found = True
-                            to_ret.append(message)
+                            haro_obj = Haro([message])
+                            to_ret.append(haro_obj)
             if not found:
                 service.close()
                 print("NO HARO FOUND")
@@ -211,6 +215,7 @@ class HaroListener():
 
 if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
-    listener = HaroListener('aleksei@lightyearstrategies.com', False)
-    haros = listener.find_haro_from("2021-12-23")
-    listener.haros_to_json(haros)
+    listener = HaroListener('chris@lightyearstrategies.com', False)
+    test = listener.find_haro_from("2021-12-24")
+    print(test)
+
