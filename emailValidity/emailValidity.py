@@ -1,6 +1,7 @@
 from threading import Thread
 import validate_email
 import pandas as pd
+import os
 
 
 class emailValidation:
@@ -12,6 +13,9 @@ class emailValidation:
 		self.debug = debug
 		self.multi = multi
 		self.df = None
+		#length
+		self.initialLength = None
+		self.finalLength = None
 
 		self.checkCSV()
 
@@ -42,6 +46,7 @@ class emailValidation:
 			raise Exception("Column not found")
 
 		self.df = df
+		self.initialLength = len(df)
 
 	# Validate the email
 	# @param: data — either .self.df or a list of emails
@@ -77,6 +82,7 @@ class emailValidation:
 			return data
 		else:
 			self.df = data
+			self.finalLength = len(data)
 
 	# Validate the emails in a thread
 	# @return: Validates the emails or throws an error
@@ -130,31 +136,30 @@ class emailValidation:
 		print("Initial length: ", initial)
 		print("Final length: ", len(df))
 		self.df = df
+		self.finalLength = len(df)
 
 	# Initiates the checks
 	# @param: save — save the dataframe to a csv
 	# @return: cleaned dataframe
-	def check(self, save=False, saveLocation = None):
+	def check(self, save=False, inplace=False):
 		if self.multi:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
 
 		if save:
-			filename = self.filename
-			if "/" in filename:
-				filename = filename.split("/")[-1]
-			filename = filename.split(".")
-
-			if saveLocation:
-				self.df.to_csv(saveLocation+filename[0]+"_clean.csv", index=False)
+			filename = os.path.basename(self.filename)
+			if inplace:
+				saveLocation = "../flask/uploadFolder/"
+				filename = saveLocation+filename
 			else:
-				self.df.to_csv(filename[0] + "_clean.csv", index=False)
+				saveLoaction = "../flask/results/"
+				filename = saveLocation+filename.split(".")+"_clean.csv"
 
+			self.df.to_csv(filename, index=False)
 			return self.df
 		else:
 			return self.df
-
 
 	def setFilename(self, filename):
 		if type(filename) is str:
@@ -180,15 +185,14 @@ class emailValidation:
 		else:
 			raise Exception("Invalid file type")
 
+	def getFinalLength(self):
+		return self.finalLength
+
+	def getInitialLength(self):
+		return self.initialLength
+
 
 if __name__ == '__main__':
 	valid = emailValidation(filename="test.csv", type="csv", debug=True, multi=True)
 	valid.check(save=True)
 
-"""
-def checkAndSave2(filepath,safepath, type, debug=False):
-	df = checkTheMail(filepath, type, debug)
-	filename = filepath.split("/")[-1]
-	filename = filename.split(".")[0]
-	df.to_csv(safepath+filename+"_updated.csv", index=False)
-"""
