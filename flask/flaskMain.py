@@ -12,14 +12,12 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import sys
 
-from utils import * #imports Celery, timethis
+from utils import * # imports Celery, timethis
 import emailReport
 
 sys.path.insert(0, "../emailValidity") # to import emailValidity.py
 import emailValidity
 
-UPLOAD_FOLDER = '../flask/uploadFolder'
-ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Flask ######################
 
@@ -27,7 +25,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__,template_folder='HTML')
 
 app.secret_key = "super secret key"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = '../flask/uploadFolder'
 
 # Celery
 app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'  # rabbitMQ
@@ -41,6 +39,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+###################### Globals ######################
+
+ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Functions ######################
 @app.route('/', methods=['GET','POST'])
@@ -73,7 +74,7 @@ def index():
 
     return render_template('upload.html', form=form, email=email, file=file)
 
-#
+
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, extension="csv", filename=None):
     with app.app_context():
