@@ -101,7 +101,7 @@ class report():
 
 
 if __name__ == "__main__":
-    gmail = report("chris@lightyearstrategies.com", "chris@lightyearstrategies.com",
+    gmail = report("aleksei@lightyearstrategies.co m", "aleksei@lightyearstrategies.com",
                         "this is the subject line", "This is the message body", "./test.csv",
                         "me")
     gmail.sendMessage()

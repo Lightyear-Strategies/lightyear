@@ -3,8 +3,6 @@
 from flask import Flask, render_template,request,redirect,url_for,session,flash
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
-from utils import *
-import emailReport
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Email
@@ -14,25 +12,36 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import sys
 
-# is there a way to do just import?
+from utils import * # imports Celery, timethis
+import emailReport
+
 sys.path.insert(0, "../emailValidity") # to import emailValidity.py
 import emailValidity
 
-UPLOAD_FOLDER = '../flask/uploadFolder'
-ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Flask ######################
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__,template_folder='HTML')
+
 app.secret_key = "super secret key"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = '../flask/uploadFolder'
+
+# Celery
+app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'  # rabbitMQ
+#app.config['CELERY_BACKEND'] = # for adding backend
+celery = make_celery(app)
+
 bootstrap = Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
+###################### Globals ######################
+
+ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Functions ######################
 @app.route('/', methods=['GET','POST'])
@@ -44,6 +53,8 @@ def index():
         email = form.email.data
         file = form.file.data
     form.email.data = ''
+
+
     if file:
         print(email)
         #save the file
@@ -54,20 +65,31 @@ def index():
         #find extension
         extension = os.path.splitext(filename)[1]
         extension = "csv" if extension == ".csv" else "xlsx"
-        #parse
-        emailVerify(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension)
-        #remove the file
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        flash('File {0} uploaded and parsed!\nInitial length: {1}. Final length: {2}'.format(filename,
-                                                                                            session["initial"],
-                                                                                            session["final"]))
+
+        """Celery"""
+        #parse,remove file, send updated file
+        parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
+
         return redirect("/")
 
     return render_template('upload.html', form=form, email=email, file=file)
 
+
+@celery.task(name='flaskMain.parseSendEmail')
+def parseSendEmail(path, recipients=None, extension="csv", filename=None):
+    with app.app_context():
+        emailVerify(path, recipients, extension)
+
+        # remove the file
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        #flash('File {0} uploaded and parsed!\nInitial length: {1}. Final length: {2}'.format(filename,
+        #                                                                                     session["initial"],
+        #                                                                                     session["final"]))
+
+
 #class for the form
 class NameForm(FlaskForm):
-    email = StringField('What is your name?', validators=[DataRequired(), Email()])
+    email = StringField('What is your email?', validators=[DataRequired(), Email()])
     file = FileField('Select your file', validators=[DataRequired(),
                                                      FileAllowed(["csv", "xlsx"],
                                                                  "Only CSV or XLSX files are allowed")])
@@ -77,12 +99,12 @@ class NameForm(FlaskForm):
 def emailVerify(path, recipients=None, extension="csv"):
     valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
     valid.check(save=True, inplace=True)
-    session["initial"]=valid.getInitialLength()
-    session["final"]=valid.getFinalLength()
+    #session["initial"]=valid.getInitialLength()
+    #session["final"]=valid.getFinalLength()
     subjectLine = os.path.basename(path)
 
-    report = emailReport.report("chris@lightyearstrategies.com", recipients,
-                                "Checked '%s' file" % subjectLine, "We parsed your file!", path,
+    report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
+                                "Checked '%s' file" % subjectLine, "Got Celery to work!", path,
                                 "me")
     report.sendMessage()
 
