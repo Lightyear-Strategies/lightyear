@@ -129,17 +129,23 @@ manually. This command usually does the trick:
 ---- Guides that were used: ----
 
 Instructions from: https://www.youtube.com/watch?v=iwxzilyxTbQ
+
 Code from: https://flask.palletsprojects.com/en/2.0.x/patterns/celery/
+
 Overview: https://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html
+
 Downloading RabbitMQ for MacOS: https://docs.celeryproject.org/en/latest/getting-started/backends-and-brokers/rabbitmq.html#broker-rabbitmq
+
 About workers: https://docs.celeryproject.org/en/latest/userguide/workers.html#stopping-the-worker
+
 Celery Best Practices: https://betterprogramming.pub/python-celery-best-practices-ae182730bb81
 
 Found about Celery from: https://stackoverflow.com/questions/45363505/python-flask-returning-a-html-page-while-simultaneously-performing-a-function/45383965
 
+
 Handy SOF posts:
 
-1.  https://stackoverflow.com/questions/18133249/django-celery-cannot-connect-to-amqp-guest127-0-0-80005672
+https://stackoverflow.com/questions/18133249/django-celery-cannot-connect-to-amqp-guest127-0-0-80005672
 2. https://stackoverflow.com/questions/49373825/kombu-exceptions-encodeerror-user-is-not-json-serializable
 3. https://stackoverflow.com/questions/25884951/attributeerror-flask-object-has-no-attribute-user-options
 
