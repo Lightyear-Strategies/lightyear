@@ -143,7 +143,7 @@ Celery Best Practices: https://betterprogramming.pub/python-celery-best-practice
 Found about Celery from: https://stackoverflow.com/questions/45363505/python-flask-returning-a-html-page-while-simultaneously-performing-a-function/45383965
 
 
-Handy SOF posts:
+Handy stackoverflow posts:
 
 https://stackoverflow.com/questions/18133249/django-celery-cannot-connect-to-amqp-guest127-0-0-80005672
 2. https://stackoverflow.com/questions/49373825/kombu-exceptions-encodeerror-user-is-not-json-serializable
