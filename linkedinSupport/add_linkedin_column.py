@@ -37,27 +37,27 @@ class LinkedinAdder():
             return None
 
         extension = sheet.split('.')[-1]
-        original_df = None
+        df = None
 
         if extension == 'csv':
-            original_df = pd.read_csv(sheet)
+            df = pd.read_csv(sheet)
         elif extension == 'xlsx':
-            original_df = pd.read_excel(sheet)
+            df = pd.read_excel(sheet)
         else:
             print("INVALID FILE EXENSION")
             return None
 
         if self.debug:
             print("BEFORE ADD")
-            print(original_df)
+            print(df)
 
-        original_df['linkedin url'] = original_df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name']), axis=1)
+        df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name']), axis=1)
 
         if self.debug:
             print("\nAFTER ADD")
-            print(original_df)
+            print(df)
 
-        return original_df
+        return df
 
     # @params: first: str first name, last: str last name
     # @returns: a string url representing the linkedin account of "first last"
