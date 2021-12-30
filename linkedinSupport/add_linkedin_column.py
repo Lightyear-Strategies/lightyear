@@ -50,8 +50,10 @@ class LinkedinAdder():
         if self.debug:
             print("BEFORE ADD")
             print(df)
-
-        df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name']), axis=1)
+        if len(df) > 100:
+            df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name'], True), axis=1)
+        else:
+            df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name'], False), axis=1)
 
         if self.debug:
             print("\nAFTER ADD")
@@ -59,9 +61,9 @@ class LinkedinAdder():
 
         return df
 
-    # @params: first: str first name, last: str last name
+    # @params: first: str first name, last: str last name, big_df: bool if input large
     # @returns: a string url representing the linkedin account of "first last"
-    def __get_url(self, first : str, last : str):
+    def __get_url(self, first : str, last : str, big_df : bool):
         """a helper method to get the linkedin url of a person with a random waiting period to not get banned by linkedin
         
         input
@@ -69,12 +71,20 @@ class LinkedinAdder():
         last: a string last name"""
 
         # trying to trick linkedin
+        if big_df:
+            if random.randint(1, 100) == 50:
+                # add big wait period for large input to not get killed by linkedin
+                time.sleep(random.randint(600, 1000))
         time.sleep(random.randint(3, 18))
 
-        users_list = self.api.search_people(keyword_first_name=first, keyword_last_name=last)
+        keywords = f"{first} {last} Journalist"
+        users_list = self.api.search_people(keywords=keywords)
 
         if self.debug:
             print(users_list)
+        
+        if len(users_list) == 0:
+            return "N/A"
 
         return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
 
