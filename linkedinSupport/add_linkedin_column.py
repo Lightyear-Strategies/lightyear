@@ -27,7 +27,7 @@ class LinkedinAdder():
     # @params: sheet: a string path to a csv or xlsx
     # @return: a pandas dataframe with the added column
     def add_column(self, sheet : str):
-        """a method to add a column of linkedin urls to a spreadsheet
+        """a method to add a column of linkedin urls to a spreadsheet and return a pandas dataframe
         
         input
         sheet: a string filepath to a csv or xlsx"""
@@ -50,6 +50,7 @@ class LinkedinAdder():
         if self.debug:
             print("BEFORE ADD")
             print(df)
+
         if len(df) > 100:
             df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name'], True), axis=1)
         else:
@@ -68,7 +69,8 @@ class LinkedinAdder():
         
         input
         first: a string first name
-        last: a string last name"""
+        last: a string last name
+        big_df: a boolean to tell whether the input is large (> 100 entries)"""
 
         # trying to trick linkedin
         if big_df:
@@ -87,6 +89,73 @@ class LinkedinAdder():
             return "N/A"
 
         return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
+
+
+    # @params: sheet: str filepath
+    # @returns: None
+    def add_connections(self, sheet : str):
+        """a method to take a sheet of journalists WITH LINKEDIN URLS and connect with them, 50 at a time (50 per 24 hours)
+        
+        input
+        sheet: string filepath to spreadsheet"""
+
+        if not os.path.exists(sheet):
+            print("INVALID FILEPATH")
+            return None
+
+        extension = sheet.split('.')[-1]
+        df = None
+
+        if extension == 'csv':
+            df = pd.read_csv(sheet)
+        elif extension == 'xlsx':
+            df = pd.read_excel(sheet)
+        else:
+            print("INVALID FILE EXENSION")
+            return None
+        
+        if len(df) > 50:
+            num_pieces = (len(df) // 50) + 1
+            pieces = [df[i * 50 : (i + 1) * 50] for i in range(num_pieces)]
+            for tmp_df in pieces:
+                tmp_df.apply(lambda row : self.__add_connection(row), axis=1)
+                # so that our account does not get banned
+                time.sleep(504000)
+        else:
+            df.apply(lambda row : self.__add_connection(row), axis=1)
+
+    # @params: url: row: row of df
+    # @returns: None
+    def __add_connection(self, row):
+        """a helper method to add a single connection with personalized message
+        
+        input
+        row: row of dataframe"""
+        # personalized message
+        message = self.__write_message(row)
+        # id from url
+        pub_id = self.__get_id(row)
+        self.api.add_connection(profile_public_id=pub_id, message=message)
+        time.sleep(random.randint(600, 1200))
+
+    # @params: row: row of df
+    # @returns: a personalized message
+    # TODO: IMPLEMENT THIS
+    def __write_message(self, row):
+        """a helper method to take a row of a dataframe and return a personalized message to the client
+        
+        input
+        row: row of dataframe"""
+        raise NotImplementedError
+
+    # @params: row: row of df
+    # @returns: a linkedin public id
+    def __get_id(self, row):
+        """a helper method to take a row of a dataframe and return a linkedin public id
+        
+        input
+        row: row of dataframe"""
+        return row['linkedin url'].split('/')[-2]
 
 if __name__ == '__main__':
     if not os.path.exists('config/'):
