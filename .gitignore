@@ -18,3 +18,5 @@ emailValidity/__pycache__/emailValidity.cpython-37.pyc
 haroListener/config/*
 haroListener/haro_jsons/*
 linkedinSupport/config/*
+linkedinSupport/.ipynb_checkpoints/*
+linkedinSupport/df_checker.ipynb
