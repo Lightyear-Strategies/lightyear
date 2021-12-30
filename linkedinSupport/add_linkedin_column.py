@@ -75,11 +75,6 @@ class LinkedinAdder():
 
         if self.debug:
             print(users_list)
-        
-        profile_dict = self.api.get_profile(users_list[0]['public_id'], users_list[0]['urn_id'])
-
-        if self.debug:
-            print(profile_dict)
 
         return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
 
@@ -92,4 +87,3 @@ if __name__ == '__main__':
         pw = password.read()
         adder = LinkedinAdder(un, pw, False)
         # DO NOT EDIT ABOVE HERE. IMPORTANT FOR CONFIGURATION
-        print(adder.add_column('config/minitest.csv'))
