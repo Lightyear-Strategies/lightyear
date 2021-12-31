@@ -7,7 +7,11 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
+
 from flask_sqlalchemy import SQLAlchemy
+#import sqlalchemy
+
+import operator
 
 import pandas as pd
 
@@ -56,50 +60,50 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class Reporter(db.Model):
-    id = db.Column(db.Integer, primary_key=True) #(data_type)
-    summary = db.Column(db.Text)
-    name = db.Column(db.String(50))
-    category = db.Column(db.String(50))
-    email = db.Column(db.String(50))
-    mediaoutlet = db.Column(db.String(50))
-    deadline = db.Column(db.String(50))
-    query = db.Column(db.Text)
-    requirements = db.Column(db.Text)
-
-    def to_dict(self):
-        return {
-            'summary': self.summary,
-            'name': self.name,
-            'category': self.category,
-            'email': self.email,
-            'mediaoutlet': self.mediaoutlet,
-            'deadline': self.deadline,
-            'query': self.query,
-            'requirements': self.requirements
-        }
-
-
-
 
 ###################### Functions ######################
 
 @app.route('/table')
 def serveTable():
-    users = User.query
+    #Haros = getDBHaros()
+    #users = db.session.query(Haros).all()
     return render_template('server_table.html', title='Server-Driven Table')
 
+#@timethis
+def addDBData(file):
+    # Read file into dataframe
+    csv_data = pd.read_csv(file.name)
+
+    # Load data to database
+    csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append') #name = tableName
+
+def getDBHaros():
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+    #results = db.session.query(haros).all()
+   # for column in Haros.columns: print(column)
+    for col in list(Haros.columns):
+        if col.name == "Category":
+            print(col)
+
+    #print(list(Haros.columns))
+    return Haros
+
+#sorting table contents
 @app.route('/api/data')
 def data():
-    query = User.query
+    Haros = getDBHaros()
+    query = db.session.query(Haros).all()
+    #print(query)
 
     # search filter
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
-            User.name.like(f'%{search}%'),
+            Haros.name.like(f'%{search}%'),
         ))
-    total_filtered = query.count()
+
+    total_filtered = len(query) #.count()
+
 
     # sorting
     order = []
@@ -109,39 +113,50 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['name']: #, 'age', 'email']:
-            col_name = 'name'
+        if col_name not in ['Category','Deadline','Email','Media Outlet','Name']:
+            col_name = 'Category'
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
-        col = getattr(User, col_name)
+
+        ### ### ### ### ###
+        """Have not Tested this part of the code"""
+        desiredCol = None
+        for col in list(Haros.columns):
+            if col.name == col_name:
+                #col = getattr(Haros.columns,list(Haros.columns)[j].name)
+                desiredCol = col
+
+        ### ### ### ### ###
+
         if descending:
-            col = col.desc()
-        order.append(col)
+            desiredCol = desiredCol.desc()
+        order.append(desiredCol)
         i += 1
     if order:
-        query = query.order_by(*order)
+        print(order)
+        #print(query)
+
+        """
+        Everything breakdown here on the line below because .order_by method cant sort list
+        I was not able to find "what" .order_by sorts
+        Based on this https://collerek.github.io/ormar/queries/filter-and-sort/ , it sorts Query Sets
+        
+        """
+        query.order_by(*order) #.sort(key=operator.itemgetter('name')) # = dict(
+
 
     # pagination
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
-    query = query.offset(start).limit(length)
+    query = query[start:start+length]
+
 
     # response
     return {
-        'data': [user.to_dict() for user in query],
+        'data': [dict(user) for user in query],
         'recordsFiltered': total_filtered,
-        'recordsTotal': User.query.count(),
+        'recordsTotal': len(query),
         'draw': request.args.get('draw', type=int),
     }
-
-def addDBData(file):
-    # Read file into dataframe
-    csv_data = pd.read_csv(file.name)
-
-    # Load data to database
-
-
-    
-
 
 
 
@@ -206,6 +221,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    file1 = open('test.csv')
-    addDBData(file1)
-    #app.run(debug=True)
+    #file1 = open('HARO_test.csv')
+    #addDBData(file1)
+    #getDBData()
+    app.run(debug=True)

@@ -43,18 +43,3 @@ def timethis(func):
         print('[*] Execution time: {} seconds.'.format(end-start))
         return result
     return wrapper
-
-
-def checkCSV(self):
-    if self.type == "csv":
-        try:
-            df = pd.read_csv(self.filename)
-        except:
-            raise Exception("File not found")
-    elif self.type == "xlsx":
-        try:
-            df = pd.read_excel(self.filename)
-        except:
-            raise Exception("File not found")
-    else:
-        raise Exception("Invalid file type")
