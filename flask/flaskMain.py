@@ -124,7 +124,6 @@ def data():
             if col.name == col_name:
                 #col = getattr(Haros.columns,list(Haros.columns)[j].name)
                 desiredCol = col
-
         ### ### ### ### ###
 
         if descending:
