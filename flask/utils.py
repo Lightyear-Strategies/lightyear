@@ -14,6 +14,7 @@ from email import encoders
 import mimetypes
 
 
+
 import time # for time tracker
 
 from celery import Celery # for Celery
@@ -43,3 +44,17 @@ def timethis(func):
         return result
     return wrapper
 
+
+def checkCSV(self):
+    if self.type == "csv":
+        try:
+            df = pd.read_csv(self.filename)
+        except:
+            raise Exception("File not found")
+    elif self.type == "xlsx":
+        try:
+            df = pd.read_excel(self.filename)
+        except:
+            raise Exception("File not found")
+    else:
+        raise Exception("Invalid file type")
