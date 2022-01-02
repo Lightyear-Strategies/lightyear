@@ -146,6 +146,9 @@ class LinkedinAdder():
         
         input
         row: row of dataframe"""
+        first = row['First Name']
+        last = row['Last Name']
+        
         raise NotImplementedError
 
     # @params: row: row of df
