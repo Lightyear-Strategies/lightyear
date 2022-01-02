@@ -95,10 +95,14 @@ class Muckrack:
                                   'Focus': coverage,
                                   'Outlets': medias}, ignore_index=True)
 
+    def to_csv(self, filename):
+        if(len(self.df)==0):
+            raise Exception("No data to convert to dataframe")
+        self.df.to_csv(filename)
+
     def to_df(self):
         if(len(self.df)==0):
             raise Exception("No data to convert to dataframe")
-
         return self.df
 
 
@@ -111,6 +115,4 @@ if __name__ == '__main__':
     muck = Muckrack(list_of_urls)
     muck.parse_HTML()
     df = muck.to_df()
-    #save df as .csv
-    df.to_csv('muckrack.csv')
 
