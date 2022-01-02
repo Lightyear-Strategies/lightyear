@@ -5,22 +5,42 @@ import pickle
 import time
 import undetected_chromedriver.v2 as uc
 import pandas as pd
+from LDA import LDA_analysis
 
 class Muckrack:
     def __init__(self, url_list):
-        self.url_list = []
+        if(len(url_list)==1):
+            self.url_list = [url_list]
+        else:
+            self.url_list = url_list
         self.df = pd.DataFrame()
+
+        self.sleep_time = 2.5
+        self.time_total = len(url_list)*(self.sleep_time*2)
+        self.time_left = self.time_total
 
     def parse_HTML(self):
         driver = uc.Chrome()
         with driver:
             for url in self.url_list:
+                print("Parsing: " + url)
+                print("Time left: " + self.__time_left())
                 driver.get(url)
-                time.sleep(2)
+                time.sleep(self.sleep_time)
                 self.read_HTML(driver.page_source)
-                time.sleep(2)
+                time.sleep(self.sleep_time)
+
+                self.time_left -= self.sleep_time*2
         driver.quit()
 
+    def __time_left(self):
+        time_left = self.time_left
+        if(time_left<60):
+            return str(time_left) + " seconds left"
+        else:
+            minutes = int(time_left/60)
+            seconds = int(time_left%60)
+            return str(minutes) + " minutes and " + str(seconds) + " seconds left"
 
     def read_HTML(self, page_source=None):
         if page_source is None:
@@ -35,6 +55,8 @@ class Muckrack:
         articles = []
         medias = {}
         most_recent_date = None
+        recent_topics = None
+        coverage = []
         #########################################
 
         outlets = soup.find_all("div", {"class": "news-story-byline"})
@@ -49,24 +71,46 @@ class Muckrack:
             articles.append(aTags[article].get("data-description"))
 
         most_recent_date = soup.find_all("a", {"class": "timeago"})[0].text
-        self.analysis(articles)
+        recent_topics = LDA_analysis(articles, 5, 3)
 
-    def analysis(self, articles):
+        beats = soup.find_all("div", {"class": "person-details-item person-details-beats"})
+        for beat in beats:
+            hrefs = beat.find_all("a")
+            for href in hrefs:
+                coverage.append(href.text)
 
 
-        print(articles)
+        #############PREPARING DATA FOR DF############
+        if(len(coverage)==0):
+            coverage = ["Unknown Coverage"]
+        #select 3 most occuring media outlets from media
+        medias = sorted(medias.items(), key=lambda x: x[1], reverse=True)
+        if (len(medias) > 3):
+            medias = medias[:3]
+        ###############################################
 
+        #append to self.df
+        self.df = self.df.append({'Most Recent Article': most_recent_date,
+                                  'Key words in last articles': recent_topics,
+                                  'Focus': coverage,
+                                  'Outlets': medias}, ignore_index=True)
 
+    def to_df(self):
+        if(len(self.df)==0):
+            raise Exception("No data to convert to dataframe")
 
-
-    def getArticles(self):
-        return self.articles
-
-    def getMedia(self):
-        return self.media
+        return self.df
 
 
 
 if __name__ == '__main__':
-    muck = Muckrack("https://muckrack.com/joseph-masha/articles")
-    muck.read_HTML()
+    list_of_urls = ['https://muckrack.com/steven-melendez/articles',
+                    'https://muckrack.com/joshpeter11/articles',
+                    'https://muckrack.com/josh-laskin/articles']
+
+    muck = Muckrack(list_of_urls)
+    muck.parse_HTML()
+    df = muck.to_df()
+    #save df as .csv
+    df.to_csv('muckrack.csv')
+
