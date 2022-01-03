@@ -5,7 +5,9 @@ import time
 import random
 
 from linkedin_api import Linkedin
+from numpy.lib import type_check
 import pandas as pd
+import numpy as np
 
 class LinkedinAdder():
     """a class wrapper for the module"""
@@ -64,7 +66,7 @@ class LinkedinAdder():
 
     # @params: first: str first name, last: str last name, big_df: bool if input large
     # @returns: a string url representing the linkedin account of "first last"
-    def __get_url(self, first : str, last : str, big_df : bool):
+    def __get_url(self, first, last, big_df : bool):
         """a helper method to get the linkedin url of a person with a random waiting period to not get banned by linkedin
         
         input
@@ -78,6 +80,9 @@ class LinkedinAdder():
                 # add big wait period for large input to not get killed by linkedin
                 time.sleep(random.randint(600, 1000))
         time.sleep(random.randint(3, 18))
+
+        if first == np.nan or last == np.nan or first == np.NaN or last == np.NaN or type(first) == float or type(last) == float:
+            return "N/A"
 
         keywords = f"{first} {last} Journalist"
         users_list = self.api.search_people(keywords=keywords)
@@ -133,24 +138,64 @@ class LinkedinAdder():
         row: row of dataframe"""
         # personalized message
         message = self.__write_message(row)
+
+        if message == "":
+            print(f"COULD NOT ADD {row['First Name']} {row['Last Name']}: BAD NAME OR OUTLET")
+            return
         # id from url
         pub_id = self.__get_id(row)
         self.api.add_connection(profile_public_id=pub_id, message=message)
-        time.sleep(random.randint(600, 1200))
+        time.sleep(random.randint(600, 900))
 
     # @params: row: row of df
     # @returns: a personalized message
-    # TODO: IMPLEMENT THIS
     def __write_message(self, row):
         """a helper method to take a row of a dataframe and return a personalized message to the client
         
         input
         row: row of dataframe"""
-        first = row['First Name']
-        last = row['Last Name']
-        
-        raise NotImplementedError
 
+        greeting_choices = ["Hi", "Hello", "Greetings"]
+        butter_choices = ["I really enjoyed", "I really loved", "I loved", "I enjoyed reading"]
+        work_choices = ["all your work", "the work you've done", "your contributions"]
+        connection_choices = ["Let's connect", "I'd like to connect"]
+        help_choices = ["how we could potentially help each other", "potentially collaborating", "how we may be able to help each other out"]
+
+        greeting = random.choice(greeting_choices)
+        butter = random.choice(butter_choices)
+        work = random.choice(work_choices)
+        connection = random.choice(connection_choices)
+        help_c = random.choice(help_choices)
+        
+        if row['First Name'] == np.NaN or row['Last Name'] == np.NaN or row['First Name'] == np.nan or row['Last Name'] == np.nan or type(row['First Name']) == float or type(row['Last Name']) == float:
+            return ""
+
+        first = row['First Name'].strip()
+        last = row['Last Name'].strip()
+        outlet_list = [out.strip() for out in row['Outlet(s)'].split(',')]
+        outlet_choice = None
+        for out in outlet_list:
+            if out == np.nan or out == np.Nan:
+                return ""
+            if first not in out and last not in out:
+                outlet_choice = out 
+                break 
+
+        if outlet_choice == None:
+            message = f"{greeting} {first}. {butter} some of your freelance work. {connection} and talk about {help_c}."
+
+            if self.debug:
+                print(message)
+            
+            return message
+        
+        message = f"{greeting} {first}. {butter} {work} at {outlet_choice}. {connection} and talk about {help_c}."
+
+        if self.debug:
+            print(message)
+        
+        return message
+                
     # @params: row: row of df
     # @returns: a linkedin public id
     def __get_id(self, row):

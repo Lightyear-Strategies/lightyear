@@ -20,3 +20,4 @@ haroListener/haro_jsons/*
 linkedinSupport/config/*
 linkedinSupport/.ipynb_checkpoints/*
 linkedinSupport/df_checker.ipynb
+linkedinSupport/__pycache__
