@@ -18,7 +18,7 @@ emailValidity/.DS_Store
 
 flask/client.json
 flask/token.pickle
-flask/db.sqlite3
+flask/HarosDB.sqlite3
 
 haroListener/token.pickle
 haroListener/client.json

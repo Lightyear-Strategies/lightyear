@@ -23,17 +23,17 @@
   <script>
     $(document).ready(function () {
       $('#data').DataTable({
-        ajax: '/api/data',
+        ajax: '/api/serveHaros',
         serverSide: true,
         columns: [
           {data: 'Category'},
           {data: 'Deadline'},
-          {data: 'Email'},
-          {data: 'Media Outlet'},
+          {data: 'Email', orderable: false},
+          {data: 'MediaOutlet'},
           {data: 'Name'},
-          {data: 'Query'},
-          {data: 'Requirements'},
-          {data: 'Summary'}
+          {data: 'Query', orderable: false},
+          {data: 'Requirements', orderable: false},
+          {data: 'Summary', orderable: false}
         ],
       });
     });
