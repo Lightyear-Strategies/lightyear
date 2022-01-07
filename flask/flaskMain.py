@@ -1,13 +1,18 @@
 ###################### Imports ######################
 
-from flask import Flask, render_template,request,redirect,url_for,session,flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
+
 from flask_sqlalchemy import SQLAlchemy
+
+import operator
+
+import pandas as pd
 
 import os
 import sys
@@ -21,7 +26,6 @@ import emailValidity
 
 ###################### Flask ######################
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__,template_folder='HTML')
 
 app.secret_key = "super secret key"
@@ -34,7 +38,8 @@ celery = make_celery(app)
 
 bootstrap = Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -43,9 +48,105 @@ db = SQLAlchemy(app)
 
 ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
+###################### Classes ######################
+
+#class for the form on upload page
+class NameForm(FlaskForm):
+    email = StringField('What is your email?', validators=[DataRequired(), Email()])
+    file = FileField('Select your file', validators=[DataRequired(),
+                                                     FileAllowed(["csv", "xlsx"],
+                                                                 "Only CSV or XLSX files are allowed")])
+    submit = SubmitField('Submit')
+
+
+
 ###################### Functions ######################
+
+#@timethis
+def addDBData(file):
+    # Read file into dataframe
+    csv_data = pd.read_csv(file.name)
+
+    # Removing white space in headers
+    csv_data.columns = csv_data.columns.str.replace(' ', '')
+
+    # Dropping the first column which is unnamed index
+    csv_data.drop('Unnamed:0', axis=1, inplace=True)
+
+    # Load data to database
+    csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
+
+@app.route('/table')
+def serveTable():
+    return render_template('server_table.html', title='Server-Driven Table')
+
+#sorting table contents
+@app.route('/api/serveHaros')
+def data():
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+    #print(Haros.columns)
+    query = db.session.query(Haros) #.all()
+    #print(query)
+
+    # search filter
+    search = request.args.get('search[value]')
+    if search:
+        query = query.filter(db.or_(
+            Haros.columns.Category.like(f'%{search}%'),
+            Haros.columns.Deadline.like(f'%{search}%'),
+            Haros.columns.Summary.like(f'%{search}%'),
+            Haros.columns.Email.like(f'%{search}%'),
+            Haros.columns.MediaOutlet.like(f'%{search}%'),
+            Haros.columns.Name.like(f'%{search}%'),
+            Haros.columns.Requirements.like(f'%{search}%')
+        ))
+
+    total_filtered = query.count()
+
+    # sorting
+    order = []
+    i = 0
+    while True:
+
+        col_index = request.args.get(f'order[{i}][column]')
+        if col_index is None:
+            break
+        col_name = request.args.get(f'columns[{col_index}][data]')
+        if col_name not in ['Category','Deadline']:
+            col_name = 'Category'
+
+        # gets descending sorting
+        descending = request.args.get(f'order[{i}][dir]') == 'desc'
+
+        desiredCol = getattr(Haros.columns,col_name)
+
+        #decending
+        if descending:
+            desiredCol = desiredCol.desc()
+        order.append(desiredCol)
+
+        i += 1
+
+    # ordering
+    if order:
+        query = query.order_by(*order)
+
+
+    # pagination
+    start = request.args.get('start', type=int)
+    length = request.args.get('length', type=int)
+    query = query.offset(start).limit(length)
+
+    # response to be shown on HTML side
+    return {
+        'data': [dict(haro) for haro in query],
+        'recordsFiltered': total_filtered,
+        'recordsTotal': query.count(),
+        'draw': request.args.get('draw', type=int),
+    }
+
 @app.route('/', methods=['GET','POST'])
-def index():
+def validation():
     email = None
     file = None
     form = NameForm()
@@ -87,14 +188,6 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         #                                                                                     session["final"]))
 
 
-#class for the form
-class NameForm(FlaskForm):
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    file = FileField('Select your file', validators=[DataRequired(),
-                                                     FileAllowed(["csv", "xlsx"],
-                                                                 "Only CSV or XLSX files are allowed")])
-    submit = SubmitField('Submit')
-
 
 def emailVerify(path, recipients=None, extension="csv"):
     valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
@@ -113,4 +206,7 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
+    #file1 = open('HARO_test.csv')
+    #addDBData(file1)
     app.run(debug=True)
+    
