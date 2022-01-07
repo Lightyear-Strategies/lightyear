@@ -5,9 +5,11 @@
     <thead>
       <tr>
         <th> </th>
+        <th>Summary</th>
+        <th>Media Outlet</th>
         <th>Category</th>
         <th>Deadline</th>
-        <th>Summary</th>
+
       </tr>
     </thead>
     <tbody>
@@ -32,10 +34,6 @@ function format ( d ) {
             '<td>'+d.Email+'</td>'+
         '</tr>'+
         '<tr>'+
-            '<td>Media Outlet:</td>'+
-            '<td>'+d.MediaOutlet+'</td>'+
-        '</tr>'+
-        '<tr>'+
             '<td>Query:</td>'+
             '<td>'+d.Query+'</td>'+
         '</tr>'+
@@ -56,9 +54,10 @@ function format ( d ) {
                 "data":           null,
                 "defaultContent": ''
           },
+          {data: 'Summary', orderable: false},
+          {data: 'MediaOutlet'},
           {data: 'Category'},
-          {data: 'Deadline'},
-          {data: 'Summary', orderable: false}
+          {data: 'Deadline'}
         ],
       });
     });

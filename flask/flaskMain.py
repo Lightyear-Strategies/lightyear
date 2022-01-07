@@ -58,8 +58,6 @@ class NameForm(FlaskForm):
                                                                  "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
-
-
 ###################### Functions ######################
 
 #@timethis
@@ -112,7 +110,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','Deadline']:
+        if col_name not in ['Category','Deadline','MediaOutlet']:
             col_name = 'Category'
 
         # gets descending sorting
@@ -130,7 +128,6 @@ def data():
     # ordering
     if order:
         query = query.order_by(*order)
-
 
     # pagination
     start = request.args.get('start', type=int)
@@ -154,7 +151,6 @@ def validation():
         email = form.email.data
         file = form.file.data
     form.email.data = ''
-
 
     if file:
         print(email)
@@ -186,8 +182,6 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         #flash('File {0} uploaded and parsed!\nInitial length: {1}. Final length: {2}'.format(filename,
         #                                                                                     session["initial"],
         #                                                                                     session["final"]))
-
-
 
 def emailVerify(path, recipients=None, extension="csv"):
     valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
