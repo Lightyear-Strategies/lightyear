@@ -53,9 +53,9 @@ class LinkedinAdder():
             print(df)
 
         if len(df) > 100:
-            df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name'], True), axis=1)
+            df['linkedin url'] = df.apply(lambda row : self.__get_url(row, True), axis=1)
         else:
-            df['linkedin url'] = df.apply(lambda row : self.__get_url(row['First Name'], row['Last Name'], False), axis=1)
+            df['linkedin url'] = df.apply(lambda row : self.__get_url(row, False), axis=1)
 
         if self.debug:
             print("\nAFTER ADD")
@@ -65,7 +65,7 @@ class LinkedinAdder():
 
     # @params: first: str first name, last: str last name, big_df: bool if input large
     # @returns: a string url representing the linkedin account of "first last"
-    def __get_url(self, first, last, big_df : bool):
+    def __get_url(self, row, big_df : bool):
         """a helper method to get the linkedin url of a person with a random waiting period to not get banned by linkedin
         
         input
@@ -80,14 +80,32 @@ class LinkedinAdder():
                 time.sleep(random.randint(600, 1000))
         time.sleep(random.randint(3, 18))
 
+        first = row['First Name']
+        last = row['Last Name']
+
         if first == np.nan or last == np.nan or first == np.NaN or last == np.NaN or type(first) == float or type(last) == float:
             return "N/A"
 
-        keywords = f"{first} {last} Journalist"
+        first = row['First Name'].strip()
+        last = row['Last Name'].strip()
+
+        # cases for finding journalists, best to worst
+        outlet = self.__get_top_outlet(row)
+
+        if outlet != None:
+            # best search results
+            keywords = f"{first} {last} {outlet}"
+        else:
+            # significantly worse performance
+            keywords = f"{first} {last} Journalist"
+
         users_list = self.api.search_people(keywords=keywords)
 
         if len(users_list) == 0:
+            if self.debug:
+                print("couldnt find with first, last, journalist, resorting to first keyword, last keyword")
             time.sleep(5)
+            # absolutely god awful performance
             users_list = self.api.search_people(keyword_first_name=first, keyword_last_name=last)
 
         if self.debug:
@@ -155,7 +173,7 @@ class LinkedinAdder():
 
         if self.debug:
 
-            print(f"message: {message},\tid: {pub_id}")
+            print(f"MESSAGE: {message}\nID: {pub_id}")
             print("CONNECTION NOT ADDED, DEBUGGING")
             exit()
 
@@ -186,15 +204,8 @@ class LinkedinAdder():
             return ""
 
         first = row['First Name'].strip()
-        last = row['Last Name'].strip()
-        outlet_list = [out.strip() for out in row['Outlet(s)'].split(',')]
-        outlet_choice = None
-        for out in outlet_list:
-            if out == np.nan or out == np.NaN:
-                return ""
-            if first not in out and last not in out:
-                outlet_choice = out 
-                break 
+
+        outlet_choice = self.__get_top_outlet(row)
 
         if outlet_choice == None:
             message = f"{greeting} {first}. {butter} some of your freelance work. {connection} and talk about {help_c}."
@@ -219,6 +230,23 @@ class LinkedinAdder():
         input
         row: row of dataframe"""
         return row['linkedin url'].split('/')[-2] # grabs just public id from url
+
+    # @params: row: row of df
+    # @returns: a string representation of the reporter's top outlet
+    def __get_top_outlet(self, row):
+        """a helper method to take a row of a dataframe and return a string indicating the most popular outlet
+        
+        input
+        row: row of dataframe"""
+        first = row['First Name'].strip()
+        last = row['Last Name'].strip()
+        outlet_list = [out.strip() for out in row['Outlet(s)'].split(',')]
+        for out in outlet_list:
+            if out == np.nan or out == np.NaN:
+                return None
+            if first not in out and last not in out:
+                return out
+        return None
 
 if __name__ == '__main__':
     if not os.path.exists('config/'):
