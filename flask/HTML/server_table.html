@@ -4,6 +4,7 @@
   <table id="data" class="table table-striped">
     <thead>
       <tr>
+        <th> </th>
         <th>Category</th>
         <th>Deadline</th>
         <th>Summary</th>
@@ -16,16 +17,72 @@
 
 {% block scripts %}
   <script>
+    /* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // show nothing if there is no name
+    if (!(d.Name)) {d.Name = ''}
+    // `d` is the original data object for the row
+    return '<table class="table">'+
+        '<tr>'+
+            '<td>Name:</td>'+
+            '<td>'+d.Name+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Email:</td>'+
+            '<td>'+d.Email+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Media Outlet:</td>'+
+            '<td>'+d.MediaOutlet+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Query:</td>'+
+            '<td>'+d.Query+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Requirements:</td>'+
+            '<td>'+d.Requirements+'</td>'+
+        '</tr>'+
+    '</table>';
+}
     $(document).ready(function () {
-      $('#data').DataTable({
+        $('#data').DataTable({
         ajax: '/api/serveHaros',
         serverSide: true,
         columns: [
+          {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+          },
           {data: 'Category'},
           {data: 'Deadline'},
           {data: 'Summary', orderable: false}
         ],
       });
     });
+
+    // Add event listener for opening and closing details
+    $('#data tbody').on('click', 'tr td.details-control', function () {
+        var table = $('#data').DataTable();
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            tr.removeClass( 'details' );
+            row.child.hide();
+            //tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            tr.addClass( 'details' );
+            row.child( format(row.data()) ).show();
+            //tr.addClass('shown');
+        }
+    } );
+
   </script>
 {% endblock %}
+
