@@ -1,11 +1,10 @@
-"""a module to add a linkedin url to a spreadsheet"""
+"""a module for linkedin outreach automation"""
 
 import os.path
 import time
 import random
 
 from linkedin_api import Linkedin
-from numpy.lib import type_check
 import pandas as pd
 import numpy as np
 
@@ -87,6 +86,10 @@ class LinkedinAdder():
         keywords = f"{first} {last} Journalist"
         users_list = self.api.search_people(keywords=keywords)
 
+        if len(users_list) == 0:
+            time.sleep(5)
+            users_list = self.api.search_people(keyword_first_name=first, keyword_last_name=last)
+
         if self.debug:
             print(users_list)
         
@@ -143,7 +146,19 @@ class LinkedinAdder():
             print(f"COULD NOT ADD {row['First Name']} {row['Last Name']}: BAD NAME OR OUTLET")
             return
         # id from url
+        if type(row['linkedin url']) == float:
+            print("NO LINKEDIN URL COULD BE FOUND")
+            return 
+
         pub_id = self.__get_id(row)
+
+
+        if self.debug:
+
+            print(f"message: {message},\tid: {pub_id}")
+            print("CONNECTION NOT ADDED, DEBUGGING")
+            exit()
+
         self.api.add_connection(profile_public_id=pub_id, message=message)
         time.sleep(random.randint(600, 900))
 
@@ -159,7 +174,7 @@ class LinkedinAdder():
         butter_choices = ["I really enjoyed", "I really loved", "I loved", "I enjoyed reading"]
         work_choices = ["all your work", "the work you've done", "your contributions"]
         connection_choices = ["Let's connect", "I'd like to connect"]
-        help_choices = ["how we could potentially help each other", "potentially collaborating", "how we may be able to help each other out"]
+        help_choices = ["how we could potentially help each other", "potentially working together", "how we may be able to help each other out"]
 
         greeting = random.choice(greeting_choices)
         butter = random.choice(butter_choices)
@@ -175,7 +190,7 @@ class LinkedinAdder():
         outlet_list = [out.strip() for out in row['Outlet(s)'].split(',')]
         outlet_choice = None
         for out in outlet_list:
-            if out == np.nan or out == np.Nan:
+            if out == np.nan or out == np.NaN:
                 return ""
             if first not in out and last not in out:
                 outlet_choice = out 
@@ -203,7 +218,7 @@ class LinkedinAdder():
         
         input
         row: row of dataframe"""
-        return row['linkedin url'].split('/')[-2]
+        return row['linkedin url'].split('/')[-2] # grabs just public id from url
 
 if __name__ == '__main__':
     if not os.path.exists('config/'):
@@ -212,5 +227,9 @@ if __name__ == '__main__':
     with open('config/email.txt') as email, open('config/password.txt') as password:
         un = email.read()
         pw = password.read()
-        adder = LinkedinAdder(un, pw, False)
+        adder = LinkedinAdder(un, pw, True)
         # DO NOT EDIT ABOVE HERE. IMPORTANT FOR CONFIGURATION
+        to_write = adder.add_column("config/minitest.csv")
+        with open("config/minitest_with_linkedin.csv", "w") as outfile:
+            to_write.to_csv(outfile)
+        adder.add_connections("config/minitest_with_linkedin.csv")
