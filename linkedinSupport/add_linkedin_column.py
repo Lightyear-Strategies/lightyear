@@ -250,9 +250,11 @@ if __name__ == '__main__':
     with open('config/email.txt') as email, open('config/password.txt') as password:
         un = email.read()
         pw = password.read()
-        adder = LinkedinAdder(un, pw, True)
+        adder = LinkedinAdder(un, pw, True) # IN DEBUG MODE, USE FALSE OPTION FOR PRODUCTION
         # DO NOT EDIT ABOVE HERE. IMPORTANT FOR CONFIGURATION
-        to_write = adder.add_column("config/test.csv")
-        with open("config/test_with_linkedin.csv", "w") as outfile:
-            to_write.to_csv(outfile)
-        adder.add_connections("config/test_with_linkedin.csv")
+        # if adder.debug:
+        #     print(pd.read_csv('config/minitest.csv')[['First Name', 'Last Name', 'Outlet(s)']])
+        # to_write = adder.add_column("config/minitest.csv")
+        # with open("config/minitest_with_linkedin.csv", "w") as outfile:
+        #     to_write.to_csv(outfile)
+        # adder.add_connections("config/minitest_with_linkedin.csv")
