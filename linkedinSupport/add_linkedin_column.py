@@ -103,16 +103,11 @@ class LinkedinAdder():
 
         if len(users_list) == 0:
             if self.debug:
-                print("couldnt find with first, last, journalist, resorting to first keyword, last keyword")
-            time.sleep(5)
-            # absolutely god awful performance
-            users_list = self.api.search_people(keyword_first_name=first, keyword_last_name=last)
+                print("couldnt find")
+            return "N/A"
 
         if self.debug:
             print(users_list)
-        
-        if len(users_list) == 0:
-            return "N/A"
 
         return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
 
@@ -257,7 +252,7 @@ if __name__ == '__main__':
         pw = password.read()
         adder = LinkedinAdder(un, pw, True)
         # DO NOT EDIT ABOVE HERE. IMPORTANT FOR CONFIGURATION
-        to_write = adder.add_column("config/minitest.csv")
-        with open("config/minitest_with_linkedin.csv", "w") as outfile:
+        to_write = adder.add_column("config/test.csv")
+        with open("config/test_with_linkedin.csv", "w") as outfile:
             to_write.to_csv(outfile)
-        adder.add_connections("config/minitest_with_linkedin.csv")
+        adder.add_connections("config/test_with_linkedin.csv")
