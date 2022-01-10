@@ -1,7 +1,6 @@
 """a module to scrape crunchbase website without using our crunchbase credits"""
 
 import time
-import random as r 
 
 import pandas as pd
 import undetected_chromedriver as uc
@@ -45,14 +44,46 @@ class CrunchParse():
         self.driver.refresh()
 
     # TODO: make keyword options instead of dict for easier gui implementation
-    def parse(self, options : dict[str, str] = None):
+    def parse(self, options : dict[str, dict[str, str]] = None):
         """parses the table that crunchbase generates based on specific parameters
         
         input
 
         options: a dict containing the options and their values
         """
-        pass
+        
+        # if options == None:
+        #     print("NO OPTIONS DICT, QUITTING")
+        #     self.driver.quit()
+        #     exit()
+
+        # get page (testing only)
+        self.driver.get(r"https://www.crunchbase.com/discover/organization.companies")
+        time.sleep(4)
+
+        # make everything uniform
+        # self.driver.find_element_by_id("overview").click()
+        # time.sleep(2)
+
+
+        overview = self.driver.find_element_by_id("overview")
+        overview.find_element_by_id("mat-input-23").send_keys("tests")
+
+        exit()
+        # activate filters
+        possible_filters = {"overview", "contacts", "signals", "financials", "company_status", "lists_and_tags", "other"}
+        for filter_group in options.keys():
+            if filter_group not in possible_filters:
+                print("BAD FILTER GROUP NAME, QUITTING")
+                self.driver.quit()
+                exit()
+            if options[filter_group] == None:
+                continue
+            self.driver.find_element_by_id(filter_group).click()
+            time.sleep(1.2382)
+
+
+
 
 if __name__ == "__main__":
     CrunchParse("unknown", "unknown", True).parse()
