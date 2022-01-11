@@ -44,7 +44,7 @@ function format ( d ) {
     '</table>';
 }
     $(document).ready(function () {
-        $('#data').DataTable({
+      var table = $('#data').DataTable({
         ajax: '/api/serveHaros',
         serverSide: true,
         columns: [
@@ -60,6 +60,19 @@ function format ( d ) {
           {data: 'Deadline'}
         ],
       });
+
+      // Switching with left and right keyboard buttons
+      $(document).keydown( function(e) {
+        // left arrow
+        if ((e.keyCode || e.which) == 37) {
+          $( "#data_previous" ).click();
+        }
+        // right arrow
+        if ((e.keyCode || e.which) == 39) {
+          $( "#data_next" ).click();
+        }
+      })
+
     });
 
     // Add event listener for opening and closing details

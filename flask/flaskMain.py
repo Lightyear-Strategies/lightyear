@@ -32,7 +32,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
 celery = make_celery(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
