@@ -29,6 +29,8 @@
    </div>
    <br>Please, upload the file and don't close the page!</br>
    It will be processed in background. It <i>might</i> take 5-10 minutes for bigger files.
+   <form action="" method="post" class="form" role="form" enctype="multipart/form-data">
    {{ wtf.quick_form(form) }}
+   </form>
 </div>
 {% endblock %}
