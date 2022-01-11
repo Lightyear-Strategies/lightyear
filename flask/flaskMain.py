@@ -181,7 +181,7 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 def emailVerify(path, recipients=None, extension="csv"):
-    valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
+    valid = emailValidity.emailValidation(filename=path,type=extension, debug=Flase, multi=True)
     valid.check(save=True, inplace=True)
     subjectLine = os.path.basename(path)
 
