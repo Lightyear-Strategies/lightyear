@@ -23,26 +23,19 @@ import emailValidity
 ###################### Flask ######################
 
 app = Flask(__name__,template_folder='HTML')
-
-app.secret_key = "super secret key"
+app.secret_key = "super secret key" #used in upload forms ?
 app.config['UPLOAD_FOLDER'] = '../flask/uploadFolder'
-
-# Celery
-app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'  # rabbitMQ
+app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
 #app.config['CELERY_BACKEND'] = # for adding backend
-celery = make_celery(app)
-
-bootstrap = Bootstrap(app)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
+celery = make_celery(app)
+bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
-
-###################### Globals ######################
-
-ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Classes ######################
 
@@ -152,10 +145,8 @@ def validation():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 filenames.append(filename)
-            #print('Saved')
 
             for filename in filenames:
-                #print('in for loop')
                 # determine extension
                 extension = os.path.splitext(filename)[1]
                 # find extension
