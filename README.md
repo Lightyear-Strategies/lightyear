@@ -104,10 +104,7 @@ To Check whether worker is connected: http://localhost:15672/#/connections
 6. Start RabbitMQ Worker
 
 To run worker in Foreground:
-
-`$ celery -A project.celery worker -l INFO`
-`celery -A flaskMain.celery worker --loglevel=INFO
-`
+`$ celery -A flaskMain.celery worker -l INFO`
 
 To run Worker in Background (Have not went over it:
 https://docs.celeryproject.org/en/latest/getting-started/next-steps.html#in-the-background

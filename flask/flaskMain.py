@@ -74,9 +74,9 @@ def addDBData(file):
     # Load data to database
     csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
 
-@app.route('/table')
+@app.route('/haros')
 def serveTable():
-    return render_template('server_table.html', title='Server-Driven Table')
+    return render_template('haroTableView.html', title='LyS Haros Database')
 
 #sorting table contents
 @app.route('/api/serveHaros')
@@ -156,11 +156,11 @@ def validation():
         print(email)
         #save the file
         filename = secure_filename(file.filename)
-        #determine the extension
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        #find extension
+        # determine extension
         extension = os.path.splitext(filename)[1]
+        # find extension
         extension = "csv" if extension == ".csv" else "xlsx"
 
         """Celery"""
@@ -169,7 +169,7 @@ def validation():
 
         return redirect("/")
 
-    return render_template('upload.html', form=form, email=email, file=file)
+    return render_template('uploadEmailFile.html', form=form, email=email, file=file)
 
 
 @celery.task(name='flaskMain.parseSendEmail')
@@ -179,25 +179,20 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
 
         # remove the file
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #flash('File {0} uploaded and parsed!\nInitial length: {1}. Final length: {2}'.format(filename,
-        #                                                                                     session["initial"],
-        #                                                                                     session["final"]))
 
 def emailVerify(path, recipients=None, extension="csv"):
     valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
     valid.check(save=True, inplace=True)
-    #session["initial"]=valid.getInitialLength()
-    #session["final"]=valid.getFinalLength()
     subjectLine = os.path.basename(path)
 
     report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
-                                "Checked '%s' file" % subjectLine, "Got Celery to work!", path,
-                                "me")
+                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
+
     report.sendMessage()
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return render_template('error.html'), 404
 
 if __name__ == '__main__':
     #file1 = open('HARO_test.csv')
