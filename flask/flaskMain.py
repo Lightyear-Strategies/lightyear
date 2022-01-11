@@ -4,16 +4,12 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, MultipleFileField
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
-
 from flask_sqlalchemy import SQLAlchemy
 
-import operator
-
 import pandas as pd
-
 import os
 import sys
 
@@ -50,17 +46,15 @@ ALLOWED_EXTENSIONS = {'.csv','.xlsx'}
 
 ###################### Classes ######################
 
-#class for the form on upload page
-class NameForm(FlaskForm):
+#class for the email file upload form
+class uploadEmailFilesForm(FlaskForm):
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    file = FileField('Select your file', validators=[DataRequired(),
-                                                     FileAllowed(["csv", "xlsx"],
-                                                                 "Only CSV or XLSX files are allowed")])
+    files = MultipleFileField('Select your files',
+                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
 
-#@timethis
 def addDBData(file):
     # Read file into dataframe
     csv_data = pd.read_csv(file.name)
@@ -145,31 +139,37 @@ def data():
 @app.route('/', methods=['GET','POST'])
 def validation():
     email = None
-    file = None
-    form = NameForm()
+    files = None
+    form = uploadEmailFilesForm()
     if form.validate_on_submit():
+        filenames = []
         email = form.email.data
-        file = form.file.data
-    form.email.data = ''
+        files = request.files.getlist(form.files.name)
+        form.email.data = ''
 
-    if file:
-        print(email)
-        #save the file
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        if files:
+            for file in files:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                filenames.append(filename)
+            #print('Saved')
 
-        # determine extension
-        extension = os.path.splitext(filename)[1]
-        # find extension
-        extension = "csv" if extension == ".csv" else "xlsx"
+            for filename in filenames:
+                #print('in for loop')
+                # determine extension
+                extension = os.path.splitext(filename)[1]
+                # find extension
+                extension = "csv" if extension == ".csv" else "xlsx"
 
-        """Celery"""
-        #parse,remove file, send updated file
-        parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
+                # Celery
+                # parse,remove file, send updated file
+                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
 
-        return redirect("/")
+            return redirect("/")
+        else:
+            print('No files')
 
-    return render_template('uploadEmailFile.html', form=form, email=email, file=file)
+    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
 
 @celery.task(name='flaskMain.parseSendEmail')
