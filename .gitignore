@@ -2,8 +2,6 @@ emailValidity/PAST
 emailValidity/toCheck
 emailValidity/.DS_Store
 emailValidity/.DS_Store
-.idea/*
-**/.DS_Store
 env/*
 flask/__pycache__/utils.cpython-37.pyc
 flask/credentials.json
@@ -13,7 +11,7 @@ flask/token.pickle
 flask/__pycache__/quick.cpython-37.pyc
 emailValidity/__pycache__/emailValidity.cpython-37.pyc
 emailValidity/__pycache__/emailValidity.cpython-37.pyc
-.idea/
+.idea
 .DS_Store
 haroListener/config/*
 haroListener/haro_jsons/*
