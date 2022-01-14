@@ -3,10 +3,71 @@
 import os.path
 import time
 import random
+import base64
 
 from linkedin_api import Linkedin
 import pandas as pd
 import numpy as np
+
+class my_Linkedin(Linkedin):
+    """a wrapper for the linkedin api that contains the add_connection functionality"""
+
+    def __init__(self, username, password):
+        super().__init__(username, password)
+
+    def generateTrackingId(self):
+        """Generates and returns a random trackingId
+        :return: Random trackingId string
+        :rtype: str
+        """
+        random_int_array = [random.randrange(256) for _ in range(16)]
+        rand_byte_array = bytearray(random_int_array)
+        return str(base64.b64encode(rand_byte_array))[2:-1]
+
+    def add_connection(self, profile_public_id, message="", profile_urn=None):
+        """Add a given profile id as a connection.
+        :param profile_public_id: public ID of a LinkedIn profile
+        :type profile_public_id: str
+        :param message: message to send along with connection request
+        :type profile_urn: str, optional
+        :param profile_urn: member URN for the given LinkedIn profile
+        :type profile_urn: str, optional
+        :return: Error state. True if error occurred
+        :rtype: boolean
+        """
+
+        # Validating message length (max size is 300 characters)
+        if len(message) > 300:
+            self.logger.info("Message too long. Max size is 300 characters")
+            return False
+
+        if not profile_urn:
+            profile_urn_string = self.get_profile(public_id=profile_public_id)[
+                "profile_urn"
+            ]
+            # Returns string of the form 'urn:li:fs_miniProfile:ACoAACX1hoMBvWqTY21JGe0z91mnmjmLy9Wen4w'
+            # We extract the last part of the string
+            profile_urn = profile_urn_string.split(":")[-1]
+
+        trackingId = self.generateTrackingId()
+        payload = (
+            '{"trackingId":"'
+            + trackingId
+            + '", "message":"'
+            + message
+            + '", "invitations":[], "excludeInvitations":[],"invitee":{"com.linkedin.voyager.growth.invitation.InviteeProfile":\
+            {"profileId":"'
+            + profile_urn
+            + '"'
+            + "}}}"
+        )
+        res = self._post(
+            "/growth/normInvitations",
+            data=payload,
+            headers={"accept": "application/vnd.linkedin.normalized+json+2.1"},
+        )
+
+        return res.status_code != 201
 
 class LinkedinAdder():
     """a class wrapper for the module"""
@@ -22,7 +83,7 @@ class LinkedinAdder():
         self.email = email 
         self.password = password
         self.debug = debug
-        self.api = Linkedin(email, password)
+        self.api = my_Linkedin(email, password)
 
     
     # @params: sheet: a string path to a csv or xlsx
