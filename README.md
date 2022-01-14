@@ -1,1 +1,1 @@
-A quick code to check email validity.
+# Lightyear Strategies Data Engineering Repo
