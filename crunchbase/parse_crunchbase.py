@@ -4,7 +4,6 @@ import time
 
 import pandas as pd
 import undetected_chromedriver as uc
-from bs4 import BeautifulSoup
 from selenium.webdriver.common.keys import Keys
 
 class CrunchParse():
@@ -98,8 +97,34 @@ class CrunchParse():
         self.driver.find_element_by_xpath('/html/body/div[5]/div[2]/div/div/div/mat-option[2]').click()
         time.sleep(2.3483)
 
+    def click_search_button(self):
+        """
+        a method to click the search button
+        
+        input
+        
+        None
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[2]/results/div/div/div[1]/div/button').click()
+        time.sleep(2.32414)
+
+    def grab_table(self):
+        """
+        a method to grab the table and export as DF
+        
+        input
+        
+        None
+        """
+        table = self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[2]/results')
+        table_source = table.get_attribute('innerHTML')
+        self.driver.quit()
+        
+
 if __name__ == "__main__":
-    pass    
+    with open('config/test_source.html') as source:
+        df = pd.read_html(source)[0]
+    df.head(10)
 
 
 
