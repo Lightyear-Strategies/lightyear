@@ -43,16 +43,101 @@ class CrunchParse():
         self.driver.find_element_by_xpath('//*[@id="mat-tab-content-0-0"]/div/login/form/button').click()
         time.sleep(3)
         self.driver.refresh()
+        time.sleep(5)
 
-    # TODO: make keyword options instead of dict for easier gui implementation
-    def parse(self):
-        """parses the table that crunchbase generates based on specific parameters
+
+    def add_option(self, option : str):
+        """
+        a method to add an option to the query builder on crunchbase. MUST be run AFTER login()
         
         input
-
-        options: a dict containing the options and their values
-        """
         
+        option : string representing the name of the option you want to add
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/query-item-add/div/button')
+        time.sleep(3)
+        mini_window = self.driver.find_element_by_xpath('/html/body/div[5]/div[2]/div/mat-dialog-container/query-item-drill-panel/div/dialog-layout/div/mat-dialog-content/div/div/div[1]/div/div/panel-search-input/mat-form-field/div/div[1]/div[4]/input"]')
+        mini_window.send_keys(option)
+        time.sleep(0.54)
+        mini_window.send_keys(Keys.ENTER)
+        time.sleep(3)
+            
+    def add_anounced_date(self, date : str):
+        """
+        a method to add the "after announced date" option to the field. MUST be run AFTER adding the option with add_option("announced date") and BEFORE adding any other options
+        
+        input
+        
+        date: a string representing the date
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div/query-item/div/predicate/div/div[2]/values/div/search-date/div/span/text-input/div/mat-form-field/div/div[1]/div/input').send_keys(date)
+        time.sleep(4)
+
+    def add_location(self, location : str):
+        """
+        a method to add a location to the field. MUST be run AFTER adding the option with add_option("location") and AFTER adding the announced date with add_announced_date
+        
+        input
+        
+        location: a string representing the location
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div[2]/query-item/div/predicate/div/div[2]/values/div/search-identifier/div/multi-entity-input/div/entity-input/mat-form-field/div/div[1]/div[2]/input').send_keys(location)
+        time.sleep(1.454)
+        self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/mat-option[1]').click()
+        time.sleep(3)
+
+    def not_in_location_option(self):
+        """a method to change the location from "includes" to "does not include". MUST be run AFTER adding any locations with add_location(location)
+        
+        input
+        
+        None
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div[2]/query-item/div/predicate/div/div[2]/operators/div/mat-form-field/div/div[1]/div/mat-select/div/div[1]').click()
+        time.sleep(1)
+        self.driver.find_element_by_xpath('/html/body/div[5]/div[2]/div/div/div/mat-option[2]').click()
+        time.sleep(2.3483)
+
+if __name__ == "__main__":
+    pass    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# FOR LIAM TO DECIDE WHAT TO DO WITH LATER. NO TOUCH. 
+
+ # def parse(self, date_announced : str, location : str, location_in : bool):
+    #     """parses the table that crunchbase generates based on specific parameters
+        
+    #     input
+
+    #     options: a dict containing the options and their values
+    #     """
+        
+
         # THIS IS FOR DISCOVERY, NOT QUERY BUILDER. NOT FOR USE RIGHT NOW
 
         # map_options = {"overview" : 1, "contacts" : 2, "signals" : 3, "financials" : 4, "company status" : 5, "notes, lists, tags" : 6, "partner filters" : 7}
@@ -75,33 +160,3 @@ class CrunchParse():
         #         continue
         #     self.driver.find_element_by_xpath(xpath(filter_group)).click()
         #     time.sleep(1.2382)
-
-
-            
-    def __anounced_date_option(self, date):
-        # date in format mm/dd/yyyy
-        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/query-item-add/div/button')
-        time.sleep(3)
-        mini_window = self.driver.find_element_by_xpath('//*[@id="mat-input-7"]')
-        mini_window.send_keys("announced date")
-        time.sleep(0.54)
-        mini_window.send_keys(Keys.ENTER)
-        time.sleep(3)
-        self.driver.find_element_by_xpath('//*[@id="mat-input-14"]').send_keys(date)
-        time.sleep(4)
-        self.driver.find_element_by_xpath('//*[@id="mat-input-14"]').send_keys(Keys.ENTER)
-
-    def __in_location_option(self, location):
-        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div/query-item/div/predicate/div/div[1]/query-item-add/div/button').click()
-        time.sleep(3)
-        mini_window = self.driver.find_element_by_xpath('//*[@id="mat-input-7"]')
-        mini_window.send_keys("location")
-        time.sleep(0.54)
-        mini_window.send_keys(Keys.ENTER)
-        time.sleep(3)
-        self.driver.find_element_by_xpath('//*[@id="mat-input-8"]').send_keys(location)
-        time.sleep(0.453)
-        self.driver.find_element_by_xpath('//*[@id="mat-option-159"]')
-
-if __name__ == "__main__":
-    pass    
