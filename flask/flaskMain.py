@@ -185,7 +185,5 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #file1 = open('HARO_test.csv')
-    #addDBData(file1)
-    app.run(debug=True)
-    
+    #app.run(debug=True)
+    app.run(host = '0.0.0.0')
