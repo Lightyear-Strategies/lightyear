@@ -3,16 +3,20 @@
 from __future__ import print_function
 
 import datetime
+import base64
 import json
 import time
-import os
-import os.path 
+import os.path
+import pickle
+import pandas as pd
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+
+from haro_parser import Haro
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -23,38 +27,37 @@ class HaroListener():
     def __init__(self, email : str, debug : bool = False):
         self.email = email
         self.debug = debug
-        self.scopes = ["https://www.googleapis.com/auth/gmail.readonly"]
+        self.scopes = ['https://mail.google.com/']
+        self.creds = self.__auth()
+        self.save_dir = 'haro_jsons/'
 
     # @params = none
     # @return credentials: a set of google api credentials
-    def __authorize(self):
-        """a helper method that takes user through credentials and OAuth process, returns a set of credentials for later api use"""
+    def __auth(self):
         creds = None
-        if not os.path.exists('config/'):
-            os.mkdir('config/')
-        if os.path.exists('config/token.json'):
-            creds = Credentials.from_authorized_user_file('config/token.json', self.scopes)
-        # If there are no (valid) credentials available, let the user log in.
+        if os.path.exists('token.pickle'):
+            with open('token.pickle', 'rb') as token:
+                creds = pickle.load(token)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'config/credentials.json', self.scopes)
-                # TODO WILL NEED TO UPDATE FOR FLASK DEPLOYMENT
+                    'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
-            # Save the credentials for the next run
-            with open('config/token.json', 'w') as token:
-                token.write(creds.to_json())
-        return creds
+            with open('token.pickle', 'wb') as token:
+                pickle.dump(creds, token)
+
+        service = build('gmail', 'v1', credentials=creds)
+
+        return service
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
     def __find_recent_haro(self):
         """a helper method to sort through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
-        creds = self.__authorize()
         try:
-            service = build('gmail', 'v1', credentials=creds)
+            service = self.creds
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
@@ -84,7 +87,8 @@ class HaroListener():
                             # returns full message json of HARO email
                             found = True
                             service.close()
-                            return message
+                            haro_obj = Haro([message])
+                            return haro_obj
             if not found:
                 service.close()
                 print("NO HARO FOUND")
@@ -135,9 +139,8 @@ class HaroListener():
             return [self.__find_recent_haro()]
         # from_date MUST be in correct ISO format
         from_datetime = datetime.date.fromisoformat(from_date)
-        creds = self.__authorize()
         try: 
-            service = build('gmail', 'v1', credentials=creds)
+            service = self.creds
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             page = request.execute()
@@ -176,7 +179,8 @@ class HaroListener():
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value'] and from_datetime <= datetime.date.fromtimestamp(int(message['internalDate']) // 1000):
                             found = True
-                            to_ret.append(message)
+                            haro_obj = Haro([message])
+                            to_ret.append(haro_obj)
             if not found:
                 service.close()
                 print("NO HARO FOUND")
@@ -212,5 +216,14 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
+
+
 if __name__ == '__main__':
-    listener = HaroListener('liam@lightyearstrategies.com', False)
+    # TODO can write to output file, or use with Chris's parser
+    listener = HaroListener('chris@lightyearstrategies.com', False)
+    test = listener.find_haro_from("2021-12-24")
+    df_save = pd.DataFrame()
+    for haro in test:
+        df_save = df_save.append(haro.get_dataframe())
+    df_save = df_save.reset_index(drop=True)
+    df_save.to_csv('haro_jsons/HARO_test.csv')
