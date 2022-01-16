@@ -177,7 +177,6 @@ def emailVerify(path, recipients=None, extension="csv"):
 
     report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
-
     report.sendMessage()
 
 @app.errorhandler(404)
