@@ -8,16 +8,41 @@ import pandas as pd
 from LDA import LDA_analysis
 
 class Muckrack:
-    def __init__(self, url_list):
+    def __init__(self, url_list=None, filename=None, sleep_time=2.5):
+        if filename is not None:
+            url_list = self.__find_list(filename)
+
         if(len(url_list)==1):
             self.url_list = [url_list]
         else:
             self.url_list = url_list
+
         self.df = pd.DataFrame()
 
-        self.sleep_time = 2.5
+        self.sleep_time = sleep_time
         self.time_total = len(url_list)*(self.sleep_time*2)
         self.time_left = self.time_total
+
+    def __find_list(self, filename):
+        #empty dataframe
+        df = pd.DataFrame()
+        url_list = []
+
+        if(filename.endswith(".csv")):
+            df = pd.read_csv(filename)
+        elif(filename.endswith(".xlsx")):
+            df = pd.read_excel(filename)
+
+        #find column that's name Muckrack
+        for i in range(len(df.columns)):
+            if(df.columns[i]=="Muckrack" or df.columns[i]=="muckrack"
+            or df.columns[i]=="Muckrack URL" or df.columns[i]=="muckrack url"):
+                url_list = df.iloc[:,i]
+
+        for i in range(len(url_list)):
+            if(not url_list[i].endswith("/articles/")):
+                url_list[i] = url_list[i] + "/articles/"
+        return url_list
 
     def parse_HTML(self):
         driver = uc.Chrome()
@@ -89,18 +114,17 @@ class Muckrack:
             medias = medias[:3]
         ###############################################
 
-        #append to self.df
         self.df = self.df.append({'Most Recent Article': most_recent_date,
                                   'Key words in last articles': recent_topics,
                                   'Focus': coverage,
                                   'Outlets': medias}, ignore_index=True)
 
-    def to_csv(self, filename):
+    def save_to_csv(self, filename):
         if(len(self.df)==0):
             raise Exception("No data to convert to dataframe")
         self.df.to_csv(filename)
 
-    def to_df(self):
+    def show_df(self):
         if(len(self.df)==0):
             raise Exception("No data to convert to dataframe")
         return self.df
@@ -114,5 +138,6 @@ if __name__ == '__main__':
 
     muck = Muckrack(list_of_urls)
     muck.parse_HTML()
-    df = muck.to_df()
+    df = muck.show_df()
+    print(df)
 
