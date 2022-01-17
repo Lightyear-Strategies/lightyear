@@ -153,7 +153,7 @@ class emailValidation:
 				saveLocation = "../flask/uploadFolder/"
 				filename = saveLocation+filename
 			else:
-				saveLoaction = "../flask/results/"
+				saveLoaction = "..flask/uploadFolder/"
 				filename = saveLocation+filename.split(".")+"_clean.csv"
 
 			self.df.to_csv(filename, index=False)

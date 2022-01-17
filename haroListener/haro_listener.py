@@ -222,6 +222,7 @@ if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
     listener = HaroListener('chris@lightyearstrategies.com', False)
     test = listener.find_haro_from("2021-12-24")
+    #print(test)
     df_save = pd.DataFrame()
     for haro in test:
         df_save = df_save.append(haro.get_dataframe())
