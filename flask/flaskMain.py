@@ -35,6 +35,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 celery = make_celery(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
+db.create_all()
 
 ###################### Classes ######################
 
@@ -46,6 +47,9 @@ class uploadEmailFilesForm(FlaskForm):
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
+
+def createDB():
+    db.create_all()
 
 def addDBData(file):
     # Read file into dataframe
@@ -62,6 +66,7 @@ def addDBData(file):
 
 @app.route('/haros')
 def serveTable():
+
     return render_template('haroTableView.html', title='LyS Haros Database')
 
 #sorting table contents
