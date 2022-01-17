@@ -35,6 +35,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 celery = make_celery(app)
 bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
+db.create_all()
 
 ###################### Classes ######################
 
@@ -46,7 +47,6 @@ class uploadEmailFilesForm(FlaskForm):
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
-
 def addDBData(file):
     # Read file into dataframe
     csv_data = pd.read_csv(file.name)
@@ -62,6 +62,7 @@ def addDBData(file):
 
 @app.route('/haros')
 def serveTable():
+
     return render_template('haroTableView.html', title='LyS Haros Database')
 
 #sorting table contents
@@ -177,7 +178,6 @@ def emailVerify(path, recipients=None, extension="csv"):
 
     report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
-
     report.sendMessage()
 
 @app.errorhandler(404)
@@ -186,4 +186,4 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    app.run(host = '0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
