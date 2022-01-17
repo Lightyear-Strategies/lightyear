@@ -47,10 +47,6 @@ class uploadEmailFilesForm(FlaskForm):
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
-
-def createDB():
-    db.create_all()
-
 def addDBData(file):
     # Read file into dataframe
     csv_data = pd.read_csv(file.name)
