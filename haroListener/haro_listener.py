@@ -8,6 +8,7 @@ import json
 import time
 import os.path
 import pickle
+import pandas as pd
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -200,6 +201,10 @@ class HaroListener():
         input
         
         haros: a list of HARO email objects from google api"""
+        if not os.path.exists('haro_jsons/'):
+            os.mkdir('haro_jsons/')
+        if len(haros) == 0:
+            return None
         if len(haros) == 1:
             timestamp = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000)
             time_out = timestamp.isoformat(timespec='seconds')
@@ -207,7 +212,7 @@ class HaroListener():
                 json.dump(haros, outfile, indent=4)
         else:
             from_time = datetime.datetime.fromtimestamp(int(haros[-1]['internalDate']) // 1000).isoformat(timespec='seconds')
-            to_time = end_time = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000).isoformat(timespec='seconds')
+            to_time = datetime.datetime.fromtimestamp(int(haros[0]['internalDate']) // 1000).isoformat(timespec='seconds')
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
@@ -217,5 +222,9 @@ if __name__ == '__main__':
     # TODO can write to output file, or use with Chris's parser
     listener = HaroListener('chris@lightyearstrategies.com', False)
     test = listener.find_haro_from("2021-12-24")
-    print(test)
-
+    #print(test)
+    df_save = pd.DataFrame()
+    for haro in test:
+        df_save = df_save.append(haro.get_dataframe())
+    df_save = df_save.reset_index(drop=True)
+    df_save.to_csv('haro_jsons/HARO_test.csv')

@@ -1,3 +1,4 @@
+
 # Map of Entire Project
 
 ### Sections
@@ -145,4 +146,3 @@ Handy stackoverflow posts:
 https://stackoverflow.com/questions/18133249/django-celery-cannot-connect-to-amqp-guest127-0-0-80005672
 2. https://stackoverflow.com/questions/49373825/kombu-exceptions-encodeerror-user-is-not-json-serializable
 3. https://stackoverflow.com/questions/25884951/attributeerror-flask-object-has-no-attribute-user-options
-
