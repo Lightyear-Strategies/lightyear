@@ -1,6 +1,7 @@
 """a module to scrape crunchbase website without using our crunchbase credits"""
 
 import time
+import re 
 
 import pandas as pd
 import undetected_chromedriver as uc
@@ -116,18 +117,41 @@ class CrunchParse():
         
         None
         """
-        table = self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[2]/results')
-        table_source = table.get_attribute('innerHTML')
+        table = self.driver.find_element_by_class_name('body-wrapper')
+        table_source = table.get_attribute('outerHTML')
         self.driver.quit()
+        return table_source
+
+    def parse_table(self, table_html_string : str):
+        row_matcher = re.compile('<grid-row.*?/grid-row>', flags=re.DOTALL)
+        cell_matcher = re.compile('<grid-cell.*?/grid-cell>', flags=re.DOTALL)
+        field_formatter_matcher = re.compile('<field-formatter.*?/field-formatter>', flags=re.DOTALL)
+        info_matcher = re.compile('title=".*?"')
+        rows = re.findall(row_matcher, table_html_string)
+        cells = [re.findall(cell_matcher, row_string) for row_string in rows]
+        formatters = [[re.findall(field_formatter_matcher, cell_string) for cell_string in cell_list] for cell_list in cells]
+        infos_raw = [[re.findall(info_matcher, form[0]) for form in row_formats if len(form) > 0] for row_formats in formatters]
+        info = []
+        for raw_row_info in infos_raw:
+            row_info = []
+            for cell_info in raw_row_info:
+                if len(cell_info) == 0:
+                    row_info.append('N/A')
+                    continue
+                cell_string = ""
+                for piece in cell_info:
+                    to_extract = piece.split('"')[1] + " "
+                    cell_string = cell_string + to_extract
+                cell_string = cell_string.strip()
+                if cell_string in '\u2013\u2014\u2015':
+                    row_info.append('N/A')
+                else:
+                    row_info.append(cell_string)
+            info.append(row_info)
         
 
 if __name__ == "__main__":
-    with open('config/test_source.html') as source:
-        df = pd.read_html(source)[0]
-    df.head(10)
-
-
-
+    pass
 
 
 
