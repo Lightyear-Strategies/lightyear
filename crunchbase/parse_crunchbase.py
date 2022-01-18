@@ -122,11 +122,30 @@ class CrunchParse():
         self.driver.quit()
         return table_source
 
-    def parse_table(self, table_html_string : str):
-        row_matcher = re.compile('<grid-row.*?/grid-row>', flags=re.DOTALL)
-        cell_matcher = re.compile('<grid-cell.*?/grid-cell>', flags=re.DOTALL)
-        field_formatter_matcher = re.compile('<field-formatter.*?/field-formatter>', flags=re.DOTALL)
-        info_matcher = re.compile('title=".*?"')
+    def compile_regex(self):
+        """
+        a method to compile the needed regex objects, abstracted for efficiency reasons
+        
+        input
+        
+        None
+        """
+        rm = re.compile('<grid-row.*?/grid-row>', flags=re.DOTALL)
+        cm = re.compile('<grid-cell.*?/grid-cell>', flags=re.DOTALL)
+        ffm = re.compile('<field-formatter.*?/field-formatter>', flags=re.DOTALL)
+        im = re.compile('title=".*?"')
+        return rm, cm, ffm, im
+
+    def parse_table(self, table_html_string : str, row_matcher, cell_matcher, field_formatter_matcher, info_matcher):
+        """
+        a method to parse a single page of table information from the crunchbase funding round query builder site
+        
+        input
+        
+        table_html_string: a string of the outerHTML of the sheet-grid object from the crunchbase page
+        
+        row_matcher, cell_matcher, field_formatter_matcher, info_matcher: regex objects generated from self.compile_regex
+        """
         rows = re.findall(row_matcher, table_html_string)
         cells = [re.findall(cell_matcher, row_string) for row_string in rows]
         formatters = [[re.findall(field_formatter_matcher, cell_string) for cell_string in cell_list] for cell_list in cells]
@@ -148,6 +167,18 @@ class CrunchParse():
                 else:
                     row_info.append(cell_string)
             info.append(row_info)
+        df = pd.DataFrame(info, columns=['transaction_name', 'organization_name', 'funding_type', 'money_raised', 'announced_date', 'industry_tags', 'website_url', 'location_tags', 'total_funding_amount', 'crunchbase_rank', 'estimated_revenue', 'number_of_funding_rounds', 'funding_status', 'funding_stage', 'pre_money_valuation'])
+        return df
+
+    def click_next(self):
+        """
+        a method to click the next button when parsing a multi-page table on crunchbase
+        
+        input
+        
+        None
+        """
+        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[2]/results/div/div/div[1]/div/results-info/h3/a[2]').click()
         
 
 if __name__ == "__main__":
