@@ -24,8 +24,13 @@ import emailValidity
 
 app = Flask(__name__,template_folder='HTML')
 app.secret_key = "super secret key" #used in upload forms ?
-app.config['UPLOAD_FOLDER'] = '../flask/uploadFolder'
-app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
+
+uploadFolder = '../flask/uploadFolder'
+os.makedirs(uploadFolder,exist_ok=True)
+app.config['UPLOAD_FOLDER'] = uploadFolder
+
+app.config['CELERY_BROKER_URL'] = 'amqps://b-0c74187b-8c28-4b3a-ab70-21d3439be01c.mq.ca-central-1.amazonaws.com:5671'
+    #'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
 #app.config['CELERY_BACKEND'] = # for adding backend
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -62,7 +67,6 @@ def addDBData(file):
 
 @app.route('/haros')
 def serveTable():
-
     return render_template('haroTableView.html', title='LyS Haros Database')
 
 #sorting table contents
