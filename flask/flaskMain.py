@@ -29,7 +29,7 @@ uploadFolder = '../flask/uploadFolder'
 os.makedirs(uploadFolder,exist_ok=True)
 app.config['UPLOAD_FOLDER'] = uploadFolder
 
-app.config['CELERY_BROKER_URL'] = 'amqps://b-0c74187b-8c28-4b3a-ab70-21d3439be01c.mq.ca-central-1.amazonaws.com:5671'
+app.config['CELERY_BROKER_URL'] = 'https://sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'
     #'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
 #app.config['CELERY_BACKEND'] = # for adding backend
 
