@@ -29,8 +29,14 @@ uploadFolder = '../flask/uploadFolder'
 os.makedirs(uploadFolder,exist_ok=True)
 app.config['UPLOAD_FOLDER'] = uploadFolder
 
-app.config['CELERY_BROKER_URL'] = 'https://sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'
+from kombu.utils.url import quote
+
+app.config['CELERY_BROKER_URL'] = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@'.format(
+                                    AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
+                                    AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
+                                    )
     #'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
