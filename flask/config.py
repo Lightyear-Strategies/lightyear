@@ -9,4 +9,3 @@ FLASK_DIR = os.path.abspath(os.path.dirname(__file__))
 LIGHTYEAR_DIR = os.path.dirname(FLASK_DIR)
 UPLOAD_DIR = FLASK_DIR + '/uploadFolder'
 EMAIL_VALIDITY_DIR = LIGHTYEAR_DIR +'/emailValidity'
-
