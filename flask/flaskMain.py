@@ -13,32 +13,30 @@ import pandas as pd
 import os
 import sys
 
+from config import *
 from utils import * # imports Celery, timethis
 import emailReport
 
-sys.path.insert(0, "../emailValidity") # to import emailValidity.py
+sys.path.insert(0, EMAIL_VALIDITY_DIR)#"../emailValidity") # to import emailValidity.py
 import emailValidity
 
 
 ###################### Flask ######################
 
 app = Flask(__name__,template_folder='HTML')
-app.secret_key = "super secret key" #used in upload forms ?
+app.secret_key = FLASK_SECURE_KEY #used in upload forms ?
 
-uploadFolder = '../flask/uploadFolder'
-os.makedirs(uploadFolder,exist_ok=True)
-app.config['UPLOAD_FOLDER'] = uploadFolder
+os.makedirs(UPLOAD_DIR,exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
 from kombu.utils.url import quote
-
 app.config['CELERY_BROKER_URL'] = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@'.format(
                                     AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
                                     AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
                                     )
-    #'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
+                                #'amqp://guest:guest@localhost:5672/'  # local rabbitMQ for Celery
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 celery = make_celery(app)
@@ -180,11 +178,11 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 def emailVerify(path, recipients=None, extension="csv"):
-    valid = emailValidity.emailValidation(filename=path,type=extension, debug=Flase, multi=True)
+    valid = emailValidity.emailValidation(filename=path,type=extension, debug=False, multi=True)
     valid.check(save=True, inplace=True)
     subjectLine = os.path.basename(path)
 
-    report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
+    report = emailReport.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
