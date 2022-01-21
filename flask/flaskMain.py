@@ -166,7 +166,11 @@ def validation():
         else:
             print('No files')
 
-    return render_template('google274d64b98e59d953.html', form=form, email=email, files=files) #'uploadEmailFiles.html'
+    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
+
+@app.route('/google274d64b98e59d953.html')
+    return render_template('/google274d64b98e59d953.html')
+
 
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, extension="csv", filename=None):
