@@ -2,8 +2,6 @@ from threading import Thread
 import validate_email
 import pandas as pd
 import os
-import requests
-
 
 class emailValidation:
 	# Constructor
@@ -112,14 +110,6 @@ class emailValidation:
 		t2.start()
 		t3.start()
 		t4.start()
-
-		url = "http://www.kite.com"
-		timeout = 5
-		try:
-			request = requests.get(url, timeout=timeout)
-			print("Connected to the Internet")
-		except (requests.ConnectionError, requests.Timeout) as exception:
-			print("No internet connection.")
 
 
 		# join threads
