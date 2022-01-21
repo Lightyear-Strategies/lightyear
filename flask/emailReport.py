@@ -36,6 +36,7 @@ class report():
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
+                print(self.scopes)
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
