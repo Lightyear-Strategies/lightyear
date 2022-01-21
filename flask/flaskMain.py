@@ -172,6 +172,7 @@ def validation():
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, extension="csv", filename=None):
     with app.app_context():
+        print(validating)
         emailVerify(path, recipients, extension)
 
         # remove the file
@@ -192,4 +193,7 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     #app.run(debug=True)
+    report = emailReport.report("george@lightyearstrategies.com", recipients,
+                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
+    report.sendMessage()
     app.run(host='0.0.0.0', port=5000)
