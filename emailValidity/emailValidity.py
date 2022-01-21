@@ -55,7 +55,7 @@ class emailValidation:
 		if data is None:
 			data = self.df
 		total = len(data)
-		print(data["email"])
+		print(total)
 		for i in range(0, len(data["Email(s)"])):
 			currLength = len(data["Email(s)"])
 			if self.debug:
@@ -81,6 +81,7 @@ class emailValidation:
 		if self.multi:
 			return data
 		else:
+			print('completed')
 			self.df = data
 			self.finalLength = len(data)
 
