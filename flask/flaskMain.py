@@ -168,10 +168,6 @@ def validation():
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
-@app.route('/google274d64b98e59d953.html')
-def google_a():
-    return render_template('/google274d64b98e59d953.html')
-
 
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, extension="csv", filename=None):
@@ -198,6 +194,6 @@ def page_not_found(e):
 if __name__ == '__main__':
     #app.run(debug=True)
     app.run(host='0.0.0.0', port=5000)
-    report = emailReport.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
+    """report = emailReport.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
                                 "Verified Emails in file", "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
-    report.sendMessage()
+    report.sendMessage()"""
