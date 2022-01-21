@@ -17,6 +17,14 @@ class emailValidation:
 		self.initialLength = None
 		self.finalLength = None
 
+		url = "http://www.kite.com"
+		timeout = 5
+		try:
+			request = requests.get(url, timeout=timeout)
+			print("Connected to the Internet")
+		except (requests.ConnectionError, requests.Timeout) as exception:
+			print("No internet connection.")
+
 		self.checkCSV()
 
 	# Check if the file is a csv or xlsx
