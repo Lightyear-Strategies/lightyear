@@ -146,7 +146,7 @@ class emailValidation:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
-
+		print('Checked before saving')
 		if save:
 			filename = os.path.basename(self.filename)
 			if inplace:
