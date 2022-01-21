@@ -89,11 +89,13 @@ class emailValidation:
 	def multiprocess(self):
 		# split dataframe into 4 parts with new index
 		initial = len(self.df)
+		print('Checked before saving1')
 		df1 = self.df.iloc[0:initial//4]
 		df2 = self.df.iloc[initial//4:initial//2]
 		df3 = self.df.iloc[initial//2:initial*3//4]
 		df4 = self.df.iloc[initial*3//4:initial]
 
+		print('Checked before saving2')
 		# reindex the dataframes
 		df1.index = range(0, len(df1))
 		df2.index = range(0, len(df2))
@@ -130,8 +132,10 @@ class emailValidation:
 		print("THREAD 4 COMPLETE")
 		print("********************************************************\n")
 
+		print('Checked before saving3')
 		# combine dataframes
 		df = pd.concat([df1, df2, df3, df4])
+		print('Checked before saving4')
 		df.index = range(0, len(df))
 		print("Initial length: ", initial)
 		print("Final length: ", len(df))
