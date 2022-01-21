@@ -169,6 +169,7 @@ def validation():
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
 @app.route('/google274d64b98e59d953.html')
+def google_a():
     return render_template('/google274d64b98e59d953.html')
 
 
