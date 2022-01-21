@@ -35,6 +35,8 @@ app.config['CELERY_BROKER_URL'] = \
                                     AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
                                     AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
                                     )
+app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
+
                                 #'amqp://guest:guest@localhost:5672/'  # local rabbitMQ for Celery
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
