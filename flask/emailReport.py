@@ -14,6 +14,7 @@ from google.auth.transport.requests import Request
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
+        print('initialized')
         self.sender = sender
         self.to = to
         self.subject = subject
@@ -36,7 +37,7 @@ class report():
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                print(self.scopes)
+                #print(self.scopes)
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
