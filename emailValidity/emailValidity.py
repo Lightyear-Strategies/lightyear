@@ -55,7 +55,6 @@ class emailValidation:
 		if data is None:
 			data = self.df
 		total = len(data)
-		print(total)
 		for i in range(0, len(data["Email(s)"])):
 			currLength = len(data["Email(s)"])
 			if self.debug:
@@ -81,7 +80,6 @@ class emailValidation:
 		if self.multi:
 			return data
 		else:
-			print('completed')
 			self.df = data
 			self.finalLength = len(data)
 
@@ -114,10 +112,8 @@ class emailValidation:
 		t3.start()
 		t4.start()
 
-		print('Has it started?')
 		# join threads
 		t1.join()
-		print('Are we here?')
 		print("********************************************************")
 		print("THREAD 1 COMPLETE")
 		print("********************************************************")
@@ -134,7 +130,6 @@ class emailValidation:
 		print("THREAD 4 COMPLETE")
 		print("********************************************************\n")
 
-		print('Checked before saving3')
 		# combine dataframes
 		df = pd.concat([df1, df2, df3, df4])
 

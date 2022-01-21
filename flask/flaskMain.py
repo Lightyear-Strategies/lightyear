@@ -181,7 +181,6 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
 def emailVerify(path, recipients=None, extension="csv"):
     valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=False)
     valid.check(save=True, inplace=True)
-    print('checked')
     subjectLine = os.path.basename(path)
 
     report = emailReport.report("george@lightyearstrategies.com", recipients,
