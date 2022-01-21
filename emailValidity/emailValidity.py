@@ -89,20 +89,19 @@ class emailValidation:
 	def multiprocess(self):
 		# split dataframe into 4 parts with new index
 		initial = len(self.df)
-		print('Checked before saving1')
+
 		df1 = self.df.iloc[0:initial//4]
 		df2 = self.df.iloc[initial//4:initial//2]
 		df3 = self.df.iloc[initial//2:initial*3//4]
 		df4 = self.df.iloc[initial*3//4:initial]
 
-		print('Checked before saving2')
 		# reindex the dataframes
 		df1.index = range(0, len(df1))
 		df2.index = range(0, len(df2))
 		df3.index = range(0, len(df3))
 		df4.index = range(0, len(df4))
 
-		print('Checked before saving333')
+
 		# create threads
 		t1 = Thread(target=self.checkTheMail, args=(df1,"1"))
 		t2 = Thread(target=self.checkTheMail, args=(df2,"2"))
@@ -116,6 +115,7 @@ class emailValidation:
 		t3.start()
 		t4.start()
 
+		print('Has it started?')
 		# join threads
 		t1.join()
 		print("********************************************************")
@@ -137,7 +137,7 @@ class emailValidation:
 		print('Checked before saving3')
 		# combine dataframes
 		df = pd.concat([df1, df2, df3, df4])
-		print('Checked before saving4')
+
 		df.index = range(0, len(df))
 		print("Initial length: ", initial)
 		print("Final length: ", len(df))
