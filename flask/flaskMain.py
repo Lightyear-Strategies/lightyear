@@ -30,7 +30,8 @@ os.makedirs(UPLOAD_DIR,exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
 from kombu.utils.url import quote
-app.config['CELERY_BROKER_URL'] = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@'.format(
+app.config['CELERY_BROKER_URL'] = \
+    'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs:ca-central-1:453725380860:FlaskAppSQS-1'.format(
                                     AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
                                     AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
                                     )
