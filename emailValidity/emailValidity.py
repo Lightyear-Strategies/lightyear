@@ -113,10 +113,6 @@ class emailValidation:
 		t3.start()
 		t4.start()
 
-
-		# join threads
-		t1.join()
-
 		url = "http://www.kite.com"
 		timeout = 5
 		try:
@@ -125,6 +121,9 @@ class emailValidation:
 		except (requests.ConnectionError, requests.Timeout) as exception:
 			print("No internet connection.")
 
+
+		# join threads
+		t1.join()
 		print("********************************************************")
 		print("THREAD 1 COMPLETE")
 		print("********************************************************")
