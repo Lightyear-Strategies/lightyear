@@ -118,10 +118,12 @@ class emailValidation:
 		print('Has it started?')
 		# join threads
 		t1.join()
+		print('Are we here?')
 		print("********************************************************")
 		print("THREAD 1 COMPLETE")
 		print("********************************************************")
 		t2.join()
+		print('Are we here2?')
 		print("********************************************************")
 		print("THREAD 2 COMPLETE")
 		print("********************************************************")
