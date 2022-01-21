@@ -24,8 +24,8 @@ class report():
             self.user_id = 'me'
         else:
             self.user_id = user_id
-        self.service = self.__auth()
         self.scopes = ['https://mail.google.com/']
+        self.service = self.__auth()
         self.body = self.createMessage()
 
     def __auth(self):
@@ -103,7 +103,7 @@ class report():
 
 
 if __name__ == "__main__":
-    gmail = report("aleksei@lightyearstrategies.co m", "aleksei@lightyearstrategies.com",
+    gmail = report("aleksei@lightyearstrategies.com", "aleksei@lightyearstrategies.com",
                         "this is the subject line", "This is the message body", "./test.csv",
                         "me")
     gmail.sendMessage()
