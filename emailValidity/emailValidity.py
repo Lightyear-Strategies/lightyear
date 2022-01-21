@@ -2,6 +2,7 @@ from threading import Thread
 import validate_email
 import pandas as pd
 import os
+import requests
 
 
 class emailValidation:
