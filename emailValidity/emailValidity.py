@@ -101,14 +101,12 @@ class emailValidation:
 		df3.index = range(0, len(df3))
 		df4.index = range(0, len(df4))
 
-
 		# create threads
 		t1 = Thread(target=self.checkTheMail, args=(df1,"1"))
 		t2 = Thread(target=self.checkTheMail, args=(df2,"2"))
 		t3 = Thread(target=self.checkTheMail, args=(df3,"3"))
 		t4 = Thread(target=self.checkTheMail, args=(df4,"4"))
 
-		print('Checked before saving356773')
 		# start threads
 		t1.start()
 		t2.start()
@@ -123,7 +121,6 @@ class emailValidation:
 		print("THREAD 1 COMPLETE")
 		print("********************************************************")
 		t2.join()
-		print('Are we here2?')
 		print("********************************************************")
 		print("THREAD 2 COMPLETE")
 		print("********************************************************")
