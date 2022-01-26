@@ -82,7 +82,8 @@ class emailValidation:
         removed = 0
 
         for i in range(length):
-            print(str(i) + '/' + str(length))
+            percent=round((i / length) * 100,2)
+            print(str(i) + '/' + str(length) + ' ' + str(percent) + '%')
             if self.check(data["Email(s)"][i]) == 'invalid':
                 data.drop(i, inplace=True)
                 removed += 1
@@ -91,12 +92,14 @@ class emailValidation:
         self.df = data
         if save:
             self.to_cvs()
+        else:
+            return self.df
 
     def to_cvs(self):
         df = self.df
-        df.to_csv(self.filename.split(".") + "_clean.csv", index=False)
+        df.to_csv(self.filename.split(".")[0] + "_clean.csv", index=False)
 
 
 if __name__ == '__main__':
-    email = emailValidation(filename="test.csv")
-    email.validation()
+    email = emailValidation(filename="Pulse1.csv")
+    email.validation(save=True)
