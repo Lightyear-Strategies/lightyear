@@ -57,6 +57,10 @@ class report():
 
                 print('Please go to this URL: {}'.format(authorization_url))
 
+                # The user will get an authorization code. This code is used to get the
+                # access token.
+                code = input('Enter the authorization code: ')
+                flow.fetch_token(code=code)
 
                 """
                 * for Installed App * 
