@@ -43,8 +43,8 @@ class report():
                 with open("client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
                     jsonFile.close()
-
-                redirect_uri = jsonObject['redirect_uris']
+                print(jsonObject)
+                redirect_uri = jsonObject['web']['redirect_uris']
                 print(redirect_uri)
 
                 creds = flow.run_local_server(port=0)
