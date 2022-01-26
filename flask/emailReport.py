@@ -14,7 +14,6 @@ from google.auth.transport.requests import Request
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
-        print('initialized')
         self.sender = sender
         self.to = to
         self.subject = subject
