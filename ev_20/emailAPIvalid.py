@@ -4,6 +4,10 @@ import pandas as pd
 import os
 import json
 
+EV_DIR = os.path.abspath(os.path.dirname(__file__))
+LIGHTYEAR_DIR = os.path.dirname(EV_DIR)
+saveLocation = LIGHTYEAR_DIR + '/flask/uploadFolder/'
+
 
 class emailValidation:
     def __init__(self, filename=None, key=None):
@@ -76,7 +80,7 @@ class emailValidation:
                 headers={'Authorization': "Bearer " + self.key})
         return response.json()['status']
 
-    def validation(self, save=False):
+    def validation(self, save=False, inplace=False):
         data = self.df
         length = len(data)
         removed = 0
@@ -90,11 +94,18 @@ class emailValidation:
 
         self.df = data
         if save:
-            self.to_cvs()
+            self.to_cvs(inplace)
 
-    def to_cvs(self):
-        df = self.df
-        df.to_csv(self.filename.split(".") + "_clean.csv", index=False)
+    def to_cvs(self, inplace):
+        filename = os.path.basename(self.filename)
+
+        # saveLocation is declared above
+        if inplace:
+            filename = saveLocation + filename
+        else:
+            filename = saveLocation + filename.split(".")[-2] + "_clean.csv"
+
+        self.df.to_csv(filename, index=False)
 
 
 if __name__ == '__main__':

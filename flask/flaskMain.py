@@ -17,8 +17,10 @@ from config import *
 from utils import * # imports Celery, timethis
 import emailReport
 
-sys.path.insert(0, EMAIL_VALIDITY_DIR)#"../emailValidity") # to import emailValidity.py
+sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
+sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
 import emailValidity
+import emailAPIvalid
 
 
 ###################### Flask ######################
@@ -181,11 +183,16 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 def emailVerify(path, recipients=None, extension="csv"):
-    valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
-    valid.check(save=True, inplace=True)
+    #valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
+    #valid.check(save=True, inplace=True)
+
+    #print(type(path))
+    email = emailAPIvalid.emailValidation(filename=path)
+    email.validation(save=True)
+
 
     subjectLine = os.path.basename(path)
-    report = emailReport.report("george@lightyearstrategies.com", recipients,
+    report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
