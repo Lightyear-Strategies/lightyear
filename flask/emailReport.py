@@ -11,6 +11,7 @@ from apiclient import errors
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import json
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
@@ -39,7 +40,13 @@ class report():
                 #print(self.scopes)
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'client.json', self.scopes)
-                print(flow)
+                with open("client.json") as jsonFile:
+                    jsonObject = json.load(jsonFile)
+                    jsonFile.close()
+
+                redirect_uri = jsonObject['redirect_uris']
+                print(redirect_uri)
+
                 creds = flow.run_local_server(port=0)
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
