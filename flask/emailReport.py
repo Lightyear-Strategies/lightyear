@@ -39,6 +39,7 @@ class report():
                 #print(self.scopes)
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'client.json', self.scopes)
+                print(flow)
                 creds = flow.run_local_server(port=0)
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
