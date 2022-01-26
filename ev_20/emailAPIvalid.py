@@ -25,6 +25,10 @@ class emailValidation:
                 print("No key.json file found")
 
         self.url = 'https://isitarealemail.com/api/email/validate'
+        self.statistics = {
+            'Initial Length': len(self.df)
+        }
+        self.wrong_emails = pd.DataFrame()
 
     def __get_df(self):
         df = pd.DataFrame()
@@ -57,7 +61,7 @@ class emailValidation:
         try:
             if type(email) != str:
                 return 'invalid'
-            if (len(email) > 254 or len(email) < 3):
+            if len(email) > 254 or len(email) < 3:
                 return 'invalid'
             email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
             if not email_regex.match(email):
@@ -76,28 +80,51 @@ class emailValidation:
                 headers={'Authorization': "Bearer " + self.key})
         return response.json()['status']
 
-    def validation(self, save=False):
+    def validation(self, save=False, stats=False, record_removed=False):
+        self.__remove_duplicates()
         data = self.df
         length = len(data)
         removed = 0
 
         for i in range(length):
-            percent=round((i / length) * 100,2)
+            percent = round((i / length) * 100,2)
             print(str(i) + '/' + str(length) + ' ' + str(percent) + '%')
             if self.check(data["Email(s)"][i]) == 'invalid':
+                if record_removed:
+                    self.wrong_emails = self.wrong_emails.append(
+                        {'Email(s)': data["Email(s)"][i]}, ignore_index=True)
+
                 data.drop(i, inplace=True)
                 removed += 1
                 print('Removed ' + str(removed) + ' invalid email(s)')
-
+        self.statistics['Invalid Emails Removed'] = removed
+        self.statistics['Final Length'] = len(data)
         self.df = data
+
+        if stats:
+            print(self.show_stats())
         if save:
             self.to_cvs()
         else:
             return self.df
 
+    def __remove_duplicates(self):
+        # Remove duplicates and count the number of duplicates
+        df = self.df
+        df.drop_duplicates(subset=['Email(s)'], keep='first', inplace=True)
+        removed = len(df) - len(self.df)
+        self.statistics['Duplicates Removed'] = removed
+        self.df = df
+
     def to_cvs(self):
         df = self.df
         df.to_csv(self.filename.split(".")[0] + "_clean.csv", index=False)
+
+    def show_stats(self):
+        return self.statistics
+
+    def show_wrong_emails(self):
+        return self.wrong_emails
 
 
 if __name__ == '__main__':
