@@ -1,10 +1,7 @@
 """A module for setting up a listener on an email. Listens for HARO emails, returns the body of any HARO emails received"""
 
-from __future__ import print_function
-
 import os
 import datetime
-import base64
 import json
 import time
 import os.path
@@ -12,12 +9,13 @@ import pickle
 import pandas as pd
 
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from haro_parser import Haro
+from haroListener.haro_parser import Haro
+
+from flask.flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -36,17 +34,17 @@ class HaroListener():
     # @return credentials: a set of google api credentials
     def __auth(self):
         creds = None
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
+        if os.path.exists('config/token.pickle'):
+            with open('config/token.pickle', 'rb') as token:
                 creds = pickle.load(token)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'client.json', self.scopes)
+                    'config/credentials.json', self.scopes)
                 creds = flow.run_local_server(port=0)
-            with open('token.pickle', 'wb') as token:
+            with open('config/token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
 
         service = build('gmail', 'v1', credentials=creds)
@@ -123,8 +121,14 @@ class HaroListener():
             # find next haro
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
-            # TODO need to find a way to port this somewhere, maybe dump to json
-            self.haros_to_json([self.__find_recent_haro()])
+
+            # write to disk then upload
+
+            haro_obj_df = Haro([self.__find_recent_haro()]).get_dataframe()
+            with open('haro_csvs/MOST_RECENT.csv', '+') as recent:
+                haro_obj_df.reset_index(drop=True).to_csv(recent)
+                addDBData(recent)
+            
             # to ensure time_now updates correctly
             time.sleep(60)
 
@@ -197,7 +201,10 @@ class HaroListener():
     # @params: haros: a list of message objects
     # @return: None
     def haros_to_json(self, haros : list):
-        """A method for dumping a list of HARO email objects to an output json file
+        """
+        ***DEPRECATED***
+        
+        A method for dumping a list of HARO email objects to an output json file
         
         input
         
@@ -217,15 +224,22 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
-
+    def add_old_data(self, data):
+        addDBData(data)
 
 if __name__ == '__main__':
-    # TODO can write to output file, or use with Chris's parser
-    listener = HaroListener('liam@lightyearstrategies.com', False)
-    test = listener.find_haro_from("2021-12-24")
-    #print(test)
-    df_save = pd.DataFrame()
-    for haro in test:
-        df_save = df_save.append(haro.get_dataframe())
-    df_save = df_save.reset_index(drop=True)
-    df_save.to_csv('haro_jsons/HARO_test.csv')
+
+    # THIS CODE IS TO SAVE ALL OLD HAROS
+    # Will not regularly be used once the listener is up and running
+
+    # listener = HaroListener('george@lightyearstrategies.com', False)
+    # test = listener.find_haro_from("2021-11-01")
+    # #print(test)
+    # df_save = pd.DataFrame()
+    # for haro in test:
+    #     df_save = df_save.append(haro.get_dataframe())
+    # df_save = df_save.reset_index(drop=True)
+    # df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
+    # with open('haro_csvs/ALL_OLD_HAROS.csv', '+') as old:
+    #     addDBData(old)
+    pass
