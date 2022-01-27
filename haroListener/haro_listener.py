@@ -7,15 +7,17 @@ import time
 import os.path
 import pickle
 import pandas as pd
+import sys
 
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from haroListener.haro_parser import Haro
+from haro_parser import Haro
 
-from flask.flaskMain import addDBData
+sys.path.insert(0, "../flask") # a very very stupid way to import flaskMain
+from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -125,7 +127,7 @@ class HaroListener():
             # write to disk then upload
 
             haro_obj_df = Haro([self.__find_recent_haro()]).get_dataframe()
-            with open('haro_csvs/MOST_RECENT.csv', '+') as recent:
+            with open('haro_csvs/MOST_RECENT.csv', 'r+') as recent:
                 haro_obj_df.reset_index(drop=True).to_csv(recent)
                 addDBData(recent)
             
@@ -240,6 +242,8 @@ if __name__ == '__main__':
     #     df_save = df_save.append(haro.get_dataframe())
     # df_save = df_save.reset_index(drop=True)
     # df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
-    # with open('haro_csvs/ALL_OLD_HAROS.csv', '+') as old:
-    #     addDBData(old)
-    pass
+    # with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
+    #    addDBData(old)
+    listener = HaroListener('george@lightyearstrategies.com', False)
+    listener.listen()
+    
