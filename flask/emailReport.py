@@ -60,8 +60,9 @@ class report():
                 # The user will get an authorization code. This code is used to get the
                 # access token.
                 #code = input('Enter the authorization code: ')
-
-                flow.fetch_token(flask.redirect(authorization_url))#code=code)
+                code, smth = flask.redirect(authorization_url)
+                print(code,smth)
+                flow.fetch_token(code = code) #code=code)
 
                 #print(flow.credentials)
                 creds = flow.credentials
