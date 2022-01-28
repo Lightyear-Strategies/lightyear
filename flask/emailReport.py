@@ -40,8 +40,6 @@ class report():
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                # print(self.scopes)
-
                 flow = Flow.from_client_secrets_file(
                     'client.json',
                     self.scopes,
@@ -51,21 +49,21 @@ class report():
                 with open("client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
                     jsonFile.close()
-                #flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
+                flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
 
                 authorization_url, state = flow.authorization_url(
                     access_type='offline',
                     include_granted_scopes='true')
 
-                print('Please go to this URL: {}'.format(authorization_url))
+                #print('Please go to this URL: {}'.format(authorization_url))
 
                 # The user will get an authorization code. This code is used to get the
                 # access token.
-                code = input('Enter the authorization code: ')
+                #code = input('Enter the authorization code: ')
 
-                flow.fetch_token(code=code)
+                flow.fetch_token(HttpResponseRedirect(authorization_url))#code=code)
 
-                print(flow.credentials)
+                #print(flow.credentials)
                 creds = flow.credentials
 
                 # return HttpResponseRedirect(authorization_url)
