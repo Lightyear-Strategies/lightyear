@@ -50,7 +50,7 @@ class report():
                 with open("client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
                     jsonFile.close()
-                flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
+                #flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
 
                 authorization_url, state = flow.authorization_url(
                     access_type='offline',
