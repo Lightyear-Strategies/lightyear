@@ -45,7 +45,8 @@ class report():
                 flow = Flow.from_client_secrets_file(
                     'client.json',
                     self.scopes,
-                    redirect_uri='urn:ietf:wg:oauth:2.0:oob')
+                    #redirect_uri='urn:ietf:wg:oauth:2.0:oob'
+                )
 
                 with open("client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
