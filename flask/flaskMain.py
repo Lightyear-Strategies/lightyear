@@ -202,9 +202,9 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    app.run(host='0.0.0.0', port=5000)
+    #app.run(host='0.0.0.0', port=5000)
 
     # for figuring google aouth
-    """report = emailReport.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
+    report = emailReport.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
                                 "Verified Emails in file", "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
-    report.sendMessage()"""
+    report.sendMessage()
