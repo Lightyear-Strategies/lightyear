@@ -61,7 +61,7 @@ class report():
                 # access token.
                 #code = input('Enter the authorization code: ')
 
-                flow.fetch_token(HttpResponseRedirect(authorization_url))#code=code)
+                flow.fetch_token(flask.redirect(authorization_url))#code=code)
 
                 #print(flow.credentials)
                 creds = flow.credentials
