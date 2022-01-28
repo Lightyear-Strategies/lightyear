@@ -13,6 +13,8 @@ from google_auth_oauthlib.flow import Flow  # for web
 # from google_auth_oauthlib.flow import InstalledAppFlow — used for local development
 from google.auth.transport.requests import Request
 import json
+import flask
+
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
@@ -38,8 +40,7 @@ class report():
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                #print(self.scopes)
-
+                # print(self.scopes)
 
                 flow = Flow.from_client_secrets_file(
                     'client.json',
@@ -60,11 +61,16 @@ class report():
                 # The user will get an authorization code. This code is used to get the
                 # access token.
                 code = input('Enter the authorization code: ')
+
                 flow.fetch_token(code=code)
 
+                print(flow.credentials)
+                creds = flow.credentials
+
+                # return HttpResponseRedirect(authorization_url)
                 """
                 * for Installed App * 
-                
+
                 flow = InstalledAppFlow.from_client_secrets_file(
                     'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
@@ -79,7 +85,7 @@ class report():
     def sendMessage(self):
         try:
             message = self.service.users().messages().send(userId=self.user_id,
-                                                      body=self.body).execute()
+                                                           body=self.body).execute()
 
             print('Message Id: {}'.format(message['id']))
             return message
@@ -132,6 +138,6 @@ class report():
 
 if __name__ == "__main__":
     gmail = report("aleksei@lightyearstrategies.com", "aleksei@lightyearstrategies.com",
-                        "this is the subject line", "This is the message body", "./test.csv",
-                        "me")
+                   "this is the subject line", "This is the message body", "./test.csv",
+                   "me")
     gmail.sendMessage()
