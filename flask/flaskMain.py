@@ -202,7 +202,7 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.run(debug=True)
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
 
     # for figuring google aouth
     #report = emailRep.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
