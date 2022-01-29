@@ -8,12 +8,8 @@ import mimetypes
 import pickle
 import os
 from apiclient import errors
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import Flow  # for web
-# from google_auth_oauthlib.flow import InstalledAppFlow — used for local development
-from google.auth.transport.requests import Request
-import json
-import flask
+
+import googleAuth
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
@@ -27,57 +23,14 @@ class report():
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = self.__auth()
+        self.service = googleAuth.service_builder()
         self.body = self.createMessage()
 
-    def __auth(self):
-        creds = None
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
-                creds = pickle.load(token)
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-
-                flow = Flow.from_client_secrets_file(
-                    'client.json',
-                    self.scopes)
-
-                with open("client.json") as jsonFile:
-                    jsonObject = json.load(jsonFile)
-                    jsonFile.close()
-                flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
-
-                authorization_url, state = flow.authorization_url(
-                    access_type='offline',
-                    include_granted_scopes='true')
-
-                print('Please go to this URL: {}'.format(authorization_url))
-
-                # The user will get an authorization code. This code is used to get the
-                # access token.
-                code = input('Enter the authorization code: ')
-                flow.fetch_token(code=code)
-
-                """
-                * for Installed App * 
-                
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'client.json', self.scopes)
-                creds = flow.run_local_server(port=0)
-                """
-            with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
-
-        service = build('gmail', 'v1', credentials=creds)
-
-        return service
 
     def sendMessage(self):
         try:
             message = self.service.users().messages().send(userId=self.user_id,
-                                                      body=self.body).execute()
+                                                           body=self.body).execute()
 
             print('Message Id: {}'.format(message['id']))
             return message
@@ -130,6 +83,6 @@ class report():
 
 if __name__ == "__main__":
     gmail = report("aleksei@lightyearstrategies.com", "aleksei@lightyearstrategies.com",
-                        "this is the subject line", "This is the message body", "./test.csv",
-                        "me")
+                   "this is the subject line", "This is the message body", "./test.csv",
+                   "me")
     gmail.sendMessage()

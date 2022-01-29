@@ -15,7 +15,7 @@ import sys
 
 from config import *
 from utils import * # imports Celery, timethis
-import emailReport
+import emailRep #emailReport
 
 sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
 sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
@@ -192,7 +192,7 @@ def emailVerify(path, recipients=None, extension="csv"):
 
 
     subjectLine = os.path.basename(path)
-    report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
+    report = emailRep.report("aleksei@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
@@ -201,10 +201,10 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    #app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
 
     # for figuring google aouth
-    report = emailReport.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
-                                "Verified Emails in file", "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
-    report.sendMessage()
+    #report = emailRep.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
+    #                            "Verified Emails in file", "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
+    #report.sendMessage()
