@@ -62,8 +62,9 @@ class report():
                 #code = input('Enter the authorization code: ')
 
                 webbrowser.open(authorization_url)
+                #code=code
                 #code = app.redirect(authorization_url)
-                flow.fetch_token(code=code)
+                #flow.fetch_token()
 
                 #print(flow.credentials)
                 creds = flow.credentials
