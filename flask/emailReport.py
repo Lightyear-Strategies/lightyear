@@ -56,20 +56,11 @@ class report():
                     include_granted_scopes='true')
 
                 #print('Please go to this URL: {}'.format(authorization_url))
-
-                # The user will get an authorization code. This code is used to get the
-                # access token.
                 #code = input('Enter the authorization code: ')
 
-                webbrowser.open(authorization_url)
-                #code=code
-                #code = app.redirect(authorization_url)
-                #flow.fetch_token()
-
-                #print(flow.credentials)
+                code = webbrowser.open(authorization_url)
+                flow.fetch_token(code=code)
                 creds = flow.credentials
-
-                # return HttpResponseRedirect(authorization_url)
                 """
                 * for Installed App * 
 
