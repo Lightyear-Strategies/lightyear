@@ -13,7 +13,7 @@ from google_auth_oauthlib.flow import Flow  # for web
 # from google_auth_oauthlib.flow import InstalledAppFlow — used for local development
 from google.auth.transport.requests import Request
 import json
-import flask
+from flaskMain import app
 
 
 class report():
@@ -42,8 +42,7 @@ class report():
             else:
                 flow = Flow.from_client_secrets_file(
                     'client.json',
-                    self.scopes,
-                    #redirect_uri='urn:ietf:wg:oauth:2.0:oob'
+                    self.scopes
                 )
 
                 with open("client.json") as jsonFile:
@@ -60,9 +59,9 @@ class report():
                 # The user will get an authorization code. This code is used to get the
                 # access token.
                 #code = input('Enter the authorization code: ')
-                code = flask.redirect(authorization_url)
-                print(code)
-                flow.fetch_token(code = code) #code=code)
+
+                code = app.redirect(authorization_url)
+                flow.fetch_token(code=code)
 
                 #print(flow.credentials)
                 creds = flow.credentials
