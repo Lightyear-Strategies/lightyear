@@ -14,6 +14,7 @@ from google_auth_oauthlib.flow import Flow  # for web
 from google.auth.transport.requests import Request
 import json
 from flaskMain import app
+import webbrowser
 
 
 class report():
@@ -60,7 +61,8 @@ class report():
                 # access token.
                 #code = input('Enter the authorization code: ')
 
-                code = app.redirect(authorization_url)
+                webbrowser.open(authorization_url)
+                #code = app.redirect(authorization_url)
                 flow.fetch_token(code=code)
 
                 #print(flow.credentials)
