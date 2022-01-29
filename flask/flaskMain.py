@@ -15,7 +15,7 @@ import sys
 
 from config import *
 from utils import * # imports Celery, timethis
-import emailRep #emailReport
+#import emailRep #emailReport
 
 sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
 sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
@@ -190,7 +190,7 @@ def emailVerify(path, recipients=None, extension="csv"):
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
 
-
+    import emailRep
     subjectLine = os.path.basename(path)
     report = emailRep.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
