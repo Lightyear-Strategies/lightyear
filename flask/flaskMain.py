@@ -192,7 +192,7 @@ def emailVerify(path, recipients=None, extension="csv"):
 
 
     subjectLine = os.path.basename(path)
-    report = emailRep.report("aleksei@lightyearstrategies.com", recipients,
+    report = emailRep.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
