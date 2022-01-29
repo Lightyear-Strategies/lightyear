@@ -58,9 +58,9 @@ class report():
                 #print('Please go to this URL: {}'.format(authorization_url))
                 #code = input('Enter the authorization code: ')
 
-                code = webbrowser.open(authorization_url)
-                flow.fetch_token(code=code)
-                creds = flow.credentials
+                webbrowser.open(authorization_url)
+                #flow.fetch_token(code=code)
+                #creds = flow.credentials
                 """
                 * for Installed App * 
 
@@ -68,12 +68,12 @@ class report():
                     'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
                 """
-            with open('token.pickle', 'wb') as token:
-                pickle.dump(creds, token)
+            #with open('token.pickle', 'wb') as token:
+            #    pickle.dump(creds, token)
 
-        service = build('gmail', 'v1', credentials=creds)
+        #service = build('gmail', 'v1', credentials=creds)
 
-        return service
+        #return service
 
     def sendMessage(self):
         try:
