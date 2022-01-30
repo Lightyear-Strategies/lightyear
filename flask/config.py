@@ -3,7 +3,7 @@ import os
 AWS_ACCESS_KEY_ID = ''
 AWS_SECRET_ACCESS_KEY = ''
 
-FLASK_SECURE_KEY = "super secret key"
+FLASK_SECRET_KEY = "super secret key"
 
 FLASK_DIR = os.path.abspath(os.path.dirname(__file__))
 LIGHTYEAR_DIR = os.path.dirname(FLASK_DIR)

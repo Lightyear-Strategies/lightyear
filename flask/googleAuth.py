@@ -4,6 +4,10 @@ import requests
 import pickle
 #from flaskMain import app
 
+from flask import Blueprint
+
+
+
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
@@ -18,6 +22,12 @@ CLIENT_SECRETS_FILE = "client.json"
 SCOPES = ['https://mail.google.com/']
 API_SERVICE_NAME = 'gmail'
 API_VERSION = 'v1'
+
+g_oauth = Blueprint('g_oauth', __name__)
+
+@g_oauth.route('/')
+def index():
+    return "This is an example app"
 
 #@app.route('/builder')
 def service_builder():
@@ -42,7 +52,7 @@ def service_builder():
     return service
 
 
-@app.route('/authorize')
+@g_oauth.route('/authorize')
 def authorize():
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
@@ -67,7 +77,7 @@ def authorize():
     return flask.redirect(authorization_url)
 
 
-@app.route('/oauth2callback')
+@g_oauth.route('/oauth2callback')
 def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.

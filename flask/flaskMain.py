@@ -22,12 +22,15 @@ sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAP
 import emailValidity
 import emailAPIvalid
 import emailRep
+from googleAuth import g_oauth
 
 
 ###################### Flask ######################
 
 app = Flask(__name__,template_folder='HTML')
-app.secret_key = FLASK_SECURE_KEY #used in upload forms ?
+app.register_blueprint(g_oauth)
+
+app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
 
 os.makedirs(UPLOAD_DIR,exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
