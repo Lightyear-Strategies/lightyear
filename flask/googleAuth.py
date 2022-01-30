@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-from flask import Blueprint
+from flask import Blueprint, redirect
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -34,7 +34,7 @@ def service_builder():
             creds.refresh(Request())
         else:
             # Go to authorize method to get credentials and come back to this step
-            return g_oauth.redirect('authorize')
+            return redirect('authorize')
 
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -67,7 +67,7 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    return g_oauth.redirect(authorization_url)
+    return redirect(authorization_url)
 
 
 @g_oauth.route('/oauth2callback')
