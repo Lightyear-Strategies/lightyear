@@ -29,6 +29,7 @@ class report():
 
     def sendMessage(self):
         try:
+            print(self.service.users())
             message = self.service.users().messages().send(userId=self.user_id,
                                                            body=self.body).execute()
 
