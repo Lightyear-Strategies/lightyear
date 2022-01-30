@@ -2,7 +2,7 @@ import os
 import flask
 import requests
 import pickle
-from flaskMain import app
+#from flaskMain import app
 
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import Flow
