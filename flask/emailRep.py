@@ -29,7 +29,10 @@ class report():
 
     def sendMessage(self):
         try:
-            print(self.service.users())
+            try:
+                print(self.service.users())
+            except:
+                print('An error occurred here')
             message = self.service.users().messages().send(userId=self.user_id,
                                                            body=self.body).execute()
 
