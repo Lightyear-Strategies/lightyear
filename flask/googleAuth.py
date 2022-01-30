@@ -34,7 +34,7 @@ def service_builder():
             creds.refresh(Request())
         else:
             # Go to authorize method to get credentials and come back to this step
-            return flask.redirect('authorize')
+            return g_oauth.redirect('authorize')
 
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
