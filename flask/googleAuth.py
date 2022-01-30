@@ -25,10 +25,6 @@ API_VERSION = 'v1'
 
 g_oauth = Blueprint('g_oauth', __name__)
 
-@g_oauth.route('/')
-def index():
-    return "This is an example app"
-
 #@app.route('/builder')
 def service_builder():
     creds = None
