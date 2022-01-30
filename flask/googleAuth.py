@@ -2,16 +2,13 @@ import os
 import flask
 import requests
 import pickle
-#from flaskMain import app
-
-from flask import Blueprint
-
-
 
 import google.oauth2.credentials
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
+
+from flask import Blueprint
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -70,7 +67,7 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    return flask.redirect(authorization_url)
+    return g_oauth.redirect(authorization_url)
 
 
 @g_oauth.route('/oauth2callback')
