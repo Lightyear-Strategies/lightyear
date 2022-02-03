@@ -12,7 +12,7 @@ from apiclient import errors
 #import googleAuth
 
 class report():
-    def __init__(self, sender, to, subject, text, file, user_id=None,service):
+    def __init__(self, sender, to, subject, text, file, user_id=None,service=None):
         self.sender = sender
         self.to = to
         self.subject = subject
