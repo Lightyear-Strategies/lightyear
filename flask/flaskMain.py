@@ -192,7 +192,7 @@ def validation():
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, extension="csv", filename=None):
     with app.app_context():
-        emailVerify(path, recipients, extension,service)
+        emailVerify(path, recipients, extension)
 
         # remove the file
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
