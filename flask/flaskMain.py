@@ -170,9 +170,11 @@ def validation():
                 # find extension
                 extension = "csv" if extension == ".csv" else "xlsx"
 
+                service = service_builder()
+
                 # Celery
                 # parse,remove file, send updated file
-                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
+                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename,service)
 
             return redirect("/")
         else:
@@ -182,28 +184,24 @@ def validation():
 
 
 @celery.task(name='flaskMain.parseSendEmail')
-def parseSendEmail(path, recipients=None, extension="csv", filename=None):
+def parseSendEmail(path, recipients=None, extension="csv", filename=None,service):
     with app.app_context():
-        emailVerify(path, recipients, extension)
+        emailVerify(path, recipients, extension,service)
 
         # remove the file
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-def emailVerify(path, recipients=None, extension="csv"):
+def emailVerify(path, recipients=None, extension="csv",service):
     #valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
     #valid.check(save=True, inplace=True)
     #print(type(path))
-
-    # Must auth here
-
-    service = service_builder()
 
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
 
     subjectLine = os.path.basename(path)
     report = emailRep.report("george@lightyearstrategies.com", recipients,
-                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
+                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me",service)
     report.sendMessage()
 
 @app.errorhandler(404)
