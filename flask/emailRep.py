@@ -9,7 +9,7 @@ import pickle
 import os
 from apiclient import errors
 
-import googleAuth
+#import googleAuth
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None,service):
