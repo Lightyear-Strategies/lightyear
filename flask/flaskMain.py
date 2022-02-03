@@ -8,6 +8,7 @@ from wtforms import StringField, SubmitField, MultipleFileField
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
 from flask_sqlalchemy import SQLAlchemy
+from waiting import wait
 
 import pandas as pd
 import os
@@ -171,6 +172,8 @@ def validation():
                 extension = "csv" if extension == ".csv" else "xlsx"
 
                 service = service_builder()
+                wait(lambda: is_something_ready(service), timeout_seconds=200, waiting_for="something to be ready")
+
 
                 # Celery
                 # parse,remove file, send updated file
@@ -181,6 +184,11 @@ def validation():
             print('No files')
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
+
+def is_something_ready(something):
+    if something.ready():
+        return True
+    return False
 
 
 @celery.task(name='flaskMain.parseSendEmail')
