@@ -180,7 +180,7 @@ def validation():
 
                 # Celery
                 # parse,remove file, send updated file
-                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename,service)
+                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
 
             return redirect("/")
         else:
@@ -190,7 +190,7 @@ def validation():
 
 
 @celery.task(name='flaskMain.parseSendEmail')
-def parseSendEmail(path, recipients=None, extension="csv", filename=None,service=None):
+def parseSendEmail(path, recipients=None, extension="csv", filename=None):
     with app.app_context():
         emailVerify(path, recipients, extension,service)
 
@@ -207,7 +207,7 @@ def emailVerify(path, recipients=None, extension="csv",service=None):
 
     subjectLine = os.path.basename(path)
     report = emailRep.report("george@lightyearstrategies.com", recipients,
-                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me",service)
+                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
 @app.errorhandler(404)
