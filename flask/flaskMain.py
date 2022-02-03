@@ -171,8 +171,11 @@ def validation():
                 # find extension
                 extension = "csv" if extension == ".csv" else "xlsx"
 
-                service = service_builder()
-                wait(lambda: is_something_ready(service), timeout_seconds=200, waiting_for="something to be ready")
+                try:
+                    service = service_builder()
+                    wait(lambda: service, timeout_seconds=200)
+                except:
+                    print('Fail')
 
 
                 # Celery
@@ -184,11 +187,6 @@ def validation():
             print('No files')
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
-
-def is_something_ready(something):
-    if something.ready():
-        return True
-    return False
 
 
 @celery.task(name='flaskMain.parseSendEmail')
