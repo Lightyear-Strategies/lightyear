@@ -12,7 +12,7 @@ from apiclient import errors
 import googleAuth
 
 class report():
-    def __init__(self, sender, to, subject, text, file, user_id=None):
+    def __init__(self, sender, to, subject, text, file, user_id=None,service):
         self.sender = sender
         self.to = to
         self.subject = subject
@@ -23,7 +23,7 @@ class report():
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = googleAuth.service_builder()
+        self.service = service #googleAuth.service_builder()
         self.body = self.createMessage()
 
 

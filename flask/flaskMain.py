@@ -23,7 +23,8 @@ import emailValidity
 import emailAPIvalid
 
 import emailRep
-from googleAuth import g_oauth
+
+from googleAuth import g_oauth, service_builder
 
 
 ###################### Flask ######################
@@ -191,8 +192,12 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
 def emailVerify(path, recipients=None, extension="csv"):
     #valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
     #valid.check(save=True, inplace=True)
-
     #print(type(path))
+
+    # Must auth here
+
+    service = service_builder()
+
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
 
