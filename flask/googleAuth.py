@@ -67,7 +67,8 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    return redirect(authorization_url)
+    return f'<a href="{authorization_url}" target="_blank">Link</a>'
+    #return redirect(authorization_url)
 
 
 @g_oauth.route('/oauth2callback')
