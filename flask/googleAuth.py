@@ -41,7 +41,7 @@ def service_builder():
             f.write('are we going in?')
             f.close()
             # Go to authorize method to get credentials and come back to this step
-            return redirect('authorize')
+            return redirect('/authorize')
 
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
