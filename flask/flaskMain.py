@@ -32,7 +32,7 @@ from googleAuth import g_oauth, service_builder
 
 app = Flask(__name__,template_folder='HTML')
 app.register_blueprint(g_oauth)
-app.config['DEBUG'] = True
+
 
 app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
 
@@ -175,7 +175,7 @@ def validation():
                     service = service_builder()
                     wait(lambda: service, timeout_seconds=200)
                 except:
-                    print('Fail')
+                    print("Fail", file=sys.stderr)
 
 
                 # Celery
