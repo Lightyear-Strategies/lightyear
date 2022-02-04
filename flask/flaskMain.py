@@ -174,11 +174,11 @@ def validation():
 
                 try:
                     print("into service")
-                    thread = threading.Thread(target=service_builder())
-                    thread.start()
+                    #thread = threading.Thread(target=service_builder())
+                    #thread.start()
 
                     # wait here for the result to be available before continuing
-                    thread.join()
+                    #thread.join()
 
                     #service = service_builder()
                     print("out from service")
