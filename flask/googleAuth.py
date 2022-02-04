@@ -74,6 +74,7 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
     print("into authorization")
+    print(authorization_url)
 
     #return f'<a href="{authorization_url}" target="_blank">Link</a>'
     return redirect(authorization_url)
