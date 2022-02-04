@@ -24,7 +24,7 @@ g_oauth = Blueprint('g_oauth', __name__)
 
 #@app.route('/builder')
 def service_builder():
-    f = open('output.txt', 'w')
+    f = open('output.txt', 'a')
     f.write('service_builder')
     f.close()
 
@@ -37,11 +37,17 @@ def service_builder():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            f = open('output.txt', 'w')
+
+            f = open('output.txt', 'a')
             f.write('are we going in?')
             f.close()
-            # Go to authorize method to get credentials and come back to this step
-            return redirect('/authorize')
+            try:
+                # Go to authorize method to get credentials and come back to this step
+                return redirect('/authorize')
+            except:
+                f = open('output.txt', 'a')
+                f.write('did not work')
+                f.close()
 
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -54,7 +60,7 @@ def service_builder():
 
 @g_oauth.route('/authorize')
 def authorize():
-    f = open('output.txt', 'w')
+    f = open('output.txt', 'a')
     f.write('we are in auth')
     f.close()
 
@@ -78,7 +84,7 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    f = open('output.txt', 'w')
+    f = open('output.txt', 'a')
     f.write('should show page')
     f.close()
 
