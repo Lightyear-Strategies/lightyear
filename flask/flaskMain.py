@@ -189,7 +189,7 @@ def validation():
         else:
             print('No files')
 
-    return "Cool"#render_template('uploadEmailFiles.html', form=form, email=email, files=files)
+    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
 
 @celery.task(name='flaskMain.parseSendEmail')
