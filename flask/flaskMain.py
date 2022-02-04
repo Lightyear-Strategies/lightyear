@@ -176,7 +176,7 @@ def validation():
                     f.write('should proceed to auth')
                     f.close()
                     service = service_builder()
-                    wait(lambda: service, timeout_seconds=200)
+                    wait(lambda: service) #, timeout_seconds=200)
                 except:
                     f = open('output.txt', 'w')
                     f.write('fail')

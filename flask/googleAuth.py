@@ -25,7 +25,7 @@ g_oauth = Blueprint('g_oauth', __name__)
 #@app.route('/builder')
 def service_builder():
     f = open('output.txt', 'a')
-    f.write('service_builder')
+    f.write('\nservice_builder')
     f.close()
 
     creds = None
@@ -39,14 +39,14 @@ def service_builder():
         else:
 
             f = open('output.txt', 'a')
-            f.write('are we going in?')
+            f.write('\nare we going in?')
             f.close()
             try:
                 # Go to authorize method to get credentials and come back to this step
                 return redirect('/authorize')
             except:
                 f = open('output.txt', 'a')
-                f.write('did not work')
+                f.write('\ndid not work')
                 f.close()
 
         with open('token.pickle', 'wb') as token:
@@ -61,7 +61,7 @@ def service_builder():
 @g_oauth.route('/authorize')
 def authorize():
     f = open('output.txt', 'a')
-    f.write('we are in auth')
+    f.write('\nwe are in auth')
     f.close()
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
@@ -85,7 +85,7 @@ def authorize():
     flask.session['state'] = state
 
     f = open('output.txt', 'a')
-    f.write('should show page')
+    f.write('\nshould show page')
     f.close()
 
     return f'<a href="{authorization_url}" target="_blank">Link</a>'
