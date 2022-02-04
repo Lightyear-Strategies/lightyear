@@ -38,7 +38,7 @@ def service_builder():
             print("into auth")
 
             # Go to authorize method to get credentials and come back to this step
-            return redirect('/g_oauth.authorize')
+            return redirect('/authorize')
 
 
         with open('token.pickle', 'wb') as token:
