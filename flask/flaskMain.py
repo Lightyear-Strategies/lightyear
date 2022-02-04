@@ -8,7 +8,8 @@ from wtforms import StringField, SubmitField, MultipleFileField
 from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
 from flask_sqlalchemy import SQLAlchemy
-from waiting import wait
+
+import threading
 
 import pandas as pd
 import os
@@ -172,21 +173,18 @@ def validation():
                 extension = "csv" if extension == ".csv" else "xlsx"
 
                 try:
-                    f = open('output.txt', 'w')
-                    f.write('should proceed to auth')
-                    f.close()
                     print("into service")
-                    service = service_builder()
-                    wait(lambda: service) #, timeout_seconds=200)
+                    thread = threading.Thread(target=service_builder())
+                    thread.start()
+
+                    # wait here for the result to be available before continuing
+                    thread.join()
+
+                    #service = service_builder()
                     print("out from service")
-                    f = open('output.txt', 'w')
-                    f.write('other side auth')
-                    f.close()
 
                 except:
-                    f = open('output.txt', 'w')
-                    f.write('fail')
-                    f.close()
+                    print('fail')
 
 
                 # Celery

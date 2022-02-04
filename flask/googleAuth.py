@@ -22,12 +22,9 @@ API_VERSION = 'v1'
 
 g_oauth = Blueprint('g_oauth', __name__)
 
-#@app.route('/builder')
+@g_oauth.route('/builder')
 def service_builder():
     print("in service")
-    f = open('output.txt', 'a')
-    f.write('\nservice_builder')
-    f.close()
 
     creds = None
     if os.path.exists('token.pickle'):
@@ -38,19 +35,11 @@ def service_builder():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            print("into auth")
 
-            f = open('output.txt', 'a')
-            f.write('\nare we going in?')
-            f.close()
+            # Go to authorize method to get credentials and come back to this step
+            return redirect('/authorize')
 
-            try:
-                print("into auth")
-                # Go to authorize method to get credentials and come back to this step
-                return redirect('/authorize')
-            except:
-                f = open('output.txt', 'a')
-                f.write('\ndid not work')
-                f.close()
 
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -63,10 +52,6 @@ def service_builder():
 
 @g_oauth.route('/authorize')
 def authorize():
-    f = open('output.txt', 'a')
-    f.write('\nwe are in auth')
-    f.close()
-
     print("in auth")
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
@@ -88,11 +73,6 @@ def authorize():
 
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
-
-    f = open('output.txt', 'a')
-    f.write('\nshould show page')
-    f.close()
-
     print("into authorization")
 
     return f'<a href="{authorization_url}" target="_blank">Link</a>'
@@ -122,9 +102,8 @@ def oauth2callback():
         pickle.dump(creds, token)
 
     # flask.session['credentials'] = credentials_to_dict(credentials)
-    return service_builder()
-
-    #return flask.redirect(flask.url_for('service_builder'))
+    #return service_builder()
+    return flask.redirect(flask.url_for('service_builder'))
 
 '''
 @app.route('/revoke')
