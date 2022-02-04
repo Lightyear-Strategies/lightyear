@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-from flask import Blueprint, redirect
+from flask import Blueprint, redirect, url_for
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -62,7 +62,7 @@ def authorize():
     # for the OAuth 2.0 client, which you configured in the API Console. If this
     # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
     # error.
-    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
     authorization_url, state = flow.authorization_url(
         # Enable offline access so that you can refresh an access token without
@@ -87,7 +87,7 @@ def oauth2callback():
 
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-    flow.redirect_uri = flask.url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
@@ -103,7 +103,7 @@ def oauth2callback():
 
     # flask.session['credentials'] = credentials_to_dict(credentials)
     #return service_builder()
-    return flask.redirect(flask.url_for('service_builder'))
+    return redirect(url_for('service_builder'))
 
 '''
 @app.route('/revoke')
