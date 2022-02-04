@@ -172,12 +172,15 @@ def validation():
                 extension = "csv" if extension == ".csv" else "xlsx"
 
                 try:
+                    f = open('output.txt', 'w')
+                    f.write('should proceed to auth')
+                    f.close()
                     service = service_builder()
                     wait(lambda: service, timeout_seconds=200)
                 except:
-                    with open('output.txt', 'w') as f:
-                        f.write('fail')
-                        f.close()
+                    f = open('output.txt', 'w')
+                    f.write('fail')
+                    f.close()
 
 
                 # Celery
