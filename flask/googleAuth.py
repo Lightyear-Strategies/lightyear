@@ -67,7 +67,10 @@ def authorize():
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
 
-    print("fatal error", file=sys.stderr)
+    with open('output.txt', 'w') as f:
+        f.write('should show page')
+        f.close()
+
     return f'<a href="{authorization_url}" target="_blank">Link</a>'
     #return redirect(authorization_url)
 

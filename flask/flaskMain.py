@@ -175,7 +175,9 @@ def validation():
                     service = service_builder()
                     wait(lambda: service, timeout_seconds=200)
                 except:
-                    print("Fail", file=sys.stderr)
+                    with open('output.txt', 'w') as f:
+                        f.write('fail')
+                        f.close()
 
 
                 # Celery
