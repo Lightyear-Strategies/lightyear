@@ -175,9 +175,10 @@ def validation():
                     f = open('output.txt', 'w')
                     f.write('should proceed to auth')
                     f.close()
+                    print("into service")
                     service = service_builder()
                     wait(lambda: service) #, timeout_seconds=200)
-
+                    print("out from service")
                     f = open('output.txt', 'w')
                     f.write('other side auth')
                     f.close()

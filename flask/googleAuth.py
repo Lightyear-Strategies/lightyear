@@ -24,6 +24,7 @@ g_oauth = Blueprint('g_oauth', __name__)
 
 #@app.route('/builder')
 def service_builder():
+    print("in service")
     f = open('output.txt', 'a')
     f.write('\nservice_builder')
     f.close()
@@ -41,7 +42,9 @@ def service_builder():
             f = open('output.txt', 'a')
             f.write('\nare we going in?')
             f.close()
+
             try:
+                print("into auth")
                 # Go to authorize method to get credentials and come back to this step
                 return redirect('/authorize')
             except:
@@ -63,6 +66,8 @@ def authorize():
     f = open('output.txt', 'a')
     f.write('\nwe are in auth')
     f.close()
+
+    print("in auth")
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
@@ -87,6 +92,8 @@ def authorize():
     f = open('output.txt', 'a')
     f.write('\nshould show page')
     f.close()
+
+    print("into authorization")
 
     return f'<a href="{authorization_url}" target="_blank">Link</a>'
     #return redirect(authorization_url)
