@@ -24,6 +24,10 @@ g_oauth = Blueprint('g_oauth', __name__)
 
 #@app.route('/builder')
 def service_builder():
+    f = open('output.txt', 'w')
+    f.write('service_builder')
+    f.close()
+
     creds = None
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
