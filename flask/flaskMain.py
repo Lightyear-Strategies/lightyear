@@ -160,6 +160,15 @@ def validation():
         files = request.files.getlist(form.files.name)
         form.email.data = ''
 
+        try:
+            print("into service")
+
+            service = service_builder()
+            print("out from service")
+
+        except:
+            print('fail')
+
         if files:
             for file in files:
                 filename = secure_filename(file.filename)
@@ -171,21 +180,6 @@ def validation():
                 extension = os.path.splitext(filename)[1]
                 # find extension
                 extension = "csv" if extension == ".csv" else "xlsx"
-
-                try:
-                    print("into service")
-                    #thread = threading.Thread(target=service_builder())
-                    #thread.start()
-
-                    # wait here for the result to be available before continuing
-                    #thread.join()
-
-                    #service = service_builder()
-                    print("out from service")
-
-                except:
-                    print('fail')
-
 
                 # Celery
                 # parse,remove file, send updated file
