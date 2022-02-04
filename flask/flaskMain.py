@@ -162,8 +162,8 @@ def validation():
 
         try:
             print("into service")
-
-            service = service_builder()
+            redirect('/builder')
+            #service = service_builder()
             print("out from service")
 
         except:
