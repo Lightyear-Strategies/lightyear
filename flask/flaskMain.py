@@ -162,7 +162,7 @@ def validation():
 
         try:
             print("into service")
-            redirect('/builder')
+            return redirect('/builder')
             #service = service_builder()
             print("out from service")
 
@@ -185,11 +185,11 @@ def validation():
                 # parse,remove file, send updated file
                 parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
 
-            return redirect("/")
+            #return redirect("/")
         else:
             print('No files')
 
-    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
+    return "Cool"#render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
 
 @celery.task(name='flaskMain.parseSendEmail')
