@@ -177,6 +177,11 @@ def validation():
                     f.close()
                     service = service_builder()
                     wait(lambda: service) #, timeout_seconds=200)
+
+                    f = open('output.txt', 'w')
+                    f.write('other side auth')
+                    f.close()
+
                 except:
                     f = open('output.txt', 'w')
                     f.write('fail')
@@ -220,8 +225,7 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80,debug=True)
 
     # for figuring google aouth
     #report = emailRep.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
