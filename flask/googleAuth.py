@@ -37,6 +37,9 @@ def service_builder():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            f = open('output.txt', 'w')
+            f.write('are we going in?')
+            f.close()
             # Go to authorize method to get credentials and come back to this step
             return redirect('authorize')
 
@@ -51,6 +54,10 @@ def service_builder():
 
 @g_oauth.route('/authorize')
 def authorize():
+    f = open('output.txt', 'w')
+    f.write('we are in auth')
+    f.close()
+
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES)
