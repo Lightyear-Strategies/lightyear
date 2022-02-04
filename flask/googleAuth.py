@@ -38,7 +38,7 @@ def service_builder():
             print("into auth")
 
             # Go to authorize method to get credentials and come back to this step
-            return redirect('/authorize')
+            return redirect('/g_oauth.authorize')
 
 
         with open('token.pickle', 'wb') as token:
@@ -62,7 +62,7 @@ def authorize():
     # for the OAuth 2.0 client, which you configured in the API Console. If this
     # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
     # error.
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('g_oauth.oauth2callback', _external=True)
 
     authorization_url, state = flow.authorization_url(
         # Enable offline access so that you can refresh an access token without
@@ -87,7 +87,7 @@ def oauth2callback():
 
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-    flow.redirect_uri = url_for('oauth2callback', _external=True)
+    flow.redirect_uri = url_for('g_oauth.oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
@@ -103,7 +103,7 @@ def oauth2callback():
 
     # flask.session['credentials'] = credentials_to_dict(credentials)
     #return service_builder()
-    return redirect(url_for('service_builder'))
+    return redirect(url_for('g_oauth.service_builder'))
 
 '''
 @app.route('/revoke')
