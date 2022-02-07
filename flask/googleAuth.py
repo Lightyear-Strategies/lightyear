@@ -23,8 +23,11 @@ API_VERSION = 'v1'
 g_oauth = Blueprint('g_oauth', __name__)
 
 @g_oauth.route('/builder')
-def service_builder():
+def serviceBuilder():
     print("in service")
+
+    global authlock
+    authlock = True
 
     creds = None
     if os.path.exists('token.pickle'):
@@ -46,6 +49,8 @@ def service_builder():
 
     service = build(
         API_SERVICE_NAME, API_VERSION, credentials=creds)
+
+    authlock = False
 
     return service
 
@@ -80,6 +85,8 @@ def authorize():
     return redirect(authorization_url)
 
 
+#make oauth2callback but open original "/" page?
+
 @g_oauth.route('/oauth2callback')
 def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can
@@ -103,8 +110,8 @@ def oauth2callback():
         pickle.dump(creds, token)
 
     # flask.session['credentials'] = credentials_to_dict(credentials)
-    #return service_builder()
-    return redirect(url_for('g_oauth.service_builder'))
+    return service_builder()
+    #return redirect(url_for('g_oauth.serviceBuilder'))
 
 '''
 @app.route('/revoke')

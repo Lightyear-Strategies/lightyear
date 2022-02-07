@@ -14,10 +14,11 @@ import threading
 import pandas as pd
 import os
 import sys
+import time
 
 from config import *
 from utils import * # imports Celery, timethis
-#import emailRep #emailReport
+#import emailReport
 
 sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
 sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
@@ -26,7 +27,7 @@ import emailAPIvalid
 
 import emailRep
 
-from googleAuth import g_oauth, service_builder
+from googleAuth import g_oauth, serviceBuilder
 
 
 ###################### Flask ######################
@@ -162,12 +163,15 @@ def validation():
 
         try:
             print("into service")
-            return redirect('/builder')
-            #service = service_builder()
+            #return redirect('/builder')
+            service = serviceBuilder() # change naming
             print("out from service")
 
         except:
             print('fail')
+
+        while authlock:
+            time.sleep(10)
 
         if files:
             for file in files:
