@@ -163,6 +163,7 @@ def validation():
 
         try:
             print("into service")
+            global authlock = True
             #return redirect('/builder')
             service = serviceBuilder() # change naming
             print("out from service")

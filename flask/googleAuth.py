@@ -26,8 +26,8 @@ g_oauth = Blueprint('g_oauth', __name__)
 def serviceBuilder():
     print("in service")
 
-    global authlock
-    authlock = True
+    #global authlock
+    #authlock = True
 
     creds = None
     if os.path.exists('token.pickle'):
