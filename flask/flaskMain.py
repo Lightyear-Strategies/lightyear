@@ -27,14 +27,13 @@ import emailAPIvalid
 
 import emailRep
 
-from googleAuth import g_oauth, serviceBuilder, authCheck
+from googleAuth import g_oauth, authCheck
 
 
 ###################### Flask ######################
 
 app = Flask(__name__,template_folder='HTML')
 app.register_blueprint(g_oauth)
-
 
 app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
 
@@ -163,7 +162,7 @@ def validation():
 
         try:
             if not authCheck():
-                return redirect('/authorize')
+                return redirect('/authorizecheck')
 
             print("continuing")
 

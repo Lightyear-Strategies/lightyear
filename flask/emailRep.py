@@ -9,7 +9,7 @@ import pickle
 import os
 from apiclient import errors
 
-import googleAuth
+from googleAuth import serviceBuilder
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None,service=None):
@@ -23,7 +23,7 @@ class report():
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = googleAuth.service_builder()
+        self.service = serviceBuilder()
         self.body = self.createMessage()
 
 
