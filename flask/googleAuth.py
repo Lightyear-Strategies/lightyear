@@ -135,7 +135,7 @@ def oauth2callback():
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     #authorization_response = flask.request.url
 
-    authorization_response = request.build_absolute_uri()
+    authorization_response = request.url
     print(authorization_response)
     if "http:" in authorization_response:
         authorization_response = "https:" + authorization_response[5:]
