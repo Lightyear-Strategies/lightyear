@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-from flask import Blueprint, redirect, url_for, flash
+from flask import Blueprint, redirect, url_for, flash, request
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -133,8 +133,13 @@ def oauth2callback():
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='https')
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
-    authorization_response = flask.request.url
+    #authorization_response = flask.request.url
+
+    authorization_response = request.build_absolute_uri()
     print(authorization_response)
+    if "http:" in authorization_response:
+        authorization_response = "https:" + authorization_response[5:]
+    print("\n",authorization_response)
     flow.fetch_token(authorization_response=authorization_response)
 
     # Store credentials in the session.
