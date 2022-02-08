@@ -117,7 +117,6 @@ def authorizeService():
         include_granted_scopes='true')
 
     flask.session['state'] = state
-    print("into authorization")
     print(authorization_url)
 
     return redirect(authorization_url)
@@ -151,12 +150,14 @@ def oauth2callback():
 @g_oauth.route('/oauth2callbackCheck')
 def oauth2callbackCheck():
     oauth2callback()
+    print('Authorized')
     flash('Authorized')
     return redirect('/')
 
 @g_oauth.route('/oauth2callbackService')
 def oauth2callbackService():
     oauth2callback()
+    print('AuthorizedService')
     return serviceBuilder()
 
 
