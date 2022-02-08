@@ -52,7 +52,7 @@ def authCheck():
 
 def authLogin(credsreturn=False):
     if not authCheck():
-        return redirect('/authorize')
+        return redirect('/authorizeservice')
 
     if credsreturn:
         creds = None
@@ -75,7 +75,7 @@ def serviceBuilder():
     return service
 
 
-@g_oauth.route('/authorize')
+@g_oauth.route('/authorizecheck')
 def authorize():
     print("in auth")
 
@@ -87,7 +87,7 @@ def authorize():
     # for the OAuth 2.0 client, which you configured in the API Console. If this
     # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
     # error.
-    flow.redirect_uri = url_for('g_oauth.oauth2callback', _external=True)
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackcheck', _external=True)
 
     authorization_url, state = flow.authorization_url(
         # Enable offline access so that you can refresh an access token without
@@ -105,6 +105,24 @@ def authorize():
     return redirect(authorization_url)
 
 
+@g_oauth.route('/authorizeservice')
+def authorize():
+    print("in auth")
+
+    flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackservice', _external=True)
+
+    authorization_url, state = flow.authorization_url(
+        access_type='offline',
+        include_granted_scopes='true')
+
+    flask.session['state'] = state
+    print("into authorization")
+    print(authorization_url)
+
+    return redirect(authorization_url)
+
+
 def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
@@ -112,7 +130,7 @@ def oauth2callback():
 
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-    flow.redirect_uri = url_for('g_oauth.oauth2callback', _external=True)
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackcheck', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
@@ -129,7 +147,7 @@ def oauth2callback():
     return
 
 @g_oauth.route('/oauth2callbackcheck')
-def oauth2callbackSCheck():
+def oauth2callbackCheck():
     oauth2callback()
     flash('Authorized')
     return redirect('/')
@@ -137,7 +155,7 @@ def oauth2callbackSCheck():
 @g_oauth.route('/oauth2callbackservice')
 def oauth2callbackService():
     oauth2callback()
-    return service_builder()
+    return serviceBuilder()
 
 
 '''
