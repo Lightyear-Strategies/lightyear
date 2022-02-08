@@ -162,7 +162,7 @@ def validation():
 
         try:
             if not authCheck():
-                return redirect('/authorizecheck')
+                return redirect('/authorizeCheck')
 
             print("continuing")
 

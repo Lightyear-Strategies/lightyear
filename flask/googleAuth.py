@@ -52,7 +52,7 @@ def authCheck():
 
 def authLogin(credsreturn=False):
     if not authCheck():
-        return redirect('/authorizeservice')
+        return redirect('/authorizeService')
 
     if credsreturn:
         creds = None
