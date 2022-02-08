@@ -133,8 +133,6 @@ def oauth2callback():
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='https')
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
-    #authorization_response = flask.request.url
-
     authorization_response = request.url
     print(authorization_response)
     if "http:" in authorization_response:
