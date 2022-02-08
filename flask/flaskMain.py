@@ -160,16 +160,8 @@ def validation():
         files = request.files.getlist(form.files.name)
         form.email.data = ''
 
-        try:
-            if not authCheck():
-                return redirect('/authorizeCheck')
-
-            print("continuing")
-
-        except:
-            print('fail')
-
-
+        if not authCheck():
+            return redirect('/authorizeCheck')
 
         if files:
             for file in files:
@@ -203,10 +195,6 @@ def parseSendEmail(path, recipients=None, extension="csv", filename=None):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 def emailVerify(path, recipients=None, extension="csv",service=None):
-    #valid = emailValidity.emailValidation(filename=path,type=extension, debug=True, multi=True)
-    #valid.check(save=True, inplace=True)
-    #print(type(path))
-
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
 

@@ -66,7 +66,6 @@ def authLogin(credsreturn=False):
 
 #@g_oauth.route('/builder')
 def serviceBuilder():
-    print("in service")
 
     creds = authLogin(credsreturn=True)
     service = build(
@@ -97,8 +96,6 @@ def authorizeCheck():
 
     # Store the state so the callback can verify the auth server response.
     flask.session['state'] = state
-    print("into authorization")
-    print(authorization_url)
 
     #return f'<a href="{authorization_url}" target="_blank">Link</a>'
     return redirect(authorization_url)
@@ -115,7 +112,7 @@ def authorizeService():
         include_granted_scopes='true')
 
     flask.session['state'] = state
-    print(authorization_url)
+    #print(authorization_url)
 
     return redirect(authorization_url)
 
