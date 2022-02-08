@@ -149,6 +149,7 @@ def oauth2callback():
 
 @g_oauth.route('/oauth2callbackCheck')
 def oauth2callbackCheck():
+    print('In check')
     oauth2callback()
     print('Authorized')
     flash('Authorized')
@@ -156,6 +157,7 @@ def oauth2callbackCheck():
 
 @g_oauth.route('/oauth2callbackService')
 def oauth2callbackService():
+    print('In service')
     oauth2callback()
     print('AuthorizedService')
     return serviceBuilder()
