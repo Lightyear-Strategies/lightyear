@@ -77,7 +77,6 @@ def serviceBuilder():
 
 @g_oauth.route('/authorizeCheck')
 def authorizeCheck():
-    print("in auth")
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
@@ -107,11 +106,10 @@ def authorizeCheck():
 
 @g_oauth.route('/authorizeService')
 def authorizeService():
-    print("in auth")
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
     flow.redirect_uri = url_for('g_oauth.oauth2callbackService', _external=True, _scheme='https')
-        # 'https://www.lystrategies.com/oauth2callbackService'
+
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true')
@@ -125,7 +123,6 @@ def authorizeService():
 def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
-    print('here')
     state = flask.session['state']
 
     flow = Flow.from_client_secrets_file(
@@ -134,10 +131,8 @@ def oauth2callback():
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = request.url
-    print(authorization_response)
     if "http:" in authorization_response:
         authorization_response = "https:" + authorization_response[5:]
-    print("\n",authorization_response)
     flow.fetch_token(authorization_response=authorization_response)
 
     # Store credentials in the session.
@@ -154,7 +149,6 @@ def oauth2callback():
 def oauth2callbackCheck():
     print('In check')
     oauth2callback()
-    print('Authorized')
     flash('Authorized')
     return redirect('/')
 
