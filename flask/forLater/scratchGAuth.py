@@ -8,7 +8,7 @@ from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-from flask import Blueprint, redirect, url_for, flash
+from flask import Blueprint, redirect, url_for
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
@@ -22,6 +22,7 @@ API_VERSION = 'v1'
 
 g_oauth = Blueprint('g_oauth', __name__)
 
+
 # To-Do:
 # 1. Create function if pickle exists (maybe add it to serviceBuilder)
 #   - Use this function separately within flaskMain to check if logged in
@@ -31,11 +32,13 @@ g_oauth = Blueprint('g_oauth', __name__)
 # 2. Service builder should return service (keep it in google auth)
 
 
-def authCheck():
+def authCheck(credsreturn=False):
     creds = None
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
+
+        return True
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -43,15 +46,26 @@ def authCheck():
 
             with open('token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
+
             return True
 
-        else: return False
+        else:
+            print("into auth")
 
-    return True
+            # Go to authorize method to get credentials and come back to this step
+            return redirect('/authorize')
+
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    if credsreturn:
+        return creds
+
+    return False
 
 
 def authLogin(credsreturn=False):
-    if not authCheck():
+    if authCheck() == False:
         return redirect('/authorize')
 
     if credsreturn:
@@ -61,16 +75,45 @@ def authLogin(credsreturn=False):
                 creds = pickle.load(token)
             return creds
 
+    creds = None
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+
+        return True
+
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+            return True
+
+        else:
+            print("into auth")
+
+            # Go to authorize method to get credentials and come back to this step
+            return redirect('/authorize')
+
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    if credsreturn:
+        return creds
     return
 
 
-#@g_oauth.route('/builder')
+@g_oauth.route('/builder')
 def serviceBuilder():
     print("in service")
 
-    creds = authLogin(credsreturn=True)
+    # global authlock
+    # authlock = True
+
+    creds = authCheck(credsreturn=True)
+
     service = build(
         API_SERVICE_NAME, API_VERSION, credentials=creds)
+
+    authlock = False
 
     return service
 
@@ -101,10 +144,13 @@ def authorize():
     print("into authorization")
     print(authorization_url)
 
-    #return f'<a href="{authorization_url}" target="_blank">Link</a>'
+    # return f'<a href="{authorization_url}" target="_blank">Link</a>'
     return redirect(authorization_url)
 
 
+# make oauth2callback but open original "/" page?
+
+@g_oauth.route('/oauth2callback')
 def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can
     # verified in the authorization server response.
@@ -126,18 +172,9 @@ def oauth2callback():
     with open('token.pickle', 'wb') as token:
         pickle.dump(creds, token)
 
-    return
-
-@g_oauth.route('/oauth2callbackcheck')
-def oauth2callbackSCheck():
-    oauth2callback()
-    flash('Authorized')
-    return redirect('/')
-
-@g_oauth.route('/oauth2callbackservice')
-def oauth2callbackService():
-    oauth2callback()
+    # flask.session['credentials'] = credentials_to_dict(credentials)
     return service_builder()
+    # return redirect(url_for('g_oauth.serviceBuilder'))
 
 
 '''
@@ -201,11 +238,11 @@ def print_index_table():
 '''
 
 if __name__ == '__main__':
-      # When running locally, disable OAuthlib's HTTPs verification.
-      # ACTION ITEM for developers:
-      #     When running in production *do not* leave this option enabled.
-      os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+    # When running locally, disable OAuthlib's HTTPs verification.
+    # ACTION ITEM for developers:
+    #     When running in production *do not* leave this option enabled.
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-      # Specify a hostname and port that are set as a valid redirect URI
-      # for your API project in the Google API Console.
-      app.run('localhost', 8080, debug=True)
+    # Specify a hostname and port that are set as a valid redirect URI
+    # for your API project in the Google API Console.
+    app.run('localhost', 8080, debug=True)

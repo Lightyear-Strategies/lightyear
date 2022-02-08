@@ -27,7 +27,7 @@ import emailAPIvalid
 
 import emailRep
 
-from googleAuth import g_oauth, serviceBuilder
+from googleAuth import g_oauth, serviceBuilder, authCheck
 
 
 ###################### Flask ######################
@@ -162,18 +162,15 @@ def validation():
         form.email.data = ''
 
         try:
-            print("into service")
-            global authlock
-            authlock = True
-            #return redirect('/builder')
-            service = serviceBuilder() # change naming
-            print("out from service")
+            if not authCheck():
+                return redirect('/authorize')
+
+            print("continuing")
 
         except:
             print('fail')
 
-        while authlock:
-            time.sleep(10)
+
 
         if files:
             for file in files:
@@ -191,7 +188,7 @@ def validation():
                 # parse,remove file, send updated file
                 parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
 
-            #return redirect("/")
+            return redirect("/")
         else:
             print('No files')
 
