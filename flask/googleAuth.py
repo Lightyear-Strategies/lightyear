@@ -87,7 +87,8 @@ def authorizeCheck():
     # for the OAuth 2.0 client, which you configured in the API Console. If this
     # value doesn't match an authorized URI, you will get a 'redirect_uri_mismatch'
     # error.
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True)
+    flow.redirect_uri = 'https://www.lystrategies.com/oauth2callbackCheck'
+                #url_for('g_oauth.oauth2callbackCheck', _external=True)
 
     authorization_url, state = flow.authorization_url(
         # Enable offline access so that you can refresh an access token without
@@ -110,7 +111,8 @@ def authorizeService():
     print("in auth")
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackService', _external=True)
+    flow.redirect_uri = 'https://www.lystrategies.com/oauth2callbackService'
+                        #url_for('g_oauth.oauth2callbackService', _external=True)
 
     authorization_url, state = flow.authorization_url(
         access_type='offline',
@@ -130,7 +132,8 @@ def oauth2callback():
 
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True)
+    flow.redirect_uri = 'https://www.lystrategies.com/oauth2callbackCheck'
+                    #url_for('g_oauth.oauth2callbackCheck', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
