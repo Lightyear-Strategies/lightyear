@@ -76,7 +76,7 @@ def serviceBuilder():
 
 
 @g_oauth.route('/authorizecheck')
-def authorize():
+def authorizeCheck():
     print("in auth")
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
@@ -106,7 +106,7 @@ def authorize():
 
 
 @g_oauth.route('/authorizeservice')
-def authorize():
+def authorizeService():
     print("in auth")
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
