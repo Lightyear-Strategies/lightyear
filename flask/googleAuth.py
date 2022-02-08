@@ -75,7 +75,7 @@ def serviceBuilder():
     return service
 
 
-@g_oauth.route('/authorizecheck')
+@g_oauth.route('/authorizeCheck')
 def authorizeCheck():
     print("in auth")
 
@@ -105,7 +105,7 @@ def authorizeCheck():
     return redirect(authorization_url)
 
 
-@g_oauth.route('/authorizeservice')
+@g_oauth.route('/authorizeService')
 def authorizeService():
     print("in auth")
 
@@ -134,6 +134,7 @@ def oauth2callback():
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = flask.request.url
+    print(authorization_response)
     flow.fetch_token(authorization_response=authorization_response)
 
     # Store credentials in the session.
@@ -146,13 +147,13 @@ def oauth2callback():
 
     return
 
-@g_oauth.route('/oauth2callbackcheck')
+@g_oauth.route('/oauth2callbackCheck')
 def oauth2callbackCheck():
     oauth2callback()
     flash('Authorized')
     return redirect('/')
 
-@g_oauth.route('/oauth2callbackservice')
+@g_oauth.route('/oauth2callbackService')
 def oauth2callbackService():
     oauth2callback()
     return serviceBuilder()
