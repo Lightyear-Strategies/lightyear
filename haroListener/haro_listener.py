@@ -100,9 +100,9 @@ class HaroListener():
             print(f"An error occurred: {error}")
             print("NO HARO FOUND")
 
-    # @params: None
+    # @params: Save — whether or not to save the HARO object to a file
     # @return: None
-    def listen(self):
+    def listen(self, save : bool = False, save_dir : str = None, save_name : str = None):
         """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
@@ -124,7 +124,22 @@ class HaroListener():
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
             # TODO need to find a way to port this somewhere, maybe dump to json
-            self.haros_to_json([self.__find_recent_haro()])
+            pull = self.find_haro_from()
+            recent_haro = pull[0]
+            """
+            CHANGES WERE MADE HERE
+            Suggestion: 
+            
+            —Since HARO emails do not arrive within the same time all the time
+            It's reasonable to push all the checks by 60-90 minutes. This way,
+            We'll be sure to catch the most rectnt HARO email.
+            """
+            if(save):
+                recent_haro.save_dataframe(save_dir, save_name)
+            else:
+                recent_haro.get_dataframe()
+
+
             # to ensure time_now updates correctly
             time.sleep(60)
 
@@ -220,12 +235,6 @@ class HaroListener():
 
 
 if __name__ == '__main__':
-    # TODO can write to output file, or use with Chris's parser
     listener = HaroListener('liam@lightyearstrategies.com', False)
-    test = listener.find_haro_from("2021-12-24")
-    #print(test)
-    df_save = pd.DataFrame()
-    for haro in test:
-        df_save = df_save.append(haro.get_dataframe())
-    df_save = df_save.reset_index(drop=True)
-    df_save.to_csv('haro_jsons/HARO_test.csv')
+    test = listener.find_haro_from()
+
