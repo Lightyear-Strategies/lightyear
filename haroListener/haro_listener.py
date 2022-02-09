@@ -29,24 +29,26 @@ class HaroListener():
         self.email = email
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
-        self.creds = self.__auth()
         self.save_dir = 'haro_jsons/'
+        self.token_path = 'config/token.pickle'
+        self.creds_path = 'config/client.json'
+        self.creds = self.__auth()
 
     # @params = none
     # @return credentials: a set of google api credentials
     def __auth(self):
         creds = None
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
+        if os.path.exists(self.token_path):
+            with open(self.token_path, 'rb') as token:
                 creds = pickle.load(token)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'client.json', self.scopes)
+                    self.creds_path, self.scopes)
                 creds = flow.run_local_server(port=0)
-            with open('token.pickle', 'wb') as token:
+            with open(self.token_path, 'wb') as token:
                 pickle.dump(creds, token)
 
         service = build('gmail', 'v1', credentials=creds)
@@ -106,9 +108,9 @@ class HaroListener():
         """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
-        morning_haro = datetime.time(hour=5, minute=40, second=0, tzinfo=est_tz)
-        afternoon_haro = datetime.time(hour=12, minute=40, second=0, tzinfo=est_tz)
-        night_haro = datetime.time(hour=17, minute=40, second=0, tzinfo=est_tz)
+        morning_haro = datetime.time(hour=6, minute=0, second=0, tzinfo=est_tz)
+        afternoon_haro = datetime.time(hour=13, minute=0, second=0, tzinfo=est_tz)
+        night_haro = datetime.time(hour=18, minute=0, second=0, tzinfo=est_tz)
 
         while True:
             time_now = datetime.datetime.now(est_tz)
@@ -126,14 +128,6 @@ class HaroListener():
             # TODO need to find a way to port this somewhere, maybe dump to json
             pull = self.find_haro_from()
             recent_haro = pull[0]
-            """
-            CHANGES WERE MADE HERE
-            Suggestion: 
-            
-            —Since HARO emails do not arrive within the same time all the time
-            It's reasonable to push all the checks by 60-90 minutes. This way,
-            We'll be sure to catch the most rectnt HARO email.
-            """
             if(save):
                 recent_haro.save_dataframe(save_dir, save_name)
             else:
@@ -235,6 +229,6 @@ class HaroListener():
 
 
 if __name__ == '__main__':
-    listener = HaroListener('liam@lightyearstrategies.com', False)
-    test = listener.find_haro_from()
+    listener = HaroListener('george@lightyearstrategies.com', False)
+    listener.listen()
 
