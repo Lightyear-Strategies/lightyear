@@ -81,7 +81,6 @@ class emailValidation:
         return response.json()['status']
 
     def validation(self, save=False, stats=False, record_removed=False):
-        self.__remove_duplicates()
         data = self.df
         length = len(data)
         removed = 0
@@ -108,13 +107,16 @@ class emailValidation:
         else:
             return self.df
 
-    def __remove_duplicates(self):
-        # Remove duplicates and count the number of duplicates
-        df = self.df
+    def remove_duplicates(self, csv_file, save=False):
+        df = pd.read_csv(csv_file)
+        initial = len(df)
         df.drop_duplicates(subset=['Email(s)'], keep='first', inplace=True)
-        removed = len(df) - len(self.df)
-        self.statistics['Duplicates Removed'] = removed
-        self.df = df
+        removed = initial - len(df)
+        print(removed)
+        if save:
+            df.to_csv(csv_file.split(".")[0]+"final.csv", index=False)
+        else:
+            return df
 
     def to_cvs(self):
         df = self.df
@@ -128,5 +130,7 @@ class emailValidation:
 
 
 if __name__ == '__main__':
-    email = emailValidation(filename="Pulse1.csv")
+    email = emailValidation(filename="rehab.csv")
     email.validation(save=True)
+    print(email.show_stats())
+    email.remove_duplicates(csv_file="rehab_clean.csv", save=True)
