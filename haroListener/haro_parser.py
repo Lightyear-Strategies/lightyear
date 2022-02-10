@@ -118,6 +118,16 @@ class Haro:
     def get_date(self):
         return self.date
 
+    def save_dataframe(self, file_path, file_name):
+        if(file_name[-4:] != ".csv" or file_name[-4:] != ".xlsx"):
+            file_name += ".csv"
+        if(file_path[-1:] != "/"):
+            file_path += "/"
+
+        df = self.get_dataframe()
+        path = file_path+file_name+".csv"
+        df.to_csv(path, index=False)
+
     def __parse_help(self, message):
         row_dict = dict()
         row_dict["Summary"] = message.split("Summary:")[-1].split("\n")[0].replace("\r", "")

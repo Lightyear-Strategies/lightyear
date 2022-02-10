@@ -29,24 +29,27 @@ class HaroListener():
         self.email = email
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
-        self.creds = self.__auth()
         self.save_dir = 'haro_jsons/'
+        self.token_path = 'config/token.pickle'
+        self.creds_path = 'config/client.json'
+        self.creds = self.__auth()
 
     # @params = none
     # @return credentials: a set of google api credentials
     def __auth(self):
         creds = None
-        if os.path.exists('config/token.pickle'):
-            with open('config/token.pickle', 'rb') as token:
+        if os.path.exists(self.token_path):
+            with open(self.token_path, 'rb') as token:
                 creds = pickle.load(token)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'config/credentials.json', self.scopes)
+
+                    self.creds_path, self.scopes)
                 creds = flow.run_local_server(port=0)
-            with open('config/token.pickle', 'wb') as token:
+            with open(self.token_path, 'wb') as token:
                 pickle.dump(creds, token)
 
         service = build('gmail', 'v1', credentials=creds)
@@ -100,15 +103,15 @@ class HaroListener():
             print(f"An error occurred: {error}")
             print("NO HARO FOUND")
 
-    # @params: None
+    # @params: Save — whether or not to save the HARO object to a file
     # @return: None
-    def listen(self):
+    def listen(self, save_dir : str = None, save_name : str = None):
         """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
-        morning_haro = datetime.time(hour=5, minute=40, second=0, tzinfo=est_tz)
-        afternoon_haro = datetime.time(hour=12, minute=40, second=0, tzinfo=est_tz)
-        night_haro = datetime.time(hour=17, minute=40, second=0, tzinfo=est_tz)
+        morning_haro = datetime.time(hour=6, minute=0, second=0, tzinfo=est_tz)
+        afternoon_haro = datetime.time(hour=13, minute=0, second=0, tzinfo=est_tz)
+        night_haro = datetime.time(hour=18, minute=0, second=0, tzinfo=est_tz)
 
         while True:
             time_now = datetime.datetime.now(est_tz)
@@ -124,11 +127,10 @@ class HaroListener():
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
 
-            # write to disk then upload
-
-            haro_obj_df = Haro([self.__find_recent_haro()]).get_dataframe()
-            with open('haro_csvs/MOST_RECENT.csv', 'r+') as recent:
-                haro_obj_df.reset_index(drop=True).to_csv(recent)
+            pull = self.find_haro_from()
+            recent_haro = pull[0]
+            with open(save_dir + '/' + save_name, 'r+') as recent:
+                recent_haro.reset_index(drop=True).to_csv(recent)
                 addDBData(recent)
             
             # to ensure time_now updates correctly
@@ -245,5 +247,6 @@ if __name__ == '__main__':
     # with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
     #    addDBData(old)
     listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen()
+    listener.listen("haro_csvs", "MOST_RECENT.csv")
     
+

@@ -37,6 +37,7 @@ Flask-Bootstrap==3.3.7.1
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.0.0
 gensim==4.1.2
+google==3.0.0
 google-api-core==2.3.2
 google-api-python-client==2.33.0
 google-auth==2.3.3
