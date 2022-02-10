@@ -1,22 +1,18 @@
 ssh_keys
 
-.idea/*
 .idea/
 
-**/.DS_Store
 .DS_Store
 
+__pycache__
 
 emailValidity/PAST
 emailValidity/toCheck
-emailValidity/.DS_Store
-emailValidity/.DS_Store
-emailValidity/__pycache__/emailValidity.cpython-37.pyc
 
 env/*
 
-flask/__pycache__/utils.cpython-37.pyc
-flask/__pycache__/quick.cpython-37.pyc
+.ipynb_checkpoints
+
 flask/erl_crash.dump
 
 
@@ -29,12 +25,9 @@ flask/HarosDB.sqlite3
 haroListener/config/*
 haroListener/haro_jsons/*
 crunchbase/config/*
-crunchbase/__pycache__/*
 crunchbase/crunch_test.ipynb
 linkedinSupport/config/*
-linkedinSupport/.ipynb_checkpoints/*
 linkedinSupport/df_checker.ipynb
-linkedinSupport/__pycache__
 venv
 
 haroListener/token.pickle

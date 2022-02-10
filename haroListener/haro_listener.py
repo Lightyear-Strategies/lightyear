@@ -1,23 +1,23 @@
 """A module for setting up a listener on an email. Listens for HARO emails, returns the body of any HARO emails received"""
 
-from __future__ import print_function
-
 import os
 import datetime
-import base64
 import json
 import time
 import os.path
 import pickle
 import pandas as pd
+import sys
 
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from haro_parser import Haro
+
+sys.path.insert(0, "../flask") # a very very stupid way to import flaskMain
+from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -46,6 +46,7 @@ class HaroListener():
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
+
                     self.creds_path, self.scopes)
                 creds = flow.run_local_server(port=0)
             with open(self.token_path, 'wb') as token:
@@ -104,7 +105,7 @@ class HaroListener():
 
     # @params: Save — whether or not to save the HARO object to a file
     # @return: None
-    def listen(self, save : bool = False, save_dir : str = None, save_name : str = None):
+    def listen(self, save_dir : str = None, save_name : str = None):
         """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
@@ -125,15 +126,13 @@ class HaroListener():
             # find next haro
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
-            # TODO need to find a way to port this somewhere, maybe dump to json
+
             pull = self.find_haro_from()
             recent_haro = pull[0]
-            if(save):
-                recent_haro.save_dataframe(save_dir, save_name)
-            else:
-                recent_haro.get_dataframe()
-
-
+            with open(save_dir + '/' + save_name, 'r+') as recent:
+                recent_haro.reset_index(drop=True).to_csv(recent)
+                addDBData(recent)
+            
             # to ensure time_now updates correctly
             time.sleep(60)
 
@@ -206,7 +205,10 @@ class HaroListener():
     # @params: haros: a list of message objects
     # @return: None
     def haros_to_json(self, haros : list):
-        """A method for dumping a list of HARO email objects to an output json file
+        """
+        ***DEPRECATED***
+        
+        A method for dumping a list of HARO email objects to an output json file
         
         input
         
@@ -226,9 +228,25 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
-
+    def add_old_data(self, data):
+        addDBData(data)
 
 if __name__ == '__main__':
+
+    # THIS CODE IS TO SAVE ALL OLD HAROS
+    # Will not regularly be used once the listener is up and running
+
+    # listener = HaroListener('george@lightyearstrategies.com', False)
+    # test = listener.find_haro_from("2021-11-01")
+    # #print(test)
+    # df_save = pd.DataFrame()
+    # for haro in test:
+    #     df_save = df_save.append(haro.get_dataframe())
+    # df_save = df_save.reset_index(drop=True)
+    # df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
+    # with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
+    #    addDBData(old)
     listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen()
+    listener.listen("haro_csvs", "MOST_RECENT.csv")
+    
 
