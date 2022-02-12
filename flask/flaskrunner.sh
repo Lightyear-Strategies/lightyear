@@ -1,3 +1,4 @@
+ps auxww | grep '[c]elery worker' | awk '{print $2}' | xargs kill
 cd /home/ubuntu
 source lysenv1/bin/activate
 cd lightyear/flask
