@@ -17,13 +17,9 @@ import time
 from config import *
 from utils import * # imports Celery, timethis
 
-sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
-sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
-import emailValidity
+sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailAPIvalid.py
 import emailAPIvalid
-
 import emailRep
-
 from googleAuth import g_oauth, authCheck
 
 
