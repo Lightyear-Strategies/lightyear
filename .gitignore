@@ -1,10 +1,13 @@
 ssh_keys
 
+.idea
+=======
 .idea/
 
 .DS_Store
 
 __pycache__
+
 
 emailValidity/PAST
 emailValidity/toCheck
@@ -20,6 +23,9 @@ flask/erl_crash.dump
 flask/client.json
 flask/token.pickle
 flask/HarosDB.sqlite3
+flask/aws_access.txt
+flask/aws_secret.txt
+flask/flask_secret.txt
 
 
 haroListener/config/*
