@@ -195,7 +195,7 @@ def validation():
 
                 # Celery
                 # parse,remove file, send updated file
-                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, extension, filename)
+                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, filename)
 
             return redirect("/")
         else:
