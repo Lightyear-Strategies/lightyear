@@ -1,21 +1,17 @@
 
-.idea/*
-.idea/
+.idea
 
-**/.DS_Store
 .DS_Store
 
+__pycache__
+
+.ipynb_checkpoints
 
 emailValidity/PAST
 emailValidity/toCheck
-emailValidity/.DS_Store
-emailValidity/.DS_Store
-emailValidity/__pycache__/emailValidity.cpython-37.pyc
 
 env/*
 
-flask/__pycache__/utils.cpython-37.pyc
-flask/__pycache__/quick.cpython-37.pyc
 flask/erl_crash.dump
 
 
@@ -23,17 +19,17 @@ flask/erl_crash.dump
 flask/client.json
 flask/token.pickle
 flask/HarosDB.sqlite3
+flask/aws_access.txt
+flask/aws_secret.txt
+flask/flask_secret.txt
 
 
 haroListener/config/*
 haroListener/haro_jsons/*
 crunchbase/config/*
-crunchbase/__pycache__/*
 crunchbase/crunch_test.ipynb
 linkedinSupport/config/*
-linkedinSupport/.ipynb_checkpoints/*
 linkedinSupport/df_checker.ipynb
-linkedinSupport/__pycache__
 venv
 
 haroListener/token.pickle
