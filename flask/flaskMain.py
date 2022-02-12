@@ -9,8 +9,6 @@ from wtforms.validators import DataRequired, Email
 from flask_wtf.file import FileField, FileAllowed
 from flask_sqlalchemy import SQLAlchemy
 
-import threading
-
 import pandas as pd
 import os
 import sys
@@ -18,7 +16,6 @@ import time
 
 from config import *
 from utils import * # imports Celery, timethis
-#import emailReport
 
 sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
 sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
@@ -60,15 +57,23 @@ db.create_all()
 
 ###################### Classes ######################
 
-#class for the email file upload form
 class uploadEmailFilesForm(FlaskForm):
+    """
+    Constructor for the Email Verification Form
+    """
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
+
+#@param:    csv file with parsed haros
+#@return:   None
 def addDBData(file):
+    """
+    Adds data to SQLite DB
+    """
     # Read file into dataframe
     csv_data = pd.read_csv(file.name)
 
@@ -81,13 +86,23 @@ def addDBData(file):
     # Load data to database
     csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
 
+#@param:    None
+#@return:   Haros table
 @app.route('/haros')
 def serveTable():
+    """
+    Brings to the table with Haros
+    """
     return render_template('haroTableView.html', title='LyS Haros Database')
 
-#sorting table contents
+#@param:    None
+#@return:   table entries
 @app.route('/api/serveHaros')
 def data():
+    """
+    Sorts the table, returns searched data
+    """
+
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     #print(Haros.columns)
     query = db.session.query(Haros) #.all()
@@ -149,8 +164,15 @@ def data():
         'draw': request.args.get('draw', type=int),
     }
 
+#@param:    None
+#@return:   Email Verification Page
 @app.route('/', methods=['GET','POST'])
 def validation():
+    """
+    Gets information from the form, extracts files.
+    Sends files to Celery via SQS broken for background email verification.
+    Redirects to authentication if bot is not logged in
+    """
     email = None
     files = None
     form = uploadEmailFilesForm()
@@ -185,16 +207,29 @@ def validation():
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
-
+#@param:    path to file with emails
+#@param:    recipients of processed file
+#@param:    filename
+#@return:   None
 @celery.task(name='flaskMain.parseSendEmail')
-def parseSendEmail(path, recipients=None, extension="csv", filename=None):
+def parseSendEmail(path, recipients=None, filename=None):
+    """
+    Celery handler.
+    """
     with app.app_context():
-        emailVerify(path, recipients, extension)
+        emailVerify(path, recipients)
 
         # remove the file
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-def emailVerify(path, recipients=None, extension="csv",service=None):
+#@param:    path to file with emails
+#@param:    recipients of processed file
+#@return:   None
+def emailVerify(path, recipients=None):
+    """
+    Uses functions from emailAPIvalid to verify emails.
+    Creates email with processed file and sends it.
+    """
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
 
@@ -210,7 +245,3 @@ def page_not_found(e):
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80,debug=True)
 
-    # for figuring google aouth
-    #report = emailRep.report("george@lightyearstrategies.com", 'aleksei@lightyearstrategies.com',
-    #                            "Verified Emails in file", "Here is your file", '/home/ubuntu/lightyear/flask/uploadFolder/test1.csv', "me")
-    #report.sendMessage()
