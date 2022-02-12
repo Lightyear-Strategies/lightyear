@@ -3,7 +3,6 @@ import validate_email
 import pandas as pd
 import os
 
-
 class emailValidation:
 	# Constructor
 	# @param: filename — path, type — csv/xlsx, multi — multi-threading for faster processing
@@ -55,7 +54,6 @@ class emailValidation:
 		if data is None:
 			data = self.df
 		total = len(data)
-		#print(data["email"])
 		for i in range(0, len(data["Email(s)"])):
 			currLength = len(data["Email(s)"])
 			if self.debug:
@@ -89,6 +87,7 @@ class emailValidation:
 	def multiprocess(self):
 		# split dataframe into 4 parts with new index
 		initial = len(self.df)
+
 		df1 = self.df.iloc[0:initial//4]
 		df2 = self.df.iloc[initial//4:initial//2]
 		df3 = self.df.iloc[initial//2:initial*3//4]
@@ -112,6 +111,7 @@ class emailValidation:
 		t3.start()
 		t4.start()
 
+
 		# join threads
 		t1.join()
 		print("********************************************************")
@@ -132,6 +132,7 @@ class emailValidation:
 
 		# combine dataframes
 		df = pd.concat([df1, df2, df3, df4])
+
 		df.index = range(0, len(df))
 		print("Initial length: ", initial)
 		print("Final length: ", len(df))
@@ -146,7 +147,7 @@ class emailValidation:
 			self.multiprocess()
 		else:
 			self.checkTheMail()
-
+		#print('Checked before saving')
 		if save:
 			filename = os.path.basename(self.filename)
 			if inplace:

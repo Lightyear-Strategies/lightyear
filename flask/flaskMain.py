@@ -12,28 +12,42 @@ from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
 import os
 import sys
+import time
 
+from config import *
 from utils import * # imports Celery, timethis
-import emailReport
 
-sys.path.insert(0, "../emailValidity") # to import emailValidity.py
+sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailValidity.py
+sys.path.insert(0, EMAIL_VALIDITY_DIR2) #"../emailValidity") # to import emailAPIvalid.py
 import emailValidity
+import emailAPIvalid
+
+import emailRep
+
+from googleAuth import g_oauth, authCheck
 
 
 ###################### Flask ######################
 
 app = Flask(__name__,template_folder='HTML')
-app.secret_key = "super secret key" #used in upload forms ?
+app.register_blueprint(g_oauth)
 
-uploadFolder = '../flask/uploadFolder'
-os.makedirs(uploadFolder,exist_ok=True)
-app.config['UPLOAD_FOLDER'] = uploadFolder
+app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
 
-app.config['CELERY_BROKER_URL'] = 'https://sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'
-    #'amqp://guest:guest@localhost:5672/'  # rabbitMQ for Celery
+os.makedirs(UPLOAD_DIR,exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'HarosDB.sqlite3')
+from kombu.utils.url import quote
+app.config['CELERY_BROKER_URL'] = \
+    'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'.format(
+                                    AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
+                                    AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
+                                    )
+app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
+
+                                #'amqp://guest:guest@localhost:5672/'  # local rabbitMQ for Celery
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 celery = make_celery(app)
@@ -43,15 +57,23 @@ db.create_all()
 
 ###################### Classes ######################
 
-#class for the email file upload form
 class uploadEmailFilesForm(FlaskForm):
+    """
+    Constructor for the Email Verification Form
+    """
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 ###################### Functions ######################
+
+#@param:    csv file with parsed haros
+#@return:   None
 def addDBData(file):
+    """
+    Adds data to SQLite DB
+    """
     # Read file into dataframe
     csv_data = pd.read_csv(file.name)
 
@@ -64,13 +86,23 @@ def addDBData(file):
     # Load data to database
     csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
 
+#@param:    None
+#@return:   Haros table
 @app.route('/haros')
 def serveTable():
+    """
+    Brings to the table with Haros
+    """
     return render_template('haroTableView.html', title='LyS Haros Database')
 
-#sorting table contents
+#@param:    None
+#@return:   table entries
 @app.route('/api/serveHaros')
 def data():
+    """
+    Sorts the table, returns searched data
+    """
+
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     #print(Haros.columns)
     query = db.session.query(Haros) #.all()
@@ -132,8 +164,15 @@ def data():
         'draw': request.args.get('draw', type=int),
     }
 
+#@param:    None
+#@return:   Email Verification Page
 @app.route('/', methods=['GET','POST'])
 def validation():
+    """
+    Gets information from the form, extracts files.
+    Sends files to Celery via SQS broken for background email verification.
+    Redirects to authentication if bot is not logged in
+    """
     email = None
     files = None
     form = uploadEmailFilesForm()
@@ -142,6 +181,9 @@ def validation():
         email = form.email.data
         files = request.files.getlist(form.files.name)
         form.email.data = ''
+
+        if not authCheck():
+            return redirect('/authorizeCheck')
 
         if files:
             for file in files:
@@ -165,21 +207,34 @@ def validation():
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
-
+#@param:    path to file with emails
+#@param:    recipients of processed file
+#@param:    filename
+#@return:   None
 @celery.task(name='flaskMain.parseSendEmail')
-def parseSendEmail(path, recipients=None, extension="csv", filename=None):
+def parseSendEmail(path, recipients=None, filename=None):
+    """
+    Celery handler.
+    """
     with app.app_context():
-        emailVerify(path, recipients, extension)
+        emailVerify(path, recipients)
 
         # remove the file
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-def emailVerify(path, recipients=None, extension="csv"):
-    valid = emailValidity.emailValidation(filename=path,type=extension, debug=Flase, multi=True)
-    valid.check(save=True, inplace=True)
-    subjectLine = os.path.basename(path)
+#@param:    path to file with emails
+#@param:    recipients of processed file
+#@return:   None
+def emailVerify(path, recipients=None):
+    """
+    Uses functions from emailAPIvalid to verify emails.
+    Creates email with processed file and sends it.
+    """
+    email = emailAPIvalid.emailValidation(filename=path)
+    email.validation(save=True)
 
-    report = emailReport.report("aleksei@lightyearstrategies.com", recipients,
+    subjectLine = os.path.basename(path)
+    report = emailRep.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
     report.sendMessage()
 
@@ -188,5 +243,5 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80,debug=True)
+

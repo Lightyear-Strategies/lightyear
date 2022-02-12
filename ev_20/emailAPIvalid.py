@@ -4,6 +4,10 @@ import pandas as pd
 import os
 import json
 
+EV_DIR = os.path.abspath(os.path.dirname(__file__))
+LIGHTYEAR_DIR = os.path.dirname(EV_DIR)
+saveLocation = LIGHTYEAR_DIR + '/flask/uploadFolder/'
+
 
 class emailValidation:
     def __init__(self, filename=None, key=None):
@@ -86,6 +90,7 @@ class emailValidation:
         removed = 0
 
         for i in range(length):
+
             percent = round((i / length) * 100,2)
             print(str(i) + '/' + str(length) + ' ' + str(percent) + '%')
             if self.check(data["Email(s)"][i]) == 'invalid':
@@ -103,9 +108,21 @@ class emailValidation:
         if stats:
             print(self.show_stats())
         if save:
-            self.to_cvs()
+            self.to_cvs(inplace)
         else:
             return self.df
+
+
+    def to_cvs(self, inplace=False):
+        filename = os.path.basename(self.filename)
+
+        # saveLocation is declared above
+        if inplace:
+            filename = saveLocation + filename
+        else:
+            filename = saveLocation + filename.split(".")[-2] + "_clean.csv"
+
+        self.df.to_csv(filename, index=False)
 
     def remove_duplicates(self, csv_file, save=False):
         df = pd.read_csv(csv_file)
@@ -117,10 +134,6 @@ class emailValidation:
             df.to_csv(csv_file.split(".")[0]+"final.csv", index=False)
         else:
             return df
-
-    def to_cvs(self):
-        df = self.df
-        df.to_csv(self.filename.split(".")[0] + "_clean.csv", index=False)
 
     def show_stats(self):
         return self.statistics

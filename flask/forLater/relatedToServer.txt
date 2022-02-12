@@ -32,3 +32,17 @@ https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
 
 7. That’s it. Python 3.8 has been installed and ready to be used. Verify it by typing:
     python3.8 --version
+
+
+
+Solving issue of
+
+ ```
+ The conflict is caused by:
+    celery[sqs] 5.2.3 depends on kombu<6.0 and >=5.2.3
+    celery 5.2.3 depends on kombu<6.0 and >=5.2.3
+    kombu[sqs] 4.6.11 depends on kombu 4.6.11 (Installed)
+    kombu[sqs] 5.2.3 depends on pycurl~=7.44.1; extra == "sqs"
+ ```
+
+ by installing: sudo apt install libcurl4-openssl-dev libssl-dev
