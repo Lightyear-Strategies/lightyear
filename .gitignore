@@ -1,16 +1,20 @@
+ssh_keys
 
 .idea
+=======
+.idea/
 
 .DS_Store
 
 __pycache__
 
-.ipynb_checkpoints
 
 emailValidity/PAST
 emailValidity/toCheck
 
 env/*
+
+.ipynb_checkpoints
 
 flask/erl_crash.dump
 
@@ -42,3 +46,6 @@ haroListener/test.csv
 flask/test.csv
 ev_20/key.json
 flask/key.json
+*.csv
+*.pyc
+*.csv

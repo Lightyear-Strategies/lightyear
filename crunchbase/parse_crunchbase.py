@@ -46,7 +46,7 @@ class CrunchParse():
         time.sleep(5)
 
 
-    def add_option(self, option : str):
+    def add_option(self, option : str, call : int):
         """
         a method to add an option to the query builder on crunchbase. MUST be run AFTER login()
         
@@ -54,13 +54,20 @@ class CrunchParse():
         
         option : string representing the name of the option you want to add
         """
-        self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/query-item-add/div/button')
-        time.sleep(3)
-        mini_window = self.driver.find_element_by_xpath('/html/body/div[5]/div[2]/div/mat-dialog-container/query-item-drill-panel/div/dialog-layout/div/mat-dialog-content/div/div/div[1]/div/div/panel-search-input/mat-form-field/div/div[1]/div[4]/input"]')
+        if call == 1:
+            self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/query-item-add/div/button').click()
+        else:
+            self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div/query-item/div/predicate/div/div[1]/query-item-add/div/button').click()
+        time.sleep(3.03924857)
+        if call == 1:
+            mini_window = self.driver.find_element_by_xpath('//*[@id="mat-input-1"]')
+        else:
+            mini_window = self.driver.find_element_by_xpath('//*[@id="mat-input-3"]')
+        #mini_window = self.driver.find_element_by_xpath('/html/body/div[5]/div[2]/div/mat-dialog-container/query-item-drill-panel/div/dialog-layout/div/mat-dialog-content/div/div/div[1]/div/div/panel-search-input/mat-form-field/div/div[1]/div[4]/input')
         mini_window.send_keys(option)
-        time.sleep(0.54)
+        time.sleep(3.3482304897)
         mini_window.send_keys(Keys.ENTER)
-        time.sleep(3)
+        time.sleep(5.834265983)
             
     def add_anounced_date(self, date : str):
         """
@@ -82,8 +89,9 @@ class CrunchParse():
         location: a string representing the location
         """
         self.driver.find_element_by_xpath('/html/body/chrome/div/mat-sidenav-container/mat-sidenav-content/div/search/page-layout/div/div/form/div[1]/div/filters/div/div/div[2]/query-item/div/predicate/div/div[2]/values/div/search-identifier/div/multi-entity-input/div/entity-input/mat-form-field/div/div[1]/div[2]/input').send_keys(location)
-        time.sleep(1.454)
-        self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/mat-option[1]').click()
+        time.sleep(4.454)
+        self.driver.find_element_by_xpath('/html/body/div[6]/div/div/div/mat-option[1]')
+        #self.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/mat-option[1]').click()
         time.sleep(3)
 
     def not_in_location_option(self):
@@ -111,7 +119,7 @@ class CrunchParse():
 
     def grab_table(self):
         """
-        a method to grab the table and export as DF
+        a method to grab the table and export as html source string
         
         input
         
@@ -167,6 +175,8 @@ class CrunchParse():
                 else:
                     row_info.append(cell_string)
             info.append(row_info)
+        if self.debug:
+            print('\n\n', info, '\n\n')
         df = pd.DataFrame(info, columns=['transaction_name', 'organization_name', 'funding_type', 'money_raised', 'announced_date', 'industry_tags', 'website_url', 'location_tags', 'total_funding_amount', 'crunchbase_rank', 'estimated_revenue', 'number_of_funding_rounds', 'funding_status', 'funding_stage', 'pre_money_valuation'])
         return df
 
@@ -182,8 +192,18 @@ class CrunchParse():
         
 
 if __name__ == "__main__":
-    pass
-
+    parser = CrunchParse("sdjklf", "slkdfj")
+    parser.driver.get("https://www.crunchbase.com/search/funding_rounds")
+    time.sleep(10.1239)
+    parser.add_option('announced date', 1)
+    parser.add_anounced_date("1/24/2021")
+    parser.add_option("location", 2)
+    parser.add_location("United States")
+    parser.click_search_button()
+    source_html = parser.grab_table()
+    rm, cm, ffm, im = parser.compile_regex()
+    df = parser.parse_table(source_html, rm, cm, ffm, im)
+    print(df)
 
 
 
