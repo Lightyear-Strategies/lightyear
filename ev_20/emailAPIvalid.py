@@ -90,7 +90,6 @@ class emailValidation:
         removed = 0
 
         for i in range(length):
-
             percent = round((i / length) * 100,2)
             print(str(i) + '/' + str(length) + ' ' + str(percent) + '%')
             if self.check(data["Email(s)"][i]) == 'invalid':
@@ -108,7 +107,7 @@ class emailValidation:
         if stats:
             print(self.show_stats())
         if save:
-            self.to_cvs(inplace)
+            self.to_cvs()
         else:
             return self.df
 
@@ -129,7 +128,7 @@ class emailValidation:
         initial = len(df)
         df.drop_duplicates(subset=['Email(s)'], keep='first', inplace=True)
         removed = initial - len(df)
-        print(removed)
+        #print(removed)
         if save:
             df.to_csv(csv_file.split(".")[0]+"final.csv", index=False)
         else:
