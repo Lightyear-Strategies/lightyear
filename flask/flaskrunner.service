@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User=ubuntu
 WorkingDirectory=/home/ubuntu/lightyear/flask
-ExecStartPre=/usr/local/bin/celery -A flaskMain.celery worker -l INFO
+ExecStartPre=/home/ubuntu/lightyear/venv/bin/celery -A flaskMain.celery worker -l INFO
 ExecStart=/home/ubuntu/lightyear/venv/bin/gunicorn --bind 0.0.0.0:80 -w 2 wsgi:app
 Restart=always
 
