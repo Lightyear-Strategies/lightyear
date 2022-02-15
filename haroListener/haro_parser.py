@@ -2,6 +2,9 @@ import json
 import os
 import base64
 import pandas as pd
+import sys
+sys.path.insert(0,'../muckRack')
+import google_muckrack as mc
 
 """"
 Haro class
@@ -143,11 +146,24 @@ class Haro:
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "")
         self.df = self.df.append(row_dict, ignore_index=True)
 
+    def parse_MC(self):
+        df = self.df
+        muckrack = mc.google_muckrack(df, "Name")
+        result = muckrack.get_dataframe()
+        print(result)
+
+
+
+
+
+
 
 if __name__ == "__main__":
     test = Haro()
     test.load_json_file("haro_jsons/test.json")
+    test.parse_MC()
 
     #save the dataframe
+
     test.save_dataframe("haro_jsons", "test")
 
