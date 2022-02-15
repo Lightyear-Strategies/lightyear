@@ -5,7 +5,7 @@ source venv/bin/activate
 echo "sourced venv"
 
 if pgrep -f 'celery worker' 2>/dev/null; then
-  echo "Terminating process_name"
+  echo "terminating celery worker "
   pkill -9 -f 'celery worker'
   echo "terminated celery worker"
 fi
