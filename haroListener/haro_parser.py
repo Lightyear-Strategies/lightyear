@@ -135,7 +135,9 @@ class Haro:
         row_dict["Category"] = message.split("Category:")[-1].split("\n")[0].replace("\r", "")
         row_dict["Email"] = message.split("Email:")[-1].split("\n")[0].replace("\r", "")
         row_dict["Media Outlet"] = message.split("Media Outlet:")[-1].split("\n")[0].replace("\r", "")
+        row_dict["Deadline"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "")
         row_dict["Date"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[1].strip()
+        row_dict["Date"] = row_dict["Date"].split(" ")[1] + " " + row_dict["Date"].split(" ")[0]
         row_dict["Time"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[0].strip()
         row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "")
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "")
