@@ -4,6 +4,7 @@ import base64
 import pandas as pd
 import sys
 import muckRack.google_muckrack as mc
+from datetime import datetime
 
 """"
 Haro class
@@ -32,6 +33,9 @@ class Haro:
 
         if self.json_string is not None:
             self.__main_checks()
+
+        self.received = None
+        self.edition = None
 
     def __str__(self):
         print_statement = "Haro instance\n"
@@ -120,6 +124,12 @@ class Haro:
     def get_date(self):
         return self.date
 
+    def format_date(self):
+        temp = self.date.split(" ")[1:4]
+        temp = temp[1] + " " + temp[0] + " " + temp[2]
+        temp = datetime.strptime(temp, "%b %d %Y")
+        self.received = temp.strftime("%Y-%m-%d")
+
     def save_dataframe(self, file_path, file_name):
         if(file_name[-4:] != ".csv" or file_name[-4:] != ".xlsx"):
             file_name += ".csv"
@@ -132,24 +142,26 @@ class Haro:
 
     def __parse_help(self, message):
         row_dict = dict()
-        row_dict["Summary"] = message.split("Summary:")[-1].split("\n")[0].replace("\r", "")
-        row_dict["Name"] = message.split("Name:")[-1].split("\n")[0].replace("\r", "")
-        row_dict["Category"] = message.split("Category:")[-1].split("\n")[0].replace("\r", "")
-        row_dict["Email"] = message.split("Email:")[-1].split("\n")[0].replace("\r", "")
-        row_dict["Media Outlet"] = message.split("Media Outlet:")[-1].split("\n")[0].replace("\r", "")
-        row_dict["Deadline"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "")
+        self.format_date()
+        row_dict["Summary"] = message.split("Summary:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["Name"] = message.split("Name:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["Category"] = message.split("Category:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["Email"] = message.split("Email:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["Media Outlet"] = message.split("Media Outlet:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["Deadline"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["Date"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[1].strip()
-        row_dict["Date"] = row_dict["Date"].split(" ")[1] + " " + row_dict["Date"].split(" ")[0]
+        row_dict["Date"] = row_dict["Date"].split(" ")[1] + " " + row_dict["Date"].split(" ")[0].strip()
         row_dict["Time"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[0].strip()
-        row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "")
-        row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "")
+        row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "").strip()
+        row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()
+        row_dict["Date Received"] = self.received
+        row_dict["Edition"] = ' '.join(self.subject.split(" ")[1:-1])
         self.df = self.df.append(row_dict, ignore_index=True)
 
     def parse_MC(self):
         df = self.df
         muckrack = mc.google_muckrack(df, "Name")
         result = muckrack.get_dataframe()
-        print(result)
 
 
 
@@ -160,9 +172,5 @@ class Haro:
 if __name__ == "__main__":
     test = Haro()
     test.load_json_file("haro_jsons/test.json")
-    #test.parse_MC()
 
-    #save the dataframe
-
-    test.save_dataframe("haro_jsons", "test")
 
