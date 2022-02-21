@@ -109,7 +109,7 @@ def data():
     if search:
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
-            Haros.columns.Date.like(f'%{search}%'), #Deadline --> Date
+            Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
             Haros.columns.Summary.like(f'%{search}%'),
             Haros.columns.Email.like(f'%{search}%'),
             Haros.columns.MediaOutlet.like(f'%{search}%'),
@@ -128,7 +128,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','Date','MediaOutlet']:
+        if col_name not in ['Category','Deadline','MediaOutlet']:
             col_name = 'Category'
 
         # gets descending sorting
