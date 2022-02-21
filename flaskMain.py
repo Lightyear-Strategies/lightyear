@@ -17,7 +17,6 @@ import time
 from flask_app.config import *
 from flask_app.utils import * # imports Celery, timethis
 
-#sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailAPIvalid.py
 import ev_20.emailAPIvalid
 import flask_app.emailRep
 from flask_app.googleAuth import g_oauth, authCheck
@@ -71,7 +70,7 @@ def addDBData(file):
     Adds data to SQLite DB
     """
     # Read file into dataframe
-    csv_data = pd.read_csv(file.name)
+    csv_data = pd.read_csv(file)
 
     # Removing white space in headers
     csv_data.columns = csv_data.columns.str.replace(' ', '')
@@ -93,7 +92,7 @@ def serveTable():
 
 #@param:    None
 #@return:   table entries
-@app.route('/api/serveHaros')
+@app.route('/api/serveHaros', methods=['GET', 'POST'])
 def data():
     """
     Sorts the table, returns searched data
@@ -104,12 +103,25 @@ def data():
     query = db.session.query(Haros) #.all()
     #print(query)
 
+    # fresh
+    if request.method == "POST":
+        fresh = request.values.get('fresh')
+        print(fresh)
+
+    # show from a certain date
+    #if fresh:
+        # get current date
+        # substract 3 days
+        # filter the query
+        #query.
+
     # search filter
     search = request.args.get('search[value]')
     if search:
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
-            Haros.columns.Date.like(f'%{search}%'), #Deadline --> Date
+            Haros.columns.Date.like(f'%{search}%'),
+            Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
             Haros.columns.Summary.like(f'%{search}%'),
             Haros.columns.Email.like(f'%{search}%'),
             Haros.columns.MediaOutlet.like(f'%{search}%'),
@@ -128,7 +140,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','Date','MediaOutlet']:
+        if col_name not in ['Category','Date','MediaOutlet','Deadline']:
             col_name = 'Category'
 
         # gets descending sorting
@@ -239,5 +251,6 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
+    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
     app.run(host='0.0.0.0', port=80,debug=True)
 

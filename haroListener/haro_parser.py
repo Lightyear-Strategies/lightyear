@@ -160,7 +160,7 @@ class Haro:
 if __name__ == "__main__":
     test = Haro()
     test.load_json_file("haro_jsons/test.json")
-    test.parse_MC()
+    #test.parse_MC()
 
     #save the dataframe
 

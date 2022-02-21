@@ -41,6 +41,10 @@ function format ( d ) {
             '<td>Requirements:</td>'+
             '<td>'+d.Requirements+'</td>'+
         '</tr>'+
+        '<tr>'+
+            '<td>DeadLine:</td>'+
+            '<td>'+d.DeadLine+'</td>'+
+        '</tr>'+
     '</table>';
 }
     $(document).ready(function () {
@@ -59,6 +63,19 @@ function format ( d ) {
           {data: 'Category'},
           {data: 'Date'}
         ],
+        // adding Fresh button
+        dom: 'Bfrtip',
+        buttons: [{
+                text: 'Fresh',
+                action: function ( e, dt, node, config ) {
+                    $.ajax({
+                      url: '/api/serveHaros',
+                      type: 'POST',
+                      dataType: "json",
+                      data : {"fresh": "fresh"}
+                    });
+                }
+            }]
       });
 
       // Switching with left and right keyboard buttons
@@ -72,7 +89,6 @@ function format ( d ) {
           $( "#data_next" ).click();
         }
       })
-
     });
 
     // Add event listener for opening and closing details
@@ -92,6 +108,7 @@ function format ( d ) {
             row.child( format(row.data()) ).show();
         }
     } );
+
 
   </script>
 {% endblock %}

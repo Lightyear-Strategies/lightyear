@@ -16,7 +16,7 @@ from googleapiclient.errors import HttpError
 
 from haro_parser import Haro
 
-sys.path.insert(0, "../flask") # a very very stupid way to import flaskMain
+sys.path.append('..')
 from flaskMain import addDBData
 
 class HaroListener():
@@ -30,8 +30,8 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = 'haro_jsons/'
-        self.token_path = 'config/token.pickle'
-        self.creds_path = 'config/client.json'
+        self.token_path = 'token.pickle'
+        self.creds_path = 'client.json'
         self.creds = self.__auth()
 
     # @params = none
@@ -139,7 +139,7 @@ class HaroListener():
     # @params: from_date: a string in "yyyy-mm-dd" format
     # @return: a list of json-like dict objects representing HARO emails from `from_date` to current date.
     def find_haro_from(self, from_date : str = None):
-        """finds and returns a list of message objects for every HARO email from from_date til now. returns only most recent HARO when from_date = None
+        """finds and returns a list of message objects for every HARO email from from_date till now. returns only most recent HARO when from_date = None
 
         input
         from_date: string date in format yyyy-mm-dd"""
@@ -236,17 +236,17 @@ if __name__ == '__main__':
     # THIS CODE IS TO SAVE ALL OLD HAROS
     # Will not regularly be used once the listener is up and running
 
-    # listener = HaroListener('george@lightyearstrategies.com', False)
-    # test = listener.find_haro_from("2021-11-01")
-    # #print(test)
-    # df_save = pd.DataFrame()
-    # for haro in test:
-    #     df_save = df_save.append(haro.get_dataframe())
-    # df_save = df_save.reset_index(drop=True)
-    # df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
-    # with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
-    #    addDBData(old)
-    listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen("haro_csvs", "MOST_RECENT.csv")
+     listener = HaroListener('george@lightyearstrategies.com', True)
+     test = listener.find_haro_from("2022-02-19")
+     #print(test)
+     df_save = pd.DataFrame()
+     for haro in test:
+         df_save = df_save.append(haro.get_dataframe())
+     df_save = df_save.reset_index(drop=True)
+     df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
+     #with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
+     #   addDBData(old)
+    #listener = HaroListener('george@lightyearstrategies.com', False)
+    #listener.listen("haro_csvs", "MOST_RECENT.csv")
     
 
