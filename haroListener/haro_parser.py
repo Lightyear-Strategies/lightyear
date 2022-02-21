@@ -3,8 +3,7 @@ import os
 import base64
 import pandas as pd
 import sys
-sys.path.insert(0,'../muckRack')
-import google_muckrack as mc
+import muckRack.google_muckrack as mc
 
 """"
 Haro class

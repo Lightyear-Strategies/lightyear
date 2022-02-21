@@ -10,10 +10,6 @@ if pgrep -f 'celery worker' 2>/dev/null; then
   echo "terminated celery worker"
 fi
 
-echo "moving to flask directory"
-cd flask
-echo "in flask directory"
-
 echo "starting celery"
 celery -A flaskMain.celery worker -l INFO --detach
 echo "started celery"

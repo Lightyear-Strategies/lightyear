@@ -1,8 +1,0 @@
-flask
-flask_bootstrap
-flask_wtf
-flask_sqlalchemy
-py3_validate_email
-email_validator
-celery
-pandas
