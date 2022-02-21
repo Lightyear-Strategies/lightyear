@@ -8,7 +8,7 @@
         <th>Summary</th>
         <th>Media Outlet</th>
         <th>Category</th>
-        <th>Deadline</th>
+        <th>Date</th>
 
       </tr>
     </thead>
@@ -57,7 +57,7 @@ function format ( d ) {
           {data: 'Summary', orderable: false},
           {data: 'MediaOutlet'},
           {data: 'Category'},
-          {data: 'Deadline'}
+          {data: 'Date'}
         ],
       });
 
@@ -85,13 +85,11 @@ function format ( d ) {
             // This row is already open - close it
             tr.removeClass( 'details' );
             row.child.hide();
-            //tr.removeClass('shown');
         }
         else {
             // Open this row
             tr.addClass( 'details' );
             row.child( format(row.data()) ).show();
-            //tr.addClass('shown');
         }
     } );
 
