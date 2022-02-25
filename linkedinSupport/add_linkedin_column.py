@@ -85,7 +85,31 @@ class LinkedinAdder():
         self.debug = debug
         self.api = my_Linkedin(email, password)
 
-    
+    def get_url_haro(self, name : str, outlet : str):
+        """
+        uses the existing information from haro database to find a journalists linkedin, and return the url as a string
+        
+        input
+        
+        name : string name from database
+        
+        outlet : string outlet from database
+        """
+
+        keywords = f"{name} {outlet}"
+
+        users_list = self.api.search_people(keywords=keywords)
+
+        if len(users_list) == 0:
+            if self.debug:
+                print("couldnt find")
+            return "N/A"
+
+        if self.debug:
+            print(users_list)
+
+        return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
+
     # @params: sheet: a string path to a csv or xlsx
     # @return: a pandas dataframe with the added column
     def add_column(self, sheet : str):

@@ -64,6 +64,14 @@ class uploadEmailFilesForm(FlaskForm):
 
 ###################### Functions ######################
 
+def removeDBdups():
+    """
+    removes duplicates from SQLite DB, does not need to be run often, as the addDBData function now checks for duplicates
+    """
+    whole_db = pd.read_sql_table('haros', db.engine)
+    whole_db.drop_duplicates(inplace=True)
+    whole_db.to_sql('haros', con=db.engine, if_exists='replace')
+
 #@param:    csv file with parsed haros
 #@return:   None
 def addDBData(file):
@@ -79,8 +87,14 @@ def addDBData(file):
     # Dropping the first column which is unnamed index
     csv_data.drop('Unnamed:0', axis=1, inplace=True)
 
+    # checking for duplicates
+    whole_db = pd.read_sql_table('haros', db.engine)
+    db_set = set(map(tuple, whole_db.values))
+    csv_set = set(map(tuple, csv_data.values))
+    to_add = pd.DataFrame(list(db_set.difference(csv_set)))
+
     # Load data to database
-    csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
+    to_add.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
 
 #@param:    None
 #@return:   Haros table
