@@ -70,9 +70,11 @@ def removeDBdups():
     """
     whole_db = pd.read_sql_table('haros', db.engine)
     print(whole_db)
-    whole_db.drop_duplicates(inplace=True)
+    whole_db.drop_duplicates(subset=['Summary'], inplace=True)
     print(whole_db)
     whole_db.to_sql('haros', con=db.engine, index=False, if_exists='replace')
+    new_db = pd.read_sql_table('haros', db.engine)
+    print(new_db)
 
 #@param:    csv file with parsed haros
 #@return:   None
@@ -96,7 +98,7 @@ def addDBData(file):
     to_add = pd.DataFrame(list(db_set.difference(csv_set)))
 
     # Load data to database
-    to_add.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
+    to_add.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
 
 #@param:    None
 #@return:   Haros table
