@@ -69,8 +69,10 @@ def removeDBdups():
     removes duplicates from SQLite DB, does not need to be run often, as the addDBData function now checks for duplicates
     """
     whole_db = pd.read_sql_table('haros', db.engine)
+    print(whole_db)
     whole_db.drop_duplicates(inplace=True)
-    whole_db.to_sql('haros', con=db.engine, if_exists='replace')
+    print(whole_db)
+    whole_db.to_sql('haros', con=db.engine, index=False, if_exists='replace')
 
 #@param:    csv file with parsed haros
 #@return:   None
@@ -254,4 +256,5 @@ def page_not_found(e):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80,debug=True)
+    #removeDBdups()
 
