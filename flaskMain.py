@@ -101,6 +101,7 @@ def addDBData(df : pd.DataFrame):
     # Load data to database
     whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
 
+@celery.task(name="flaskMain.listener_bg_process")
 def listener_bg_process():
     """
     A function for celery to use to create a background process to listen for haro emails
@@ -117,6 +118,7 @@ def serveTable():
     """
     Brings to the table with Haros
     """
+    listener_bg_process.delay()
     return render_template('haroTableView.html', title='LyS Haros Database')
 
 #@param:    None
