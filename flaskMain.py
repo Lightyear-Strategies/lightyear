@@ -118,7 +118,6 @@ def serveTable():
     """
     Brings to the table with Haros
     """
-    listener_bg_process.delay()
     return render_template('haroTableView.html', title='LyS Haros Database')
 
 #@param:    None

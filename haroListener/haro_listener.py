@@ -14,7 +14,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from .haro_parser import Haro
+from haroListener.haro_parser import Haro
 
 
 class HaroListener():
