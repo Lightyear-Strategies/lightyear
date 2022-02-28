@@ -14,10 +14,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from haro_parser import Haro
+from .haro_parser import Haro
 
-sys.path.insert(0, "../flask") # a very very stupid way to import flaskMain
-from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -105,8 +103,14 @@ class HaroListener():
 
     # @params: Save — whether or not to save the HARO object to a file
     # @return: None
-    def listen(self, save_dir : str = None, save_name : str = None):
-        """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
+    def listen(self, f):
+        """
+        Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json
+        
+        input
+
+        f : a function to save a dataframe
+        """
         est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
 
         morning_haro = datetime.time(hour=6, minute=0, second=0, tzinfo=est_tz)
@@ -129,9 +133,7 @@ class HaroListener():
 
             pull = self.find_haro_from()
             recent_haro = pull[0]
-            with open(save_dir + '/' + save_name, 'r+') as recent:
-                recent_haro.reset_index(drop=True).to_csv(recent)
-                addDBData(recent)
+            f(recent_haro.get_dataframe())
             
             # to ensure time_now updates correctly
             time.sleep(60)

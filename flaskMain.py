@@ -21,6 +21,7 @@ from flask_app.utils import * # imports Celery, timethis
 import ev_20.emailAPIvalid
 import flask_app.emailRep
 from flask_app.googleAuth import g_oauth, authCheck
+from haroListener.haro_listener import HaroListener
 
 
 ###################### Flask ######################
@@ -78,27 +79,36 @@ def removeDBdups():
 
 #@param:    csv file with parsed haros
 #@return:   None
-def addDBData(file):
+def addDBData(df : pd.DataFrame):
     """
     Adds data to SQLite DB
     """
-    # Read file into dataframe
-    csv_data = pd.read_csv(file.name)
-
-    # Removing white space in headers
-    csv_data.columns = csv_data.columns.str.replace(' ', '')
-
-    # Dropping the first column which is unnamed index
-    csv_data.drop('Unnamed:0', axis=1, inplace=True)
 
     # checking for duplicates
+    try:
+        df.columns = df.columns.str.replace(' ','')
+        df.drop('Unnamed:0', axis=1, inplace=True)
+        
+    except Exception:
+        pass
+
+    
     whole_db = pd.read_sql_table('haros', db.engine)
-    db_set = set(map(tuple, whole_db.values))
-    csv_set = set(map(tuple, csv_data.values))
-    to_add = pd.DataFrame(list(db_set.difference(csv_set)))
+    whole_db.append(df)
+    whole_db.drop_duplicates(subset=['Summary'], inplace=True)
+    
 
     # Load data to database
-    to_add.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
+    whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
+
+def listener_bg_process():
+    """
+    A function for celery to use to create a background process to listen for haro emails
+    """
+    with app.app_context():
+        listener = HaroListener('george@lightyearstrategies.com', False)
+        listener.listen(addDBData)
+    
 
 #@param:    None
 #@return:   Haros table
