@@ -85,18 +85,37 @@ class LinkedinAdder():
         self.debug = debug
         self.api = my_Linkedin(email, password)
 
-    def get_url_haro(self, name : str, outlet : str):
-        """
-        uses the existing information from haro database to find a journalists linkedin, and return the url as a string
+    def __get_haro_url(self, row, big_df : bool):
+        """a helper method to get the linkedin url of a person with a random waiting period to not get banned by linkedin
         
         input
-        
-        name : string name from database
-        
-        outlet : string outlet from database
-        """
+        first: a string first name
+        last: a string last name
+        big_df: a boolean to tell whether the input is large (> 100 entries)"""
 
-        keywords = f"{name} {outlet}"
+        # trying to trick linkedin
+        if big_df:
+            if random.randint(1, 100) == 50:
+                # add big wait period for large input to not get killed by linkedin
+                time.sleep(random.randint(600, 1000))
+        time.sleep(random.randint(3, 18))
+
+        name = row['Name']
+
+        if name == np.nan or name == np.NaN or type(name) == float:
+            return "N/A"
+
+        name = name.strip()
+
+        # cases for finding journalists, best to worst
+        outlet = row['MediaOutlet']
+
+        if outlet != None:
+            # best search results
+            keywords = f"{name} {outlet}"
+        else:
+            # significantly worse performance
+            keywords = f"{name} Journalist"
 
         users_list = self.api.search_people(keywords=keywords)
 
@@ -109,6 +128,31 @@ class LinkedinAdder():
             print(users_list)
 
         return "linkedin.com/in/" + users_list[0]['public_id'] + "/"
+
+    def add_column_haro(self, df : pd.DataFrame):
+        """
+        a method to take the database and add linkedin urls
+        
+        input
+        
+        df : a pandas DataFrame of the database
+        """
+        if self.debug:
+            print("BEFORE ADD")
+            print(df)
+
+        if len(df) > 100:
+            df['linkedin url'] = df.apply(lambda row : self.__get_haro_url(row, True), axis=1)
+        else:
+            df['linkedin url'] = df.apply(lambda row : self.__get_haro_url(row, False), axis=1)
+
+        if self.debug:
+            print("\nAFTER ADD")
+            print(df)
+
+        return df
+
+
 
     # @params: sheet: a string path to a csv or xlsx
     # @return: a pandas dataframe with the added column
