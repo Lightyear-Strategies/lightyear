@@ -27,9 +27,9 @@ class HaroListener():
         self.email = email
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
-        self.save_dir = 'haro_jsons/'
-        self.token_path = 'config/token.pickle'
-        self.creds_path = 'config/client.json'
+        self.save_dir = 'haroListener/haro_jsons/'
+        self.token_path = 'haroListener/config/token.pickle'
+        self.creds_path = 'haroListener/config/client.json'
         self.creds = self.__auth()
 
     # @params = none
@@ -230,8 +230,6 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
-    def add_old_data(self, data):
-        addDBData(data)
 
 if __name__ == '__main__':
 
