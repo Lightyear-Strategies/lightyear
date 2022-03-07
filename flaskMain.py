@@ -72,8 +72,6 @@ def removeDBdups():
     whole_db = pd.read_sql_table('haros', db.engine)
     print(whole_db)
     whole_db.drop_duplicates(subset=['Summary'], inplace=True)
-    whole_db.drop('id', axis=1, inplace=True)
-    whole_db.drop('index', axis=1, inplace=True)
     print(whole_db)
     whole_db.to_sql('haros', con=db.engine, index=False, if_exists='replace')
     new_db = pd.read_sql_table('haros', db.engine)
@@ -101,7 +99,7 @@ def addDBData(df : pd.DataFrame):
     
 
     # Load data to database
-    whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
+    whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
 
 def listener_bg_process():
     """
