@@ -18,8 +18,8 @@ from flask_app.config import *
 from flask_app.utils import * # imports Celery, timethis
 
 #sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailAPIvalid.py
-import ev_20.emailAPIvalid
-import flask_app.emailRep
+from ev_20 import emailAPIvalid
+from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck
 from haroListener.haro_listener import HaroListener
 
@@ -101,14 +101,12 @@ def addDBData(df : pd.DataFrame):
     # Load data to database
     whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='append')
 
-@celery.task(name="flaskMain.listener_bg_process")
 def listener_bg_process():
     """
     A function for celery to use to create a background process to listen for haro emails
     """
-    with app.app_context():
-        listener = HaroListener('george@lightyearstrategies.com', False)
-        listener.listen(addDBData)
+    listener = HaroListener('george@lightyearstrategies.com', False)
+    listener.listen(addDBData)
     
 
 #@param:    None
