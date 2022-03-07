@@ -72,6 +72,8 @@ def removeDBdups():
     whole_db = pd.read_sql_table('haros', db.engine)
     print(whole_db)
     whole_db.drop_duplicates(subset=['Summary'], inplace=True)
+    whole_db.drop('id', axis=1, inplace=True)
+    whole_db.drop('index', axis=1, inplace=True)
     print(whole_db)
     whole_db.to_sql('haros', con=db.engine, index=False, if_exists='replace')
     new_db = pd.read_sql_table('haros', db.engine)
@@ -266,6 +268,7 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80,debug=True)
     #removeDBdups()
+    app.run(host='0.0.0.0', port=80,debug=True)
+
 
