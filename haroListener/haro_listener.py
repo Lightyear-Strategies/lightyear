@@ -131,9 +131,12 @@ class HaroListener():
             next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
 
+            print(f"SEARCHING FOR HARO AT {datetime.datetime.now(est_tz)}")
             pull = self.find_haro_from()
             recent_haro = pull[0]
-            f(recent_haro.get_dataframe())
+            haro_df = recent_haro.get_dataframe()
+            print(haro_df.head())
+            f(haro_df)
             
             # to ensure time_now updates correctly
             time.sleep(60)

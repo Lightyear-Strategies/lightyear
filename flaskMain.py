@@ -82,6 +82,7 @@ def removeDBdups():
 def addDBData(df : pd.DataFrame):
     """
     Adds data to SQLite DB
+    and checks for dupes
     """
 
     # checking for duplicates
@@ -90,16 +91,19 @@ def addDBData(df : pd.DataFrame):
         df.drop('Unnamed:0', axis=1, inplace=True)
         
     except Exception:
-        pass
+        print("no unnamed column")
 
-    
-    whole_db = pd.read_sql_table('haros', db.engine)
-    whole_db.append(df)
-    whole_db.drop_duplicates(subset=['Summary'], inplace=True)
-    
-
-    # Load data to database
-    whole_db.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
+    finally:
+        print("in finally block")
+        whole_db = pd.read_sql_table('haros', db.engine)
+        print(len(whole_db))
+        res = pd.concat([whole_db, df])
+        print(len(res))
+        res.drop_duplicates(subset=['Summary'], inplace=True)
+        print(len(res))
+        
+        # Load data to database
+        res.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
 
 def listener_bg_process():
     """
