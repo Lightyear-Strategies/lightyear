@@ -13,16 +13,15 @@ import pandas as pd
 import os
 import sys
 import time
+from datetime import datetime, timedelta, date
 
 from flask_app.config import *
 from flask_app.utils import * # imports Celery, timethis
 
-#sys.path.insert(0, EMAIL_VALIDITY_DIR) #"../emailValidity") # to import emailAPIvalid.py
 from ev_20 import emailAPIvalid
 from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck
 from haroListener.haro_listener import HaroListener
-
 
 ###################### Flask ######################
 
@@ -77,19 +76,18 @@ def removeDBdups():
     new_db = pd.read_sql_table('haros', db.engine)
     print(new_db)
 
-#@param:    csv file with parsed haros
-#@return:   None
-def addDBData(df : pd.DataFrame):
+# @param:    csv file with parsed haros
+# @return:   None
+def addDBData(df: pd.DataFrame):
     """
-    Adds data to SQLite DB
-    and checks for dupes
+    Adds data to SQLite DB and checks for duplicateses
     """
 
     # checking for duplicates
     try:
-        df.columns = df.columns.str.replace(' ','')
+        df.columns = df.columns.str.replace(' ', '')
         df.drop('Unnamed:0', axis=1, inplace=True)
-        
+
     except Exception:
         print("no unnamed column")
 
@@ -101,9 +99,10 @@ def addDBData(df : pd.DataFrame):
         print(len(res))
         res.drop_duplicates(subset=['Summary'], inplace=True)
         print(len(res))
-        
+
         # Load data to database
         res.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
+
 
 def listener_bg_process():
     """
@@ -111,7 +110,6 @@ def listener_bg_process():
     """
     listener = HaroListener('george@lightyearstrategies.com', False)
     listener.listen(addDBData)
-    
 
 #@param:    None
 #@return:   Haros table
@@ -124,16 +122,22 @@ def serveTable():
 
 #@param:    None
 #@return:   table entries
-@app.route('/api/serveHaros')
-def data():
+@app.route('/api/serveHaros/<aim>', methods=['GET', 'POST'])
+@app.route('/api/serveHaros', methods=['GET', 'POST'])
+def data(aim=None):
     """
     Sorts the table, returns searched data
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns)
+    #print(type(Haros.columns.DateReceived))
+    #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
-    #print(query)
+
+    # fresh queries
+    if aim == "fresh":
+        freshmark = datetime.today().date() - timedelta(days=15)
+        query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
     search = request.args.get('search[value]')
@@ -159,7 +163,7 @@ def data():
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','Deadline','MediaOutlet']:
+        if col_name not in ['Category','Date','MediaOutlet','Deadline']:
             col_name = 'Category'
 
         # gets descending sorting
@@ -190,6 +194,8 @@ def data():
         'recordsTotal': query.count(),
         'draw': request.args.get('draw', type=int),
     }
+
+
 
 #@param:    None
 #@return:   Email Verification Page
@@ -270,7 +276,7 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
+    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/HAROS.csv")
     #removeDBdups()
     app.run(host='0.0.0.0', port=80,debug=True)
-
 

@@ -16,6 +16,8 @@ from googleapiclient.errors import HttpError
 
 from haroListener.haro_parser import Haro
 
+sys.path.append('..')
+from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -106,7 +108,7 @@ class HaroListener():
     def listen(self, f):
         """
         Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json
-        
+
         input
 
         f : a function to save a dataframe
@@ -144,7 +146,7 @@ class HaroListener():
     # @params: from_date: a string in "yyyy-mm-dd" format
     # @return: a list of json-like dict objects representing HARO emails from `from_date` to current date.
     def find_haro_from(self, from_date : str = None):
-        """finds and returns a list of message objects for every HARO email from from_date til now. returns only most recent HARO when from_date = None
+        """finds and returns a list of message objects for every HARO email from from_date till now. returns only most recent HARO when from_date = None
 
         input
         from_date: string date in format yyyy-mm-dd"""
@@ -233,6 +235,8 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
+    def add_old_data(self, data):
+        addDBData(data)
 
 if __name__ == '__main__':
 

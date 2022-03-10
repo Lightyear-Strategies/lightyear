@@ -41,25 +41,37 @@ function format ( d ) {
             '<td>Requirements:</td>'+
             '<td>'+d.Requirements+'</td>'+
         '</tr>'+
+        '<tr>'+
+            '<td>Deadline:</td>'+
+            '<td>'+d.Deadline+'</td>'+
+        '</tr>'+
     '</table>';
 }
-    $(document).ready(function () {
-      var table = $('#data').DataTable({
-        ajax: '/api/serveHaros',
-        serverSide: true,
-        columns: [
-          {
-                "className":      'details-control',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-          },
-          {data: 'Summary', orderable: false},
-          {data: 'MediaOutlet'},
-          {data: 'Category'},
-          {data: 'Deadline'}
-        ],
-      });
+
+$(document).ready(function () {
+    var table = $('#data').DataTable({
+      ajax: {
+        url:"/api/serveHaros",
+      },
+      serverSide: true,
+      columns: [
+        {
+          "className":      'details-control',
+          "orderable":      false,
+          "data":           null,
+          "defaultContent": ''
+        },
+        {data: 'Summary', orderable: false},
+        {data: 'MediaOutlet'},
+        {data: 'Category'},
+        {data: 'Date'}
+      ]
+    });
+
+    $('#fresh_button').click(function(){
+      requestUrl = "/api/serveHaros/fresh";
+      table.ajax.url(requestUrl).load();
+    });
 
       // Switching with left and right keyboard buttons
       $(document).keydown( function(e) {
@@ -72,7 +84,6 @@ function format ( d ) {
           $( "#data_next" ).click();
         }
       })
-
     });
 
     // Add event listener for opening and closing details
@@ -92,6 +103,7 @@ function format ( d ) {
             row.child( format(row.data()) ).show();
         }
     } );
+
 
   </script>
 {% endblock %}
