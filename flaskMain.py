@@ -144,7 +144,6 @@ def data(aim=None):
     if search:
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
-            Haros.columns.Date.like(f'%{search}%'),
             Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
             Haros.columns.Summary.like(f'%{search}%'),
             Haros.columns.Email.like(f'%{search}%'),
