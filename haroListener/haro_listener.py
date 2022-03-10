@@ -237,15 +237,16 @@ if __name__ == '__main__':
     # Will not regularly be used once the listener is up and running
 
      listener = HaroListener('george@lightyearstrategies.com', True)
-     test = listener.find_haro_from("2022-02-19")
-     #print(test)
+     test = listener.find_haro_from("2022-01-01")
+     print(test)
      df_save = pd.DataFrame()
+
      for haro in test:
          df_save = df_save.append(haro.get_dataframe())
      df_save = df_save.reset_index(drop=True)
-     df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
-     #with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
-     #   addDBData(old)
+     df_save.to_csv('haro_csvs/HAROS.csv')
+     with open('haro_csvs/HAROS.csv', 'r+') as old:
+        addDBData(old)
     #listener = HaroListener('george@lightyearstrategies.com', False)
     #listener.listen("haro_csvs", "MOST_RECENT.csv")
     

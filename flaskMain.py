@@ -13,6 +13,7 @@ import pandas as pd
 import os
 import sys
 import time
+from datetime import datetime, timedelta, date
 
 from flask_app.config import *
 from flask_app.utils import * # imports Celery, timethis
@@ -92,29 +93,23 @@ def serveTable():
 
 #@param:    None
 #@return:   table entries
+@app.route('/api/serveHaros/<aim>', methods=['GET', 'POST'])
 @app.route('/api/serveHaros', methods=['GET', 'POST'])
-def data():
+def data(aim=None):
     """
     Sorts the table, returns searched data
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns)
+    #print(type(Haros.columns.DateReceived))
+    #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
-    #print(query)
 
-    # fresh
-    if request.method == "POST":
-        fresh = request.values.get('fresh')
-        print(fresh)
-
-    # show from a certain date
-    #if fresh:
-        # get current date
-        # substract 3 days
-        # filter the query
-        #query.
-
+    # fresh queries
+    if aim == "fresh":
+        freshmark = datetime.today().date() - timedelta(days=15)
+        query = query.filter(Haros.columns.DateReceived >= freshmark)
+    
     # search filter
     search = request.args.get('search[value]')
     if search:
@@ -158,7 +153,7 @@ def data():
     # ordering
     if order:
         query = query.order_by(*order)
-
+        
     # pagination
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
@@ -171,6 +166,8 @@ def data():
         'recordsTotal': query.count(),
         'draw': request.args.get('draw', type=int),
     }
+
+
 
 #@param:    None
 #@return:   Email Verification Page
@@ -251,6 +248,6 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
+    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/HAROS.csv")
     app.run(host='0.0.0.0', port=80,debug=True)
 
