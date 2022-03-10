@@ -18,10 +18,10 @@ from datetime import datetime, timedelta, date
 from flask_app.config import *
 from flask_app.utils import * # imports Celery, timethis
 
-import ev_20.emailAPIvalid
-import flask_app.emailRep
+from  ev_20 import emailAPIvalid
+from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck
-
+from haroListener.haro_listener import HaroListener
 
 ###################### Flask ######################
 
@@ -64,23 +64,52 @@ class uploadEmailFilesForm(FlaskForm):
 
 ###################### Functions ######################
 
-#@param:    csv file with parsed haros
-#@return:   None
-def addDBData(file):
+def removeDBdups():
     """
-    Adds data to SQLite DB
+    removes duplicates from SQLite DB, does not need to be run often, as the addDBData function now checks for duplicates
     """
-    # Read file into dataframe
-    csv_data = pd.read_csv(file)
+    whole_db = pd.read_sql_table('haros', db.engine)
+    print(whole_db)
+    whole_db.drop_duplicates(subset=['Summary'], inplace=True)
+    print(whole_db)
+    whole_db.to_sql('haros', con=db.engine, index=False, if_exists='replace')
+    new_db = pd.read_sql_table('haros', db.engine)
+    print(new_db)
 
-    # Removing white space in headers
-    csv_data.columns = csv_data.columns.str.replace(' ', '')
+# @param:    csv file with parsed haros
+# @return:   None
+def addDBData(df: pd.DataFrame):
+    """
+    Adds data to SQLite DB and checks for duplicateses
+    """
 
-    # Dropping the first column which is unnamed index
-    csv_data.drop('Unnamed:0', axis=1, inplace=True)
+    # checking for duplicates
+    try:
+        df.columns = df.columns.str.replace(' ', '')
+        df.drop('Unnamed:0', axis=1, inplace=True)
 
-    # Load data to database
-    csv_data.to_sql(name='haros', con=db.engine, index=True, if_exists='append')
+    except Exception:
+        print("no unnamed column")
+
+    finally:
+        print("in finally block")
+        whole_db = pd.read_sql_table('haros', db.engine)
+        print(len(whole_db))
+        res = pd.concat([whole_db, df])
+        print(len(res))
+        res.drop_duplicates(subset=['Summary'], inplace=True)
+        print(len(res))
+
+        # Load data to database
+        res.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
+
+
+def listener_bg_process():
+    """
+    A function for celery to use to create a background process to listen for haro emails
+    """
+    listener = HaroListener('george@lightyearstrategies.com', False)
+    listener.listen(addDBData)
 
 #@param:    None
 #@return:   Haros table

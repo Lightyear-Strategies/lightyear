@@ -105,9 +105,15 @@ class HaroListener():
 
     # @params: Save — whether or not to save the HARO object to a file
     # @return: None
-    def listen(self, save_dir : str = None, save_name : str = None):
-        """Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json"""
-        est_tz = datetime.timezone(datetime.timedelta(hours = -5), 'EST')
+    def listen(self, f):
+        """
+        Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json
+
+        input
+
+        f : a function to save a dataframe
+        """
+        est_tz = datetime.timezone(datetime.timedelta(hours=-5), 'EST')
 
         morning_haro = datetime.time(hour=6, minute=0, second=0, tzinfo=est_tz)
         afternoon_haro = datetime.time(hour=13, minute=0, second=0, tzinfo=est_tz)
@@ -124,15 +130,17 @@ class HaroListener():
                 aft = aft + datetime.timedelta(days=1)
                 night = night + datetime.timedelta(days=1)
             # find next haro
-            next_haro = min({td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
+            next_haro = min(
+                {td for td in {morn - time_now, aft - time_now, night - time_now} if td > datetime.timedelta(0)})
             time.sleep(next_haro.total_seconds())
 
+            print(f"SEARCHING FOR HARO AT {datetime.datetime.now(est_tz)}")
             pull = self.find_haro_from()
             recent_haro = pull[0]
-            with open(save_dir + '/' + save_name, 'r+') as recent:
-                recent_haro.reset_index(drop=True).to_csv(recent)
-                addDBData(recent)
-            
+            haro_df = recent_haro.get_dataframe()
+            print(haro_df.head())
+            f(haro_df)
+
             # to ensure time_now updates correctly
             time.sleep(60)
 
@@ -236,18 +244,18 @@ if __name__ == '__main__':
     # THIS CODE IS TO SAVE ALL OLD HAROS
     # Will not regularly be used once the listener is up and running
 
-     listener = HaroListener('george@lightyearstrategies.com', True)
-     test = listener.find_haro_from("2022-01-01")
-     print(test)
-     df_save = pd.DataFrame()
+    #listener = HaroListener('george@lightyearstrategies.com', True)
+    #test = listener.find_haro_from("2022-01-01")
+    #print(test)
+    #df_save = pd.DataFrame()
 
-     for haro in test:
-         df_save = df_save.append(haro.get_dataframe())
-     df_save = df_save.reset_index(drop=True)
-     df_save.to_csv('haro_csvs/HAROS.csv')
-     with open('haro_csvs/HAROS.csv', 'r+') as old:
-        addDBData(old)
-    #listener = HaroListener('george@lightyearstrategies.com', False)
-    #listener.listen("haro_csvs", "MOST_RECENT.csv")
+    #for haro in test:
+    #    df_save = df_save.append(haro.get_dataframe())
+    #df_save = df_save.reset_index(drop=True)
+    #df_save.to_csv('haro_csvs/HAROS.csv')
+    #with open('haro_csvs/HAROS.csv', 'r+') as old:
+    #   addDBData(old)
+    listener = HaroListener('george@lightyearstrategies.com', False)
+    listener.listen("haro_csvs", "MOST_RECENT.csv")
     
 
