@@ -18,10 +18,12 @@
 
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="max-width: 94%">
       <h1>{{ title }}</h1>
       <hr>
-      <button id="fresh_button" class="dt-button">Fresh</button>
+      <button id="all_button" class="dt-button">All Haros</button>
+      <button id="fresh_button" class="dt-button">Fresh Haros</button>
+      <button id="used_button" class="dt-button">Used Haros</button>
       {% block content %}{% endblock %}
     </div>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
