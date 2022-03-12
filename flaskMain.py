@@ -41,7 +41,8 @@ app.config['CELERY_BROKER_URL'] = \
                                     )
 app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
 
-                                #'amqp://guest:guest@localhost:5672/'  # local rabbitMQ for Celery
+# To work with Celery in local environment using RabbitMQ, uncomment app.config below and comment our the two above
+#app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -80,9 +81,8 @@ def removeDBdups():
 # @return:   None
 def addDBData(df: pd.DataFrame): #(file):
     """
-    Adds data to SQLite DB and checks for duplicateses
+    Adds data to SQLite DB and checks for duplicates
     """
-
     # checking for duplicates
     try:
         #df = pd.read_csv(file)
@@ -255,11 +255,6 @@ def validation():
                 filenames.append(filename)
 
             for filename in filenames:
-                # determine extension
-                extension = os.path.splitext(filename)[1]
-                # find extension
-                extension = "csv" if extension == ".csv" else "xlsx"
-
                 # Celery
                 # parse,remove file, send updated file
                 parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, filename)

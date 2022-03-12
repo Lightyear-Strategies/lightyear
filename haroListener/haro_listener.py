@@ -14,10 +14,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+sys.path.append("..")
 from haroListener.haro_parser import Haro
+from flask_app.googleAuth import serviceBuilder, localServiceBuilder
 
-#sys.path.append('..')
-#from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -30,10 +30,11 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = '/haro_jsons/'
-        self.token_path = 'config/token.pickle'
-        self.creds_path = 'config/client.json'
-        self.creds = self.__auth()
+        #self.token_path = 'token.pickle'
+        #self.creds_path = 'client.json'
+        self.creds = serviceBuilder() #localServiceBuilder()
 
+    """
     # @params = none
     # @return credentials: a set of google api credentials
     def __auth(self):
@@ -55,6 +56,7 @@ class HaroListener():
         service = build('gmail', 'v1', credentials=creds)
 
         return service
+    """
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
