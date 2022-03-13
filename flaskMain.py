@@ -271,9 +271,7 @@ def validation():
 #@return:   None
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
-    """
-    Celery handler.
-    """
+    """Celery handler"""
     with app.app_context():
         emailVerify(path, recipients)
 
