@@ -1,0 +1,176 @@
+from selenium import webdriver
+import requests
+from bs4 import BeautifulSoup
+import pickle
+import time
+import undetected_chromedriver.v2 as uc
+import pandas as pd
+from . LDA import LDA_analysis
+from datetime import datetime
+from datetime import timedelta
+
+class Muckrack:
+    def __init__(self, url_list=None, filename=None, sleep_time=2.5):
+        if filename is not None:
+            if(filename is None):
+                raise Exception("No filename provided")
+            url_list = self.__find_list(filename)
+
+        if(len(url_list)==1):
+            self.url_list = [url_list]
+        else:
+            self.url_list = url_list
+
+        self.df = pd.DataFrame()
+
+        self.sleep_time = sleep_time
+        self.time_total = len(url_list)*(self.sleep_time*2)
+        self.time_left = self.time_total
+
+    def __find_list(self, filename):
+        #empty dataframe
+        df = pd.DataFrame()
+        url_list = []
+
+        if(filename.endswith(".csv")):
+            df = pd.read_csv(filename)
+        elif(filename.endswith(".xlsx")):
+            df = pd.read_excel(filename)
+
+        #find column that's name Muckrack
+        for i in range(len(df.columns)):
+            if(df.columns[i]=="Muckrack" or df.columns[i]=="muckrack"
+            or df.columns[i]=="Muckrack URL" or df.columns[i]=="muckrack url"):
+                url_list = df.iloc[:,i]
+
+        for i in range(len(url_list)):
+            if(not url_list[i].endswith("/articles/")):
+                url_list[i] = url_list[i] + "/articles/"
+        return url_list
+
+    def parse_HTML(self):
+        driver = uc.Chrome()
+        with driver:
+            for url in self.url_list:
+                print("Parsing: " + url)
+                print("Time left: " + self.__time_left())
+                driver.get(url)
+                time.sleep(self.sleep_time)
+                self.read_HTML(driver.page_source)
+                time.sleep(self.sleep_time)
+
+                self.time_left -= self.sleep_time*2
+        driver.quit()
+
+    def __time_left(self):
+        time_left = self.time_left
+        if(time_left<60):
+            return str(time_left) + " seconds left"
+        else:
+            minutes = int(time_left/60)
+            seconds = int(time_left%60)
+            return str(minutes) + " minutes and " + str(seconds) + " seconds left"
+
+    def read_HTML(self, page_source=None):
+        if page_source is None:
+            with open('savedHTML.txt', 'r') as f:
+                page_source = f.read()
+
+
+        soup = BeautifulSoup(page_source, "html.parser")
+        name = soup.find_all("div", {"class": "mr-byline"})
+        try:
+            name_chosen = name[0].text.strip()[3:]
+            position = 0
+            while("," in name_chosen):
+                name_chosen = name[position].text.strip()[3:]
+                position += 1
+                if(position>10):
+                    name_chosen = name[position].split(",")[0]
+        except:
+            print("Empty page")
+            return
+        aTags = soup.find_all("a", {"class": "times-shared facebook"})
+
+        ####VARIABLES TO BE PULLED FROM HTML####
+        articles = []
+        medias = []
+        coverage = []
+        time_stamps = []
+        headlines = []
+        #########################################
+
+        outlets = soup.find_all("div", {"class": "news-story-byline"})
+        for outlet in range(len(outlets)):
+            media = outlets[outlet].find_all("a")[-1].text
+            medias.append(media)
+
+        for article in range(0, len(aTags), 2):
+            articles.append(aTags[article].get("data-description"))
+
+        header_tags = soup.find_all("h4", {"class": "news-story-title"})
+        for header in range(0, len(header_tags), 2):
+            headlines.append(header_tags[header].text)
+
+        time_tags = soup.find_all("a", {"class": "timeago"})
+        for time in range(len(time_tags)):
+            try:
+                object = time_tags[time].get("title").strip()
+                #Turn Feb, 24, 2018 into date object
+                object = datetime.strptime(object, "%b %d, %Y")
+                time_stamps.append(object)
+            except Exception as e:
+                print(e)
+
+
+        ###### ASSEMBLING DATA INTO DATAFRAME ######
+        df = pd.DataFrame({})
+        final_headers = []
+        final_time = []
+        final_media = []
+        for time in range(len(time_stamps)):
+            #if time is within the last 7 days
+            if time_stamps[time] > datetime.now() - timedelta(days=7):
+                final_headers.append(headlines[time].replace("\n", "").replace("\t", ""))
+                final_time.append(time_stamps[time].strftime("%Y-%m-%d"))
+                final_media.append(medias[time])
+            else:
+                break
+
+        final_names = [name_chosen]*len(final_headers)
+        df = df.append(pd.DataFrame({"Name": final_names,
+                                     "Headline": final_headers,
+                                     "Date": final_time,
+                                     "Media": final_media}))
+
+        #if df is empty
+        if(len(df)==0):
+            print("Empty Dataframe")
+        else:
+            self.df = self.df.append(df)
+            print(self.df)
+
+
+    def save_to_csv(self, filename):
+        if(len(self.df)==0):
+            raise Exception("No data to convert to dataframe")
+        self.df.to_csv(filename)
+
+    def show_df(self):
+        if(len(self.df)==0):
+            raise Exception("No data to convert to dataframe")
+        return self.df
+
+
+
+if __name__ == '__main__':
+    list_of_urls = ['https://muckrack.com/steven-melendez/articles',
+                    'https://muckrack.com/joshpeter11/articles',
+                    'https://muckrack.com/josh-laskin/articles']
+
+    muck = Muckrack(list_of_urls)
+    #muck.parse_HTML()
+    muck.read_HTML()
+    #df = muck.show_df()
+    #print(df)
+
