@@ -29,7 +29,7 @@ class WeeklyReport:
         look_up = gm.google_muckrack(self.df, self.colname)
         self.df = look_up.get_dataframe()
         #REMOVE LATER ON
-        self.df.to_csv("test.csv")
+        self.df.to_csv("test_out.csv")
 
     def muckrack_analysis(self):
         #convert self.df["Muckrack"] to a list
@@ -50,5 +50,5 @@ class WeeklyReport:
 
 
 if __name__ == "__main__":
-    df = WeeklyReport("test.csv", "Name", parsed=True)
+    df = WeeklyReport("liams_test.csv", "Name", parsed=False)
     df.muckrack_analysis()
