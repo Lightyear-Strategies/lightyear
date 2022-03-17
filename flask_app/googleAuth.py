@@ -3,7 +3,7 @@ import flask
 import requests
 import pickle
 
-from google_auth_oauthlib.flow import Flow
+from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
@@ -21,6 +21,28 @@ API_VERSION = 'v1'
 
 #extending flask app functionality
 g_oauth = Blueprint('g_oauth', __name__)
+
+
+# @params = none
+# @return credentials: a set of google api credentials
+def localServiceBuilder():
+    creds = None
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file('localclient.json', SCOPES)
+
+            creds = flow.run_local_server(port=0)
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build(API_SERVICE_NAME, API_VERSION, credentials=creds)
+
+    return service
 
 
 # @param:   None
@@ -54,8 +76,8 @@ def authCheck():
 # @return:  None
 def authLogin(credsreturn=False):
     """
-    Function redirects to authorization if authCheck retured False.
-    It also return credentials if needed
+    Function redirects to authorization if authCheck returned False.
+    It also returns credentials if needed
     """
     if not authCheck():
         return redirect('/authorizeService')

@@ -4,21 +4,20 @@
   <table id="data" class="table table-striped">
     <thead>
       <tr>
-        <th> </th>
+        <th></th>
         <th>Summary</th>
         <th>Media Outlet</th>
         <th>Category</th>
         <th>Deadline</th>
-
+        <th>Add/Remove</th>
       </tr>
     </thead>
-    <tbody>
-    </tbody>
+    <tbody></tbody>
   </table>
 {% endblock %}
 
 {% block scripts %}
-  <script>
+<script>
     /* Formatting function for row details - modify as you need */
 function format ( d ) {
     // show nothing if there is no name
@@ -50,22 +49,58 @@ function format ( d ) {
 
 $(document).ready(function () {
     var table = $('#data').DataTable({
+      order: [],
       ajax: {
         url:"/api/serveHaros",
       },
       serverSide: true,
       columns: [
-        {
-          "className":      'details-control',
-          "orderable":      false,
-          "data":           null,
-          "defaultContent": ''
+        {  width:          "3%",
+          orderable:      false,
+          className:      'details-control',
+          data:           null,
+          defaultContent: ''
         },
-        {data: 'Summary', orderable: false},
-        {data: 'MediaOutlet'},
-        {data: 'Category'},
-        {data: 'Date'}
+
+        {data: 'Summary', orderable: false, width: "45%"},
+        {data: 'MediaOutlet', width: "17%"},
+        {data: 'Category', width: "16.5%"},
+        {data: 'Date', width: "8.5%"},
+
+        { width:          "10%",
+          orderable:      false,
+          data:           null,
+          defaultContent:
+              "<button id='Add' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
+              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 2px;cursor: pointer;\" >Add</button> " +
+
+              "<button id='Remove' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
+              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 3px;cursor: pointer;\" >Remove</button>"}
       ]
+    });
+
+
+    //class=\"Add\" class=\"Remove\"
+    $('#data tbody').on( 'click', 'button', function(){
+
+      var action = this.id;
+      var index = table.row( $(this).parents('tr') ).data().index;
+
+      console.log(index);
+      if (action === 'Add'){
+        requestUrl = "/api/used/add/"+index;
+        alert("Added to Used Table")
+      }
+      if (action === 'Remove'){
+        requestUrl = "/api/used/remove/"+index;
+        alert("Removed from Used Table")
+      }
+      $.ajax(requestUrl)
+    });
+
+    $('#all_button').click(function(){
+      requestUrl = "/api/serveHaros";
+      table.ajax.url(requestUrl).load();
     });
 
     $('#fresh_button').click(function(){
@@ -73,18 +108,23 @@ $(document).ready(function () {
       table.ajax.url(requestUrl).load();
     });
 
-      // Switching with left and right keyboard buttons
-      $(document).keydown( function(e) {
-        // left arrow
-        if ((e.keyCode || e.which) == 37) {
-          $( "#data_previous" ).click();
-        }
-        // right arrow
-        if ((e.keyCode || e.which) == 39) {
-          $( "#data_next" ).click();
-        }
-      })
+    $('#used_button').click(function(){
+      requestUrl = "/api/serveHaros/used";
+      table.ajax.url(requestUrl).load();
     });
+
+      // Switching with left and right keyboard buttons
+    $(document).keydown( function(e) {
+      // left arrow
+      if ((e.keyCode || e.which) === 37) {
+        $( "#data_previous" ).click();
+      }
+      // right arrow
+      if ((e.keyCode || e.which) === 39) {
+        $( "#data_next" ).click();
+      }
+    })
+});
 
     // Add event listener for opening and closing details
     $('#data tbody').on('click', 'tr td.details-control', function () {

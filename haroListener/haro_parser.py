@@ -4,6 +4,7 @@ import base64
 import pandas as pd
 import sys
 import muckRack.google_muckrack as mc
+from datetime import datetime
 
 """"
 Haro class
@@ -155,6 +156,7 @@ class Haro:
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()
         row_dict["Date Received"] = self.received
         row_dict["Edition"] = ' '.join(self.subject.split(" ")[1:-1])
+        row_dict["Used"] = "None"
         self.df = self.df.append(row_dict, ignore_index=True)
 
     def parse_MC(self):

@@ -41,7 +41,8 @@ app.config['CELERY_BROKER_URL'] = \
                                     )
 app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
 
-                                #'amqp://guest:guest@localhost:5672/'  # local rabbitMQ for Celery
+# To work with Celery in local environment using RabbitMQ, uncomment app.config below and comment our the two above
+#app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -78,13 +79,13 @@ def removeDBdups():
 
 # @param:    csv file with parsed haros
 # @return:   None
-def addDBData(df: pd.DataFrame):
+def addDBData(df: pd.DataFrame): #(file):
     """
-    Adds data to SQLite DB and checks for duplicateses
+    Adds data to SQLite DB and checks for duplicates
     """
-
     # checking for duplicates
     try:
+        #df = pd.read_csv(file)
         df.columns = df.columns.str.replace(' ', '')
         df.drop('Unnamed:0', axis=1, inplace=True)
 
@@ -101,7 +102,8 @@ def addDBData(df: pd.DataFrame):
         print(len(res))
 
         # Load data to database
-        res.to_sql(name='haros', con=db.engine, index=False, if_exists='replace')
+        res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+        #df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
 def listener_bg_process():
@@ -120,22 +122,50 @@ def serveTable():
     """
     return render_template('haroTableView.html', title='LyS Haros Database')
 
-#@param:    None
+#@param:    option and id in the table
+#@return:   string
+@app.route('/api/used/<option>/<id>')
+def used_unused(option : str = None, id : str = None):
+    """
+    Changes value in "Used" column of certain haro by using id
+    Values can be "Used" or "None"
+    """
+
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+    query = db.session.query(Haros).filter(Haros.columns.index == int(id))
+    #print(query.all())
+
+    if option == "add":
+        query.update({Haros.columns.Used : "Used" })
+        db.session.commit()
+
+    elif option == "remove":
+        query.update({Haros.columns.Used: "None"})
+        db.session.commit()
+
+   # print(query.all())
+
+    return "Ok"
+
+
+#@param:    None/option
 #@return:   table entries
-@app.route('/api/serveHaros/<aim>', methods=['GET', 'POST'])
-@app.route('/api/serveHaros', methods=['GET', 'POST'])
-def data(aim=None):
+@app.route('/api/serveHaros/<option>')
+@app.route('/api/serveHaros')
+def data(option=None):
     """
     Sorts the table, returns searched data
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(type(Haros.columns.DateReceived))
     #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
+    if option == "used":
+        query = query.filter(Haros.columns.Used == "Used")
+
     # fresh queries
-    if aim == "fresh":
+    if option == "fresh":
         freshmark = datetime.today().date() - timedelta(days=15)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
@@ -225,11 +255,6 @@ def validation():
                 filenames.append(filename)
 
             for filename in filenames:
-                # determine extension
-                extension = os.path.splitext(filename)[1]
-                # find extension
-                extension = "csv" if extension == ".csv" else "xlsx"
-
                 # Celery
                 # parse,remove file, send updated file
                 parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, filename)
@@ -246,9 +271,7 @@ def validation():
 #@return:   None
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
-    """
-    Celery handler.
-    """
+    """Celery handler"""
     with app.app_context():
         emailVerify(path, recipients)
 
@@ -276,7 +299,7 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/HAROS.csv")
+    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
     #removeDBdups()
     app.run(host='0.0.0.0', port=80,debug=True)
 

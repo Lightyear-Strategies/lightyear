@@ -14,10 +14,10 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+sys.path.append("..")
 from haroListener.haro_parser import Haro
+from flask_app.googleAuth import serviceBuilder, localServiceBuilder
 
-sys.path.append('..')
-from flaskMain import addDBData
 
 class HaroListener():
     """A class to wrap our haro listening function"""
@@ -29,11 +29,12 @@ class HaroListener():
         self.email = email
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
-        self.save_dir = 'haroListener/haro_jsons/'
-        self.token_path = 'haroListener/config/token.pickle'
-        self.creds_path = 'haroListener/config/client.json'
-        self.creds = self.__auth()
+        self.save_dir = '/haro_jsons/'
+        #self.token_path = 'token.pickle'
+        #self.creds_path = 'client.json'
+        self.creds = serviceBuilder() #localServiceBuilder()
 
+    """
     # @params = none
     # @return credentials: a set of google api credentials
     def __auth(self):
@@ -55,6 +56,7 @@ class HaroListener():
         service = build('gmail', 'v1', credentials=creds)
 
         return service
+    """
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
@@ -107,7 +109,8 @@ class HaroListener():
     # @return: None
     def listen(self, f):
         """
-        Listens to email: checks one minute after HARO emails are scheduled to be release using the __find_recent_haro method to output the newest HARO message object to json
+        Listens to email: checks one minute after HARO emails are scheduled to be release using the
+                        __find_recent_haro method to output the newest HARO message object to json
 
         input
 
@@ -235,24 +238,24 @@ class HaroListener():
             with open('haro_jsons/HARO' + from_time + 'TO' + to_time + '.json', 'w') as outfile:
                 json.dump(haros, outfile, indent=4)
 
-    def add_old_data(self, data):
-        addDBData(data)
+    #def add_old_data(self, data):
+    #    addDBData(data)
 
 if __name__ == '__main__':
 
     # THIS CODE IS TO SAVE ALL OLD HAROS
     # Will not regularly be used once the listener is up and running
 
-    # listener = HaroListener('george@lightyearstrategies.com', False)
-    # test = listener.find_haro_from("2021-11-01")
-    # #print(test)
-    # df_save = pd.DataFrame()
-    # for haro in test:
-    #     df_save = df_save.append(haro.get_dataframe())
-    # df_save = df_save.reset_index(drop=True)
-    # df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
-    # with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
-    #    addDBData(old)
+    #listener = HaroListener('george@lightyearstrategies.com', False)
+    #test = listener.find_haro_from("2021-11-02")
+    #print(test)
+    #df_save = pd.DataFrame()
+    #for haro in test:
+    #    df_save = df_save.append(haro.get_dataframe())
+    #df_save = df_save.reset_index(drop=True)
+    #df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
+    #with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
+    #   addDBData(old)
     listener = HaroListener('george@lightyearstrategies.com', False)
     listener.listen("haro_csvs", "MOST_RECENT.csv")
     
