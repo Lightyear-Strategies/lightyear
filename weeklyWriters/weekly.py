@@ -1,6 +1,6 @@
 import pandas as pd
-from muckRack import Muckrack as MC
-from muckRack import google_muckrack as gm
+from weeklyWriters.muckRack import Muckrack as MC
+from weeklyWriters.muckRack import google_muckrack as gm
 
 #To-do:
 #1) Go through the list of authors and get their muckrack links

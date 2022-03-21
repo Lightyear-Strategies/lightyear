@@ -1,6 +1,7 @@
+<!doctype html>
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}LyS Email Verification{% endblock %}
+{% block title %}Journalists{% endblock %}
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
    <div class="container">
@@ -16,20 +17,19 @@
 {% endblock %}
 {% block content %}
 {% with messages = get_flashed_messages() %}
-{% if messages %}
-<ul class=flashes>
-   {% for message in messages %}
-   <li>{{ message }}</li>
-   {% endfor %}
-</ul>
-{% endif %}
+   {% if messages %}
+      <ul class=flashes>
+         {% for message in messages %}
+         <li>{{ message }}</li>
+         {% endfor %}
+      </ul>
+   {% endif %}
 {% endwith %}
 <div class="container">
    <div class="page-header">
-      <h3>Validate Emails</h3>
+      <h3>Subscribe on Journalists</h3>
    </div>
    <br>Please, upload the file and don't close the page!</br>
-   It will be processed in background. It <i>might</i> take 5-10 minutes for bigger files.
    <form action="" method="post" class="form" role="form" enctype="multipart/form-data">
    {{ wtf.quick_form(form) }}
    </form>
