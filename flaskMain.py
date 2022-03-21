@@ -57,18 +57,16 @@ db.create_all()
 ###################### Classes ######################
 
 class uploadEmailFilesForm(FlaskForm):
-    """
-    Constructor for the Email Verification Form
-    """
+    """Constructor for the Email Verification Form"""
+
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 class uploadJournalistCSV(FlaskForm):
-    """
-    Constructor for the Journalist Subscription Form
-    """
+    """Constructor for the Journalist Subscription Form"""
+
     personname = StringField('What is your name?', validators=[DataRequired()])
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
@@ -79,14 +77,11 @@ class uploadJournalistCSV(FlaskForm):
 ###################### Functions ######################
 
 #@param:    None
-#@return:   Email Verification Page
+#@return:   Upload Journalists Page
 @app.route('/journalists', methods=['GET','POST'])
 def uploadJournalist():
     """
     Gets csv(s) with Journalists from the form, extracts data.
-
-    Todo:
-    Add unique names
     """
     personname, email, files = None, None, None
 
@@ -100,7 +95,6 @@ def uploadJournalist():
         journalists = []
         if files:
             for file in files:
-                #filename = secure_filename(file.filename)
                 df = None
                 try:
                     df = pd.read_csv(file)
