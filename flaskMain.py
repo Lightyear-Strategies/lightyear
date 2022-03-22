@@ -166,7 +166,7 @@ def data(option=None):
 
     # fresh queries
     if option == "fresh":
-        freshmark = datetime.today().date() - timedelta(days=15)
+        freshmark = datetime.today().date() - timedelta(days=3)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
