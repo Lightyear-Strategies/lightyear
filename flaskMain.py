@@ -204,6 +204,9 @@ def addDBData(df: pd.DataFrame): #(file):
         res.drop_duplicates(subset=['Summary'], inplace=True)
         print(len(res))
 
+        #Reset Index
+        res.reset_index(drop=True, inplace=True)
+
         # Load data to database
         res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
         #df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
