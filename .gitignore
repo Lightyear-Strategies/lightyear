@@ -1,7 +1,6 @@
 ssh_keys
 
 .idea
-=======
 .idea/
 
 .DS_Store
@@ -39,8 +38,6 @@ venv
 haroListener/token.pickle
 haroListener/client.json
 
-haroListener/haro_jsons/*
-
 emailValidity/test.csv
 haroListener/test.csv
 flask/test.csv
@@ -48,4 +45,6 @@ ev_20/key.json
 flask/key.json
 *.csv
 *.pyc
-*.csv
+
+flask_app/localclient.json
+haroListener/localclient.json

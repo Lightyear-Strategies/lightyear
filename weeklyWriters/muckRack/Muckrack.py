@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import pickle
 import time
-import undetected_chromedriver.v2 as uc
+import undetected_chromedriver as uc
 import pandas as pd
 from . LDA import LDA_analysis
 from datetime import datetime
@@ -49,7 +49,7 @@ class Muckrack:
         return url_list
 
     def parse_HTML(self):
-        driver = uc.Chrome()
+        driver = uc.Chrome(headless=True)
         with driver:
             for url in self.url_list:
                 print("Parsing: " + url)
