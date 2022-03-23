@@ -84,17 +84,19 @@ def addDBData(df: pd.DataFrame): #(file):
     Adds data to SQLite DB and checks for duplicates
     """
     # checking for duplicates
+    whole_db = pd.read_sql_table('haros', db.engine)
     try:
         #df = pd.read_csv(file)
         df.columns = df.columns.str.replace(' ', '')
         df.drop('Unnamed:0', axis=1, inplace=True)
+        df.drop('level_0', axis=1, inplace=True)
+        whole_db.drop('Unnamed:0', axis=1, inplace=True)
+        whole_db.drop('level_0', axis=1, inplace=True)
 
     except Exception:
         print("no unnamed column")
 
     finally:
-        print("in finally block")
-        whole_db = pd.read_sql_table('haros', db.engine)
         print(len(whole_db))
         res = pd.concat([whole_db, df])
         print(len(res))
