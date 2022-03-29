@@ -84,28 +84,18 @@ def addDBData(df: pd.DataFrame): #(file):
     Adds data to SQLite DB and checks for duplicates
     """
     # checking for duplicates
-    whole_db = pd.read_sql_table('haros', db.engine)
-    try:
-        #df = pd.read_csv(file)
-        df.columns = df.columns.str.replace(' ', '')
-        df.drop('Unnamed:0', axis=1, inplace=True)
-        df.drop('level_0', axis=1, inplace=True)
-        whole_db.drop('Unnamed:0', axis=1, inplace=True)
-        whole_db.drop('level_0', axis=1, inplace=True)
+    whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
+    print(len(whole_db))
+    print(whole_db.columns)
+    res = pd.concat([whole_db, df])
+    print(len(res))
+    res.drop_duplicates(subset=['Summary'], inplace=True)
+    print(len(res))
+    res.reset_index(drop=True, inplace=True)
 
-    except Exception:
-        print("no unnamed column")
-
-    finally:
-        print(len(whole_db))
-        res = pd.concat([whole_db, df])
-        print(len(res))
-        res.drop_duplicates(subset=['Summary'], inplace=True)
-        print(len(res))
-
-        # Load data to database
-        res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
-        #df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+    # Load data to database
+    print(res.columns)
+    res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
 def listener_bg_process():
