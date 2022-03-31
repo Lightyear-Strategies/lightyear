@@ -1,11 +1,6 @@
 import pandas as pd
 from fpdf import FPDF
 
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-
 #Ideas for future features:
 # — Clients can choose to highlight publications
 # — Pull the list of authors and parse them from the global list of publications

@@ -33,6 +33,7 @@ Flask==2.0.2
 Flask-Bootstrap==3.3.7.1
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.0.0
+fpdf==1.7.2
 gensim==4.1.2
 google-api-core==2.3.2
 google-api-python-client==2.33.0
