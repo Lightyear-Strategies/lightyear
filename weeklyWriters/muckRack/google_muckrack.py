@@ -20,7 +20,7 @@ class google_muckrack:
             print("{}/{}".format(i, total))
             name = self.targetCol[i]
             url = self.__lookUp(name)
-            if url != "":
+            if url != "" and url is not None:
                 if not url.endswith("/articles"):
                     url = url + "/articles"
                 df['Muckrack'][i] = url
@@ -43,7 +43,7 @@ class google_muckrack:
         except:
             return "ERROR"
         query = name + " " + "muckrack"
-        for j in search(query, num_results=3):
+        for j in search(query, tld="com", num=1, stop=1, pause=1):
             if "muckrack.com" in j:
                 print(j)
                 return j
