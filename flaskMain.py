@@ -21,7 +21,6 @@ from flask_app.utils import * # imports Celery, timethis
 from ev_20 import emailAPIvalid
 from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck
-from haroListener.haro_listener import HaroListener
 
 ###################### Flask ######################
 
@@ -97,13 +96,6 @@ def addDBData(df: pd.DataFrame): #(file):
     print(res.columns)
     res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
-
-def listener_bg_process():
-    """
-    A function for celery to use to create a background process to listen for haro emails
-    """
-    listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen(addDBData)
 
 #@param:    None
 #@return:   Haros table
