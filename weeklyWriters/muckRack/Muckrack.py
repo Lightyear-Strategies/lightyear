@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import pickle
 import time
 import undetected_chromedriver as uc
+
 import pandas as pd
 from . LDA import LDA_analysis
 from datetime import datetime
@@ -38,6 +39,7 @@ class Muckrack:
             df = pd.read_excel(filename)
 
 
+        #find column that's name Muckrack
         for i in range(len(df.columns)):
             if(df.columns[i]=="Muckrack" or df.columns[i]=="muckrack"
             or df.columns[i]=="Muckrack URL" or df.columns[i]=="muckrack url"):
@@ -62,6 +64,7 @@ class Muckrack:
                 except Exception as e:
                     print("Error: " + str(e))
                     continue
+
 
                 self.time_left -= self.sleep_time*2
         driver.quit()

@@ -44,6 +44,7 @@ class google_muckrack:
             return "ERROR"
         query = name + " " + "muckrack"
         for j in search(query, tld="com", num=1, stop=1, pause=1):
+
             if "muckrack.com" in j:
                 print(j)
                 return j

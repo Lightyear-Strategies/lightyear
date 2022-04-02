@@ -1,6 +1,13 @@
 import pandas as pd
-from muckRack import Muckrack as MC
-from muckRack import google_muckrack as gm
+
+from weeklyWriters.muckRack import Muckrack as MC
+from weeklyWriters.muckRack import google_muckrack as gm
+
+#To-do:
+#1) Go through the list of authors and get their muckrack links
+#1.5) Optionally, use the existing links to analyze the data
+#2) Gather the most recent articles, gather the key words, gather media outlets
+#3) Create a dataframe with the data
 
 class WeeklyReport:
     def __init__(self, filename, colname, parsed=False):
@@ -24,6 +31,7 @@ class WeeklyReport:
         self.df = look_up.get_dataframe()
 
     def muckrack_analysis(self):
+
         list = self.df["Muckrack"].tolist()
         mc = MC.Muckrack(list)
         mc.parse_HTML()
