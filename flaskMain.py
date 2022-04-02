@@ -22,7 +22,7 @@ from flask_app.utils import *  #imports Celery, timethis
 from ev_20 import emailAPIvalid
 from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck
-from haroListener.haro_listener import HaroListener
+
 #from weeklyWriters.weekly import WeeklyReport
 
 ###################### Flask ######################
@@ -187,34 +187,20 @@ def addDBData(df: pd.DataFrame): #(file):
     Adds data to SQLite DB and checks for duplicates
     """
     # checking for duplicates
-    try:
-        #df = pd.read_csv(file)
-        df.columns = df.columns.str.replace(' ', '')
-        df.drop('Unnamed:0', axis=1, inplace=True)  # inplace= True modifies the existing df
-                                                    # axis=1 tells that we want to drop a colmn
-    except Exception:
-        print("no unnamed column")
+    whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
+    print(len(whole_db))
+    print(whole_db.columns)
+    res = pd.concat([whole_db, df])
+    print(len(res))
+    res.drop_duplicates(subset=['Summary'], inplace=True)
+    print(len(res))
+    res.reset_index(drop=True, inplace=True)
 
-    finally:
-        print("in finally block")
-        whole_db = pd.read_sql_table('haros', db.engine)
-        print(len(whole_db))
-        res = pd.concat([whole_db, df])
-        print(len(res))
-        res.drop_duplicates(subset=['Summary'], inplace=True)
-        print(len(res))
-
-        # Load data to database
-        res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
-        #df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+    # Load data to database
+    print(res.columns)
+    res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
-def listener_bg_process():
-    """
-    A function for celery to use to create a background process to listen for haro emails
-    """
-    listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen(addDBData)
 
 #@param:    None
 #@return:   Haros table

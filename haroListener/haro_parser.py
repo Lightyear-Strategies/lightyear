@@ -154,7 +154,7 @@ class Haro:
         row_dict["Time"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[0].strip()
         row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "").strip()
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()
-        row_dict["Date Received"] = self.received
+        row_dict["DateReceived"] = self.received
         row_dict["Edition"] = ' '.join(self.subject.split(" ")[1:-1])
         row_dict["Used"] = "None"
         self.df = self.df.append(row_dict, ignore_index=True)

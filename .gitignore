@@ -46,5 +46,9 @@ flask/key.json
 *.csv
 *.pyc
 
+localclient.json
+token.pickle
+client.json
+HarosDB.sqlite3
 flask_app/localclient.json
 haroListener/localclient.json

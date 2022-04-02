@@ -86,6 +86,7 @@ $(document).ready(function () {
       var action = this.id;
       var index = table.row( $(this).parents('tr') ).data().index;
 
+      console.log(table.row( $(this).parents('tr') ).data())
       console.log(index);
       if (action === 'Add'){
         requestUrl = "/api/used/add/"+index;

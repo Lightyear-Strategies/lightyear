@@ -1,4 +1,5 @@
 import pandas as pd
+
 from weeklyWriters.muckRack import Muckrack as MC
 from weeklyWriters.muckRack import google_muckrack as gm
 
@@ -28,11 +29,9 @@ class WeeklyReport:
     def add_muckrack(self):
         look_up = gm.google_muckrack(self.df, self.colname)
         self.df = look_up.get_dataframe()
-        #REMOVE LATER ON
-        self.df.to_csv("test.csv")
 
     def muckrack_analysis(self):
-        #convert self.df["Muckrack"] to a list
+
         list = self.df["Muckrack"].tolist()
         mc = MC.Muckrack(list)
         mc.parse_HTML()
@@ -43,12 +42,7 @@ class WeeklyReport:
         return self.df
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
-    df = WeeklyReport("test.csv", "Name", parsed=True)
+    df = WeeklyReport("test.csv", "Name")
     df.muckrack_analysis()
+

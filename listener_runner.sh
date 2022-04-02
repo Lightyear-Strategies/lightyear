@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~/lightyear
+
 echo "sourcing venv"
 source venv/bin/activate
 echo "sourced venv"
