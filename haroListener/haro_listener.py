@@ -14,7 +14,6 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-sys.path.append("..")
 from haroListener.haro_parser import Haro
 from flask_app.googleAuth import serviceBuilder, localServiceBuilder
 

@@ -3,7 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 import pickle
 import time
-import undetected_chromedriver.v2 as uc
+import undetected_chromedriver as uc
+
 import pandas as pd
 from . LDA import LDA_analysis
 from datetime import datetime
@@ -37,6 +38,7 @@ class Muckrack:
         elif(filename.endswith(".xlsx")):
             df = pd.read_excel(filename)
 
+
         #find column that's name Muckrack
         for i in range(len(df.columns)):
             if(df.columns[i]=="Muckrack" or df.columns[i]=="muckrack"
@@ -49,15 +51,20 @@ class Muckrack:
         return url_list
 
     def parse_HTML(self):
-        driver = uc.Chrome()
+        driver = uc.Chrome(headless=True)
         with driver:
             for url in self.url_list:
-                print("Parsing: " + url)
-                print("Time left: " + self.__time_left())
-                driver.get(url)
-                time.sleep(self.sleep_time)
-                self.read_HTML(driver.page_source)
-                time.sleep(self.sleep_time)
+                try:
+                    print("Parsing: " + url)
+                    print("Time left: " + self.__time_left())
+                    driver.get(url)
+                    time.sleep(self.sleep_time)
+                    self.read_HTML(driver.page_source)
+                    time.sleep(self.sleep_time)
+                except Exception as e:
+                    print("Error: " + str(e))
+                    continue
+
 
                 self.time_left -= self.sleep_time*2
         driver.quit()
