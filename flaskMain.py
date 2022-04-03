@@ -91,6 +91,7 @@ def uploadJournalist():
         personemail = form.email.data
         files = request.files.getlist(form.files.name)
         form.email.data = ''
+        # filename
 
         journalists = []
         if files:
@@ -106,7 +107,7 @@ def uploadJournalist():
 
 
                 finally:
-                    """For Future: should use re to check for 'ournalist' sting """
+                    """For Future: should use re to check for 'ournalist' string """
 
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
                     i = 0
@@ -122,8 +123,8 @@ def uploadJournalist():
 
             # only executed if there is no 'journalists' table
             if not db.inspect(db.engine.connect()).has_table('journalists'):
-                data = [[personname,personemail,journalist] for journalist in journalists]
-                df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist'])
+                data = [[personname,personemail,journalist, None] for journalist in journalists]
+                df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                 df.to_sql(name='journalists', con=db.engine, index=False)
 
             else:
@@ -139,8 +140,8 @@ def uploadJournalist():
 
                     # Add new entries
                     print("Adding new rows")
-                    data = [[personname, personemail, journalist] for journalist in journalists]
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist'])
+                    data = [[personname, personemail, journalist, None] for journalist in journalists]
+                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name='journalists', con=db.engine, index=False, if_exists='replace')
 
