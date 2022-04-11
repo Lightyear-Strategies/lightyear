@@ -7,24 +7,21 @@ except ImportError:
 class google_muckrack:
     def __init__(self, dataframe, colname):
         self.df = dataframe
-        self.targetCol = self.df[colname]
+        self.colname = colname
 
         self.__parse_muckrack()
 
 
     def __parse_muckrack(self):
-        df = self.df
-        df['Muckrack'] = ""
-        for i in range(len(df)):
-            total = len(df)
-            print("{}/{}".format(i, total))
-            name = self.targetCol[i]
+        for index, row in self.df.iterrows():
+            total = len(self.df)
+            print("{}/{}".format(index, total))
+            name = row[self.colname]
             url = self.__lookUp(name)
             if url != "" and url is not None:
                 if not url.endswith("/articles"):
                     url = url + "/articles"
-                df['Muckrack'][i] = url
-        self.df = df
+                row['Muckrack'] = url
 
     def get_dataframe(self):
         return self.df

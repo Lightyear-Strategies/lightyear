@@ -6,7 +6,6 @@ import time
 import undetected_chromedriver as uc
 
 import pandas as pd
-from . LDA import LDA_analysis
 from datetime import datetime
 from datetime import timedelta
 
@@ -80,6 +79,7 @@ class Muckrack:
 
     def read_HTML(self, page_source=None):
         if page_source is None:
+            print("EMPTY PAGE SOURCE")
             with open('savedHTML.txt', 'r') as f:
                 page_source = f.read()
 
@@ -176,8 +176,9 @@ if __name__ == '__main__':
                     'https://muckrack.com/josh-laskin/articles']
 
     muck = Muckrack(list_of_urls)
-    #muck.parse_HTML()
-    muck.read_HTML()
+    muck.parse_HTML()
+    #muck.read_HTML()
     #df = muck.show_df()
     #print(df)
+    print(muck.df)
 
