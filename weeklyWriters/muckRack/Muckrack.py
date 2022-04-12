@@ -12,8 +12,6 @@ from datetime import timedelta
 class Muckrack:
     def __init__(self, url_list=None, filename=None, sleep_time=2.5):
         if filename is not None:
-            if(filename is None):
-                raise Exception("No filename provided")
             url_list = self.__find_list(filename)
 
         if(len(url_list)==1):
@@ -105,6 +103,7 @@ class Muckrack:
         coverage = []
         time_stamps = []
         headlines = []
+        links = []
         #########################################
 
         outlets = soup.find_all("div", {"class": "news-story-byline"})
@@ -112,11 +111,11 @@ class Muckrack:
             media = outlets[outlet].find_all("a")[-1].text
             medias.append(media)
 
-        for article in range(0, len(aTags), 2):
+        for article in range(0, len(aTags)):
             articles.append(aTags[article].get("data-description"))
 
         header_tags = soup.find_all("h4", {"class": "news-story-title"})
-        for header in range(0, len(header_tags), 2):
+        for header in range(0, len(header_tags)):
             headlines.append(header_tags[header].text)
 
         time_tags = soup.find_all("a", {"class": "timeago"})
@@ -129,18 +128,24 @@ class Muckrack:
             except Exception as e:
                 print(e)
 
+        link_tags = soup.find_all("h4", {"class": "news-story-title"})
+        for link in range(len(link_tags)):
+             links.append(link_tags[link].find_all("a")[0].get("href"))
+
 
         ###### ASSEMBLING DATA INTO DATAFRAME ######
         df = pd.DataFrame({})
         final_headers = []
         final_time = []
         final_media = []
+        final_links = []
         for time in range(len(time_stamps)):
             #if time is within the last 7 days
             if time_stamps[time] > datetime.now() - timedelta(days=7):
                 final_headers.append(headlines[time].replace("\n", "").replace("\t", ""))
                 final_time.append(time_stamps[time].strftime("%Y-%m-%d"))
                 final_media.append(medias[time])
+                final_links.append(links[time])
             else:
                 break
 
@@ -148,7 +153,8 @@ class Muckrack:
         df = df.append(pd.DataFrame({"Name": final_names,
                                      "Headline": final_headers,
                                      "Date": final_time,
-                                     "Media": final_media}))
+                                     "Media": final_media,
+                                     "Link": final_links}))
 
         #if df is empty
         if(len(df)==0):
@@ -178,7 +184,7 @@ if __name__ == '__main__':
     muck = Muckrack(list_of_urls)
     muck.parse_HTML()
     #muck.read_HTML()
-    #df = muck.show_df()
-    #print(df)
-    print(muck.df)
+
+    df = muck.show_df()
+
 
