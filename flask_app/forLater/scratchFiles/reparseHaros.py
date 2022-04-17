@@ -24,12 +24,14 @@ big_df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
 """
-# In case of this error
+# In case of this error 
 # OperationalError: attempt to write a readonly database
+
+# use in the terminal within the directory where database is located 
 sudo chmod a+w HarosDB.sqlite3 
+"""
 
 # to drop a table within Databse
-table = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-table.drop(db.engine)
+#table = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+#table.drop(db.engine)
 
-"""
