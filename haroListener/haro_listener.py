@@ -31,7 +31,7 @@ class HaroListener():
         self.save_dir = '/haro_jsons/'
         #self.token_path = 'token.pickle'
         #self.creds_path = 'client.json'
-        self.creds = serviceBuilder() #localServiceBuilder()
+        self.creds = localServiceBuilder() # serviceBuilder()
 
     """
     # @params = none
@@ -255,7 +255,5 @@ if __name__ == '__main__':
     #df_save.to_csv('haro_csvs/ALL_OLD_HAROS.csv')
     #with open('haro_csvs/ALL_OLD_HAROS.csv', 'r+') as old:
     #   addDBData(old)
-    listener = HaroListener('george@lightyearstrategies.com', False)
-    listener.listen("haro_csvs", "MOST_RECENT.csv")
-    
+    pass
 

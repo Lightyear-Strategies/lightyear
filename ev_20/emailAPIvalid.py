@@ -6,7 +6,7 @@ import json
 
 EV_DIR = os.path.abspath(os.path.dirname(__file__))
 LIGHTYEAR_DIR = os.path.dirname(EV_DIR)
-saveLocation = LIGHTYEAR_DIR + '/flask/uploadFolder/'
+saveLocation = LIGHTYEAR_DIR + '/flask_app/uploadFolder/'
 
 
 class emailValidation:
@@ -82,6 +82,8 @@ class emailValidation:
                 self.url,
                 params={'email': email},
                 headers={'Authorization': "Bearer " + self.key})
+
+        #print(response.json())
         return response.json()['status']
 
     def validation(self, save=False, stats=False, record_removed=False):

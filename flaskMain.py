@@ -21,7 +21,7 @@ from flask_app.utils import *  #imports Celery, timethis
 
 from ev_20 import emailAPIvalid
 from flask_app import emailRep
-from flask_app.googleAuth import g_oauth, authCheck
+from flask_app.googleAuth import g_oauth, authCheck, localServiceBuilder
 
 #from weeklyWriters.weekly import WeeklyReport
 
@@ -40,7 +40,7 @@ app.config['CELERY_BROKER_URL'] = \
     'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'.format(
                                     AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
                                     AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
-                                    )
+                                   )
 app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
 
 # To work with Celery in local environment using RabbitMQ, uncomment app.config below and comment our the two above
@@ -91,6 +91,7 @@ def uploadJournalist():
         personemail = form.email.data
         files = request.files.getlist(form.files.name)
         form.email.data = ''
+        # filename
 
         journalists = []
         if files:
@@ -106,7 +107,7 @@ def uploadJournalist():
 
 
                 finally:
-                    """For Future: should use re to check for 'ournalist' sting """
+                    """For Future: should use re to check for 'ournalist' string """
 
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
                     i = 0
@@ -122,8 +123,8 @@ def uploadJournalist():
 
             # only executed if there is no 'journalists' table
             if not db.inspect(db.engine.connect()).has_table('journalists'):
-                data = [[personname,personemail,journalist] for journalist in journalists]
-                df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist'])
+                data = [[personname,personemail,journalist, None] for journalist in journalists]
+                df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                 df.to_sql(name='journalists', con=db.engine, index=False)
 
             else:
@@ -139,8 +140,8 @@ def uploadJournalist():
 
                     # Add new entries
                     print("Adding new rows")
-                    data = [[personname, personemail, journalist] for journalist in journalists]
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist'])
+                    data = [[personname, personemail, journalist, None] for journalist in journalists]
+                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name='journalists', con=db.engine, index=False, if_exists='replace')
 
@@ -333,8 +334,12 @@ def validation():
         files = request.files.getlist(form.files.name)
         form.email.data = ''
 
+
+        # This part is only for web deployment
         if not authCheck():
             return redirect('/authorizeCheck')
+
+        #localServiceBuilder() # Uncomment this, and comment the above lines to run locally
 
         if files:
             for file in files:
@@ -346,7 +351,6 @@ def validation():
                 # Celery
                 # parse,remove file, send updated file
                 parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, filename)
-
             return redirect("/")
         else:
             print('No files')
@@ -377,7 +381,6 @@ def emailVerify(path, recipients=None):
     """
     email = emailAPIvalid.emailValidation(filename=path)
     email.validation(save=True)
-
     subjectLine = os.path.basename(path)
     report = emailRep.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")

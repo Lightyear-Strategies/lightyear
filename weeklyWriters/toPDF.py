@@ -50,41 +50,42 @@ class pdfReport:
 
         pdf = PDF()
         pdf.add_page()
-        df = df.sort_values(by=['Name'])
         #group df by name
-        grouped = df.groupby("Name")
-        for name, _ in grouped:
+        grouped = df.groupby("Name", sort=True)
+        for name, name_df in grouped:
             #add name as header
             pdf.set_font('Times', 'B', 14)
             pdf.cell(w=0, h=10, txt=name, ln=1, align='C')
 
-            for i in range(len(df)):
-                if(df["Name"][i] == name):
+            for index, row in name_df.iterrows():
+            # for i in range(len(df)):
+            #     if(df["Name"][i] == name):
                     #READ IT:
                     #ADD LATER WHEN IMPLEMENTING PERSONALIZATION:
                     #To if statement above: "and name in list_of_authors"
 
 
-                    media = "Media:"
-                    pdf.set_font('Times', 'B', 12)
-                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                    media = df["Media"][i]
-                    pdf.set_font('Times', '', 12)
-                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                    media = "Publication:"
-                    pdf.set_font('Times', 'B', 12)
-                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                    media = df["Date"][i]+"\n"
-                    pdf.set_font('Times', '', 12)
-                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                    media = "Headline:"
-                    pdf.set_font('Times', 'B', 12)
-                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                    text = df["Headline"][i] + "\n\n"
-                    text_final = text.encode('latin-1', 'replace').decode('latin-1')
-                    pdf.set_font('Times', '', 12)
-                    pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L')
-                    pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
+                media = "Media:"
+                pdf.set_font('Times', 'B', 12)
+                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                media = row["Media"]
+                pdf.set_font('Times', '', 12)
+                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                media = "Publication:"
+                pdf.set_font('Times', 'B', 12)
+                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                media = row["Date"]+"\n"
+                pdf.set_font('Times', '', 12)
+                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                media = "Headline:"
+                pdf.set_font('Times', 'B', 12)
+                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                text = row["Headline"] + "\n\n"
+                link = row["Link"]
+                text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                pdf.set_font('Times', '', 12)
+                pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
+                pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
         pdf.output(filename, 'F')
 
 
