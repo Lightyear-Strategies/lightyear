@@ -1,8 +1,10 @@
-from unicodedata import name
 import flaskMain as fm
+import datetime
 from weeklyWriters.muckRack import google_muckrack as gm, Muckrack as mr
 from weeklyWriters.toPDF import pdfReport
+from weeklyWriters.emailWeeklyRep import report
 import sys
+import os
 import pandas as pd
 
 
@@ -21,7 +23,11 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(unique_links)
         parser.parse_HTML()
-        grouped_by_name = parser.df.groupby('Name')
+        try:
+            grouped_by_name = parser.df.groupby('Name')
+        except KeyError:
+            # no articles for anything
+            print('no articles this week')
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
@@ -40,6 +46,19 @@ if __name__ == "__main__":
                 # No info for any of the journalists for email
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
                 continue
+            
             pdf_maker_for_email = pdfReport(df_for_email)
-            pdf_for_email = pdf_maker_for_email.create_PDF(filename=email + '_journalist_report.pdf')
-            # TODO: email pdf
+            filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
+            pdf_for_email = pdf_maker_for_email.create_PDF(filename=filepath)
+
+            clientname = df.ClientName.iloc[0]
+            str_date = str(datetime.datetime.now().date())
+
+            email = report(
+                sender='george@lightyearstrategies.com',
+                to=email,
+                subject=f'Weekly Journalist Report {str_date}',
+                text=f'Hi {clientname},\n\nHere is your weekly report.',
+                file=filepath
+            )
+            email.sendMessage()

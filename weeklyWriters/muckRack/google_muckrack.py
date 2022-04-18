@@ -41,7 +41,7 @@ class google_muckrack:
             return "ERROR"
         query = name + " " + "muckrack"
 
-        s = list(search(query, num=1, stop=1))[0]
+        s = list(search(query, num_results=1))[0]
         if "muckrack.com" not in s:
             print("NONE")
             return None

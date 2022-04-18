@@ -4,13 +4,14 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
+import email.encoders as ee
 import mimetypes
 import pickle
 import os
 import glob
 from apiclient import errors
 
-from googleAuth import serviceBuilder,localServiceBuilder
+from weeklyWriters.googleAuth import serviceBuilder,localServiceBuilder
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):
@@ -80,6 +81,7 @@ class report():
         filename = os.path.basename(self.file)
         msg.add_header('Content-Disposition', 'attachment',
                        filename=filename)
+        ee.encode_base64(msg)
         message.attach(msg)
 
         raw_message = \
