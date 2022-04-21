@@ -161,14 +161,6 @@ def uploadJournalist():
 
     return render_template('uploadJournalistCSV.html', form=form, email=email, files=files)
 
-def journalistTableEntry(personname,personemail,list_journalists):
-    row_dict = dict()
-    row_dict["Name"] = personname
-    row_dict["ClientEmail"] = personemail
-    row_dict["Journalists"] = list_journalists
-
-    return pd.DataFrame(data=row_dict)
-
 def removeDBdups():
     """
     removes duplicates from SQLite DB, does not need to be run often, as the addDBData function now checks for duplicates
@@ -395,7 +387,5 @@ if __name__ == '__main__':
     #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
     #removeDBdups()
 
-    #from werkzeug.middleware.profiler import ProfilerMiddleware
-    #app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[5])
     app.run(host='0.0.0.0', port=80,debug=False,threaded=True)
 
