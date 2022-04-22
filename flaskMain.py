@@ -67,7 +67,7 @@ class uploadEmailFilesForm(FlaskForm):
 class uploadJournalistCSV(FlaskForm):
     """Constructor for the Journalist Subscription Form"""
 
-    personname = StringField('What is your name?', validators=[DataRequired()])
+    personname = StringField('What is your full name?', validators=[DataRequired()])
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
@@ -388,4 +388,5 @@ if __name__ == '__main__':
     #removeDBdups()
 
     app.run(host='0.0.0.0', port=80,debug=False,threaded=True)
+
 

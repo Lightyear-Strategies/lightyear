@@ -31,7 +31,8 @@ class HaroListener():
         self.save_dir = '/haro_jsons/'
         #self.token_path = 'token.pickle'
         #self.creds_path = 'client.json'
-        self.creds = localServiceBuilder() # serviceBuilder()
+        #self.creds = localServiceBuilder()
+        self.creds = serviceBuilder()
 
     """
     # @params = none
