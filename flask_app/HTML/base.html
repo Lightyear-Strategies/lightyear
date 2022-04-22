@@ -14,11 +14,31 @@
     tr.details td.details-control {
       background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
     }
-    </style>
 
+    .navbar-nav {
+        min-width:360px;
+        float: left;
+    }
+    .navbar-nav>li {
+        float: left;
+    }
+
+    </style>
   </head>
   <body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="background-color: #222222; font-size:14px">
+       <div class="container-fluid">
+          <nav class="navbar-expand">
+             <ul class=" nav navbar-nav horizontal">
+                <li class="nav-item"> <a class="nav-link active" href="/">Email Validation</a> </li>
+                <li class="nav-item"> <a class="nav-link active" href="/haros">Haros Table</a> </li>
+                <li class="nav-item"> <a class="nav-link active" href="/journalists">Journalists</a> </li>
+             </ul>
+          </nav>
+       </div>
+    </nav>
     <div class="container" style="max-width: 94%">
+      <br>
       <h3>{{ title }}</h3>
       <hr>
       <button id="all_button" class="dt-button">All Haros</button>

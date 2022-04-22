@@ -2,17 +2,27 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}LyS Email Verification{% endblock %}
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-   <div class="container">
-      <div class="navbar-collapse collapse">
-         <ul class="nav navbar-nav">
+<style>
+    .navbar-nav {
+        min-width:360px;
+        float: left;
+    }
+    .navbar-nav>li {
+        float: left;
+    }
+</style>
+
+<nav class="navbar navbar-expand-sm navbar-inverse bg-light" >
+   <div class="container-fluid">
+      <nav class="navbar-expand-sm">
+         <ul class=" nav navbar-nav horizontal">
             <li> <a href="/">Email Validation</a> </li>
             <li> <a href="/haros">Haros Table</a> </li>
             <li> <a href="/journalists">Journalists</a> </li>
          </ul>
-      </div>
+      </nav>
    </div>
-</div>
+</nav>
 {% endblock %}
 {% block content %}
 {% with messages = get_flashed_messages() %}
@@ -28,9 +38,19 @@
    <div class="page-header">
       <h3>Validate Emails</h3>
    </div>
-   <br>Please, upload the file and don't close the page!</br>
-   It will be processed in background. It <i>might</i> take 5-10 minutes for bigger files.
+   <strong>Guidelines:</strong>
+   <p> <pre>
+   1. Enter the email address where you want to receive your verified file(s)
+   2. Create CSV/Excel file(s)
+   3. One column must be named "Emails" and must contain emails that you want to verify
+   4. Select the file(s)
+   5. Press "Submit" button </pre>
+   </p>
+   <br>
+   Your file(s) will be emailed to you within 10 minutes.
+   <br> <br>
    <form action="" method="post" class="form" role="form" enctype="multipart/form-data">
+
    {{ wtf.quick_form(form) }}
    </form>
 </div>
