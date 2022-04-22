@@ -34,30 +34,6 @@ class HaroListener():
         #self.creds = localServiceBuilder()
         self.creds = serviceBuilder()
 
-    """
-    # @params = none
-    # @return credentials: a set of google api credentials
-    def __auth(self):
-        creds = None
-        if os.path.exists(self.token_path):
-            with open(self.token_path, 'rb') as token:
-                creds = pickle.load(token)
-        if not creds or not creds.valid:
-            if creds and creds.expired and creds.refresh_token:
-                creds.refresh(Request())
-            else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-
-                    self.creds_path, self.scopes)
-                creds = flow.run_local_server(port=0)
-            with open(self.token_path, 'wb') as token:
-                pickle.dump(creds, token)
-
-        service = build('gmail', 'v1', credentials=creds)
-
-        return service
-    """
-
     # @params None
     # @return json-like dict object representing the most recent HARO email
     def __find_recent_haro(self):
