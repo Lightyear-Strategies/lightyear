@@ -18,7 +18,7 @@ big_df.columns = big_df.columns.str.replace(' ', '')
 big_df.drop_duplicates(subset=['Summary'], inplace=True)
 big_df.reset_index(drop=True,inplace=True)
 
-big_df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+big_df.to_sql(name='haros', con=fm.db.engine, index=True, if_exists='replace')
 
 #fm.addDBData(big_df)
 
