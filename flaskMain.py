@@ -276,8 +276,10 @@ def data(option=None):
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','Date','MediaOutlet','Deadline']:
-            col_name = 'Category'
+        if col_name not in ['Category','MediaOutlet','DateReceived']:
+            col_name = 'TimeStamp'
+        if col_name == 'DateReceived':
+            col_name = 'TimeStamp'
 
         # gets descending sorting
         descending = request.args.get(f'order[{i}][dir]') == 'desc'

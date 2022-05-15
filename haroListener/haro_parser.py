@@ -149,14 +149,11 @@ class Haro:
         row_dict["Email"] = message.split("Email:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["MediaOutlet"] = message.split("Media Outlet:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["Deadline"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").strip()
-        row_dict["Date"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[-1].strip()
-        row_dict["Date"] = row_dict["Date"].split(" ")[-1] + " " + row_dict["Date"].split(" ")[0].strip()
-        row_dict["Time"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").split("-")[0].strip()
         row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "").strip()
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()
         row_dict["DateReceived"] = self.received
-        row_dict["Edition"] = ' '.join(self.subject.split(" ")[1:-1])
         row_dict["Used"] = "None"
+        row_dict["TimeStamp"] = datetime.fromisoformat(self.received).timestamp()
         self.df = self.df.append(row_dict, ignore_index=True)
 
     def parse_MC(self):
