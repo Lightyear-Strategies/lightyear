@@ -7,27 +7,46 @@ import sys
 import os
 import pandas as pd
 
+def links(timeframe : str):
+    links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
+    gm_ob = gm.google_muckrack(links_needed, 'Journalist')
+    new_df = gm_ob.get_dataframe()
+    journalists_db[journalists_db['Muckrack'].isnull()] = new_df
+    journalists_db.to_sql(f'journalists{timeframe}', fm.db.engine, index=False, if_exists='replace')
+
 
 if __name__ == "__main__":
     
-    journalists_db = journalists = pd.read_sql_table('journalists', fm.db.engine)
+    if sys.argv[2] == 'day':
+        timeframe = '_day'
+        days_back = 3
+        subject = 'Daily'
+    elif sys.argv[2] == 'month':
+        timeframe = '_month'
+        days_back = 30
+        subject = 'Monthly'
+    else:
+        timeframe = '_week'
+        days_back = 7
+        subject = 'Weekly'
+
+
+    journalists_db = journalists = pd.read_sql_table(f'journalists{timeframe}', fm.db.engine)
 
     if sys.argv[1] == "links":
-        links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
-        gm_ob = gm.google_muckrack(links_needed, 'Journalist')
-        new_df = gm_ob.get_dataframe()
-        journalists_db[journalists_db['Muckrack'].isnull()] = new_df
-        journalists_db.to_sql('journalists', fm.db.engine, index=False, if_exists='replace')
+        links(timeframe)
+
 
     if sys.argv[1] == "parse":
         unique_links = list(journalists_db['Muckrack'].unique())
-        parser = mr.Muckrack(unique_links)
+        parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         try:
             grouped_by_name = parser.df.groupby('Name')
         except KeyError:
             # no articles for anything
-            print('no articles this week')
+            grouped_by_name = None
+            print(f'no articles this {timeframe[1:]}')
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
@@ -35,6 +54,8 @@ if __name__ == "__main__":
             df_list_to_concat = list()
             for jour_name in df.Journalist:
                 try:
+                    if grouped_by_name == None:
+                        raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
                 except KeyError:
                     # no info for this journalist in particular
@@ -57,8 +78,8 @@ if __name__ == "__main__":
             email = report(
                 sender='george@lightyearstrategies.com',
                 to=email,
-                subject=f'Weekly Journalist Report {str_date}',
-                text=f'Hi {clientname},\n\nHere is your weekly report.',
+                subject=f'{subject} Journalist Report {str_date}',
+                text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.',
                 file=filepath
             )
             email.sendMessage()

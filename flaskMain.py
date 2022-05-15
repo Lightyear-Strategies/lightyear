@@ -4,8 +4,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_bootstrap import Bootstrap
 from werkzeug.utils import secure_filename
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, MultipleFileField
-from wtforms.validators import DataRequired, Email
+from wtforms import StringField, SubmitField, MultipleFileField, RadioField
+from wtforms.validators import DataRequired, Email, InputRequired
 from flask_wtf.file import FileField, FileAllowed
 from flask_sqlalchemy import SQLAlchemy
 
@@ -69,6 +69,7 @@ class uploadJournalistCSV(FlaskForm):
 
     personname = StringField('What is your full name?', validators=[DataRequired()])
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
+    frequency = RadioField(label='Receive updates every', validators=[InputRequired()], choices = [('_day', 'day'), ('_week', 'week'), ('_month', 'month')])
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
@@ -91,6 +92,8 @@ def uploadJournalist():
         personemail = form.email.data
         files = request.files.getlist(form.files.name)
         form.email.data = ''
+        timeframe = form.frequency.data
+        print(timeframe)
         # filename
 
         journalists = []
@@ -122,16 +125,16 @@ def uploadJournalist():
                         i+=1
 
             # only executed if there is no 'journalists' table
-            if not db.inspect(db.engine.connect()).has_table('journalists'):
+            if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 data = [[personname,personemail,journalist, None] for journalist in journalists]
                 df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
-                df.to_sql(name='journalists', con=db.engine, index=False)
+                df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
 
             else:
 
                 try:
                     """For Future: No so efficient to drop all old entries and then append the new ones"""
-                    journalists_df = pd.read_sql_table('journalists', db.engine)
+                    journalists_df = pd.read_sql_table(f'journalists{timeframe}', db.engine)
 
                     # There are entries with current client, we remove the entries
                     if len(journalists_df[journalists_df['ClientName'] == personname]) > 0:
@@ -143,7 +146,7 @@ def uploadJournalist():
                     data = [[personname, personemail, journalist, None] for journalist in journalists]
                     new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
-                    journalists_df.to_sql(name='journalists', con=db.engine, index=False, if_exists='replace')
+                    journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
                     flash('Successfully Subscribed')
                 except Exception:
@@ -389,6 +392,6 @@ if __name__ == '__main__':
     #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
     #removeDBdups()
 
-    app.run(host='0.0.0.0', port=80,debug=False,threaded=True)
+    app.run(host='0.0.0.0', port=80,debug=True,threaded=True)
 
 

@@ -10,7 +10,7 @@ from datetime import datetime
 from datetime import timedelta
 
 class Muckrack:
-    def __init__(self, url_list=None, filename=None, sleep_time=2.5):
+    def __init__(self, url_list=None, filename=None, sleep_time=2.5, timeframe=7):
         if filename is not None:
             url_list = self.__find_list(filename)
 
@@ -21,6 +21,7 @@ class Muckrack:
 
         self.df = pd.DataFrame()
 
+        self.timeframe = timeframe
         self.sleep_time = sleep_time
         self.time_total = len(url_list)*(self.sleep_time*2)
         self.time_left = self.time_total
@@ -141,7 +142,7 @@ class Muckrack:
         final_links = []
         for time in range(len(time_stamps)):
             #if time is within the last 7 days
-            if time_stamps[time] > datetime.now() - timedelta(days=7):
+            if time_stamps[time] > datetime.now() - timedelta(days=self.timeframe):
                 final_headers.append(headlines[time].replace("\n", "").replace("\t", ""))
                 final_time.append(time_stamps[time].strftime("%Y-%m-%d"))
                 final_media.append(medias[time])
