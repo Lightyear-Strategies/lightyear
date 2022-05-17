@@ -22,7 +22,7 @@ class PDF(FPDF):
         self.cell(0, 10, 'Page %s' % self.page_no(), 0, 0, 'C')
 
 class pdfReport:
-    def __init__(self, df=None, filename=None, list = None):
+    def __init__(self, df=None, filename=None, list = None, unsub_link = None):
         if(df is None and filename is None):
             raise Exception("Must provide either a dataframe or a filename")
         elif(df is None):
@@ -35,6 +35,7 @@ class pdfReport:
 
         self.list = list
 
+        self.unsub_url = unsub_link
         self.pdf = FPDF()
         self.pdf.add_page()
         self.pdf.image('logo.png', x=10, y=10, w=26, h=8)
@@ -86,6 +87,9 @@ class pdfReport:
                 pdf.set_font('Times', '', 12)
                 pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
                 pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
+
+        pdf.set_font('Times', '', 12)
+        pdf.cell(w=0, h=5, txt='\n\n\n\n\nClick here to unsubscribe.', ln=1, align='L', link=self.unsub_url)
         pdf.output(filename, 'F')
 
 

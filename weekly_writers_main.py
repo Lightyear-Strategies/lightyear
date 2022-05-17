@@ -1,13 +1,12 @@
 import flaskMain as fm
 import datetime
 from weeklyWriters.muckRack import google_muckrack as gm, Muckrack as mr
-from weeklyWriters.toPDF import pdfReport
-from weeklyWriters.emailWeeklyRep import report
 import sys
 import os
 import pandas as pd
 
-def links(timeframe : str):
+def links(journalists_db : pd.DataFrame, timeframe : str):
+
     links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
     gm_ob = gm.google_muckrack(links_needed, 'Journalist')
     new_df = gm_ob.get_dataframe()
@@ -31,10 +30,10 @@ if __name__ == "__main__":
         subject = 'Weekly'
 
 
-    journalists_db = journalists = pd.read_sql_table(f'journalists{timeframe}', fm.db.engine)
+    journalists_db = pd.read_sql_table(f'journalists{timeframe}', fm.db.engine)
 
     if sys.argv[1] == "links":
-        links(timeframe)
+        links(journalists_db, timeframe)
 
 
     if sys.argv[1] == "parse":
@@ -68,18 +67,5 @@ if __name__ == "__main__":
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
                 continue
             
-            pdf_maker_for_email = pdfReport(df_for_email)
-            filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
-            pdf_for_email = pdf_maker_for_email.create_PDF(filename=filepath)
-
             clientname = df.ClientName.iloc[0]
-            str_date = str(datetime.datetime.now().date())
-
-            email = report(
-                sender='george@lightyearstrategies.com',
-                to=email,
-                subject=f'{subject} Journalist Report {str_date}',
-                text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.',
-                file=filepath
-            )
-            email.sendMessage()
+            fm.send_pdf_report(df_for_email, email, subject, clientname)

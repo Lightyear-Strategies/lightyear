@@ -8,6 +8,7 @@ from wtforms import StringField, SubmitField, MultipleFileField, RadioField
 from wtforms.validators import DataRequired, Email, InputRequired
 from flask_wtf.file import FileField, FileAllowed
 from flask_sqlalchemy import SQLAlchemy
+from itsdangerous import URLSafeSerializer, BadData
 
 import pandas as pd
 import os
@@ -23,6 +24,8 @@ from ev_20 import emailAPIvalid
 from flask_app import emailRep
 from flask_app.googleAuth import g_oauth, authCheck, localServiceBuilder
 
+from weeklyWriters.toPDF import pdfReport
+from weeklyWriters.emailWeeklyRep import report
 #from weeklyWriters.weekly import WeeklyReport
 
 ###################### Flask ######################
@@ -76,6 +79,34 @@ class uploadJournalistCSV(FlaskForm):
 
 
 ###################### Functions ######################
+
+def send_pdf_report(df_for_email, email, subject, clientname):
+    """
+    sends the weekly pdf report
+    
+    note: needs to be in flaskMain to access flask specific stuff
+    """
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+    token = unsub.dumps(email)
+    url = url_for('unsubscribe', token=token)
+    pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
+    filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
+    pdf_maker_for_email.create_PDF(filename=filepath)
+
+    str_date = str(datetime.now().date())
+
+
+    to_send = report(
+        sender='george@lightyearstrategies.com',
+        to=email,
+        subject=f'{subject} Journalist Report {str_date}',
+        text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
+        file=filepath
+    )
+    to_send.sendMessage()
+
+
+
 
 #@param:    None
 #@return:   Upload Journalists Page
