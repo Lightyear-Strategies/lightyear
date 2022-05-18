@@ -80,6 +80,37 @@ class uploadJournalistCSV(FlaskForm):
 
 ###################### Functions ######################
 
+@app.route('/unsubscribe/<token>')
+def unsub_page(token):
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+
+    try:
+        email_sub_string = unsub.loads(token)
+    except BadData:
+        #TODO: show error page
+        email_sub_string = 'error error'
+        print('unsubscribe failed')
+    
+    email, subject = email_sub_string.split()[0], email_sub_string.split()[1]
+    if subject == 'Daily':
+        timeframe = '_day'
+    elif subject == 'Monthly':
+        timeframe = '_month'
+    else:
+        timeframe = '_week'
+
+    jour_df_tf = pd.read_sql_table(f'journalists{timeframe}', con=db.engine)
+    index_names = jour_df_tf[jour_df_tf['ClientEmail'] == email].index
+    jour_df_tf.drop(index_names, inplace=True)
+    jour_df_tf.reset_index(inplace=True, drop=True)
+    jour_df_tf.to_sql(f'journalists{timeframe}', con=db.engine, index=False)
+
+    #TODO: show success page
+    
+
+
+
+
 def send_pdf_report(df_for_email, email, subject, clientname):
     """
     sends the weekly pdf report
@@ -87,8 +118,11 @@ def send_pdf_report(df_for_email, email, subject, clientname):
     note: needs to be in flaskMain to access flask specific stuff
     """
     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
-    token = unsub.dumps(email)
-    url = url_for('unsubscribe', token=token)
+    token_string = f'{email} {subject}'
+    token = unsub.dumps(token_string)
+    app.config['SERVER_NAME'] = '10.1.10.28:80'
+    with app.app_context():
+        url = url_for('unsubscribe', token=token, _external=True)
     pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
     filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
     pdf_maker_for_email.create_PDF(filename=filepath)
