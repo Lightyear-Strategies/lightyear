@@ -19,8 +19,12 @@ function getReporters() {
                     name : "John Doe",
                     email : "john@blockbuster.com",
                     deadline : "4/15",
-                    query: "Peter, I need ten emo bitches and they all need to be bad",
-                    content : "Blah blah blah. Reporter reporter reporter",
+                    recieved : "3/23",
+                    summary : "Seeking a financial planner who works with six-figure earners",
+                    query: "I am looking for a financial planner who frequently works with six-figure earners about money routines that keep them wealthy?My DM's are open. Much appreciated!",
+                    requirements : "Name, title, company you work for, and contact information",
+                    company : "Business Insider",
+                    category : "Business and Finance",
                     selected : false
                 }
         )
@@ -43,6 +47,10 @@ function insert_reporter(reporter_i) {
     const table_element = document.createElement("div");
     table_element.classList.add("table-element");
     let element_component;
+    
+    element_component = document.createElement("button");
+    element_component.classList.add("expandable");
+    
     for (property in reporter_i) {
         element_component = document.createElement("div");
 
