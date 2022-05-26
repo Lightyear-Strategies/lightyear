@@ -1,0 +1,60 @@
+:root {
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    background-color: #FFFFFF;
+    font-family: 'Inter';
+}
+
+
+.table-element {
+    height: 10em;
+    width: 40em;
+    background-color: var(--lightyear-gray);
+    margin: 1em;
+
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: [bar] 0.1fr [margin] 0.3fr [M] 8fr [L] 3fr;
+}
+
+div.name {
+    padding-top: 15px;
+    grid-column: M;
+    grid-row: 1;
+    color: var(--lightyear-red);
+
+    font-size: 1.8em;
+    font-style: italic
+}
+
+div.email {
+    grid-column: M;
+    grid-row: 2;
+    color: var(--lightyear-red);
+}
+
+div.deadline {
+    grid-column: L;
+    grid-row: 2;
+    position: left;
+}
+
+div.content{
+    grid-column: M / 4;
+    grid-row: 3;
+}
+
+div.selection-indicator {
+    grid-row: 1/4;
+    grid-column: 1;
+}
+
+div.selected {
+    background-color: var(--lightyear-red);
+}
+
+div.not-selected {
+    background-color: var(--lightyear-yellow)
+}
+

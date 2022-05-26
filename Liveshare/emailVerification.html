@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/css/emailVerification.css">
+    <script src="Lib/reporters.js" defer></script>
+    <title>Email Verification</title>
+</head>
+<body>
+    <div class="directions">
+        <ol class="directions">
+            <li><strong>Directions:</strong></li>
+            <li>Enter your full name</li>
+            <li>Enter the email address where you want to recieve the file(s)</li>
+            <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+            <li>Select the file(s)</li>
+            <li>Press "Submit" button</li>
+        </ol>
+    </div>
+    <form action="">
+        <label for="name">Name</label>
+        <input class="name" type="text" id="name">
+        
+        <label for="email">Email</label>
+        <input type="text" id="email">
+    </form>
+    <div id="drop_zone">
+        <input type="file" id="filepicker" name="fileList" 
+            accept="text/csv" multiple />
+        <p>Drag one or more files to this Drop Zone ...</p>
+    </div>
+
+</body>
+
+</html>
