@@ -5,17 +5,11 @@ import datetime
 import json
 import time
 import os.path
-import pickle
-import pandas as pd
-import sys
 
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from haroListener.haro_parser import Haro
-from flask_app.googleAuth import serviceBuilder, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder
 
 
 class HaroListener():

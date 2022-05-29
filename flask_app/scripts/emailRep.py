@@ -5,11 +5,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 import mimetypes
-import pickle
 import os
-from apiclient import errors
 
-from .googleAuth import serviceBuilder,localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder
+
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):

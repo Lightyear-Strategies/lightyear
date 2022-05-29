@@ -1,77 +1,20 @@
 ###################### Imports ######################
 
-from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_bootstrap import Bootstrap
+from flask import render_template, request, redirect, url_for, session, flash
 from werkzeug.utils import secure_filename
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, MultipleFileField
-from wtforms.validators import DataRequired, Email
-from flask_wtf.file import FileField, FileAllowed
-from flask_sqlalchemy import SQLAlchemy
 
 import pandas as pd
-import os
-import sys
-import time
+import os, sys,  time
 import traceback
-from datetime import datetime, timedelta, date
-
-from flask_app.config import *
-from flask_app.utils import *  #imports Celery, timethis
+from datetime import datetime, timedelta
 
 from ev_20 import emailAPIvalid
-from flask_app import emailRep
-from flask_app.googleAuth import g_oauth, authCheck, localServiceBuilder
+from flask_app.scripts import emailRep
+from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
+from flask_app.scripts.forms import uploadEmailFilesForm, uploadJournalistCSV
+from flask_app.scripts.create_flask_app import create_app
 
-#from weeklyWriters.weekly import WeeklyReport
-
-###################### Flask ######################
-
-app = Flask(__name__,template_folder=os.path.join(FLASK_DIR, 'HTML'))
-app.register_blueprint(g_oauth)
-
-app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
-
-os.makedirs(UPLOAD_DIR,exist_ok=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
-
-from kombu.utils.url import quote
-app.config['CELERY_BROKER_URL'] = \
-    'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'.format(
-                                    AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
-                                    AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
-                                   )
-app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
-
-# To work with Celery in local environment using RabbitMQ, uncomment app.config below and comment our the two above
-#app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-celery = make_celery(app)
-bootstrap = Bootstrap(app)
-db = SQLAlchemy(app)
-db.create_all()
-
-###################### Classes ######################
-
-class uploadEmailFilesForm(FlaskForm):
-    """Constructor for the Email Verification Form"""
-
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
-    submit = SubmitField('Submit')
-
-class uploadJournalistCSV(FlaskForm):
-    """Constructor for the Journalist Subscription Form"""
-
-    personname = StringField('What is your full name?', validators=[DataRequired()])
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
-    submit = SubmitField('Submit')
+app, celery, bootstrap, db = create_app()
 
 
 ###################### Functions ######################
@@ -257,7 +200,6 @@ def data(option=None):
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
             Haros.columns.DateReceived.like(f'%{search}%'),
-            #Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
             Haros.columns.Summary.like(f'%{search}%'),
             Haros.columns.Email.like(f'%{search}%'),
             Haros.columns.MediaOutlet.like(f'%{search}%'),
@@ -386,9 +328,6 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 if __name__ == '__main__':
-    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
-    #removeDBdups()
-
     app.run(host='0.0.0.0', port=80,debug=False,threaded=True)
 
 
