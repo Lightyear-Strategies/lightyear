@@ -51,6 +51,7 @@ input {
 
 header{
     display:flex;
+    z-index: 20;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -97,10 +98,16 @@ body > div:first-child {
 /* Drop-zone */
 #drop_zone {
     margin-bottom: 20px;
-    width:  200px;
     border-radius: 0.25rem;
     height: 200px;
+    display: grid;
+    place-content: center;
     border: dashed 2px var(--lightyear-red);
+}
+
+#drop_zone > div {
+    width: 100%;
+    height: 100%;
 }
 
 /* Header */
@@ -195,6 +202,67 @@ footer > div:first-of-type > div > svg {
     font-size: 1.2rem;
     border-radius: 0.25rem;
     border: none;
+}
+
+/* Inputs */
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.form__field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid var(--lightyear-red);
+  outline: 0;
+  font-size: 1.3rem;
+  color: var(--background-color);
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--lightyear-red);
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  border-image-slice: 1;
+}
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--lightyear-red);
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+  box-shadow: none;
 }
 
 /* Loader */

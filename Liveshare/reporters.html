@@ -42,23 +42,25 @@
         </ol>
     </div>
     <div>
-        <h2> Input </h2>
-        <form action="">
-            <label for="name">Name</label>
-            <input class="name" type="text" id="name">
-            <br/>
-            <label for="email">Email</label>
-            <input type="text" id="email">
-        </form>
-    </div>
-    <div id="drop_zone">
-        <div>
-            <input type="file" id="filepicker" name="fileList" 
-                accept="text/csv" multiple />
-            <p>Drag one or more files to this Drop Zone ...</p>
+        <div action="" class="form__group field">
+            <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+            <label for="name" class="form__label">Name</label>
+        </div>
+        <div action="" class="form__group field">
+            <input type="input" class="form__field" placeholder="Email" name="name" required />
+            <label for="email" class="form__label">Email</label>
         </div>
     </div>
-
+    <div>
+        <div id="drop_zone">
+                <!-- <input type="file" id="filepicker" name="fileList" 
+                    accept="text/csv" multiple /> -->
+            <div>
+                <h2>Drop your File here</h2>
+            </div>
+        </div>
+    </div>
+    
     <div>
         <button id="submitBtn"> Submit</button>
     </div>

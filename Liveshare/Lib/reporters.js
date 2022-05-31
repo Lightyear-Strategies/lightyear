@@ -1,8 +1,9 @@
+let list = [];
 
 const addListeners = () => {
     // File Picker/Drop Zone
     const drop = document.getElementById("drop_zone");
-    const filePicker = document.getElementById("filepicker")
+    //const filePicker = document.getElementById("filepicker")
 
     drop.addEventListener("dragover", (event) => {
         event.preventDefault();
@@ -24,6 +25,7 @@ const addListeners = () => {
                     //  If the following CSV or NOT
                     if (file.type === "text/csv"){
                         console.log("Got Image");
+                        addFile();
                     }
                 }
             }
@@ -34,9 +36,11 @@ const addListeners = () => {
         }
     });
 
+    /*
     filePicker.addEventListener("change", (event) => {
         console.log(filePicker.value);
     })
+    */
 
     /* Up Button */
     const upBtn = document.querySelector("#upBtn");
@@ -45,6 +49,12 @@ const addListeners = () => {
     })
 }
 
+// Trigger when drop file, add a file that can be deleted
+const addFile = () => {
+
+}
+
+// Loader Loading
 const load = () => {
     loader = document.querySelector("#loader"); 
     setTimeout(() => {
