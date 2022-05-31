@@ -9,12 +9,34 @@
     <title>Journalism</title>
 </head>
 <body>
+    <!-- Preloader -->
+    <section class="loader" id="loader">
+        <div class="loading">
+            <div class="ball"></div>
+            <div class="ball delay-100"></div>
+            <div class="ball delay-200"></div>
+            <div class="ball delay-200"></div>
+        </div>
+    </section>
+    <header>
+        <div>
+            <h2>LightYear</h2>
+            <h1>Strategies</h1>
+        </div>
+        <div>
+            <ul>
+                <li><a href=""> Email Verification</a></li>
+                <li><a href=""> Journalism </a></li>
+                <li><a href=""> Haros Table</a></li>
+            </ul>
+        </div>
+    </header>
     <div class="directions">
         <h2> Directions </h2>
         <ol class="directions">
             <li>Enter your full name</li>
-            <li>Enter the email address where you want to recieve the file(s)</li>
-            <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+            <li>Enter the email address where you want to receive the file(s)</li>
+            <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to receive updates on</li>
             <li>Select the file(s)</li>
             <li>Press "Submit" button</li>
         </ol>
@@ -30,11 +52,16 @@
         </form>
     </div>
     <div id="drop_zone">
-        <input type="file" id="filepicker" name="fileList" 
-            accept="text/csv" multiple />
-        <p>Drag one or more files to this Drop Zone ...</p>
+        <div>
+            <input type="file" id="filepicker" name="fileList" 
+                accept="text/csv" multiple />
+            <p>Drag one or more files to this Drop Zone ...</p>
+        </div>
     </div>
 
+    <section id="upBtn">
+        <p>A</p>
+    </section>
 </body>
 
 </html>
