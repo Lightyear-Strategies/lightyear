@@ -73,6 +73,7 @@ footer {
     background-color: var(--lightyear-yellow);
     color: var(--background-color);
     padding: 20px 0px;
+    margin-top: 20px;
 }
 
 hr  {
@@ -95,7 +96,7 @@ body > div:first-child {
 
 /* Drop-zone */
 #drop_zone {
-    margin-bottom: 200px;
+    margin-bottom: 20px;
     width:  200px;
     border-radius: 0.25rem;
     height: 200px;
@@ -184,6 +185,16 @@ footer > div:first-of-type > div > svg {
 
 #upBtn > p {
     margin: 0px;
+}
+
+/* Submit Button */
+#submitBtn {
+    background-color: var(--lightyear-red);
+    color: var(--background-color);
+    padding: 20px 40px;
+    font-size: 1.2rem;
+    border-radius: 0.25rem;
+    border: none;
 }
 
 /* Loader */
