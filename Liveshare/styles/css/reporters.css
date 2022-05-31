@@ -19,6 +19,7 @@ body::-webkit-scrollbar-thumb {
     --lightyear-red: #F04C23;
     --lightyear-yellow: #FCE300;
     --lightyear-gray: #EFEFEF;
+    --lightyear-blue: #3452ff; 
     --background-color: #FFFFFF;
     font-family: 'Inter';
     scroll-behavior: smooth;
@@ -63,6 +64,22 @@ ul {
     flex-wrap: wrap;
 }
 
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--lightyear-yellow);
+    color: var(--background-color);
+    padding: 20px 0px;
+}
+
+hr  {
+    margin: 20px 0px;
+    color: var(--background-color);
+    border: solid var(--background-color) 1px;
+}
 
 /* Body styling */
 
@@ -116,11 +133,43 @@ ul > li > a {
     color: var(--background-color);
 }
 
+/* Footer */
+footer > div {
+    flex: 1;
+    width: clamp(200px, 80%, 1200px);
+    text-align: center;
+}
+
+footer > div:first-child {
+    width: auto;
+}
+
+footer > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
+
+footer > div:first-of-type > div {
+    flex: 1;
+}
+
+footer > div:first-of-type > div:nth-of-type(2) {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-evenly;
+}
+
+footer > div:first-of-type > div > svg {
+    flex: 1;
+    fill: var(--background-color);
+    margin: 0px 20px;
+}
+
 /* Up Button */ 
 #upBtn {
-    color: var(--lightyear-red);
+    color: var(--lightyear-yellow);
     border-radius: 1000px;
-    background-color: var(--lightyear-yellow);
+    background-color: var(--lightyear-red);
     display: grid;
     place-content: center;
     padding: 20px;
@@ -136,9 +185,6 @@ ul > li > a {
 #upBtn > p {
     margin: 0px;
 }
-
-/* Footer */
-
 
 /* Loader */
 
