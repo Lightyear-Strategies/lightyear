@@ -1,29 +1,207 @@
+/* Scrollbar */
+body::-webkit-scrollbar {
+    width: 0.5rem;
+}
+ 
+body::-webkit-scrollbar-track {
+    background-color: var(--lightyear-yellow);
+}
+ 
+body::-webkit-scrollbar-thumb {
+    background-color: var(--lightyear-red);
+    border-radius: 20px;
+}
+
+/* General Elements */
+:root {
+    margin: none;
+    padding: none;
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    --background-color: #FFFFFF;
+    font-family: 'Inter';
+    scroll-behavior: smooth;
+}
 
 body {
     display: flex;
     flex-direction:column;
     align-items: center;
     justify-content: center;
+    margin: 0;
+    padding: none;
 }
 
-body > div {
-    flex: 1;
-    width: clamp(100px, 50%, 1000px);
-    padding: 5% 20%;
+h1 {
+    margin: 0px;
 }
-body > div:first-child {
-    padding: 0 20%;
+
+h2 {
+    margin: 0px;
 }
+
 input {
     width: clamp(80px, 90%, 800px);
     padding: auto;
     margin: auto;
     margin-top: 20px;
 }
+
+header{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--lightyear-yellow);
+    position: sticky;
+    top: 0px;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+/* Body styling */
+
+body > div {
+    flex: 1;
+    width: clamp(100px, 50%, 1000px);
+    padding: 5% 20%;
+}
+
+body > div:first-child {
+    padding: 0 20%;
+}
+
+/* Drop-zone */
 #drop_zone {
-    border: 1px solid black;
+    margin-bottom: 200px;
     width:  200px;
     border-radius: 0.25rem;
     height: 200px;
-    border: dashed 2px;
+    border: dashed 2px var(--lightyear-red);
 }
+
+/* Header */
+header > div {
+    flex: 1;
+    margin: 20px 5%;
+}
+
+header > div:last-child{ 
+    text-align: end;
+}
+
+header > div:first-child {
+    color: var(--lightyear-red)
+}
+
+header > div:first-child > h1 {
+    color: var(--background-color);
+}
+
+ul > li {
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 800;
+    display: inline;
+    width: 200px;
+}
+
+ul > li > a {
+    text-decoration: none;
+    color: var(--background-color);
+}
+
+/* Up Button */ 
+#upBtn {
+    color: var(--lightyear-red);
+    border-radius: 1000px;
+    background-color: var(--lightyear-yellow);
+    display: grid;
+    place-content: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+    transition: all ease-out 0.2s;
+    width: 20px;
+    height: 20px;
+}
+
+#upBtn > p {
+    margin: 0px;
+}
+
+/* Footer */
+
+
+/* Loader */
+
+.loader {
+  z-index: 101;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--lightyear-yellow);
+  transition: all 1s ease-out;
+  cursor:progress;
+}
+
+.delay-100 { 
+  animation-delay: 1s;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.ball {
+  position: relative;
+  display: inline-block;
+  height: 37px;
+  width: 15px;
+  margin: 2rem; 
+}
+
+.ball:before {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--lightyear-red);
+  transform-origin: 50%;
+  animation: bounce 500ms alternate infinite ease;
+}
+
+
+@keyframes bounce {
+  0% {
+    top: 30px;
+    height: 5px;
+    border-radius: 60px 60px 20px 20px;
+    transform: scaleX(2);
+  }
+  35% {
+    height: 15px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+  100% {
+    top: 0;
+  }
+}
+
+/* Media Fitting */
