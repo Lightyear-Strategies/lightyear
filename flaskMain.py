@@ -1,20 +1,13 @@
 ###################### Imports ######################
-
-from flask import render_template, request, redirect, url_for, session, flash
-from werkzeug.utils import secure_filename
+from flask import render_template, request, redirect, flash
 
 import pandas as pd
-import os, sys,  time
-import traceback
+import os, sys, time, traceback
 from datetime import datetime, timedelta
 
-from ev_20 import emailAPIvalid
-from flask_app.scripts import emailRep
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
-from flask_app.scripts.forms import uploadEmailFilesForm, uploadJournalistCSV
-from flask_app.scripts.create_flask_app import create_app
-
-app, celery, bootstrap, db = create_app()
+from flask_app.scripts.forms import uploadJournalistCSV
+from flask_app.scripts.create_flask_app import app, bootstrap, db
+from flask_app.scripts import ev_flask_functions as ev_f_f
 
 
 ###################### Functions ######################
@@ -71,7 +64,6 @@ def uploadJournalist():
                 df.to_sql(name='journalists', con=db.engine, index=False)
 
             else:
-
                 try:
                     """For Future: No so efficient to drop all old entries and then append the new ones"""
                     journalists_df = pd.read_sql_table('journalists', db.engine)
@@ -92,11 +84,10 @@ def uploadJournalist():
                 except Exception:
                     traceback.print_exc()
 
-                    # script to drop table, run with sudo privilage
+                    # script to drop table, run with sudo privilege
                     #jour_table = db.Table('journalists', db.metadata, autoload=True, autoload_with=db.engine)
                     #print("Dropping the Journalists Table")
                     #jour_table.drop(db.engine)
-
 
             return redirect("/journalists")
         else:
@@ -253,75 +244,8 @@ def data(option=None):
     }
 
 
-#@param:    None
-#@return:   Email Verification Page
-@app.route('/', methods=['GET','POST'])
-def validation():
-    """
-    Gets information from the form, extracts files.
-    Sends files to Celery via SQS broken for background email verification.
-    Redirects to authentication if bot is not logged in
-    """
-    email = None
-    files = None
-    form = uploadEmailFilesForm()
-    if form.validate_on_submit():
-        filenames = []
-        email = form.email.data
-        files = request.files.getlist(form.files.name)
-        form.email.data = ''
+app.add_url_rule('/email_verification', view_func=ev_f_f.email_verification,methods=['GET','POST'])
 
-
-        # This part is only for web deployment
-        if not authCheck():
-            return redirect('/authorizeCheck')
-
-        #localServiceBuilder() # Uncomment this, and comment the above lines to run locally
-
-        if files:
-            for file in files:
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                filenames.append(filename)
-
-            for filename in filenames:
-                # Celery
-                # parse,remove file, send updated file
-                parseSendEmail.delay(os.path.join(app.config['UPLOAD_FOLDER'], filename), email, filename)
-            return redirect("/")
-        else:
-            print('No files')
-
-    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
-
-#@param:    path to file with emails
-#@param:    recipients of processed file
-#@param:    filename
-#@return:   None
-@celery.task(name='flaskMain.parseSendEmail')
-def parseSendEmail(path, recipients=None, filename=None):
-    """Celery handler"""
-    with app.app_context():
-        emailVerify(path, recipients)
-
-        # remove the file
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-
-#@param:    path to file with emails
-#@param:    recipients of processed file
-#@return:   None
-def emailVerify(path, recipients=None):
-    """
-    Uses functions from emailAPIvalid to verify emails.
-    Creates email with processed file and sends it.
-    """
-    email = emailAPIvalid.emailValidation(filename=path)
-    email.validation(save=True)
-    subjectLine = os.path.basename(path)
-    report = emailRep.report("george@lightyearstrategies.com", recipients,
-                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
-    report.sendMessage()
 
 @app.errorhandler(404)
 def page_not_found(e):

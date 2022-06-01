@@ -9,9 +9,13 @@ from google.auth.transport.requests import Request
 
 from flask import Blueprint, redirect, url_for, flash, request
 
+from flask_app.scripts.config import FLASK_DIR, CONFIG_DIR
+
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "../client.json"
+CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'client.json')
+LOCAL_CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'localclient.json')
+PICKLE_FILE = os.path.join(CONFIG_DIR,'token.pickle')
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
@@ -27,17 +31,17 @@ g_oauth = Blueprint('g_oauth', __name__)
 # @return credentials: a set of google api credentials
 def localServiceBuilder():
     creds = None
-    if os.path.exists('../token.pickle'):
-        with open('../token.pickle', 'rb') as token:
+    if os.path.exists(PICKLE_FILE):
+        with open(PICKLE_FILE, 'rb') as token:
             creds = pickle.load(token)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('localclient.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(LOCAL_CLIENT_SECRETS_FILE, SCOPES)
 
             creds = flow.run_local_server(port=0)
-        with open('../token.pickle', 'wb') as token:
+        with open(PICKLE_FILE, 'wb') as token:
             pickle.dump(creds, token)
 
     service = build(API_SERVICE_NAME, API_VERSION, credentials=creds)
@@ -54,15 +58,15 @@ def authCheck():
     Else return False, which in the other function will require the user to Google Sing In with Bot credentials
     """
     creds = None
-    if os.path.exists('../token.pickle'):
-        with open('../token.pickle', 'rb') as token:
+    if os.path.exists(PICKLE_FILE):
+        with open(PICKLE_FILE, 'rb') as token:
             creds = pickle.load(token)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
 
-            with open('../token.pickle', 'wb') as token:
+            with open(PICKLE_FILE, 'wb') as token:
                 pickle.dump(creds, token)
             return True
 
@@ -84,8 +88,8 @@ def authLogin(credsreturn=False):
 
     if credsreturn:
         creds = None
-        if os.path.exists('../token.pickle'):
-            with open('../token.pickle', 'rb') as token:
+        if os.path.exists(PICKLE_FILE):
+            with open(PICKLE_FILE, 'rb') as token:
                 creds = pickle.load(token)
             return creds
 
@@ -166,8 +170,7 @@ def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can verified in the authorization server response.
     state = flask.session['state']
 
-    flow = Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='https')
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
@@ -178,7 +181,7 @@ def oauth2callback():
 
     creds = flow.credentials
 
-    with open('../token.pickle', 'wb') as token:
+    with open(PICKLE_FILE, 'wb') as token:
         pickle.dump(creds, token)
 
     return

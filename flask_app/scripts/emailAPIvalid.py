@@ -4,14 +4,12 @@ import pandas as pd
 import os
 import json
 
-EV_DIR = os.path.abspath(os.path.dirname(__file__))
-LIGHTYEAR_DIR = os.path.dirname(EV_DIR)
-saveLocation = LIGHTYEAR_DIR + '/flask_app/uploadFolder/'
+from flask_app.scripts.config import UPLOAD_DIR
 
 
 class emailValidation:
     def __init__(self, filename=None, key=None):
-        if filename != None:
+        if filename:
             self.type = filename.split('.')[-1]
             if self.type not in ['csv', 'xlsx']:
                 raise Exception('File type not supported')
@@ -102,6 +100,9 @@ class emailValidation:
                 data.drop(i, inplace=True)
                 removed += 1
                 print('Removed ' + str(removed) + ' invalid email(s)')
+
+        #data.loc[-1] = 'Checked by Lightyear Strategies'
+
         self.statistics['Invalid Emails Removed'] = removed
         self.statistics['Final Length'] = len(data)
         self.df = data
@@ -114,15 +115,11 @@ class emailValidation:
             return self.df
 
 
-    def to_cvs(self, inplace=False):
+    def to_cvs(self):
         filename = os.path.basename(self.filename)
 
-        # saveLocation is declared above
-        if inplace:
-            filename = saveLocation + filename
-        else:
-            filename = saveLocation + filename.split(".")[-2] + "_clean.csv"
-
+        filename = os.path.join(UPLOAD_DIR,filename)
+        print(filename)
         self.df.to_csv(filename, index=False)
 
     def remove_duplicates(self, csv_file, save=False):

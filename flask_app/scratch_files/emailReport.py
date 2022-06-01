@@ -33,7 +33,7 @@ class report():
     def __auth(self):
         creds = None
         if os.path.exists('token.pickle'):
-            with open('../../token.pickle', 'rb') as token:
+            with open('../token.pickle', 'rb') as token:
                 creds = pickle.load(token)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
@@ -44,7 +44,7 @@ class report():
                     'client.json',
                     self.scopes)
 
-                with open("../../client.json") as jsonFile:
+                with open("../client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
                     jsonFile.close()
                 flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
@@ -67,7 +67,7 @@ class report():
                     'client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
                 """
-            with open('../../token.pickle', 'wb') as token:
+            with open('../token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
 
         service = build('gmail', 'v1', credentials=creds)

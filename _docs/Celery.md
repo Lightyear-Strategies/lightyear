@@ -1,3 +1,16 @@
+#### ———— After Restructuring ————
+Possibly will need to redo shell scripts (Check)
+
+
+__ To Run the Worker: __
+
+celery -A flask_app.scripts.ev_flask_functions.celery worker -l INFO
+
+__For Future:__
+
+1. RabbitMQ can be run using Docker
+
+
 #### ———— How to Start Celery in Flask ————
 
 1. Install Celery
@@ -10,7 +23,7 @@ $ pip install celery
 ```
 from celery import Celery
 
-def make_celery(app):
+def init_celery(app):
     celery = Celery(
         app.import_name,
         backend=app.config['CELERY_RESULT_BACKEND'],

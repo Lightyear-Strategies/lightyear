@@ -7,7 +7,7 @@ from email.mime.base import MIMEBase
 import mimetypes
 import os
 
-from flask_app.scripts.googleAuth import serviceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder #, localServiceBuilder
 
 
 class report():
@@ -24,21 +24,22 @@ class report():
         self.scopes = ['https://mail.google.com/']
         self.service = serviceBuilder() #localServiceBuilder()
         self.body = self.createMessage()
+        print('Our self', self.file)
 
 
     def sendMessage(self):
         try:
             try:
                 print(self.service.users())
-            except:
-                print('An error occurred here')
+            except Exception as e:
+                print('An error occurred #1: {}'.format(e))
             message = self.service.users().messages().send(userId=self.user_id,
                                                            body=self.body).execute()
 
             print('Message Id: {}'.format(message['id']))
             return message
         except Exception as e:
-            print('An error occurred: {}'.format(e))
+            print('An error occurred #2: {}'.format(e))
             return None
 
     def createMessage(self):
@@ -79,8 +80,7 @@ class report():
                        filename=filename)
         message.attach(msg)
 
-        raw_message = \
-            base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
+        raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
         return {'raw': raw_message.decode('utf-8')}
 
 
