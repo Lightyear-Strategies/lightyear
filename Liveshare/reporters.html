@@ -60,13 +60,17 @@
                 <!-- <input type="file" id="filepicker" name="fileList" 
                     accept="text/csv" multiple /> -->
             <div>
-                <input type="file" name="file" id="file" class="inputFile">
+                <input type="file" name="file" id="file" class="inputFile"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
                 <label for="file">
                     <h2>
-                        Choose or Drop File
+                        <span>Select</span> or Drop your file
                     </h2>
                 </label>
             </div>
+        </div>
+        <div id="fileSelected">
+
         </div>
     </div>
     
@@ -75,7 +79,7 @@
     </div>
 
     <section id="upBtn">
-        <p>A</p>
+        <p>^</p>
     </section>
 
     <!-- Second version of the footer-->

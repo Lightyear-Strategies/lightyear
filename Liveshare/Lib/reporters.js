@@ -1,10 +1,12 @@
 let list = [];
+let testing = 1;
 
 const addListeners = () => {
     // File Picker/Drop Zone
     const drop = document.getElementById("drop_zone");
-    //const filePicker = document.getElementById("filepicker")
+    const filePicker = document.getElementById("file")
 
+    // Drag over and drag leave are completely optional
     drop.addEventListener("dragover", (event) => {
         event.preventDefault();
         console.log("Over");
@@ -36,11 +38,11 @@ const addListeners = () => {
         }
     });
 
-    /*
     filePicker.addEventListener("change", (event) => {
         console.log(filePicker.value);
+        addFile();
+        this.value = "";
     })
-    */
 
     /* Up Button */
     const upBtn = document.querySelector("#upBtn");
@@ -51,7 +53,12 @@ const addListeners = () => {
 
 // Trigger when drop file, add a file that can be deleted
 const addFile = () => {
-
+    let fileLocation = document.querySelector("#fileSelected");
+    let fileChild = document.createElement("h2");
+    fileChild.innerHTML = testing;
+    fileLocation.appendChild(fileChild);
+    testing++;
+    console.log(fileLocation.children);
 }
 
 // Loader Loading

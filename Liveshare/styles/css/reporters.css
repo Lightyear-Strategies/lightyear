@@ -63,6 +63,7 @@ header{
 }
 
 ul {
+    justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
     text-align: left;
@@ -86,6 +87,11 @@ hr  {
     border: solid var(--background-color) 1px;
 }
 
+span {
+    color: var(--lightyear-blue);
+    text-decoration: underline 3px var(--lightyear-blue);
+}
+
 /* Body styling */
 
 body > div {
@@ -103,17 +109,20 @@ body > div:first-child {
 #drop_zone {
     margin-bottom: 20px;
     border-radius: 0.25rem;
-    height: 200px;
+    height: 400px;
     display: grid;
     place-content: center;
     border: dashed 2px var(--lightyear-red);
-    cursor: pointer;
 }
 
 #drop_zone > div {
     width: 100%;
     height: 100%;
     color: var(--lightyear-red);
+}
+
+#drop_zone > div > label {
+    cursor: pointer;
 }
 
 .inputFile {
@@ -186,7 +195,7 @@ footer > div:first-of-type > div > svg {
     margin: 0px 20px;
 }
 
-/* Up Button */ 
+/* Up Button | To be replaced with SVG */ 
 #upBtn {
     color: var(--lightyear-yellow);
     border-radius: 1000px;
