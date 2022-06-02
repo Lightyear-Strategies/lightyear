@@ -45,7 +45,7 @@ h2 {
 }
 
 input {
-    width: clamp(80px, 90%, 800px);
+    width: clamp(80px, 70%, 800px);
     padding: auto;
     margin: auto;
     margin-top: 20px;
@@ -92,7 +92,7 @@ body > div {
     flex: 1;
     width: clamp(100px, 80%, 1000px);
     padding: 0% 20%;
-    padding-top: 4%;
+    padding-top: 5%;
 }
 
 body > div:first-child {
@@ -107,12 +107,21 @@ body > div:first-child {
     display: grid;
     place-content: center;
     border: dashed 2px var(--lightyear-red);
+    cursor: pointer;
 }
 
 #drop_zone > div {
     width: 100%;
     height: 100%;
     color: var(--lightyear-red);
+}
+
+.inputFile {
+    width: 0.1px;
+    height: 0.1px;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 /* Header */
@@ -206,7 +215,7 @@ footer > div:first-of-type > div > svg {
     font-size: 1.2rem;
     border-radius: 0.25rem;
     border: none;
-    margin-bottom: 7.5%;
+    margin-bottom: 10%;
 }
 
 /* Directions */
@@ -214,7 +223,8 @@ footer > div:first-of-type > div > svg {
     background-color: var(--lightyear-gray);
     border-radius: 0.25rem;
     color: black;
-    padding: 20px;
+    padding: 60px 60px;
+    border: solid black 1px;
 }
 
 /* Inputs */
@@ -232,7 +242,7 @@ footer > div:first-of-type > div > svg {
   border-bottom: 2px solid var(--lightyear-red);
   outline: 0;
   font-size: 1.3rem;
-  color: var(--background-color);
+  color: var(--lightyear-red);
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;

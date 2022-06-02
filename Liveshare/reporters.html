@@ -31,10 +31,11 @@
             </ul>
         </div>
     </header>
+    <!--
     <div>
         <div class="directions">
             <h2> Directions </h2>
-            <ol class="directions">
+            <ol class="direction">
                 <li>Enter your full name</li>
                 <li>Enter the email address where you want to receive the file(s)</li>
                 <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to receive updates on</li>
@@ -43,6 +44,7 @@
             </ol>
         </div>
     </div>
+    -->
     <div>
         <div action="" class="form__group field">
             <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
@@ -58,7 +60,12 @@
                 <!-- <input type="file" id="filepicker" name="fileList" 
                     accept="text/csv" multiple /> -->
             <div>
-                <h2>Drop your File here</h2>
+                <input type="file" name="file" id="file" class="inputFile">
+                <label for="file">
+                    <h2>
+                        Choose or Drop File
+                    </h2>
+                </label>
             </div>
         </div>
     </div>
