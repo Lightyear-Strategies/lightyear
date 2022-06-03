@@ -31,6 +31,16 @@
             </ul>
         </div>
     </header>
+    <!-- Toasts-->
+    <section class="toast">
+        <div>
+            <div class="toast-loader"> </div>
+            <div class="toast-content">
+                <h2>
+                </h2>
+            </div>
+        </div>
+    </section>
     <!--
     <div>
         <div class="directions">
@@ -75,7 +85,10 @@
     </div>
     
     <div>
-        <button id="submitBtn"> Submit</button>
+        <button id="submitBtn"
+                onclick="toast('error', 'Lorempsum dolor sit amet, consectetur adipisicing elit. Ipsa deserunt quis provident. Nesciunt laudantium quidem!');"> 
+                Submit
+        </button>
     </div>
 
     <section id="upBtn">

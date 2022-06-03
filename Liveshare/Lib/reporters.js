@@ -61,13 +61,42 @@ const addFile = () => {
     console.log(fileLocation.children);
 }
 
+// Error Issue
+const toast = (type, text) => {
+    const toast = document.querySelector(".toast");
+    const toastLoader = document.querySelector(".toast-loader");
+    const toastText = document.querySelector(".toast-content > h2");
+
+    toast.style.visibility = "visible";
+    toastLoader.style.visibility = "visible";
+    toastText.innerHTML = text;
+
+    if (type == "error") 
+        toastLoader.style.backgroundColor = "var(--lightyear-red)";
+    else if (type == "info") 
+        toastLoader.style.backgroundColor = "var(--lightyear-blue)";
+    else
+        toastLoader.style.backgroundColor = "var(--lightyear-yellow)"
+
+    setTimeout(() => {
+        toastLoader.classList.add("toast-loader-end");
+    }, 200);
+
+    setTimeout(() => {
+        toast.style.visibility = "hidden";
+        toastLoader.style.visibility = "hidden";
+        toastLoader.classList.remove("toast-loader-end")
+    }, 1400);
+}
+
+
 // Loader Loading
 const load = () => {
     loader = document.querySelector("#loader"); 
     setTimeout(() => {
         loader.style.transform = "translateY(-100%)"; 
         document.querySelector("body").style.overflowY = "inherit";
-    }, 700);
+    }, 1000);
 }
 
 
@@ -79,6 +108,8 @@ window.onscroll = () => {
 }
 
 window.onload = () => {
+    document.querySelector(".toast").style.visibility = "hidden";
+    document.querySelector(".toast-loader").style.visibility = "hidden";
     document.querySelector("body").style.overflowY = "hidden";
     load();
     document.querySelector("#upBtn").style.opacity = "0";

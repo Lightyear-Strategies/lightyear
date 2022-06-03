@@ -1,3 +1,14 @@
+/* TODO 
+
+- File deleting Functionality
+- File Stylization
+- Modal for Tool Tips
+- Toast for Error
+- Media Fitting
+- Animation
+
+*/
+
 /* Scrollbar */
 body::-webkit-scrollbar {
     width: 0.5rem;
@@ -88,7 +99,6 @@ hr  {
 }
 
 span {
-    color: var(--lightyear-blue);
     text-decoration: underline 3px var(--lightyear-blue);
 }
 
@@ -238,41 +248,42 @@ footer > div:first-of-type > div > svg {
 
 /* Inputs */
 .form__group {
-  position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
-  width: 100%;
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 100%;
 }
 
 .form__field {
-  font-family: inherit;
-  width: 100%;
-  border: 0;
-  border-bottom: 2px solid var(--lightyear-red);
-  outline: 0;
-  font-size: 1.3rem;
-  color: var(--lightyear-red);
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid var(--lightyear-red);
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--lightyear-red);
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
 }
 
 .form__field::placeholder {
-  color: transparent;
+    color: transparent;
 }
+
 .form__field:placeholder-shown ~ .form__label {
-  font-size: 1.3rem;
-  cursor: text;
-  top: 20px;
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
 }
 
 .form__label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: var(--lightyear-red);
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--lightyear-red);
 }
 
 .form__field:focus {
@@ -294,55 +305,91 @@ footer > div:first-of-type > div > svg {
 
 /* reset input */
 .form__field:required, .form__field:invalid {
-  box-shadow: none;
+    box-shadow: none;
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: clamp(30px, 5%, 90px);
+    left: clamp(10px, 2%, 50px);
+    width: clamp(200px, 50%, 400px);
+    height: clamp(100px, 50%, 200px);
+    background-color: var(--lightyear-gray);
+    border-radius: 0.2rem;
+    color: var(--lightyear-red);
+}
+
+.toast > div {
+    width: clamp(200px, 1000%, 400px);
+    height: clamp(100px, 1000%, 200px);
+    border-radius: 0.2rem;
+}
+
+.toast-loader {
+    width: 100%;
+    height: 10px;
+    border-radius: 0.1rem 0.1rem 0rem 0rem;
+    background-color: var(--lightyear-yellow);
+    transition: width ease-out 1s;
+}
+
+.toast-content{
+    width: calc(100% - 40px);
+    height: calc(100% - 30px);
+    background-color: var(--lightyear-gray);
+    padding: 10px 20px;
+}
+       
+.toast-loader-end {
+    width: 0%;
 }
 
 /* Loader */
 
 .loader {
-  z-index: 101;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  display: flex;
-  place-items: center;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--lightyear-yellow);
-  transition: all 1s ease-out;
-  cursor:progress;
+    z-index: 101;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    place-items: center;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--lightyear-yellow);
+    transition: all 1s ease-out;
+    cursor:progress;
 }
 
 .delay-100 { 
-  animation-delay: 1s;
+    animation-delay: 1s;
 }
 
 .delay-200 {
-  transition-delay: 200ms;
+    transition-delay: 200ms;
 }
 
 .ball {
-  position: relative;
-  display: inline-block;
-  height: 37px;
-  width: 15px;
-  margin: 2rem; 
+    position: relative;
+    display: inline-block;
+    height: 37px;
+    width: 15px;
+    margin: 2rem; 
 }
 
 .ball:before {
-  position: absolute;
-  content: '';
-  display: block;
-  top: 0;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: var(--lightyear-red);
-  transform-origin: 50%;
-  animation: bounce 500ms alternate infinite ease;
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--lightyear-red);
+    transform-origin: 50%;
+    animation: bounce 500ms alternate infinite ease;
 }
-
 
 @keyframes bounce {
   0% {
