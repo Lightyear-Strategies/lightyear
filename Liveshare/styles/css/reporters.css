@@ -3,8 +3,8 @@
 - File deleting Functionality
 - File Stylization
 - Modal for Tool Tips
-- Toast for Error
 - Media Fitting
+- Font style
 - Animation
 
 */
@@ -237,13 +237,31 @@ footer > div:first-of-type > div > svg {
     margin-bottom: 10%;
 }
 
-/* Directions */
+/* Directions | Instructions */
 .directions{ 
     background-color: var(--lightyear-gray);
     border-radius: 0.25rem;
     color: black;
     padding: 60px 60px;
     border: solid black 1px;
+}
+
+.instruction {
+    text-align: right;
+    display: grid;
+    place-content: end;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--lightyear-red);
+}
+
+.instruction > div {
+    cursor: pointer;
+    background-color: var(--lightyear-yellow);
+    width: fit-content;
+    padding: 10px 20px;
+    border-radius: 100rem;
+    margin: 0px;
 }
 
 /* Inputs */
@@ -331,7 +349,7 @@ footer > div:first-of-type > div > svg {
     height: 10px;
     border-radius: 0.1rem 0.1rem 0rem 0rem;
     background-color: var(--lightyear-yellow);
-    transition: width ease-out 1s;
+    transition: width ease-out 1.2s;
 }
 
 .toast-content{

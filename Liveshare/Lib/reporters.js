@@ -1,5 +1,5 @@
-let list = [];
-let testing = 1;
+let currentFile = null;
+let toastAppear = false;
 
 const addListeners = () => {
     // File Picker/Drop Zone
@@ -26,8 +26,8 @@ const addListeners = () => {
                     let file = element.getAsFile();
                     //  If the following CSV or NOT
                     if (file.type === "text/csv"){
-                        console.log("Got Image");
-                        addFile();
+                        currentFile = file;
+                        addFile(currentFile);
                     }
                 }
             }
@@ -39,8 +39,8 @@ const addListeners = () => {
     });
 
     filePicker.addEventListener("change", (event) => {
-        console.log(filePicker.value);
-        addFile();
+        currentFile = this.value;
+        addFile(currentFile);
         this.value = "";
     })
 
@@ -52,17 +52,19 @@ const addListeners = () => {
 }
 
 // Trigger when drop file, add a file that can be deleted
-const addFile = () => {
-    let fileLocation = document.querySelector("#fileSelected");
-    let fileChild = document.createElement("h2");
+const addFile = (currentFile) => {
+    const fileLocation = document.querySelector("#fileSelected");
+    const fileChild = document.createElement("h2");
     fileChild.innerHTML = testing;
     fileLocation.appendChild(fileChild);
     testing++;
     console.log(fileLocation.children);
 }
 
-// Error Issue
+// Toast appearing or not
 const toast = (type, text) => {
+    if (toastAppear == true)
+        return;
     const toast = document.querySelector(".toast");
     const toastLoader = document.querySelector(".toast-loader");
     const toastText = document.querySelector(".toast-content > h2");
@@ -82,11 +84,13 @@ const toast = (type, text) => {
         toastLoader.classList.add("toast-loader-end");
     }, 200);
 
+    // Transition Error, because it has to go back, it takes 1.2, could remove that for more consistency
     setTimeout(() => {
         toast.style.visibility = "hidden";
         toastLoader.style.visibility = "hidden";
         toastLoader.classList.remove("toast-loader-end")
-    }, 1400);
+        toastAppear = false;
+    }, 1500);
 }
 
 
@@ -97,6 +101,11 @@ const load = () => {
         loader.style.transform = "translateY(-100%)"; 
         document.querySelector("body").style.overflowY = "inherit";
     }, 1000);
+}
+
+// Submitting information
+const submitClick = () => {
+
 }
 
 
