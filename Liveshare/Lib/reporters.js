@@ -39,7 +39,7 @@ const addListeners = () => {
     });
 
     filePicker.addEventListener("change", (event) => {
-        currentFile = this.value;
+        currentFile = event.target.files;
         addFile(currentFile);
         this.value = "";
     })
@@ -55,16 +55,17 @@ const addListeners = () => {
 const addFile = (currentFile) => {
     const fileLocation = document.querySelector("#fileSelected");
     const fileChild = document.createElement("h2");
-    fileChild.innerHTML = testing;
+    if (fileLocation.children.length > 0) {
+        fileLocation.removeChild(fileLocation.lastChild);
+    }
+    fileChild.innerHTML = currentFile[0].name;
     fileLocation.appendChild(fileChild);
-    testing++;
-    console.log(fileLocation.children);
 }
 
 // Toast appearing or not
 const toast = (type, text) => {
-    if (toastAppear == true)
-        return;
+    if (toastAppear == true) return;
+
     const toast = document.querySelector(".toast");
     const toastLoader = document.querySelector(".toast-loader");
     const toastText = document.querySelector(".toast-content > h2");
@@ -72,6 +73,8 @@ const toast = (type, text) => {
     toast.style.visibility = "visible";
     toastLoader.style.visibility = "visible";
     toastText.innerHTML = text;
+    toastLoader.style.transition = "linear width 1.2s";
+    toastAppear = true;
 
     if (type == "error") 
         toastLoader.style.backgroundColor = "var(--lightyear-red)";
@@ -84,10 +87,10 @@ const toast = (type, text) => {
         toastLoader.classList.add("toast-loader-end");
     }, 200);
 
-    // Transition Error, because it has to go back, it takes 1.2, could remove that for more consistency
     setTimeout(() => {
         toast.style.visibility = "hidden";
         toastLoader.style.visibility = "hidden";
+        toastLoader.style.transition = "none";
         toastLoader.classList.remove("toast-loader-end")
         toastAppear = false;
     }, 1500);
