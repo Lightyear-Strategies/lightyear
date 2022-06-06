@@ -6,7 +6,7 @@ const addListeners = () => {
     const drop = document.getElementById("drop_zone");
     const filePicker = document.getElementById("file")
     // Modal Listener
-    const instruction = document.querySelector(".instruction");
+    const instruction = document.querySelector(".instructionBtn");
     const modalBtn = document.querySelector("#modalBtn");
 
     // Drag over and drag leave are completely optional
@@ -69,7 +69,12 @@ const addFile = (currentFile) => {
     if (fileLocation.children.length > 0) {
         fileLocation.removeChild(fileLocation.lastChild);
     }
-    fileChild.innerHTML = currentFile[0].name;
+
+    if (currentFile.length == 1) {
+        fileChild.innerHTML = currentFile[0].name;
+    } else {
+        fileChild.innerHTML = currentFile.name;
+    }
     fileLocation.appendChild(fileChild);
 }
 
