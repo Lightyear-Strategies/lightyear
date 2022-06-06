@@ -5,6 +5,9 @@ const addListeners = () => {
     // File Picker/Drop Zone
     const drop = document.getElementById("drop_zone");
     const filePicker = document.getElementById("file")
+    // Modal Listener
+    const instruction = document.querySelector(".instruction");
+    const modalBtn = document.querySelector("#modalBtn");
 
     // Drag over and drag leave are completely optional
     drop.addEventListener("dragover", (event) => {
@@ -48,6 +51,14 @@ const addListeners = () => {
     const upBtn = document.querySelector("#upBtn");
     upBtn.addEventListener("click", () => {
         window.scrollTo(0, 0);
+    })
+
+    instruction.addEventListener("click", () => {
+        document.querySelector(".modal").style.visibility = "visible";
+    })
+
+    modalBtn.addEventListener("click", () => {
+        document.querySelector(".modal").style.visibility = "hidden";
     })
 }
 
