@@ -1,13 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/css/login.css">
-    <script src="Lib/login.js" defer></script>
-    <title>Login</title>
+    <link rel="stylesheet" href="styles/css/journalists.css">
+    <script src="Lib/journalists.js" defer></script>
+    <title>Subscribe to Journalist Updates</title>
 </head>
+
+
 <body>
     <!-- Preloader -->
     <section class="loader" id="loader">
@@ -31,20 +34,80 @@
             </ul>
         </div>
     </header>
+    <!-- Toasts-->
+    <section class="toast">
+        <div>
+            <div class="toast-loader"> </div>
+            <div class="toast-content">
+                <h2>
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instruction Modal -->
+    <section class="modal">
+        <div>
+            <div>
+                <h1> Guidelines </h1>
+            </div>
+            <div>
+                <ol>
+                    <li>Enter your full name</li>
+                    <li>Enter the email address where you want to recieve the file(s)</li>
+                    <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+                    <li>Select the file(s)</li>
+                    <li>Press "Submit" button</li>
+                </ol>
+            </div>
+            <div>
+                <button id="modalBtn"> Close </button>
+            </div>
+        </div>
+    </section>
+
     <div>
-        <h2> Login </h2>
-        <form action="">
-            <label for="name">Username</label>
-            <input class="name" type="text" id="username">
-            <br/>
-            <label for="email">Password</label>
-            <input type="text" id="password">
-        </form>
+        <h1>Subscribe to Journalist Updates</h1>
     </div>
 
     <div>
+        <div action="" class="form__group field">
+            <input type="input" class="form__field" placeholder="Enter Full Name" name="full name" id="full name" required />
+            <label for="full name" class="form__label">Full Name (First, Last)</label>
+            <label class="required__label" id="name id"></label>
+        </div>
+
+        <div action="" class="form__group field">
+            <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+            <label for="email" class="form__label">Email</label>
+            <label class="required__label" id="email id"></label>
+        </div>
+    </div>
+    <div>
+        <div id="drop_zone">
+            <div>
+                <input type="file" name="file" id="file" class="inputFile"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <label for="file">
+                    <h2>
+                        <span>Select</span> or Drop your file
+                    </h2>
+                </label>
+            </div>
+        </div>
+        <div class="instruction"> 
+            <div class="instructionBtn">
+                ?
+            </div>
+        </div>
+        <div id="fileSelected">
+
+        </div>
+    </div>
+    
+    <div>
         <button id="submitBtn"
-                onclick="toast('error', 'Lorempsum dolor sit amet, consectetur adipisicing elit. Ipsa deserunt quis provident. Nesciunt laudantium quidem!');"> 
+                onclick="submitClick()">
                 Submit
         </button>
     </div>
@@ -74,5 +137,4 @@
         </div>
     </footer>
 </body>
-
 </html>
