@@ -407,7 +407,7 @@ ol > li {
 }
 /* Loader */
 
-/* .loader {
+.loader {
     z-index: 101;
     position: fixed;
     width: 100%;
@@ -449,9 +449,9 @@ ol > li {
     background-color: var(--lightyear-red);
     transform-origin: 50%;
     animation: bounce 500ms alternate infinite ease;
-} */
+}
 
-/* @keyframes bounce {
+@keyframes bounce {
   0% {
     top: 30px;
     height: 5px;
@@ -466,4 +466,4 @@ ol > li {
   100% {
     top: 0;
   }
-} */
+}
