@@ -60,34 +60,18 @@
             </div>
         </div>
     </section>
-    <!--
-    <div>
-        <div class="directions">
-            <h2> Directions </h2>
-            <ol class="direction">
-                <li>Enter your full name</li>
-                <li>Enter the email address where you want to receive the file(s)</li>
-                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to receive updates on</li>
-                <li>Select the file(s)</li>
-                <li>Press "Submit" button</li>
-            </ol>
-        </div>
-    </div>
-    -->
     <div>
         <div action="" class="form__group field">
             <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
             <label for="name" class="form__label">Name</label>
         </div>
         <div action="" class="form__group field">
-            <input type="input" class="form__field" placeholder="Email" name="name" required />
+            <input type="input" class="form__field" placeholder="Email" name="email" id="email" required />
             <label for="email" class="form__label">Email</label>
         </div>
     </div>
     <div>
         <div id="drop_zone">
-                <!-- <input type="file" id="filepicker" name="fileList" 
-                    accept="text/csv" multiple /> -->
             <div>
                 <input type="file" name="file" id="file" class="inputFile"
                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -110,7 +94,7 @@
     
     <div>
         <button id="submitBtn"
-                onclick="toast('error', 'Lorempsum dolor sit amet, consectetur adipisicing elit. Ipsa deserunt quis provident. Nesciunt laudantium quidem!');"> 
+                onclick="submitClick()">
                 Submit
         </button>
     </div>

@@ -31,6 +31,8 @@ const addListeners = () => {
                     if (file.type === "text/csv"){
                         currentFile = file;
                         addFile(currentFile);
+                    } else {
+                        toast("error", file.name + " is not of the type .csv, please drop a appropriate file.");
                     }
                 }
             }
@@ -55,10 +57,12 @@ const addListeners = () => {
 
     instruction.addEventListener("click", () => {
         document.querySelector(".modal").style.visibility = "visible";
+        document.querySelector("body").style.overflowY = "hidden";
     })
 
     modalBtn.addEventListener("click", () => {
         document.querySelector(".modal").style.visibility = "hidden";
+        document.querySelector("body").style.overflowY = "inherit";
     })
 }
 
@@ -78,7 +82,7 @@ const addFile = (currentFile) => {
     fileLocation.appendChild(fileChild);
 }
 
-// Toast appearing or not
+// Toast | Maybe change the text color of Toast
 const toast = (type, text) => {
     if (toastAppear == true) return;
 
@@ -124,7 +128,20 @@ const load = () => {
 
 // Submitting information
 const submitClick = () => {
+    const name = document.querySelector("#name");
+    const email = document.querySelector("#email");
+    // Change it to false
+    let success = true;
+    
+    if (currentFile == null) {
+        toast("error", "Please drop a file for our program to process");
+        return;
+    }
 
+    // Check if Email is valid
+    if(success) {
+        toast("info", "Successfully processed.");
+    }
 }
 
 
