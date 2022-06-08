@@ -1,3 +1,6 @@
+<!-- TO-DO:
+- Check for valid CSV files (contains "Journalist" header)
+-  -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,13 +71,20 @@
 
     <div>
         <h1>Subscribe to Journalist Updates</h1>
+        <p>You will receive your update on Journalists' publications daily at ___</p>
     </div>
 
-    <div>
+    <div style="padding-top: 0px;">
         <div action="" class="form__group field">
-            <input type="input" class="form__field" placeholder="Enter Full Name" name="full name" id="full name" required />
-            <label for="full name" class="form__label">Full Name (First, Last)</label>
-            <label class="required__label" id="name id"></label>
+            <input type="input" class="form__field" placeholder="Enter First Name" name="first name" id="first name" required />
+            <label for="first name" class="form__label">First Name</label>
+            <label class="required__label" id="first name id"></label>
+        </div>
+
+        <div action="" class="form__group field">
+            <input type="input" class="form__field" placeholder="Enter Last Name" name="last name" id="last name" required />
+            <label for="last name" class="form__label">Last Name</label>
+            <label class="required__label" id="last name id"></label>
         </div>
 
         <div action="" class="form__group field">

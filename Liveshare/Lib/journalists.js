@@ -148,22 +148,38 @@ const submitClick = () => {
 
 // Check for empty and valid input
 function checkInput() {
-    var name_input = document.getElementById("full name")
+    var first_name_input = document.getElementById("first name")
+    var last_name_input = document.getElementById("last name")
     var email_input = document.getElementById("email")
-    if (name_input.value.length == 0) {
-        document.getElementById("name id").innerHTML = "Please enter Full Name"
+
+    if (first_name_input.value.length == 0) {
+        document.getElementById("first name id").innerHTML = "Please enter First Name"
     }
+    else {
+        document.getElementById("first name id").innerHTML = " "
+    }
+
+    if (last_name_input.value.length == 0) {
+        document.getElementById("last name id").innerHTML = "Please enter Last Name"
+    }
+    else {
+        document.getElementById("last name id").innerHTML = " "
+    }
+
     if (email_input.value.length == 0) {
         document.getElementById("email id").innerHTML = "Please enter Email"
     }
     else if (!email_input.value.includes("@")) {
         alert("Email must be a valid email address")
     }
+    else {
+        document.getElementById("email id").innerHTML = " "
+    }
 }
 
 // Check for valid CSV files
 function checkFiles() {
-
+    // Alert if there is no "Journalist" header or if file is empty
 }
 
 window.onscroll = () => {
