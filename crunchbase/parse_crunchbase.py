@@ -1,7 +1,6 @@
 """a module to scrape crunchbase website without using our crunchbase credits"""
 
-import time
-import re 
+import time, re
 
 import pandas as pd
 import undetected_chromedriver as uc

@@ -1,15 +1,12 @@
-import os
-import flask
-import requests
-import pickle
+import flask, os, pickle
+from flask import Blueprint, redirect, url_for, flash, request
 
 from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
-from flask import Blueprint, redirect, url_for, flash, request
-
 from flask_app.scripts.config import FLASK_DIR, CONFIG_DIR
+
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.

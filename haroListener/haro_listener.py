@@ -1,13 +1,7 @@
 """A module for setting up a listener on an email. Listens for HARO emails, returns the body of any HARO emails received"""
 
-import os
-import datetime
-import json
-import time
-import os.path
-
+import os, datetime, json, time
 from googleapiclient.errors import HttpError
-
 from haroListener.haro_parser import Haro
 from flask_app.scripts.googleAuth import serviceBuilder
 

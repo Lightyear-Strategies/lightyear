@@ -8,8 +8,8 @@ ssh_keys
 __pycache__
 
 
-emailValidity/PAST
-emailValidity/toCheck
+flask_app/scratch_files/emailValidity/PAST
+flask_app/scratch_files/emailValidity/toCheck
 
 env/*
 
@@ -38,7 +38,7 @@ venv
 haroListener/token.pickle
 haroListener/client.json
 
-emailValidity/test.csv
+flask_app/scratch_files/emailValidity/test.csv
 haroListener/test.csv
 flask/test.csv
 flask_app/ev_20/key.json

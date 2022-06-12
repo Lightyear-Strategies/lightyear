@@ -1,23 +1,21 @@
-import flaskMain as fm
-import datetime
+from flask_app.scripts.create_flask_app import db
 from weeklyWriters.muckRack import google_muckrack as gm, Muckrack as mr
 from weeklyWriters.toPDF import pdfReport
 from weeklyWriters.emailWeeklyRep import report
-import sys
-import os
+import sys, datetime
 import pandas as pd
 
 
 if __name__ == "__main__":
     
-    journalists_db = journalists = pd.read_sql_table('journalists', fm.db.engine)
+    journalists_db = journalists = pd.read_sql_table('journalists', db.engine)
 
     if sys.argv[1] == "links":
         links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
         gm_ob = gm.google_muckrack(links_needed, 'Journalist')
         new_df = gm_ob.get_dataframe()
         journalists_db[journalists_db['Muckrack'].isnull()] = new_df
-        journalists_db.to_sql('journalists', fm.db.engine, index=False, if_exists='replace')
+        journalists_db.to_sql('journalists', db.engine, index=False, if_exists='replace')
 
     if sys.argv[1] == "parse":
         unique_links = list(journalists_db['Muckrack'].unique())
