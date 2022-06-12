@@ -3,6 +3,7 @@
 ##########################################
 ## app, bootstrap, db initialized below ##
 ##########################################
+
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -62,7 +63,7 @@ def add_configs(app,where):
 
     app = set_broker(app, where)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(config.FLASK_DIR, 'HarosDB.sqlite3')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(config.FLASK_DIR, 'Database.sqlite3')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     return app
@@ -93,4 +94,4 @@ def set_broker(app,where='server'):
 
 # Always Created
 
-app, bootstrap, db = init_app(where='server')
+app, bootstrap, db = init_app(where='local')

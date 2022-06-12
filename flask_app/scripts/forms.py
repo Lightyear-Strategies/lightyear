@@ -16,9 +16,12 @@ class uploadEmailFilesForm(FlaskForm):
 class uploadJournalistCSV(FlaskForm):
     """Constructor for the Journalist Subscription Form"""
 
-    personname = StringField('What is your full name?', validators=[DataRequired()])
+    username = StringField('What is your full name?', validators=[DataRequired()])
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    frequency = RadioField(label='Receive updates every', validators=[InputRequired()], choices = [('_day', 'day'), ('_week', 'week'), ('_month', 'month')])
+    frequency = RadioField(label='Receive updates every', validators=[InputRequired()],
+                           choices=[('_day', 'day'), ('_week', 'week'), ('_month', 'month')])
+
     files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
+                              validators=[DataRequired(),
+                                          FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')

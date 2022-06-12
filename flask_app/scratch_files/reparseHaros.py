@@ -28,7 +28,7 @@ big_df.to_sql(name='haros', con=fm.db.engine, index=True, if_exists='replace')
 # OperationalError: attempt to write a readonly database
 
 # use in the terminal within the directory where database is located 
-sudo chmod a+w HarosDB.sqlite3 
+sudo chmod a+w Database.sqlite3 
 """
 
 # to drop a table within Databse
