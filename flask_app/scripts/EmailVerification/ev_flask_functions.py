@@ -30,10 +30,10 @@ def email_verification():
         form.email.data = ''
 
         # This part is only for web deployment
-        #if not authCheck():
-        #    return redirect('/authorizeCheck')
+        if not authCheck():
+            return redirect('/authorizeCheck')
 
-        localServiceBuilder() # Uncomment this, and comment the above lines to run locally ##########################
+        #localServiceBuilder() # Uncomment this, and comment the above lines to run locally ##########################
 
         if files:
             for file in files:

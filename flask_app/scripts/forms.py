@@ -3,7 +3,6 @@ from flask_wtf.file import FileAllowed
 from wtforms import StringField, SubmitField, MultipleFileField, RadioField
 from wtforms.validators import DataRequired, Email, InputRequired
 
-###################### Forms ######################
 
 class uploadEmailFilesForm(FlaskForm):
     """Constructor for the Email Verification Form"""

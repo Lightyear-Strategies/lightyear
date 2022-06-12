@@ -93,5 +93,5 @@ def set_broker(app,where='server'):
 
 
 # Always Created
-
-app, bootstrap, db = init_app(where='local')
+# either use 'local' or 'server'
+app, bootstrap, db = init_app(where='server')

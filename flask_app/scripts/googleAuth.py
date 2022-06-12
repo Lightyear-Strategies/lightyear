@@ -20,6 +20,7 @@ SCOPES = ['https://mail.google.com/']
 API_SERVICE_NAME = 'gmail'
 API_VERSION = 'v1'
 
+
 #extending flask app functionality
 g_oauth = Blueprint('g_oauth', __name__)
 
