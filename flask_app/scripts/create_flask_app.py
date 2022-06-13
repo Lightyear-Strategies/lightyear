@@ -1,29 +1,25 @@
+from flask import Flask
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from celery import Celery
+
+import flask_app.scripts.config as config
+from flask_app.scripts.googleAuth import g_oauth
 
 
 ##########################################
 ## app, bootstrap, db initialized below ##
 ##########################################
 
-from flask import Flask
-from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
-from celery import Celery
-import os
-
-import flask_app.scripts.config as config
-from flask_app.scripts.googleAuth import g_oauth
-
 
 def init_app(where='server'):
-    app = Flask(__name__, template_folder=os.path.join(config.FLASK_DIR, 'HTML'))
-    print(os.path.join(config.FLASK_DIR, 'HTML'))
+    app = Flask(__name__, template_folder=config.HTML_DIR)
     app = add_configs(app,where)
 
     bootstrap = init_bootstrap(app)
     db = init_db(app)
 
     return app, bootstrap, db
-
 
 
 def init_bootstrap(app):
@@ -57,13 +53,12 @@ def init_celery(app):
 def add_configs(app,where):
     app.register_blueprint(g_oauth)
 
-    app.secret_key = config.FLASK_SECRET_KEY  # used in upload forms ?
-
+    app.secret_key = config.FLASK_SECRET_KEY
     app.config['UPLOAD_FOLDER'] = config.UPLOAD_DIR
 
     app = set_broker(app, where)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(config.FLASK_DIR, 'Database.sqlite3')
+    app.config['SQLALCHEMY_DATABASE_URI'] = config.DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     return app
@@ -71,23 +66,12 @@ def add_configs(app,where):
 
 def set_broker(app,where='server'):
     if where == 'server':
-        # To work with AWS SQS
-        from kombu.utils.url import quote
-
-        app.config['CELERY_BROKER_URL'] = \
-            'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs.{region}.amazonaws.com/{account}/{service_name}'\
-                .format(
-                AWS_ACCESS_KEY_ID=quote(config.AWS_ACCESS_KEY_ID, safe=''),
-                AWS_SECRET_ACCESS_KEY=quote(config.AWS_SECRET_ACCESS_KEY, safe=''),
-                region='ca-central-1',
-                account='453725380860',
-                service_name='FlaskAppSQS-1'
-            )
-        app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
+        app.config['CELERY_BROKER_URL'] = config.CELERY_WEB_BROKER_URL
+        app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": config.AWS_REGION}
 
     if where == 'local':
         # To work with Celery in local environment using RabbitMQ
-        app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
+        app.config['CELERY_BROKER_URL'] = config.CELERY_LOCAL_BROKER_URL
 
     return app
 

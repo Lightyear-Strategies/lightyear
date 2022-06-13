@@ -1,13 +1,10 @@
-import base64
+import base64, os, mimetypes
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
-import mimetypes
-import os
-
-from flask_app.scripts.googleAuth import serviceBuilder #, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
 
 
 class report():
@@ -22,7 +19,8 @@ class report():
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = serviceBuilder() #localServiceBuilder()
+        self.service = serviceBuilder()
+        # self.service = localServiceBuilder()
         self.body = self.createMessage()
         print('Our self', self.file)
 

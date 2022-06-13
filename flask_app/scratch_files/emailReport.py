@@ -41,10 +41,10 @@ class report():
             else:
 
                 flow = Flow.from_client_secrets_file(
-                    'client.json',
+                    'web_google_client.json',
                     self.scopes)
 
-                with open("../client.json") as jsonFile:
+                with open("../web_google_client.json") as jsonFile:
                     jsonObject = json.load(jsonFile)
                     jsonFile.close()
                 flow.redirect_uri = jsonObject['web']['redirect_uris'][0]
@@ -64,7 +64,7 @@ class report():
                 * for Installed App * 
                 
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'client.json', self.scopes)
+                    'web_google_client.json', self.scopes)
                 creds = flow.run_local_server(port=0)
                 """
             with open('../token.pickle', 'wb') as token:

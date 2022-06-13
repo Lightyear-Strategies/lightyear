@@ -10,8 +10,8 @@ from flask_app.scripts.config import FLASK_DIR, CONFIG_DIR
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'client.json')
-LOCAL_CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'localclient.json')
+CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'web_google_client.json')
+LOCAL_CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
 PICKLE_FILE = os.path.join(CONFIG_DIR,'token.pickle')
 
 # This OAuth 2.0 access scope allows for full read/write access to the

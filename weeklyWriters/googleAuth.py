@@ -11,7 +11,7 @@ from flask import Blueprint, redirect, url_for, flash, request
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "client.json"
+CLIENT_SECRETS_FILE = "web_google_client.json"
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
@@ -34,7 +34,7 @@ def localServiceBuilder():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('localclient.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('local_google_client.json', SCOPES)
 
             creds = flow.run_local_server(port=0)
         with open('token.pickle', 'wb') as token:

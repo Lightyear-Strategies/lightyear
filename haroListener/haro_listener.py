@@ -17,8 +17,6 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = '/haro_jsons/'
-        #self.token_path = 'token.pickle'
-        #self.creds_path = 'client.json'
         #self.creds = localServiceBuilder()
         self.creds = serviceBuilder()
 

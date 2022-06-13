@@ -17,16 +17,14 @@ class emailValidation:
         self.key = key
         if (self.key is None):
             try:
-                with open(os.path.join(CONFIG_DIR,'key.json')) as json_file:
+                with open(os.path.join(CONFIG_DIR,'ev_api_key.json')) as json_file:
                     data = json.load(json_file)
                     self.key = data
             except Exception:
-                print("No key.json in CONFIG_DIR file found")
+                print("No ev_api_key.json in CONFIG_DIR file found")
 
         self.url = 'https://isitarealemail.com/api/email/validate'
-        self.statistics = {
-            'Initial Length': len(self.df)
-        }
+        self.statistics = { 'Initial Length': len(self.df) }
         self.wrong_emails = pd.DataFrame()
 
     def __get_df(self):
@@ -116,7 +114,11 @@ class emailValidation:
         filename = os.path.basename(self.filename)
 
         filename = os.path.join(UPLOAD_DIR,filename)
-        print(filename)
+        if os.path.exists(filename):
+            os.remove(filename)
+            print(f"The {filename} has been deleted successfully")
+        else:
+            print(f"The {filename} does not exist!")
         self.df.to_csv(path_or_buf=filename, index=False)
 
     def remove_duplicates(self, csv_file, save=False):

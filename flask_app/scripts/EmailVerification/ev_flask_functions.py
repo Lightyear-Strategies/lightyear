@@ -2,7 +2,7 @@ from flask import render_template, request, redirect
 from werkzeug.utils import secure_filename
 import os
 
-from flask_app.scripts.EmailVerification import emailAPIvalid, emailRep
+from flask_app.scripts.EmailVerification import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.forms import uploadEmailFilesForm
 from flask_app.scripts.config import UPLOAD_DIR
@@ -55,16 +55,16 @@ def email_verification():
 
 def emailVerify(path, recipients=None):
     """
-    Uses functions from emailAPIvalid to verify emails.
+    Uses functions from ev_API.py to verify emails.
     Creates email with processed file and sends it.
     @param:    path to file with emails
     @param:    recipients of processed file
     @return:   None
     """
-    email = emailAPIvalid.emailValidation(filename=path)
+    email = ev_API.emailValidation(filename=path)
     email.validation(save=True)
     subject_line = os.path.basename(path)
-    report = emailRep.report("george@lightyearstrategies.com", recipients,
+    report = emailReport.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
     report.sendMessage()
 
