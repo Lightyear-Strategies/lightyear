@@ -1,5 +1,4 @@
 from flask_app.scripts.HaroTable.haro_table_functions import addDBData
-import pandas as pd
 from haroListener.haro_listener import HaroListener
 
 if __name__ == "__main__":
