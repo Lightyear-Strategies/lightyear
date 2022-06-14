@@ -23,9 +23,13 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        if "@" in form.username_email.data:
+            user = User.query.filter_by(email=form.username_email.data).first()
+        else:
+            user = User.query.filter_by(username=form.username_email.data).first()
+
         remember = True if request.form.get('remember') else False
-        if not user and not user.check_password(form.password.data):
+        if user and not user.check_password(form.password.data):
             flash('Invalid password.')
             return redirect(url_for('login'))
 

@@ -55,13 +55,19 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     """Constructor for the Login Page"""
-    email = StringField('Email',validators=[DataRequired(), Email(),Length(1, 64)])
+    username_email = StringField('Email or Username', validators=[DataRequired(), Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
     remember = BooleanField('Remember Me') # if remember then sessions?
     submit = SubmitField('Login')
 
-    def validate_email(self, email):
-        if not User.query.filter_by(email=email.data).first():
-            raise ValidationError('This email is not registered.')
+    def validate_username_email(self,username_email):
+        if "@" in username_email.data:
+            if not User.query.filter_by(email=username_email.data).first():
+                raise ValidationError('This email is not registered.')
+        else:
+            if not User.query.filter_by(username=username_email.data).first():
+                raise ValidationError('This username is not registered.')
+
+
 
 

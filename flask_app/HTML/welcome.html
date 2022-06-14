@@ -41,6 +41,7 @@
     </div>
     <div>
         <a href="{{ url_for('welcome') }}">Home</a>
+        <br><br>
         {% if current_user.is_anonymous %}
         <a href="{{ url_for('login') }}">Login</a>
         {% else %}
