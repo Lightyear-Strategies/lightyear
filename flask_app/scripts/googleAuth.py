@@ -97,12 +97,13 @@ def authLogin(credsreturn=False):
 
     return
 
-# @param:   None
-# @return:  service
+
 def serviceBuilder():
     """
     Function creates an instance of gmail service.
     Function is used in emailRep to create the service to send emails.
+    @param:   None
+    @return:  service
     """
 
     creds = authLogin(credsreturn=True)
@@ -112,8 +113,6 @@ def serviceBuilder():
     return service
 
 
-#@param:    None
-#@return:   redirect to authorization page
 @g_oauth.route('/authorizeCheck')
 def authorizeCheck():
     """
@@ -122,6 +121,9 @@ def authorizeCheck():
 
     For explanation about each code part refer to
     https://developers.google.com/identity/protocols/oauth2/web-server#example
+
+    @param:    None
+    @return:   redirect to authorization page
     """
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
@@ -140,8 +142,6 @@ def authorizeCheck():
     return redirect(authorization_url)
 
 
-#@param:    None
-#@return:   redirect to authorization page
 @g_oauth.route('/authorizeService')
 def authorizeService():
     """
@@ -150,6 +150,8 @@ def authorizeService():
 
     For explanation about each code part refer to
     https://developers.google.com/identity/protocols/oauth2/web-server#example
+    @param:    None
+    @return:   redirect to authorization page
     """
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
@@ -163,11 +165,12 @@ def authorizeService():
 
     return redirect(authorization_url)
 
-#@param:    None
-#@return:   None
+
 def oauth2callback():
     """
     Function that is used to receive authentication data and writes it to token.pickle
+    @param:    None
+    @return:   None
     """
     # Specify the state when creating the flow in the callback so that it can verified in the authorization server response.
     state = flask.session['state']
