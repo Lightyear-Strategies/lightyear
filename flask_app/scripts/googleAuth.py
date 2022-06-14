@@ -25,9 +25,11 @@ API_VERSION = 'v1'
 g_oauth = Blueprint('g_oauth', __name__)
 
 
-# @params = none
-# @return credentials: a set of google api credentials
 def localServiceBuilder():
+    '''
+    @params = none
+    @return credentials: a set of google api credentials
+    '''
     creds = None
     if os.path.exists(PICKLE_FILE):
         with open(PICKLE_FILE, 'rb') as token:
@@ -47,13 +49,14 @@ def localServiceBuilder():
     return service
 
 
-# @param:   None
-# @return:  Boolean
 def authCheck():
     """
     Function that checks if token.pickle exists in the current directory for using to send emails and parse emails.
     If token.pickle exists then check if credits are valid,
     Else return False, which in the other function will require the user to Google Sing In with Bot credentials
+    @param:   None
+    @return:  Boolean
+
     """
     creds = None
     if os.path.exists(PICKLE_FILE):
@@ -72,14 +75,15 @@ def authCheck():
 
     return True
 
-# @param:   credsreturn (True/False)
-# @return:  redirect to Google Authentication
-# @return:  creds (if credsreturn== True)
-# @return:  None
+
 def authLogin(credsreturn=False):
     """
     Function redirects to authorization if authCheck returned False.
     It also returns credentials if needed
+    @param:   credsreturn (True/False)
+    @return:  redirect to Google Authentication
+    @return:  creds (if credsreturn== True)
+    @return:  None
     """
     if not authCheck():
         return redirect('/authorizeService')
@@ -194,7 +198,7 @@ def oauth2callbackCheck():
     """
     oauth2callback()
     flash('Authorized')
-    return redirect('/')
+    return redirect('/email_verification')
 
 #@param:    None
 #@return:   serviceBuilder()
