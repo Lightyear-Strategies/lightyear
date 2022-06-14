@@ -177,9 +177,14 @@ section > div > div > h2 {
     border-radius: 0.25rem;
     border: var(--lightyear-red) 2px solid;
     cursor: pointer;
-    font-weight: 800;
+    font-weight: 600;
+    transition: all ease-out 0.2s;
 }
 
+#loginBtn:hover {
+    color: var(--lightyear-blue);
+    border: var(--lightyear-blue) 2px solid;
+}
 /* SVG */
 .svg {
     margin: auto;
@@ -191,8 +196,12 @@ section > div > div > h2 {
     flex: 1;
     cursor: pointer;
     fill: var(--lightyear-red);
+    transition: all ease-out 0.2s;
 }
 
+.svg > svg:hover {
+    fill: var(--lightyear-blue);
+}
 /*  Sign up */
 .signUp {
     place-self: center;
@@ -229,7 +238,15 @@ section > div > div > h2 {
     font-size: 2.25rem;
     padding: 20px 40px;
     border-radius: 0.25rem;
-    font-weight: 800;
+    font-weight: 600;
+    width: 60%;
+    cursor: pointer;
+    transition: ease-out 0.2s all;
+}
+
+.signUp > div > button:hover {
+    color:var(--background-color);
+    background-color: var(--lightyear-red);
 }
 
 /* Media Fitting */
