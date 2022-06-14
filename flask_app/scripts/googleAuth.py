@@ -180,8 +180,8 @@ def oauth2callback():
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = request.url
-    if "http:" in authorization_response:
-        authorization_response = "https:" + authorization_response[5:]
+    #if "http:" in authorization_response:
+    #    authorization_response = "https:" + authorization_response[5:]
     flow.fetch_token(authorization_response=authorization_response)
 
     creds = flow.credentials
