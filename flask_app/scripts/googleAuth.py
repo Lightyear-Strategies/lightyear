@@ -130,7 +130,7 @@ def authorizeCheck():
     flow = Flow.from_client_secrets_file(
         CLIENT_SECRETS_FILE, scopes=SCOPES)
 
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True, _scheme='https')
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True, _scheme='http')
 
     authorization_url, state = flow.authorization_url(
         access_type='offline',
@@ -155,7 +155,7 @@ def authorizeService():
     """
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES)
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackService', _external=True, _scheme='https')
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackService', _external=True, _scheme='http')
 
     authorization_url, state = flow.authorization_url(
         access_type='offline',
@@ -176,7 +176,7 @@ def oauth2callback():
     state = flask.session['state']
 
     flow = Flow.from_client_secrets_file(CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
-    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='https')
+    flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='http')
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
     authorization_response = request.url
