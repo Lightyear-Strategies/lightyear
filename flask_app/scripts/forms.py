@@ -29,6 +29,7 @@ class uploadJournalistCSV(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
+    """Constructor for the Register Page"""
     username = StringField('Username',
                            validators =[DataRequired(),
                                         Length(3, 30, message="Please provide a valid name"),
@@ -53,9 +54,10 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
+    """Constructor for the Login Page"""
     email = StringField('Email',validators=[DataRequired(), Email(),Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
-    remember = BooleanField('Remember Me',validators= [DataRequired()]) # if remember then sessions?
+    remember = BooleanField('Remember Me') # if remember then sessions?
     submit = SubmitField('Login')
 
     def validate_email(self, email):
