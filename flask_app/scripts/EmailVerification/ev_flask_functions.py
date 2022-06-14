@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect
+from flask_login import login_required
 from werkzeug.utils import secure_filename
 import os
 
@@ -11,6 +12,7 @@ from flask_app.scripts.create_flask_app import init_celery, app
 
 celery = init_celery(app)
 
+@login_required
 def email_verification():
     """
     Gets information from the form, extracts files.

@@ -19,10 +19,7 @@ AWS_SECRET_ACCESS_KEY = None
 with open(os.path.join(CONFIG_DIR, 'aws_secret.txt'), "r") as aws_secret:
     AWS_SECRET_ACCESS_KEY = aws_secret.read()
 
-FLASK_SECRET_KEY = None
-with open(os.path.join(CONFIG_DIR, 'flask_secret.txt'), "r") as flask_secret:
-    FLASK_SECRET_KEY = flask_secret.read()
-
+FLASK_SECRET_KEY = '\xe9Y\xc6\xc0U\xab\xbf\xaed\xb6!:\x8fI\xbb?\xc1\t\xce\xf59N0\xf0\xd8\xf7\xbb\x13\\\xad\x08k'
 
 AWS_REGION = 'ca-central-1',
 AWS_ACCOUNT = '453725380860',

@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from celery import Celery
 
@@ -16,10 +17,13 @@ def init_app(where='server'):
     app = Flask(__name__, template_folder=config.HTML_DIR)
     app = add_configs(app,where)
 
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+
     bootstrap = init_bootstrap(app)
     db = init_db(app)
 
-    return app, bootstrap, db
+    return app, bootstrap, db, login_manager
 
 
 def init_bootstrap(app):
@@ -78,4 +82,4 @@ def set_broker(app,where='server'):
 
 # Always Created
 # either use 'local' or 'server'
-app, bootstrap, db = init_app(where='server')
+app, bootstrap, db, login_manager = init_app(where='server')

@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}LyS Email Verification{% endblock %}
+{% block title %}LyS Welcome{% endblock %}
 {% block navbar %}
 <style>
     .navbar-nav {
@@ -36,8 +36,18 @@
 {% endif %}
 {% endwith %}
 <div class="container">
-   <div class="page-header">
-      <h3>Welcome Page</h3>
-   </div>
+    <div class="page-header">
+        <h3>Welcome to Lightyear Strategies</h3>
+    </div>
+    <div>
+        <a href="{{ url_for('welcome') }}">Home</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('login') }}">Login</a>
+        {% else %}
+        <p>Welcome {{current_user.username}}</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+
+    </div>
 </div>
 {% endblock %}

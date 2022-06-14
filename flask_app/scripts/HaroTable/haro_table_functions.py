@@ -1,3 +1,4 @@
+from flask_login import login_required
 from flask_app.scripts.create_flask_app import db
 from flask import render_template, request
 from datetime import datetime, timedelta
@@ -38,6 +39,7 @@ def addDBData(df: pd.DataFrame): #(file):
     res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
+@login_required
 def show_haro_table():
     """
     Shows Haro Table

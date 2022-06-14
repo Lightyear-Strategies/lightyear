@@ -1,4 +1,5 @@
 from flask import render_template, request, redirect, flash
+from flask_login import login_required
 from flask_app.scripts.forms import uploadJournalistCSV
 from flask_app.scripts.create_flask_app import db
 import traceback
@@ -6,7 +7,7 @@ import pandas as pd
 
 JOURNALIST_ROUTE = '/journalists'
 
-
+@login_required
 def load_journalist_file():
     """
     Gets csv(s) with Journalists from the form, extracts data.
