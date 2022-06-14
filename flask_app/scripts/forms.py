@@ -39,8 +39,8 @@ class RegistrationForm(FlaskForm):
                                         )
                                         ])
     email = StringField('Email', validators=[DataRequired(),Email(), Length(1, 64)])
-    password1 = PasswordField('Password', validators=[DataRequired(), Length(2, 72)])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(2, 72),
+    password1 = PasswordField('Password', validators=[DataRequired(), Length(6, 72)])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), Length(6, 72),
                                                                 EqualTo('password1',message="Passwords must match!")])
     submit = SubmitField('Register')
 

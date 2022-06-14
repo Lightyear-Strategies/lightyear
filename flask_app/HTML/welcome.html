@@ -39,11 +39,16 @@
     <div class="page-header">
         <h3>Welcome to Lightyear Strategies</h3>
     </div>
+
     <div>
-        <a href="{{ url_for('welcome') }}">Home</a>
-        <br><br>
+        <!-- <a href="{{ url_for('welcome') }}">Home</a> -->
+        <br>
         {% if current_user.is_anonymous %}
-        <a href="{{ url_for('login') }}">Login</a>
+            <h4>
+                <strong>
+                    <a href="{{ url_for('login') }}">Login</a> or <a href="{{ url_for('register') }}">Register</a> to use our Services
+                </strong>
+            </h4>
         {% else %}
         <p>Welcome {{current_user.username}}</p>
         <a href="{{ url_for('logout') }}">Logout</a>
