@@ -197,3 +197,5 @@ window.onload = () => {
     document.querySelector("#upBtn").style.opacity = "0";
     addListeners();
 }
+
+// Cookies
