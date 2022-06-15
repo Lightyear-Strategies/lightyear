@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th> </th>
+        <th>Summary</th>
+        <th>Media Outlet</th>
+        <th>Category</th>
+        <th>Date</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    /* Formatting function for row details - modify as you need */
+function format ( d ) {
+    // show nothing if there is no name
+    if (!(d.Name)) {d.Name = ''}
+    // `d` is the original data object for the row
+    return '<table class="table">'+
+        '<tr>'+
+            '<td>Name:</td>'+
+            '<td>'+d.Name+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Email:</td>'+
+            '<td>'+d.Email+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Query:</td>'+
+            '<td>'+d.Query+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Requirements:</td>'+
+            '<td>'+d.Requirements+'</td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td>Deadline:</td>'+
+            '<td>'+d.Deadline+'</td>'+
+        '</tr>'+
+    '</table>';
+}
+    $(document).ready(function () {
+      var table = $('#data').DataTable({
+        ajax: '/api/serveHaros',
+        serverSide: true,
+        columns: [
+          {
+                "className":      'details-control',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+          },
+          {data: 'Summary', orderable: false},
+          {data: 'MediaOutlet'},
+          {data: 'Category'},
+          {data: 'Date'}
+        ],
+
+        // button calls for the "fresh" data from in the /api/serveHaros
+        // but this call does not update the "table"
+        dom: 'Bfrtip',
+        buttons: [
+                {
+                text: 'Fresh',
+                action: function () {
+                    $.ajax({
+                      url: '/api/serveHaros',
+                      type: 'GET',
+                      dataType: "json",
+                      data : {"fresh": "fresh"},
+                    });
+                }
+            }]
+      });
+
+      // Switching with left and right keyboard buttons
+      $(document).keydown( function(e) {
+        // left arrow
+        if ((e.keyCode || e.which) == 37) {
+          $( "#data_previous" ).click();
+        }
+        // right arrow
+        if ((e.keyCode || e.which) == 39) {
+          $( "#data_next" ).click();
+        }
+      })
+    });
+
+    // Add event listener for opening and closing details
+    $('#data tbody').on('click', 'tr td.details-control', function () {
+        var table = $('#data').DataTable();
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            tr.removeClass( 'details' );
+            row.child.hide();
+        }
+        else {
+            // Open this row
+            tr.addClass( 'details' );
+            row.child( format(row.data()) ).show();
+        }
+    } );
+
+
+  </script>
+{% endblock %}
+

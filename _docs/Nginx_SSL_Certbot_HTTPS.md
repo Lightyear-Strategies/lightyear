@@ -1,0 +1,28 @@
+### Sources: 
+_(configuration settings for ufw and nginx are found in the videos)_
+* https://youtu.be/goToXTC96Co -- server settings (installing nginx)
+* https://youtu.be/Gdys9qPjuKs -- SSL using certbot 
+* https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal (installation guide for nginx)
+
+### Commands
+
+To Control Uncomplicated Firewall:
+* `sudo ufw default allow outgoing`
+* `sudo ufw default deny incoming`
+* `sudo ufw allow ssh`
+* `sudo ufw allow http/tcp`
+* `sudo ufw allow https/tcp`
+* `sudo ufw allow 5000`
+* `sudo ufw status`
+* `sudo ufw enable`
+
+Nginx:
+* `sudo apt install nginx`
+* `sudo rm /etc/nginx/sites-enabled/default`
+* `sudo nano /etc/nginx/sites-enabled/lightyear`
+* `sudo systemctl restart nginx`
+* `sudo nano /etc/nginx/nginx.conf`
+* `systemctl status nginx.service`
+
+Gunicorn:
+* `gunicorn -w 3 wsgi:app`

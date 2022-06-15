@@ -1,21 +1,9 @@
 """A module for setting up a listener on an email. Listens for HARO emails, returns the body of any HARO emails received"""
 
-import os
-import datetime
-import json
-import time
-import os.path
-import pickle
-import pandas as pd
-import sys
-
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+import os, datetime, json, time
 from googleapiclient.errors import HttpError
-
 from haroListener.haro_parser import Haro
-from flask_app.googleAuth import serviceBuilder, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder
 
 
 class HaroListener():
@@ -29,8 +17,6 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = '/haro_jsons/'
-        #self.token_path = 'token.pickle'
-        #self.creds_path = 'client.json'
         #self.creds = localServiceBuilder()
         self.creds = serviceBuilder()
 

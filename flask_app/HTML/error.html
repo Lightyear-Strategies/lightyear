@@ -2,16 +2,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}LyS Email Verification{% endblock %}
 {% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-   <div class="container">
-      <div class="navbar-collapse collapse">
-         <ul class="nav navbar-nav">
-            <li> <a href="/">Email Validation</a> </li>
+<nav class="navbar navbar-expand-sm navbar-inverse bg-light" >
+   <div class="container-fluid">
+      <nav class="navbar-expand-sm">
+         <ul class=" nav navbar-nav horizontal">
+            <li> <a href="/email_verification">Email Validation</a> </li>
             <li> <a href="/haros">Haros Table</a> </li>
+            <li> <a href="/journalists">Journalists</a> </li>
          </ul>
-      </div>
+      </nav>
    </div>
-</div>
+</nav>
 {% endblock %}
 {% block content %}
 {% with messages = get_flashed_messages() %}

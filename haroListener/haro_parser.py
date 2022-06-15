@@ -1,8 +1,5 @@
-import json
-import os
-import base64
+import json, os, base64
 import pandas as pd
-import sys
 import haroListener.muckRack.google_muckrack as mc
 from datetime import datetime
 
@@ -160,11 +157,6 @@ class Haro:
         df = self.df
         muckrack = mc.google_muckrack(df, "Name")
         result = muckrack.get_dataframe()
-
-
-
-
-
 
 
 if __name__ == "__main__":

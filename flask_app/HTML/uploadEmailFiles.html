@@ -13,15 +13,16 @@
 </style>
 
 <nav class="navbar navbar-expand-sm navbar-inverse bg-light" >
-   <div class="container-fluid">
-      <nav class="navbar-expand-sm">
-         <ul class=" nav navbar-nav horizontal">
-            <li> <a href="/">Email Validation</a> </li>
-            <li> <a href="/haros">Haros Table</a> </li>
-            <li> <a href="/journalists">Journalists</a> </li>
-         </ul>
-      </nav>
-   </div>
+    <div class="container-fluid">
+        <nav class="navbar-expand-sm">
+            <ul class=" nav navbar-nav horizontal">
+                <li> <a href="/">Home</a> </li>
+                <li> <a href="/email_verification">Email Validation</a> </li>
+                <li> <a href="/haros">Haros Table</a> </li>
+                <li> <a href="/journalists">Journalists</a> </li>
+            </ul>
+        </nav>
+    </div>
 </nav>
 {% endblock %}
 {% block content %}
@@ -39,13 +40,14 @@
       <h3>Validate Emails</h3>
    </div>
    <strong>Guidelines:</strong>
-   <p> <pre>
+   <p>
+    <pre>
    1. Enter the email address where you want to receive your verified file(s)
    2. Create CSV/Excel file(s)
    3. One column must be named "Emails" and must contain emails that you want to verify
    4. Select the file(s)
-   5. Press "Submit" button </pre>
-   </p>
+   5. Press "Submit" button
+    </pre>
    <br>
    Your file(s) will be emailed to you within 10 minutes.
    <br> <br>

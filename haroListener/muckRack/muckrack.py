@@ -1,7 +1,4 @@
-from selenium import webdriver
-import requests
 from bs4 import BeautifulSoup
-import pickle
 import time
 import undetected_chromedriver.v2 as uc
 import pandas as pd

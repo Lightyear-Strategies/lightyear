@@ -1,31 +1,12 @@
 ssh_keys
-
 .idea
-.idea/
-
 .DS_Store
-
 __pycache__
 
-
-emailValidity/PAST
-emailValidity/toCheck
 
 env/*
 
 .ipynb_checkpoints
-
-flask/erl_crash.dump
-
-
-
-flask/client.json
-flask/token.pickle
-flask/HarosDB.sqlite3
-flask/aws_access.txt
-flask/aws_secret.txt
-flask/flask_secret.txt
-
 
 haroListener/config/*
 haroListener/haro_jsons/*
@@ -38,11 +19,8 @@ venv
 haroListener/token.pickle
 haroListener/client.json
 
-emailValidity/test.csv
+flask_app/scratch_files/emailValidity/test.csv
 haroListener/test.csv
-flask/test.csv
-ev_20/key.json
-flask/key.json
 *.csv
 *.pyc
 
@@ -52,3 +30,7 @@ client.json
 HarosDB.sqlite3
 flask_app/localclient.json
 haroListener/localclient.json
+
+flask_app/configs
+.env
+flask_app/Database.sqlite3

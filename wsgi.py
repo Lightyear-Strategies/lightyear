@@ -1,4 +1,4 @@
 from flaskMain import app
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(port=8000, debug=True, threaded=True)
