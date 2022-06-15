@@ -31,6 +31,6 @@ HarosDB.sqlite3
 flask_app/localclient.json
 haroListener/localclient.json
 
-flask_app/configs
+flask_app/configs/
 .env
 flask_app/Database.sqlite3
