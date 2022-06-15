@@ -125,7 +125,7 @@ def authorizeCheck():
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
-        Config.CLIENT_SECRETS_FILE, scopes=SCOPES)
+        Config.WEB_CLIENT_SECRETS_FILE, scopes=SCOPES)
 
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True, _scheme='https')
 
