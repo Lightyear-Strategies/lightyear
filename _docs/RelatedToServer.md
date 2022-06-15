@@ -17,7 +17,7 @@ https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
     wget https://www.python.org/ftp/python/3.8.10/Python-3.8.10.tgz
 
 3. When the download finishes, extract the gzipped archive :
-    tar -xf Python-3.8.0.tgz
+    tar -xf Python-3.8.10.tgz
 4. Switch to the Python source directory and execute the configure script which performs a number of checks to make sure
    all of the dependencies on your system are present:
     cd Python-3.8.10
