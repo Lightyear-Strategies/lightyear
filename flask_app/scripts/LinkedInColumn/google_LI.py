@@ -13,15 +13,16 @@ class linked_in_search:
             raise Exception("Column Name or Full Name not found")
 
 
-    """ Looks for the colums NAME or FULL NAME in the dataframe and returns the column name for __init__"""
     def __find_column(self):
+        """ Looks for the columns NAME or FULL NAME in the dataframe and returns the column name for __init__"""
         for col in self.df.columns:
             if col == "Name" or col == "Full name":
                 return col
         return -1
 
-    """ Iterates through the column and calls __lookUp() for each row """
+
     def __column_iterate(self, debug=False):
+        """ Iterates through the column and calls __lookUp() for each row """
         for index, row in self.df.iterrows():
             if(debug):
                 total = len(self.df)
@@ -32,15 +33,19 @@ class linked_in_search:
             self.df.at[index, "LinkedIn"] = url
             self.save_dataframe("LinkedIN_incomplete.csv") #save the progress of the program
 
+
     def get_dataframe(self):
         return self.df
+
 
     def initiate_search(self, debug=False, pause=1):
         self.__column_iterate(debug)
         self.wait = pause
 
+
     def save_dataframe(self, filename):
         self.df.to_csv(filename)
+
 
     def __lookUp(self, name, debug=False):
         if not isinstance(name, str):
@@ -88,6 +93,7 @@ class linked_in_search:
                 print("Current wait: {} seconds".format(self.wait))
             return "HTTP Error 429"
         return "ERROR"
+
 
 if __name__ == '__main__':
     df = pd.read_csv("holaplex.csv")
