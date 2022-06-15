@@ -20,10 +20,8 @@ class Config:
 
     EV_API_KEY = os.getenv('EV_API_KEY')
     #os.path.join(CONFIG_DIR,'ev_api_key.json')
-    WEB_CLIENT_SECRETS_FILE = os.getenv('WEB_CLIENT_SECRETS_FILE')
-    #os.path.join(CONFIG_DIR,'web_google_client.json')
-    LOCAL_CLIENT_SECRETS_FILE = os.getenv('WEB_CLIENT_SECRETS_FILE')
-    #os.path.join(CONFIG_DIR,'local_google_client.json')
+    WEB_CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'web_google_client.json')
+    LOCAL_CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
     PICKLE_FILE = os.path.join(CONFIG_DIR,'token.pickle')
 
     # AWS
