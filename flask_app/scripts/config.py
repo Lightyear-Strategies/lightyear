@@ -21,8 +21,8 @@ with open(os.path.join(CONFIG_DIR, 'aws_secret.txt'), "r") as aws_secret:
 
 FLASK_SECRET_KEY = '\xe9Y\xc6\xc0U\xab\xbf\xaed\xb6!:\x8fI\xbb?\xc1\t\xce\xf59N0\xf0\xd8\xf7\xbb\x13\\\xad\x08k'
 
-AWS_REGION = 'ca-central-1',
-AWS_ACCOUNT = '453725380860',
+AWS_REGION = 'ca-central-1'
+AWS_ACCOUNT = '453725380860'
 AWS_SERVICE_NAME = 'FlaskAppSQS-1'
 
 
