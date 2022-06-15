@@ -1,12 +1,11 @@
+import os
 from flask import render_template, request, redirect
 from flask_login import login_required
 from werkzeug.utils import secure_filename
-import os
-
 from flask_app.scripts.EmailVerification import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.forms import uploadEmailFilesForm
-from flask_app.scripts.config import UPLOAD_DIR
+from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import init_celery, app
 
 
@@ -40,14 +39,14 @@ def email_verification():
         if files:
             for file in files:
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(UPLOAD_DIR, filename))
+                file.save(os.path.join(Config.UPLOAD_DIR, filename))
                 filenames.append(filename)
 
             for filename in filenames:
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
-                parseSendEmail.delay(os.path.join(UPLOAD_DIR, filename), email, filename)
+                parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
             return redirect("/email_verification")
         else:
             print('No files')
@@ -84,7 +83,7 @@ def parseSendEmail(path, recipients=None, filename=None):
         emailVerify(path, recipients)
 
         # remove the file after sending it
-        file_remover(os.path.join(UPLOAD_DIR, filename))
+        file_remover(os.path.join(Config.UPLOAD_DIR, filename))
 
 
 def file_remover(path):

@@ -5,6 +5,7 @@ from flask_app.scripts.JournalistSubscription import journalist_upload_functions
 from flask_app.scripts.HaroTable import haro_table_functions as h_t_f
 from flask_app.scripts.LoginRegister import auth
 
+
 app.add_url_rule('/email_verification', view_func=ev_f_f.email_verification, methods=['GET','POST'])
 app.add_url_rule('/journalists', view_func=j_u_f.load_journalist_file, methods=['GET','POST'])
 

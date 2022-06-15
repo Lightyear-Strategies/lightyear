@@ -12,7 +12,7 @@ from flask import Blueprint, redirect, url_for
 
 # This variable specifies the name of a file that contains the OAuth 2.0
 # information for this application, including its client_id and client_secret.
-CLIENT_SECRETS_FILE = "web_google_client.json"
+WEB_CLIENT_SECRETS_FILE = "web_google_client.json"
 
 # This OAuth 2.0 access scope allows for full read/write access to the
 # authenticated user's account and requires requests to use an SSL connection.
@@ -124,7 +124,7 @@ def authorize():
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE, scopes=SCOPES)
+        WEB_CLIENT_SECRETS_FILE, scopes=SCOPES)
 
     # The URI created here must exactly match one of the authorized redirect URIs
     # for the OAuth 2.0 client, which you configured in the API Console. If this
@@ -157,7 +157,7 @@ def oauth2callback():
     state = flask.session['state']
 
     flow = Flow.from_client_secrets_file(
-        CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+        WEB_CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
     flow.redirect_uri = url_for('g_oauth.oauth2callback', _external=True)
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.

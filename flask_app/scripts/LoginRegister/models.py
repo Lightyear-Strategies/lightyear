@@ -19,4 +19,4 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash,password)
 
 
-db.create_all()
+#db.create_all()

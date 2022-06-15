@@ -1,7 +1,7 @@
 import requests, re, os, json
 import pandas as pd
 
-from flask_app.scripts.config import UPLOAD_DIR, CONFIG_DIR
+from flask_app.scripts.config import Config
 
 
 class emailValidation:
@@ -17,7 +17,7 @@ class emailValidation:
         self.key = key
         if (self.key is None):
             try:
-                with open(os.path.join(CONFIG_DIR,'ev_api_key.json')) as json_file:
+                with open(Config.EV_API_KEY) as json_file:
                     data = json.load(json_file)
                     self.key = data
             except Exception:
@@ -113,7 +113,7 @@ class emailValidation:
     def to_cvs(self):
         filename = os.path.basename(self.filename)
 
-        filename = os.path.join(UPLOAD_DIR,filename)
+        filename = os.path.join(Config.UPLOAD_DIR,filename)
         if os.path.exists(filename):
             os.remove(filename)
             print(f"The {filename} has been deleted successfully")
