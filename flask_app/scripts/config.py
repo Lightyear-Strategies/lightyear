@@ -10,6 +10,7 @@ class Config:
     LIGHTYEAR_DIR = os.path.dirname(FLASK_DIR)
     CONFIG_DIR = os.path.join(FLASK_DIR,'configs')
     HTML_DIR = os.path.join(FLASK_DIR, 'HTML')
+    STATIC_DIR = os.path.join(HTML_DIR, 'static')
     UPLOAD_DIR = os.path.join(FLASK_DIR,'uploadFolder')
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 

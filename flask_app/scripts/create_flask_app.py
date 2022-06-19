@@ -61,7 +61,7 @@ def set_broker(app,where='server'):
 
 
 def create_app(where='server'):
-    app = Flask(__name__, template_folder=Config.HTML_DIR)
+    app = Flask(__name__, template_folder=Config.HTML_DIR, static_folder=Config.STATIC_DIR)
     app = add_configs(app,where)
 
     login_manager.init_app(app)

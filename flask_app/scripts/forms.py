@@ -3,7 +3,7 @@ from flask_wtf.file import FileAllowed
 from wtforms import StringField, SubmitField, MultipleFileField, RadioField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, ValidationError, Length, Regexp
 
-from flask_app.scripts.LoginRegister.models import User
+from flask_app.scripts.LoginSignUp.models import User
 
 
 class uploadEmailFilesForm(FlaskForm):
@@ -13,6 +13,7 @@ class uploadEmailFilesForm(FlaskForm):
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
+
 
 class uploadJournalistCSV(FlaskForm):
     """Constructor for the Journalist Subscription Form"""
@@ -28,7 +29,7 @@ class uploadJournalistCSV(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class RegistrationForm(FlaskForm):
+class SignUpForm(FlaskForm):
     """Constructor for the Register Page"""
     username = StringField('Username',
                            validators =[DataRequired(),
