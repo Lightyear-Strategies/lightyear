@@ -17,15 +17,15 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = '/haro_jsons/'
-        #self.creds = localServiceBuilder()
-        self.creds = serviceBuilder()
+        #self.service = localServiceBuilder()
+        self.service = serviceBuilder()
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
     def __find_recent_haro(self):
         """a helper method to sort through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
         try:
-            service = self.creds
+            service = self.service
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
@@ -121,7 +121,7 @@ class HaroListener():
         # from_date MUST be in correct ISO format
         from_datetime = datetime.date.fromisoformat(from_date)
         try: 
-            service = self.creds
+            service = self.service
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             page = request.execute()
