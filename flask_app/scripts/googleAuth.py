@@ -80,7 +80,6 @@ def authLogin(credsreturn=False):
     @param:   credsreturn (True/False)
     @return:  redirect to Google Authentication
     @return:  creds (if credsreturn== True)
-    @return:  None
     """
     if not authCheck():
         return redirect('/authorizeService')
@@ -91,8 +90,6 @@ def authLogin(credsreturn=False):
             with open(Config.PICKLE_FILE, 'rb') as token:
                 creds = pickle.load(token)
             return creds
-
-    return
 
 
 def serviceBuilder():
