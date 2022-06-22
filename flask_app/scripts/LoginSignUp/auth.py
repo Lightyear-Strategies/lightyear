@@ -9,8 +9,8 @@ def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         user = User()
-        user.username = form.username.data
-        user.email = form.email.data
+        user.username = form.username.data.lower()
+        user.email = form.email.data.lower()
         user.set_password(form.password1.data)
 
         db.session.add(user)
@@ -24,11 +24,12 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         if "@" in form.username_email.data:
-            user = User.query.filter_by(email=form.username_email.data).first()
+            user = User.query.filter_by(email=form.username_email.data.lower()).first()
         else:
-            user = User.query.filter_by(username=form.username_email.data).first()
+            user = User.query.filter_by(username=form.username_email.data.lower()).first()
 
-        remember = True if request.form.get('remember') else False
+        print(request.form.get('remember_me'))
+        remember = True if request.form.get('remember_me') else False
         if user and not user.check_password(form.password.data):
             flash('Invalid password.')
             return redirect(url_for('login'))

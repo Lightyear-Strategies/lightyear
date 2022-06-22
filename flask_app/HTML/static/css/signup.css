@@ -64,6 +64,18 @@ main {
     text-align: center;
 }
 
+h3 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 1.5rem;
+}
+
+span{
+    -webkit-text-stroke: 2px var(--lightyear-red);
+    color:white;
+    text-decoration: underline 2px var(--lightyear-red);
+}
+
 .title {
     width: 80%;
     margin: auto;

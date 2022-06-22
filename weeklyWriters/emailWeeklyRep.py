@@ -11,7 +11,7 @@ import os
 import glob
 from apiclient import errors
 
-from weeklyWriters.googleAuth import serviceBuilder,localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
 
 class report():
     def __init__(self, sender, to, subject, text, file, user_id=None):

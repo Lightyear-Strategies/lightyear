@@ -46,11 +46,11 @@ class SignUpForm(FlaskForm):
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        if User.query.filter_by(username=username.data).first():
+        if User.query.filter_by(username=username.data.lower()).first():
             raise ValidationError('Username already in use.')
 
     def validate_email(self, email):
-        if User.query.filter_by(email=email.data).first():
+        if User.query.filter_by(email=email.data.lower()).first():
             raise ValidationError('Email already in exists.')
 
 
@@ -58,15 +58,15 @@ class LoginForm(FlaskForm):
     """Constructor for the Login Page"""
     username_email = StringField('Email or Username', validators=[DataRequired(), Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
-    remember = BooleanField('Remember Me') # if remember then sessions?
+    remember_me = BooleanField('Remember Me') # if remember then sessions?
     submit = SubmitField('Login')
 
     def validate_username_email(self,username_email):
         if "@" in username_email.data:
-            if not User.query.filter_by(email=username_email.data).first():
+            if not User.query.filter_by(email=username_email.data.lower()).first():
                 raise ValidationError('This email is not registered.')
         else:
-            if not User.query.filter_by(username=username_email.data).first():
+            if not User.query.filter_by(username=username_email.data.lower()).first():
                 raise ValidationError('This username is not registered.')
 
 
