@@ -18,7 +18,7 @@ import traceback
 from datetime import datetime, timedelta, date
 
 from flask_app.config import *
-from flask_app.utils import *  #imports Celery, timethis
+from flask_app.utils import *  # imports Celery, timethis
 
 from ev_20 import emailAPIvalid
 from flask_app import emailRep
@@ -26,28 +26,30 @@ from flask_app.googleAuth import g_oauth, authCheck, localServiceBuilder
 
 from weeklyWriters.toPDF import pdfReport
 from weeklyWriters.emailWeeklyRep import report
-#from weeklyWriters.weekly import WeeklyReport
+
+# from weeklyWriters.weekly import WeeklyReport
 
 ###################### Flask ######################
 
-app = Flask(__name__,template_folder=os.path.join(FLASK_DIR, 'HTML'))
+app = Flask(__name__, template_folder=os.path.join(FLASK_DIR, 'HTML'))
 app.register_blueprint(g_oauth)
 
-app.secret_key = FLASK_SECRET_KEY #used in upload forms ?
+app.secret_key = FLASK_SECRET_KEY  # used in upload forms ?
 
-os.makedirs(UPLOAD_DIR,exist_ok=True)
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 
 from kombu.utils.url import quote
+
 app.config['CELERY_BROKER_URL'] = \
     'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}@sqs.ca-central-1.amazonaws.com/453725380860/FlaskAppSQS-1'.format(
-                                    AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
-                                    AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
-                                   )
+        AWS_ACCESS_KEY_ID=quote(AWS_ACCESS_KEY_ID, safe=''),
+        AWS_SECRET_ACCESS_KEY=quote(AWS_SECRET_ACCESS_KEY, safe='')
+    )
 app.config['BROKER_TRANSPORT_OPTIONS'] = {"region": "ca-central-1"}
 
 # To work with Celery in local environment using RabbitMQ, uncomment app.config below and comment our the two above
-#app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
+# app.config['CELERY_BROKER_URL'] = 'amqp://guest:guest@localhost:5672/'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(FLASK_DIR, 'HarosDB.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -57,6 +59,7 @@ bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 db.create_all()
 
+
 ###################### Classes ######################
 
 class uploadEmailFilesForm(FlaskForm):
@@ -64,17 +67,21 @@ class uploadEmailFilesForm(FlaskForm):
 
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
+                              validators=[DataRequired(),
+                                          FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
+
 
 class uploadJournalistCSV(FlaskForm):
     """Constructor for the Journalist Subscription Form"""
 
     personname = StringField('What is your full name?', validators=[DataRequired()])
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    frequency = RadioField(label='Receive updates every', validators=[InputRequired()], choices = [('_day', 'day'), ('_week', 'week'), ('_month', 'month')])
+    frequency = RadioField(label='Receive updates every', validators=[InputRequired()],
+                           choices=[('_day', 'day'), ('_week', 'week'), ('_month', 'month')])
     files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
+                              validators=[DataRequired(),
+                                          FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 
@@ -87,10 +94,10 @@ def unsub_page(token):
     try:
         email_sub_string = unsub.loads(token)
     except BadData:
-        #TODO: show error page
+        # TODO: show error page
         email_sub_string = 'error error'
         print('unsubscribe failed')
-    
+
     email, subject = email_sub_string.split()[0], email_sub_string.split()[1]
     if subject == 'Daily':
         timeframe = '_day'
@@ -105,30 +112,28 @@ def unsub_page(token):
     jour_df_tf.reset_index(inplace=True, drop=True)
     jour_df_tf.to_sql(f'journalists{timeframe}', con=db.engine, index=False)
 
-    #TODO: show success page
-    
-
-
+    # TODO: show success page
 
 
 def send_pdf_report(df_for_email, email, subject, clientname):
     """
     sends the weekly pdf report
-    
+
     note: needs to be in flaskMain to access flask specific stuff
     """
     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
     token_string = f'{email} {subject}'
     token = unsub.dumps(token_string)
-    app.config['SERVER_NAME'] = '10.1.10.28:80'
+    # TODO: fix this :)
+    app.config['SERVER_NAME'] ='91.108.28.129'
     with app.app_context():
-        url = url_for('unsubscribe', token=token, _external=True)
+        url = url_for('unsub_page', token=token, _external=True) #'unsubscribe', token=token, _external=True
+        print(url)
     pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
-    filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
+    filepath = './weeklyWriters/reports/george@lightyearstrategies.com_journalist_report.pdf'#f'weeklyWriters/reports/{email}_journalist_report.pdf'
     pdf_maker_for_email.create_PDF(filename=filepath)
 
     str_date = str(datetime.now().date())
-
 
     to_send = report(
         sender='george@lightyearstrategies.com',
@@ -140,11 +145,9 @@ def send_pdf_report(df_for_email, email, subject, clientname):
     to_send.sendMessage()
 
 
-
-
-#@param:    None
-#@return:   Upload Journalists Page
-@app.route('/journalists', methods=['GET','POST'])
+# @param:    None
+# @return:   Upload Journalists Page
+@app.route('/journalists', methods=['GET', 'POST'])
 def uploadJournalist():
     """
     Gets csv(s) with Journalists from the form, extracts data.
@@ -177,7 +180,8 @@ def uploadJournalist():
                 finally:
                     """For Future: should use re to check for 'ournalist' string """
 
-                    pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
+                    pos_names = ["Journalists", "Journalist", "Journalist(s)", "journalists", "journalist",
+                                 "journalist(s)"]
                     i = 0
                     len_pos_names = len(pos_names)
                     while True:
@@ -187,12 +191,12 @@ def uploadJournalist():
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
-                        i+=1
+                        i += 1
 
             # only executed if there is no 'journalists' table
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
-                data = [[personname,personemail,journalist, None] for journalist in journalists]
-                df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
+                data = [[personname, personemail, journalist, None] for journalist in journalists]
+                df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
 
             else:
@@ -209,25 +213,26 @@ def uploadJournalist():
                     # Add new entries
                     print("Adding new rows")
                     data = [[personname, personemail, journalist, None] for journalist in journalists]
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
-                    journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
-                    journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
+                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
+                    journalists_df = pd.concat([journalists_df, new_df], ignore_index=True)
+                    journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False,
+                                          if_exists='replace')
 
                     flash('Successfully Subscribed')
                 except Exception:
                     traceback.print_exc()
 
                     # script to drop table, run with sudo privilage
-                    #jour_table = db.Table('journalists', db.metadata, autoload=True, autoload_with=db.engine)
-                    #print("Dropping the Journalists Table")
-                    #jour_table.drop(db.engine)
-
+                    # jour_table = db.Table('journalists', db.metadata, autoload=True, autoload_with=db.engine)
+                    # print("Dropping the Journalists Table")
+                    # jour_table.drop(db.engine)
 
             return redirect("/journalists")
         else:
             print('No files')
 
     return render_template('uploadJournalistCSV.html', form=form, email=email, files=files)
+
 
 def removeDBdups():
     """
@@ -241,9 +246,10 @@ def removeDBdups():
     new_db = pd.read_sql_table('haros', db.engine)
     print(new_db)
 
+
 # @param:    csv file with parsed haros
 # @return:   None
-def addDBData(df: pd.DataFrame): #(file):
+def addDBData(df: pd.DataFrame):  # (file):
     """
     Adds data to SQLite DB and checks for duplicates
     """
@@ -251,7 +257,7 @@ def addDBData(df: pd.DataFrame): #(file):
     whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
     print(len(whole_db))
     print(whole_db.columns)
-    res = pd.concat([df,whole_db])
+    res = pd.concat([df, whole_db])
     print(len(res))
     res.drop_duplicates(subset=['Summary'], inplace=True)
     print(len(res))
@@ -262,9 +268,8 @@ def addDBData(df: pd.DataFrame): #(file):
     res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
-
-#@param:    None
-#@return:   Haros table
+# @param:    None
+# @return:   Haros table
 @app.route('/haros')
 def serveTable():
     """
@@ -272,10 +277,11 @@ def serveTable():
     """
     return render_template('haroTableView.html', title='LyS Haros Database')
 
-#@param:    option and id in the table
-#@return:   string
+
+# @param:    option and id in the table
+# @return:   string
 @app.route('/api/used/<option>/<id>')
-def used_unused(option : str = None, id : str = None):
+def used_unused(option: str = None, id: str = None):
     """
     Changes value in "Used" column of certain haro by using id
     Values can be "Used" or "None"
@@ -283,23 +289,23 @@ def used_unused(option : str = None, id : str = None):
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     query = db.session.query(Haros).filter(Haros.columns.index == int(id))
-    #print(query.all())
+    # print(query.all())
 
     if option == "add":
-        query.update({Haros.columns.Used : "Used" })
+        query.update({Haros.columns.Used: "Used"})
         db.session.commit()
 
     elif option == "remove":
         query.update({Haros.columns.Used: "None"})
         db.session.commit()
 
-   # print(query.all())
+    # print(query.all())
 
     return "Ok"
 
 
-#@param:    None/option
-#@return:   table entries
+# @param:    None/option
+# @return:   table entries
 @app.route('/api/serveHaros/<option>')
 @app.route('/api/serveHaros')
 def data(option=None):
@@ -308,8 +314,8 @@ def data(option=None):
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns.DateReceived.all_())
-    query = db.session.query(Haros) #.all()
+    # print(Haros.columns.DateReceived.all_())
+    query = db.session.query(Haros)  # .all()
 
     if option == "used":
         query = query.filter(Haros.columns.Used == "Used")
@@ -325,7 +331,7 @@ def data(option=None):
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
             Haros.columns.DateReceived.like(f'%{search}%'),
-            #Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
+            # Haros.columns.Deadline.like(f'%{search}%'), #Deadline --> Date
             Haros.columns.Summary.like(f'%{search}%'),
             Haros.columns.Email.like(f'%{search}%'),
             Haros.columns.MediaOutlet.like(f'%{search}%'),
@@ -344,7 +350,7 @@ def data(option=None):
         if col_index is None:
             break
         col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','MediaOutlet','DateReceived']:
+        if col_name not in ['Category', 'MediaOutlet', 'DateReceived']:
             col_name = 'TimeStamp'
         if col_name == 'DateReceived':
             col_name = 'TimeStamp'
@@ -352,9 +358,9 @@ def data(option=None):
         # gets descending sorting
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
 
-        desiredCol = getattr(Haros.columns,col_name)
+        desiredCol = getattr(Haros.columns, col_name)
 
-        #decending
+        # decending
         if descending:
             desiredCol = desiredCol.desc()
         order.append(desiredCol)
@@ -379,9 +385,9 @@ def data(option=None):
     }
 
 
-#@param:    None
-#@return:   Email Verification Page
-@app.route('/', methods=['GET','POST'])
+# @param:    None
+# @return:   Email Verification Page
+@app.route('/', methods=['GET', 'POST'])
 def validation():
     """
     Gets information from the form, extracts files.
@@ -397,12 +403,11 @@ def validation():
         files = request.files.getlist(form.files.name)
         form.email.data = ''
 
-
         # This part is only for web deployment
         if not authCheck():
             return redirect('/authorizeCheck')
 
-        #localServiceBuilder() # Uncomment this, and comment the above lines to run locally
+        # localServiceBuilder() # Uncomment this, and comment the above lines to run locally
 
         if files:
             for file in files:
@@ -420,10 +425,11 @@ def validation():
 
     return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
 
-#@param:    path to file with emails
-#@param:    recipients of processed file
-#@param:    filename
-#@return:   None
+
+# @param:    path to file with emails
+# @param:    recipients of processed file
+# @param:    filename
+# @return:   None
 @celery.task(name='flaskMain.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
     """Celery handler"""
@@ -434,9 +440,9 @@ def parseSendEmail(path, recipients=None, filename=None):
         os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
 
-#@param:    path to file with emails
-#@param:    recipients of processed file
-#@return:   None
+# @param:    path to file with emails
+# @param:    recipients of processed file
+# @return:   None
 def emailVerify(path, recipients=None):
     """
     Uses functions from emailAPIvalid to verify emails.
@@ -446,17 +452,19 @@ def emailVerify(path, recipients=None):
     email.validation(save=True)
     subjectLine = os.path.basename(path)
     report = emailRep.report("george@lightyearstrategies.com", recipients,
-                                "Verified Emails in '%s' file" % subjectLine, "Here is your file", path,"me")
+                             "Verified Emails in '%s' file" % subjectLine, "Here is your file", path, "me")
     report.sendMessage()
+
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('error.html'), 404
 
-if __name__ == '__main__':
-    #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
-    #removeDBdups()
 
-    app.run(host='0.0.0.0', port=80,debug=True,threaded=True)
+if __name__ == '__main__':
+    # addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
+    # removeDBdups()
+
+    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
 
 

@@ -59,6 +59,7 @@ class pdfReport:
             pdf.cell(w=0, h=10, txt=name, ln=1, align='C')
 
             for index, row in name_df.iterrows():
+                pass
             # for i in range(len(df)):
             #     if(df["Name"][i] == name):
                     #READ IT:
@@ -66,27 +67,27 @@ class pdfReport:
                     #To if statement above: "and name in list_of_authors"
 
 
-                media = "Media:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = row["Media"]
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = "Publication:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = row["Date"]+"\n"
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = "Headline:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                text = row["Headline"] + "\n\n"
-                link = row["Link"]
-                text_final = text.encode('latin-1', 'replace').decode('latin-1')
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
-                pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
+                # media = "Media:"
+                # pdf.set_font('Times', 'B', 12)
+                # pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                # media = row["Media"]
+                # pdf.set_font('Times', '', 12)
+                # pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                # media = "Publication:"
+                # pdf.set_font('Times', 'B', 12)
+                # pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                # media = row["Date"]+"\n"
+                # pdf.set_font('Times', '', 12)
+                # pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                # media = "Headline:"
+                # pdf.set_font('Times', 'B', 12)
+                # pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                # text = row["Headline"] + "\n\n"
+                # link = row["Link"]
+                # text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                # pdf.set_font('Times', '', 12)
+                # pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
+                # pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
 
         pdf.set_font('Times', '', 12)
         pdf.cell(w=0, h=5, txt='\n\n\n\n\nClick here to unsubscribe.', ln=1, align='L', link=self.unsub_url)
