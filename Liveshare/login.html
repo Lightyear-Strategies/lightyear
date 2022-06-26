@@ -15,16 +15,20 @@
                 <h1> Login </h1>
                 <!-- Copy and Paste the Text inputs -->
                 <div action="" class="form__group field">
-                    <input type="username" class="form__field" placeholder="username" name="username" id='username' required />
-                    <label for="username" class="form__label">Username</label>
+                    <input type="username" class="form__field" placeholder="username" name="username" id='username' required autocomplete="false"/>
+                    <label for="username" class="form__label">Email or Username</label>
                 </div>
                 <div action="" class="form__group field">
-                    <input type="password" class="form__field" placeholder="password" name="password" id="password" required />
+                    <input type="password" class="form__field" placeholder="password" name="password" id="password" required autocomplete="false"/>
                     <label for="password" class="form__label">Password</label>
                 </div>
                 <button id="loginBtn">
                     LOGIN
                 </button>
+                <div class="checkBox" id="checkBox">
+                    <input type="checkbox" name="checkbox" id="checkbox_id">
+                    <label for="checkbox_id">Remember login for next time?</label>
+                </div>
             </div>
             <div>
                 <hr>
