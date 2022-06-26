@@ -65,7 +65,7 @@ input {
     margin-top: 20px;
 }
 
-/* header{
+header{
     display:flex;
     z-index: 20;
     justify-content: space-between;
@@ -93,7 +93,7 @@ footer {
     color: var(--background-color);
     padding: 20px 0px;
     margin-top: 20px;
-} */
+}
 
 section {
     flex: 1;
@@ -142,7 +142,7 @@ section > div > div > h2 {
 }
 
 /* Header */
-/* header > div {
+header > div {
     flex: 1;
     margin: 20px 5%;
 }
@@ -169,10 +169,10 @@ ul > li {
 ul > li > a {
     text-decoration: none;
     color: var(--background-color);
-} */
+}
 
 /* Footer */
-/* footer > div {
+footer > div {
     flex: 1;
     width: clamp(200px, 80%, 1200px);
     text-align: center;
@@ -201,7 +201,7 @@ footer > div:first-of-type > div > svg {
     flex: 1;
     fill: var(--background-color);
     margin: 0px 20px;
-} */
+}
 
 /* Contact Us input */
 .form__group {
