@@ -82,6 +82,11 @@ footer {
     margin-top: 20px;
 }
 
+/* div {
+    margin: 0px;
+    padding: 0px;
+} */
+
 hr  {
     margin: 20px 0px;
     color: var(--background-color);
