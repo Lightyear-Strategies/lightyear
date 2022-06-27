@@ -43,6 +43,16 @@ h1 {
 
 h2 {
     margin: 0px;
+    color: var(--lightyear-red);
+}
+
+ol {
+    display: inline-block;
+    border: 2px solid var(--lightyear-red);
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
 input {
@@ -98,7 +108,7 @@ body > div {
     flex: 1;
     width: clamp(100px, 80%, 1000px);
     padding: 0% 20%;
-    padding-top: 5%;
+    padding-top: 3%;
 }
 
 body > div:first-child {
@@ -107,7 +117,7 @@ body > div:first-child {
 
 /* Drop-zone */
 #drop_zone {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     border-radius: 0.25rem;
     height: 400px;
     display: grid;
@@ -228,6 +238,13 @@ footer > div:first-of-type > div > svg {
     margin-bottom: 10%;
     cursor: pointer;
     font-weight: 800;
+    display: block;
+    margin: auto;
+}
+
+#submitBtn:hover {
+    background-color: var(--lightyear-blue);
+    border: var(--lightyear-blue) 2px solid;
 }
 
 /* Directions | Instructions */
@@ -271,7 +288,8 @@ footer > div:first-of-type > div > svg {
 }
 
 .form__field::placeholder {
-    color: transparent;
+    font-size: 1.0rem;
+    color: var(--lightyear-gray);
 }
 
 .form__field:placeholder-shown ~ .form__label {
@@ -287,6 +305,21 @@ footer > div:first-of-type > div > svg {
     transition: 0.2s;
     font-size: 1rem;
     color: var(--lightyear-red);
+}
+
+.form__label:after {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--lightyear-red);
+    content: " *";
+    display: inline;
+}
+
+.required__label {
+    color: var(--lightyear-red)
 }
 
 .form__field:focus {
@@ -401,7 +434,7 @@ footer > div:first-of-type > div > svg {
 }
 
 ol > li {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 /* Loader */
 

@@ -43,14 +43,19 @@ h1 {
 
 h2 {
     margin: 0px;
+    color: var(--lightyear-red);
 }
 
-input {
+p {
+    font-size: 1.25rem;
+}
+
+/* input {
     width: clamp(80px, 70%, 800px);
     padding: auto;
     margin: auto;
     margin-top: 20px;
-}
+} */
 
 header{
     display:flex;
@@ -63,11 +68,24 @@ header{
     top: 0px;
 }
 
+ol {
+    display: inline-block;
+    border: 2px solid var(--lightyear-red);
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
 ul {
     justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
     text-align: right;
+}
+
+div > div {
+    font-size: 1.25rem;
 }
 
 footer {
@@ -103,7 +121,7 @@ body > div {
     flex: 1;
     width: clamp(100px, 80%, 1000px);
     padding: 0% 20%;
-    padding-top: 5%;
+    padding-top: 3%;
 }
 
 body > div:first-child {
@@ -112,7 +130,7 @@ body > div:first-child {
 
 /* Drop-zone */
 #drop_zone {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     border-radius: 0.25rem;
     height: 400px;
     display: grid;
@@ -233,6 +251,13 @@ footer > div:first-of-type > div > svg {
     margin-bottom: 10%;
     cursor: pointer;
     font-weight: 800;
+    display: block;
+    margin: auto;
+}
+
+#submitBtn:hover {
+    background-color: var(--lightyear-blue);
+    border: var(--lightyear-blue) 2px solid;
 }
 
 /* Directions | Instructions */
@@ -254,10 +279,16 @@ footer > div:first-of-type > div > svg {
     margin: 0px;
 }
 
+/* .guidelines {
+    border: 2px solid var(--lightyear-red);
+    width: 640px;
+    margin: 0;
+} */
+
 /* Inputs */
 .form__group {
     position: relative;
-    padding: 15px 0 0;
+    padding: 35px 0 0;
     margin-top: 10px;
     width: 100%;
 }
@@ -266,7 +297,7 @@ footer > div:first-of-type > div > svg {
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid var(--lightyear-red);
     outline: 0;
     font-size: 1.3rem;
     color: var(--lightyear-red);
@@ -292,7 +323,7 @@ footer > div:first-of-type > div > svg {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: black;
+    color: var(--lightyear-red);
     
 }
 .form__label:after {
@@ -314,7 +345,7 @@ footer > div:first-of-type > div > svg {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, black, black);
+  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
   border-image-slice: 1;
 }
 .form__field:focus ~ .form__label {
@@ -323,7 +354,7 @@ footer > div:first-of-type > div > svg {
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: black;
+  color: var(--lightyear-red);
   font-weight: 700;
 }
 

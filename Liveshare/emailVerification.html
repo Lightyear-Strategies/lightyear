@@ -9,34 +9,6 @@
     <script src="Lib/emailVerification.js" defer></script>
     <title>Email Verification</title>
 </head>
-<!--
-<body>
-    <div class="directions">
-        <ol class="directions">
-            <li><strong>Directions:</strong></li>
-            <li>Enter your full name</li>
-            <li>Enter the email address where you want to recieve the file(s)</li>
-            <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
-            <li>Select the file(s)</li>
-            <li>Press "Submit" button</li>
-        </ol>
-    </div>
-    <form action="">
-        <label for="name">Name</label>
-        <input class="name" type="text" id="name">
-        
-        <label for="email">Email</label>
-        <input type="text" id="email">
-    </form>
-    <div id="drop_zone">
-        <input type="file" id="filepicker" name="fileList" 
-            accept="text/csv" multiple />
-        <p>Drag one or more files to this Drop Zone ...</p>
-    </div>
-
-</body>
--->
-
 
 <body>
     <!-- Preloader -->
@@ -75,26 +47,32 @@
     <section class="modal">
         <div>
             <div>
-                <h1> Directions </h1>
-            </div>
-            <div>
-                <ol>
-                    <li>Enter your full name</li>
-                    <li>Enter the email address where you want to recieve the file(s)</li>
-                    <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
-                    <li>Select the file(s)</li>
-                    <li>Press "Submit" button</li>
-                </ol>
+                <h2>Having trouble submitting? Make sure your CSV file contains the correct data.</h2>
             </div>
             <div>
                 <button id="modalBtn"> Close </button>
             </div>
         </div>
     </section>
+
     <div>
+        <h1>Email Verification</h1>
+        <hr style="color: #F04C23; border: 1px solid;">
+        <h2>Guidelines:</h2>
+        <div>
+            <ol>
+                <li>Enter your full name</li>
+                <li>Enter the email address where you want to recieve the file(s)</li>
+                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+                <li>Select the file(s)</li>
+                <li>Press "Submit" button</li>
+            </ol>
+        </div>
+
         <div action="" class="form__group field">
-            <input type="input" class="form__field" placeholder="Email" name="email" id="email" required />
+            <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
             <label for="email" class="form__label">Email</label>
+            <label class="required__label" id="email id"></label>
         </div>
     </div>
     <div>
@@ -109,14 +87,12 @@
                 </label>
             </div>
         </div>
-        <div class="instruction"> 
+        <!-- <div class="instruction"> 
             <div class="instructionBtn">
                 ?
             </div>
-        </div>
-        <div id="fileSelected">
-
-        </div>
+        </div> -->
+    
     </div>
     
     <div>

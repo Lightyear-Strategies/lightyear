@@ -27,13 +27,9 @@
         <div class="contactus">
             <div>
                 <h1> Contact Us </h1>
-     
-                <div>
-                    <p>Questions? Please email us with any inquiries or call us at (617) 990 - 4271. We would be happy to answer
-                        your questions and set up a meeting.
-                    </p>
-                    <hr style="color: #F04C23; border: 2px solid;">
-                </div>
+                <p style="color: black">Questions? Please email us with any inquiries or call us at (617) 990 - 4271. We would be happy to answer
+                    your questions and set up a meeting.</p>
+                <hr style="color: #F04C23; border: 2px solid;">
 
                 <div style="padding-top: 0px;">
                     <div action="" class="form__group field">
@@ -52,37 +48,23 @@
                         <label class="required__label" id="email id"></label>
                     </div>
                     <div action="" class="form__group field">
-                        <!-- <input type="message" class="message__field" placeholder="Enter Message" name="message" style="height: 120px; border-radius: 20px;" id="message" required /> -->
                         <textarea class="message__field" placeholder="Enter Message" name="message" rows=5 cols=40 style="height: 160px" id="message" required ></textarea>
                         <label for="message" class="form__label">Message</label>
                         <label class="required__label" id="message id"></label>
                     </div>
-                    <!-- <div action="" class="form__group field">
-                        <input type="checkbox" class="checkbox" id="copy" name="copy" value="Email Copy">
-                        <label for="copy" class="checkbox">Send me a copy of my email</label>
-                    </div> -->
 
-                    <form action="" class="checkbox">
-                        <div>
-                            <input type="checkbox" place-self="left" id="copy" name="copy" value="Email Copy">
-                            <label for="copy" style="color: black">Send me a copy of my email</label>
-                        </div>
-                    </form>
+                    <div class="checkBox" id="checkBox">
+                        <input type="checkbox" name="checkbox" id="checkbox_id">
+                        <label for="checkbox_id">Send me a copy of my email</label>
+                    </div>
 
+                    <div style="padding-top: 5%">
+                        <button id="sendBtn">
+                            Send
+                        </button>
+                    </div>
                 </div>
-
-                <button id="sendBtn">
-                    Send
-                </button>
             </div>
-
-            <!-- <form action="" class="checkbox">
-                <div>
-                    <input type="checkbox" id="copy" name="copy" value="Email Copy">
-                    <label for="copy" style="color: black">Send me a copy of my email</label>
-                </div>
-            </form> -->
-
         </div>
     </section>  
 
