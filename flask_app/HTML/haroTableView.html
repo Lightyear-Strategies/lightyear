@@ -1,151 +1,562 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LyS Haro Table</title>
 
-{% block content %}
-  <table id="data" class="table table-striped">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Summary</th>
-        <th>Media Outlet</th>
-        <th>Category</th>
-        <th>Date Received</th>
-        <th>Add/Remove</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    /* Formatting function for row details - modify as you need */
-function format ( d ) {
-    // show nothing if there is no name
-    if (!(d.Name)) {d.Name = ''}
-    // `d` is the original data object for the row
-    return '<table class="table">'+
-        '<tr>'+
-            '<td>Name:</td>'+
-            '<td>'+d.Name+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Email:</td>'+
-            '<td>'+d.Email+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Query:</td>'+
-            '<td>'+d.Query+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Requirements:</td>'+
-            '<td>'+d.Requirements+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Deadline:</td>'+
-            '<td>'+d.Deadline+'</td>'+
-        '</tr>'+
-    '</table>';
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    
+    font-family: 'Inter';
+    font-size: 12pt;
+    margin: .5em;
 }
 
-$(document).ready(function () {
-    var table = $('#data').DataTable({
-      order: [],
-      ajax: {
-        url:"/api/serveHaros",
-      },
-      serverSide: true,
-      columns: [
-        {  width:          "3%",
-          orderable:      false,
-          className:      'details-control',
-          data:           null,
-          defaultContent: ''
-        },
+.haros-table {
+    margin-left: 10.5em;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: .5em;
+}
 
-        {data: 'Summary', orderable: false, width: "42%"},
-        {data: 'MediaOutlet', width: "16%"},
-        {data: 'Category', width: "16%"},
-        {data: 'DateReceived', width: "13%"},
+.datum-grid {
+    border-left: .4em solid #D8D8D8;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    background-color: #EFEFEF;
+    padding: .25rem .5rem .25rem;
+    cursor: pointer;
+}
 
-        { width:          "10%",
-          orderable:      false,
-          data:           null,
-          defaultContent:
-              "<button id='Add' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 2px;cursor: pointer;\" >Add</button> " +
+.datum-grid.used-true {
+    border-left: .4rem solid #FCE300;
+}
 
-              "<button id='Remove' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 3px;cursor: pointer;\" >Remove</button>"}
-      ]
-    });
+.datum-grid > * {
+  margin-bottom: .5rem;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: .25rem;
+}
 
 
-    //class=\"Add\" class=\"Remove\"
-    $('#data tbody').on( 'click', 'button', function(){
+.Summary {
+  width: 49rem;
+  font-weight: bold;
+  padding-top: .4rem;
+}
 
-      var action = this.id;
-      var index = table.row( $(this).parents('tr') ).data().index;
+.expand-button {
+  border: none;
+  margin-right: .5em;
+  font-weight: bold;
+}
 
-      console.log(table.row( $(this).parents('tr') ).data())
-      console.log(index);
-      if (action === 'Add'){
-        requestUrl = "/api/used/add/"+index;
-        alert("Added to Used Table")
-      }
-      if (action === 'Remove'){
-        requestUrl = "/api/used/remove/"+index;
-        alert("Removed from Used Table")
-      }
-      $.ajax(requestUrl)
-    });
+.collapse-button{
+  border: none;
+  color: #F04C23;
+  font-style: italic;
+}
 
-    $('#all_button').click(function(){
-      requestUrl = "/api/serveHaros";
-      table.ajax.url(requestUrl).load();
-    });
+.add-button{
+  margin-top: .3rem;
+  height:1.5rem;
+  color: #F04C23;
+  font-weight: bold;
+  width: 5rem;
+  background-color: #D8D8D8;
+  border: none;
+  cursor: pointer;
+}
 
-    $('#fresh_button').click(function(){
-      requestUrl = "/api/serveHaros/fresh";
-      table.ajax.url(requestUrl).load();
-    });
+.collapse-button:hover {
+  text-decoration: underline;
+}
 
-    $('#used_button').click(function(){
-      requestUrl = "/api/serveHaros/used";
-      table.ajax.url(requestUrl).load();
-    });
+.hide {
+  display: none;
+}
 
-      // Switching with left and right keyboard buttons
-    $(document).keydown( function(e) {
-      // left arrow
-      if ((e.keyCode || e.which) === 37) {
-        $( "#data_previous" ).click();
-      }
-      // right arrow
-      if ((e.keyCode || e.which) === 39) {
-        $( "#data_next" ).click();
-      }
-    })
-});
+.MediaOutlet{
+  padding-right: 1rem;
+  padding-top: .5rem;
+  width: 14rem;
+  text-align: right;
+}
 
-    // Add event listener for opening and closing details
-    $('#data tbody').on('click', 'tr td.details-control', function () {
-        var table = $('#data').DataTable();
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
+.query-wrapper{
+  width: 57rem;
+}
 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            tr.removeClass( 'details' );
-            row.child.hide();
+.query-header{
+  color: #F04C23;
+}
+
+.requirements-wrapper{
+  width: 57rem;
+}
+.requirements-header{
+  color: #F04C23;
+}
+.Name{
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+.DateReceived{
+    margin-right: 1.5rem;
+}
+
+
+.search-bar{
+    margin-left: 10.5em;
+    padding: .5em 1em .5em;
+    background: #EFEFEF;
+    display: grid;
+    width: fit-content;
+    grid-template-areas:    "keywords-search-wrapper        keywords-search-wrapper         media-outlet-search-wrapper"
+                            "date-recieved-search-label     deadline-search-label           category-search-wrapper"
+                            "recieved-before-search-wrapper deadline-before-search-wrapper  journalist-search-wrapper"
+                            "recieved-after-search-wrapper  deadline-after-search-wrapper   .";
+    grid-template-columns: 13em 13em 20em;
+    grid-template-rows: 1.75em 1.5em 1.5em 2.5em;
+
+}
+select, input{
+    width: fit-content;
+    border: 0.5px solid black;
+    border-radius: 0;
+    height: 1.2em;
+    font-family: 'Inter'
+}
+
+select {
+    height: 1.5em;
+}
+
+.keywords-search-wrapper{
+    grid-area: keywords-search-wrapper;
+}
+.keywords-search-label{
+    font-weight: bold;
+}
+.media-outlet-search-wrapper{
+    grid-area: media-outlet-search-wrapper;
+}
+.media-outlet-search-label{
+    font-weight: bold;
+}
+.date-recieved-search-label{
+    grid-area: date-recieved-search-label;
+    text-decoration: underline;
+}
+.recieved-before-search-wrapper{
+    grid-area: recieved-before-search-wrapper;
+}
+.recieved-after-search-wrapper{
+    grid-area: recieved-after-search-wrapper;
+}
+.deadline-search-label{
+    grid-area: deadline-search-label;
+    text-decoration: underline;
+}
+.deadline-before-search-wrapper{
+    grid-area: deadline-before-search-wrapper;
+}
+.deadline-after-search-wrapper{
+    grid-area: deadline-after-search-wrapper;
+}
+.category-search-wrapper{
+    grid-area: category-search-wrapper;
+}
+.journalist-search-wrapper{
+    grid-area: journalist-search-wrapper;
+}
+.search-button{
+    background-color: #D8D8D8;
+    color: #F04C23;
+    font-weight: bold;
+    width: 6.5em;
+    height: 2em;
+    border: none;
+    justify-self: center;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+.search-button:hover{
+    background-color: #dcdcdc;
+    color: #e3684a;
+}
+    </style>
+</head>
+<body>
+    <h1 class="page-header">LyS Haros Database</h1>
+    <div class="haros-menu">
+        <button class="all-haros">All Haros</button>
+        <button class="fresh-haros">Fresh Haros</button>
+        <button class="used-haros">Used Haros</button>
+    </div>
+    <!--
+    <div class="search-bar" id="search-bar"> 
+        <div class="recieved-after-search-wrapper">
+            <span class="date-search-label">After</span>
+            <input type="date" class="recieved-after-search" id="recieved-after-search">
+        </div>
+        <div class="keywords-search-wrapper">
+            <span class="keywords-search-label">Keywords</span>
+            <input type="text" id="keywords-search" class="keywords-search">
+        </div>
+
+        <div class="media-outlet-search-wrapper">
+            <span class="media-outlet-search-label">Media Outlet</span>
+            <input id="media-outlet-search">
+        </div>
+
+        <div class="date-recieved-search-label">Date Recieved</div>
+        <div class="recieved-before-search-wrapper">
+            <span class="date-search-label">Before</span>
+            <input type="date" class="recieved-before-search" id="recieved-before-search">
+        </div>
+
+        <div class="deadline-search-label">Deadline</div>
+        <div class="deadline-before-search-wrapper">
+            <span class="date-search-label">Before</span>
+            <input type="date" class="deadline-before-search" id="deadline-before-search">
+        </div>
+        <div class="deadline-after-search-wrapper">
+            <span class="date-search-label">After</span>
+            <input type="date" class="deadline-after-search" id="deadline-after-search">        
+        </div>
+
+        <div class="category-search-wrapper">
+            <span class="category-search-label">Category</span>
+            <select id="category-search" class="category-search"></select>
+        </div>
+
+        <div class="journalist-search-wrapper">
+            <span class="journalist-search-label">Journalist</span>
+            <input id="journalist-search" class="journalist-search">
+        </div>
+        <button id="search-button" class="search-button">
+            Search
+        </button>
+    </div>
+    <button id="reset-button">Reset</button>
+    -->
+    <div id="haros-table" class="haros-table"></div>
+    
+    
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+const HAROS_TABLE = document.getElementById("haros-table");
+
+let DATA;
+let Categories =[];
+let next_index = 0;
+const expanded_previously = {};
+/*
+const keywordsSe = document.getElementById('keywords-search');
+const recievedBeforeSe = document.getElementById('recieved-before-search');
+const recievedAfterSe = document.getElementById('recieved-after-search');
+const deadlineBeforeSe = document.getElementById('deadline-before-search');
+const deadlineAfterSe = document.getElementById('deadline-after-search');
+const categorySe = document.getElementById('category-search');
+const mediaOutletSe = document.getElementById('media-outlet-search');
+const journalistSe = document.getElementById('journalist-search');
+
+document.getElementById('search-button').onclick = () => {
+    
+    let searchValue = keywordsSe.value.split(' ');
+    lowerArray(searchValue);
+    
+    filtered_data = [];
+    fpi = []; //filtered_parse_indicies
+
+    for (let datum of DATA) {
+
+
+        if (fpi[matchvalue] == undefined){
+            for (let i = 0; i<matchvalue;i++){
+                if (fpi[i] == undefined){
+                    fpi[i] == 1;
+                }
+                else {
+                    fpi[i] == fpi[i] + 1;
+                }
+            }
+            fpi[matchvalue] == 0;
+            filtered_data.splice(0,0,datum);
         }
         else {
-            // Open this row
-            tr.addClass( 'details' );
-            row.child( format(row.data()) ).show();
+            filtered_data.splice(fpi[matchvalue],0,datum);
+            for (let i = 0; i < matchvalue; i++){
+                fpi[i] = fpi[i] + 1;
+            }
         }
-    } );
+
+        
+    }
+    next_index = 0;
+    displayData();
+
+}
+*/
+getMediaQueryData();
+document.getElementById('reset-button').onclick = () => {
+  displayData();
+}
+
+/*
+function rank_by_keywords(searchValue,datum,keys){
+    let matchvalue = 0;
+    const min_value = Math.floor(searchValue.length/2);
+    let keywords = [];
+    for (let key of keys){
+        keywords.concat(datum[key].split(' '))
+    }
+    for (let word of searchValue){
+        if (keywords.includes(word)){
+            matchvalue = matchvalue + 1;
+        }
+    }
+    if (matchvalue > min_value){
+        return Math.floor(10*matchvalue/keywords.length)
+    } else {
+        return 0
+    }
+}
+
+String.prototype.replaceAt = function(index, replacement) {
+    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
+}
+
+String.prototype.removeAt = function(index) {
+    return this.substring(0, index) + this.substring(index + replacement.length);
+}
+
+function hammingDistance(str1,str2){
+    let len;
+    if (str1.length<str2.length){
+        len = str1.length;
+    } else {
+        len = str2.length;
+    }
+    let hd = 0;
+    for (let i = 0; i < len; i++) {
+        if (str1[i]==str2[i]) hd = hd + 1;
+    }
+    return hd;
+}
+
+function rank_by_keyword(searchValue,datum, key){
+    keyword = datum[key];
+    corrections = [];
+    corrections_mv = []; //corrections matchvalue
+    for (let i = 0; i < keyword.length; i++){
+        corrections.append(keywords.removeAt(i))
+        corrections.append(keywords.replaceAt(i,'.'))
+    }
+
+}
+*/
+
+function getMediaQueryData() {
+    const request = $.ajax(
+      {
+        url : 'api/serveHaros',
+        success : (result, status, xhr) => {
+          DATA = result.data;
+          filtered_data = result.data;
+          const e = document.createElement('div')
+          displayData();
+          configDropdownMenus();
+        }
+
+      }
+    )
+}
+
+function lowerArray(arr) {
+    for (let e of arr){
+        e = e.toLowerCase();
+    }
+}
 
 
-  </script>
-{% endblock %}
+function displayData() {
+    $('.haros-table *').remove();
+    for (let i = next_index; i < next_index+1000; i++) {
+        try {
+        insert_datum(filtered_data[i]);
+        } catch (TypeError) {
+            console.log(TypeError);
+            console.log(filtered_data[i]);
+        }
+    }
+    next_index = next_index + 1000;
+}
+
+function std_make(class_name, parent, ops) { //optional parameters: ops.content, ops.tag
+    if (ops == undefined ) ops = {
+        content: '',
+        tag: 'div',
+    }
+    if (ops.content == undefined ) ops.content = "";
+    if (ops.tag == undefined ) ops.tag = 'div'
+
+    const doc_element = document.createElement(ops.tag);
+    doc_element.classList.add(class_name);
+    doc_element.innerHTML = ops.content;
+    parent.appendChild(doc_element);
+
+    return doc_element
+}
+
+function insert_datum(d) {
+    
+    const datum_grid = std_make('datum-grid',HAROS_TABLE, {grid_child: false})
+    datum_grid.classList.add('hide');
+    datum_grid.expanded_previously = false;
+    datum_grid.expanded = false;
+    const include_when_expanded = [];
+    //wrappers for grid elements
+    const header = std_make('header',datum_grid);
+
+
+    const expand_button = std_make('expand-button',header, {tag: 'button'});
+    expand_button.innerHTML = 'v';
+    //data to display
+    const summary = std_make('Summary',header,{content: d['Summary']})
+    const mediaOutlet = std_make('MediaOutlet',header,{content:d['MediaOutlet']})
+    
+
+    datum_grid.onclick = function () {
+        if (!datum_grid.expanded_previously) {
+
+            const name_email_wrapper = std_make('name-email-wrapper', datum_grid );
+            const name_email_header = std_make('name-email-header',name_email_wrapper,{content:"Contact: ", tag: 'span'})
+            const name = std_make('Name',name_email_wrapper,{content: d['Name'], tag: 'span'})
+            const email = std_make('Email',name_email_wrapper,{content: d['Email'], tag: 'span'})
+            
+            const category = std_make('Category',datum_grid,{content:`Category: ${d['Category']}`})
+
+            const date_wrapper = std_make('date-wrapper',datum_grid);
+            const dateReceived = std_make('DateReceived',date_wrapper,{
+                content:("Recieved: " + d['DateReceived']), tag: 'span'
+            })
+            const deadline = std_make('Deadline',date_wrapper,{
+                content:("Deadline: "+ d['Deadline']), tag: 'span'
+            })
+
+            const query_wrapper = std_make('query-wrapper',datum_grid);
+            const query_header = std_make('query-header',query_wrapper, {content:"Query: "})
+            const query = std_make('Query',query_wrapper, {content:d['Query'], grid_child: false})
+
+            const requirements_wrapper = std_make('requirements-wrapper',datum_grid);
+            const requirements_header = std_make('requirements-header',requirements_wrapper, {content:"Requirements: "})
+            const requirements = std_make('Requirements',requirements_wrapper,{content: d['Requirements']})
+
+            const collapse_button = std_make('collapse-button',datum_grid,{tag: 'button'});
+            collapse_button.innerHTML = 'Show less';
+            collapse_button.onclick = datum_grid.onclick;
+            /*function () {
+
+                for (let member of include_when_expanded){
+                    member.classList.toggle('hide')
+                }
+            } */
+
+            include_when_expanded.push(name_email_wrapper);
+            include_when_expanded.push(query_wrapper);
+            include_when_expanded.push(requirements_wrapper);
+            include_when_expanded.push(date_wrapper);
+            include_when_expanded.push(category);
+            include_when_expanded.push(collapse_button);
+
+            datum_grid.expanded_previously = true;
+            for (let member of include_when_expanded) {
+                member.classList.toggle('hide')
+            }
+        }
+        if(datum_grid.expanded) {
+          expand_button.innerHTML = 'v'
+          datum_grid.expanded = false;
+        } else {
+          expand_button.innerHTML = '^'
+          datum_grid.expanded = true;
+        }
+            
+        for (let member of include_when_expanded) {
+            member.classList.toggle('hide');
+        }
+    }
+
+    //Additional collapse button
+    
+
+
+    //"Add button"
+    let str;
+    if (d['Used']=='Used') 
+    {
+        str = 'Remove'
+        datum_grid.classList.add('used-true');
+    }
+    else str = 'Add'
+    const add_button = std_make(
+        'add-button',
+        header,
+        {
+            content: str, 
+            tag:'button',
+            grid_child: true
+        }
+    )
+
+    add_button.onclick = function() {
+        if (this.innerHTML == "Add") {
+            this.innerHTML = "Remove"
+            $.ajax("/api/used/add/"+d['index'])
+        } else {
+            this.innerHTML = "Add"
+            $.ajax("/api/used/remove/"+d['index'])
+        }
+        datum_grid.classList.toggle('used-true')
+    }
+    datum_grid.classList.remove('hide');
+}
+
+function makeDropdownOption (parent, value){
+    const dde = document.createElement('option'); //dropdown element
+    dde.value = value;
+    dde.innerHTML = value;
+    parent.appendChild(dde);
+}
+
+function configDropdownMenus () {
+    Categories.push('');
+    for (let datum of DATA) {
+        if (!Categories.includes(datum.Category) && datum.Category != "") Categories.push(datum.Category);
+    }
+    const category_search = document.getElementById('category-search')
+    for (let category of Categories) {
+        makeDropdownOption(
+            category_search,
+            category
+        )
+    }
+}
+    </script>
+</body>
+</html>
 
