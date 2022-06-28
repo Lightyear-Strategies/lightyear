@@ -8,3 +8,7 @@ celery -A flask_app.scripts.EmailVerification.ev_flask_functions.celery worker -
 
 pip3 freeze > requirements.txt
 
+
+sudo lsof -i :<PortNumber>
+kill -9 <PID>
+
