@@ -3,7 +3,7 @@
 import os, datetime, json, time
 from googleapiclient.errors import HttpError
 from haroListener.haro_parser import Haro
-from flask_app.scripts.googleAuth import serviceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
 
 
 class HaroListener():

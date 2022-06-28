@@ -1,7 +1,7 @@
 # To be used from root directory
 
 import pandas as pd
-from flask_app.scripts.create_flask_app import db
+from flask_app.scripts.create_flask_app import db, app
 from haroListener.haro_listener import HaroListener
 
 lis = HaroListener("george@lightyearstrategies.com")
@@ -19,7 +19,8 @@ big_df.columns = big_df.columns.str.replace(' ', '')
 big_df.drop_duplicates(subset=['Summary'], inplace=True)
 big_df.reset_index(drop=True,inplace=True)
 
-big_df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+with app.app_context():
+    big_df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 #addDBData(big_df)
 
@@ -35,4 +36,5 @@ sudo chmod a+w Database.sqlite3
 # to drop a table within Databse
 #table = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
 #table.drop(db.engine)
+
 

@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, flash, url_for
 from flask_login import login_required
-from flask_app.scripts.forms import uploadJournalistCSV
+from flask_app.scripts.forms import PeriodicWriters
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -21,12 +21,13 @@ def load_journalist_file():
     """
     user_name, email, files = None, None, None
 
-    form = uploadJournalistCSV()
+    form = PeriodicWriters()
     if form.validate_on_submit():
         user_name = form.username.data
         user_email = form.email.data
         files = request.files.getlist(form.files.name)
         timeframe = form.frequency.data
+        print(timeframe)
         #print(timeframe)
 
         journalists = []
@@ -98,7 +99,7 @@ def load_journalist_file():
         else:
             print('No files')
 
-    return render_template('uploadJournalistCSV.html', form=form, email=email, files=files)
+    return render_template('PeriodicWriters.html', form=form, email=email, files=files)
 
 @app.route('/unsubscribe/<token>')
 def unsubscribe(token):

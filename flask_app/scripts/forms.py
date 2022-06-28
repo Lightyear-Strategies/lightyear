@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, Vali
 from flask_app.scripts.LoginSignUp.models import User
 
 
-class uploadEmailFilesForm(FlaskForm):
+class EmailVerification(FlaskForm):
     """Constructor for the Email Verification Form"""
 
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
@@ -15,7 +15,7 @@ class uploadEmailFilesForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class uploadJournalistCSV(FlaskForm):
+class PeriodicWriters(FlaskForm):
     """Constructor for the Journalist Subscription Form"""
 
     username = StringField('What is your full name?', validators=[DataRequired()])

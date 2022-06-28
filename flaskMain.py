@@ -30,6 +30,11 @@ def welcome():
     return render_template('welcome.html')
 
 
+@app.route('/home')
+def home():
+    return render_template('welcome_old.html')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000, debug=True, threaded=True)
     # app.run(port=8000, debug=False, threaded=True) on server

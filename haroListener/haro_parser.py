@@ -79,27 +79,33 @@ class Haro:
         self.json_string = json_string
 
     def parse(self):
-        parsing_body = (self.json_string[0]['payload']['parts'][0]['parts'])
+        try:
+            #print(self.json_string[0]['payload']['parts'][0]['parts'])
+            parsing_body = (self.json_string[0]['payload']['parts'][0]['parts'])
+            #print('Fine')
 
-        data = ""
-        for part in range(len(parsing_body)):
-            data += parsing_body[part]['body']['data']
+            data = ""
+            for part in range(len(parsing_body)):
+                data += parsing_body[part]['body']['data']
 
-        # decode base64
-        data = base64.urlsafe_b64decode(data)
-        data = data.decode('utf-8')
-        # split lines
-        split = data.split("****************************")
+            # decode base64
+            data = base64.urlsafe_b64decode(data)
+            data = data.decode('utf-8')
+            # split lines
+            split = data.split("****************************")
 
-        # For some reason, shorter messages are not split correctly.
-        if len(split) == 2:
-            quarries = split[-1].split("-----------------------------------")[:-2]
-        else:
-            quarries = split[1].split("-----------------------------------")[:-3]
+            # For some reason, shorter messages are not split correctly.
+            if len(split) == 2:
+                quarries = split[-1].split("-----------------------------------")[:-2]
+            else:
+                quarries = split[1].split("-----------------------------------")[:-3]
 
-        self.message = quarries
-        for m in self.message:
-            self.__parse_help(m)
+            self.message = quarries
+            for m in self.message:
+                self.__parse_help(m)
+        except KeyError as ke:
+            print('Error is related to',ke)
+
 
     def __parse_date(self):
         parsing_body = (self.json_string[0]['payload']['headers'])

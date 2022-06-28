@@ -4,7 +4,7 @@ from flask_login import login_required
 from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailVerification import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
-from flask_app.scripts.forms import uploadEmailFilesForm
+from flask_app.scripts.forms import EmailVerification
 from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import init_celery, app
 
@@ -13,6 +13,7 @@ celery = init_celery(app)
 
 @login_required
 def email_verification():
+
     """
     Gets information from the form, extracts files.
     Sends files to Celery via SQS broken for background email verification.
@@ -22,8 +23,7 @@ def email_verification():
     """
     email = None
     files = None
-    form = uploadEmailFilesForm()
-
+    form = EmailVerification()
     if form.validate_on_submit():
         filenames = []
         email = form.email.data
@@ -51,7 +51,7 @@ def email_verification():
         else:
             print('No files')
 
-    return render_template('uploadEmailFiles.html', form=form, email=email, files=files)
+    return render_template('emailVerification.html', form=form, email=email, files=files)
 
 
 def emailVerify(path, recipients=None):

@@ -1,4 +1,4 @@
-from flask_app.scripts.create_flask_app import db
+from flask_app.scripts.create_flask_app import db, app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -18,5 +18,5 @@ class User(UserMixin, db.Model):
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
 
-
-#db.create_all()
+#with app.app_context():
+#    db.create_all()
