@@ -60,13 +60,10 @@
   border: none;
   margin-right: .5em;
   font-weight: bold;
+  cursor: pointer;
 }
 
-.collapse-button{
-  border: none;
-  color: #F04C23;
-  font-style: italic;
-}
+
 
 .add-button{
   margin-top: .3rem;
@@ -79,9 +76,7 @@
   cursor: pointer;
 }
 
-.collapse-button:hover {
-  text-decoration: underline;
-}
+
 
 .hide {
   display: none;
@@ -196,14 +191,28 @@ select {
     background-color: #dcdcdc;
     color: #e3684a;
 }
+
+.haros-menu{
+    margin-left: 10.5em;
+    margin-bottom: 1em;
+}
+.haros-nav{
+    width: fit-content;
+    padding: .5em;
+    font-weight: bold;
+    color:#F04C23;
+    background-color:#E5E5E5;
+    margin-right: 1em; 
+    border: none;
+}
     </style>
 </head>
 <body>
     <h1 class="page-header">LyS Haros Database</h1>
     <div class="haros-menu">
-        <button class="all-haros">All Haros</button>
-        <button class="fresh-haros">Fresh Haros</button>
-        <button class="used-haros">Used Haros</button>
+        <button class="all-haros haros-nav" id="all-haros">All Haros</button>
+        <button class="fresh-haros haros-nav" id="fresh-haros">Fresh Haros</button>
+        <button class="used-haros haros-nav" id="used-haros">Used Haros</button>
     </div>
     <!--
     <div class="search-bar" id="search-bar"> 
@@ -258,12 +267,28 @@ select {
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
+document.getElementById('all-haros').onclick = () => {
+  console.log('serving normal')
+  getMediaQueryData('api/serveHaros')
+}
+
+document.getElementById('fresh-haros').onclick = () => {
+  console.log('serving fresh')
+  getMediaQueryData('api/serveHaros/fresh')
+}
+
+document.getElementById('used-haros').onclick = () => {
+  console.log('serving used')
+  getMediaQueryData('api/serveHaros/used')
+}
+
 const HAROS_TABLE = document.getElementById("haros-table");
 
 let DATA;
 let Categories =[];
 let next_index = 0;
 const expanded_previously = {};
+let 
 /*
 const keywordsSe = document.getElementById('keywords-search');
 const recievedBeforeSe = document.getElementById('recieved-before-search');
@@ -311,11 +336,12 @@ document.getElementById('search-button').onclick = () => {
 
 }
 */
-getMediaQueryData();
+getMediaQueryData('api/serveHaros');
+/*
 document.getElementById('reset-button').onclick = () => {
   displayData();
 }
-
+*/
 /*
 function rank_by_keywords(searchValue,datum,keys){
     let matchvalue = 0;
@@ -370,16 +396,16 @@ function rank_by_keyword(searchValue,datum, key){
 }
 */
 
-function getMediaQueryData() {
+function getMediaQueryData(requestUrl) {
+    console.log('making promise...')
     const request = $.ajax(
       {
-        url : 'api/serveHaros',
+        url : requestUrl,
         success : (result, status, xhr) => {
           DATA = result.data;
-          filtered_data = result.data;
           const e = document.createElement('div')
           displayData();
-          configDropdownMenus();
+          //configDropdownMenus();
         }
 
       }
@@ -397,10 +423,10 @@ function displayData() {
     $('.haros-table *').remove();
     for (let i = next_index; i < next_index+1000; i++) {
         try {
-        insert_datum(filtered_data[i]);
-        } catch (TypeError) {
-            console.log(TypeError);
-            console.log(filtered_data[i]);
+        insert_datum(DATA[i]);
+        } catch (error) {
+            console.log(error);
+            console.log(DATA[i]);
         }
     }
     next_index = next_index + 1000;
@@ -465,10 +491,6 @@ function insert_datum(d) {
             const requirements_wrapper = std_make('requirements-wrapper',datum_grid);
             const requirements_header = std_make('requirements-header',requirements_wrapper, {content:"Requirements: "})
             const requirements = std_make('Requirements',requirements_wrapper,{content: d['Requirements']})
-
-            const collapse_button = std_make('collapse-button',datum_grid,{tag: 'button'});
-            collapse_button.innerHTML = 'Show less';
-            collapse_button.onclick = datum_grid.onclick;
             /*function () {
 
                 for (let member of include_when_expanded){
@@ -481,7 +503,6 @@ function insert_datum(d) {
             include_when_expanded.push(requirements_wrapper);
             include_when_expanded.push(date_wrapper);
             include_when_expanded.push(category);
-            include_when_expanded.push(collapse_button);
 
             datum_grid.expanded_previously = true;
             for (let member of include_when_expanded) {
@@ -523,7 +544,7 @@ function insert_datum(d) {
         }
     )
 
-    add_button.onclick = function() {
+    add_button.onclick = function(e) {
         if (this.innerHTML == "Add") {
             this.innerHTML = "Remove"
             $.ajax("/api/used/add/"+d['index'])
@@ -532,10 +553,14 @@ function insert_datum(d) {
             $.ajax("/api/used/remove/"+d['index'])
         }
         datum_grid.classList.toggle('used-true')
+        e.stopPropagation();
     }
+    
+    
+
     datum_grid.classList.remove('hide');
 }
-
+/*
 function makeDropdownOption (parent, value){
     const dde = document.createElement('option'); //dropdown element
     dde.value = value;
@@ -555,7 +580,7 @@ function configDropdownMenus () {
             category
         )
     }
-}
+}*/
     </script>
 </body>
 </html>
