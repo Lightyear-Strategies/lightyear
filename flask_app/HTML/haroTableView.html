@@ -288,7 +288,6 @@ let DATA;
 let Categories =[];
 let next_index = 0;
 const expanded_previously = {};
-let 
 /*
 const keywordsSe = document.getElementById('keywords-search');
 const recievedBeforeSe = document.getElementById('recieved-before-search');
@@ -336,7 +335,7 @@ document.getElementById('search-button').onclick = () => {
 
 }
 */
-getMediaQueryData('api/serveHaros');
+getMediaQueryData('api/serveHaros?search=true');
 /*
 document.getElementById('reset-button').onclick = () => {
   displayData();
