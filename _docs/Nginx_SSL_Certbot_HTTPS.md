@@ -4,6 +4,7 @@ _(configuration settings for ufw and nginx are found in the videos)_
 * https://youtu.be/Gdys9qPjuKs -- SSL using certbot 
 * https://certbot.eff.org/instructions?ws=nginx&os=ubuntufocal (installation guide for nginx)
 
+* https://stackoverflow.com/questions/31682179/how-to-serve-flask-static-files-using-nginx
 ### Commands
 
 To Control Uncomplicated Firewall:
