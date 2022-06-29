@@ -33,9 +33,11 @@
         <div>
             <ul>
                 <li><a href="/home"> Home </a></li>
-                <li><a href="/email_verification"> Email Verification </a></li>
+                <li><a href="/email_validator"> Email Validator </a></li>
                 <li><a href="/writers"> Periodic Writers </a></li>
-                <li><a href="/haros"> Haros Table </a></li>
+                <li><a href="/haro_table"> Haro Table </a></li>
+                <li><a href="/contact_us"> Contact Us </a></li>
+
             </ul>
         </div>
     </header>
@@ -70,8 +72,8 @@
         <div>
             <ol>
                 <li>Enter your full name</li>
-                <li>Enter the email address where you want to recieve the file(s)</li>
-                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+                <li>Enter the email address where you want to receive the file(s)</li>
+                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to receive updates on</li>
                 <li>Select the file(s)</li>
                 <li>Press "Submit" button</li>
             </ol>
@@ -80,12 +82,21 @@
         </div>
     </div>
     <div>
-        <form method='POST' action="" enctype="multipart/form-data">
+        <form method='POST' action="/writers" enctype="multipart/form-data">
             {{ form.csrf_token }}
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
 
             <div style="padding-top: 0px;">
                 <div action="" class="form__group field">
-                    {{ form.username.label(for='username',class="form__label") }}
+                    {{ form.username.label(for='username',class="form__label required__label") }}
                     {{ form.username(id='username', class="form__field") }}
                     {% if form.username.errors %}
                         <ul class="errors">
@@ -100,7 +111,7 @@
                 </div>
 
                 <div action="" class="form__group field">
-                    {{ form.email.label(for='email',class="form__label") }}
+                    {{ form.email.label(for='email',class="form__label required__label") }}
                     {{ form.email(id='email', class="form__field") }}
                     {% if form.email.errors %}
                         <ul class="errors">
@@ -115,7 +126,7 @@
                 </div>
 
                 <div action="" class="form__group field">
-                    {{ form.frequency.label(for='frequency',class="form__label") }}
+                    {{ form.frequency.label(for='frequency',class="form__label required__label") }}
                     {{ form.frequency(id='frequency', class="form__field") }}
     {#                <form>#}
     {#                    <input type="radio" name="choice" value="Daily"> Daily#}
@@ -127,8 +138,8 @@
 
             <div>
                 <div action="" class="form__group field">
-                    {{ form.files.label(for='files', class="form__label") }}
-                    {{ form.files(id='files', class="") }}
+                    {{ form.files.label(for='files', class="form__label required__label") }}
+                    {{ form.files(id='files', class="", accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel") }}
                     {% if form.files.errors %}
                         <ul class="errors">
                             {% for error in form.files.errors %}

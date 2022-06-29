@@ -208,7 +208,7 @@ footer > div:first-of-type > div > svg {
 
 .form__field {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 60%;
+    width: 100%;
     border: 0;
     border-bottom: 2px solid var(--lightyear-red);
     outline: 0;
@@ -231,7 +231,7 @@ footer > div:first-of-type > div > svg {
 
 .message__field {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 60%;
+    width: 100%;
     /* border: 2px;
     border-bottom: 2px solid black;
     outline: 2px; */
@@ -259,7 +259,7 @@ footer > div:first-of-type > div > svg {
 .form__label {
     position: absolute;
     top: 0;
-    left: 20%;
+    left: 0%;
     display: block;
     transition: 0.2s;
     font-size: 1rem;
@@ -300,7 +300,10 @@ footer > div:first-of-type > div > svg {
 }
 
 .message__field:focus {
-    padding-bottom: 6px;
+    padding-bottom: 6rem;
+    padding-left: 3%;
+    padding-right: 3%;
+    box-sizing: border-box;
     font-weight: 700;
     border-width: 5px;
     border-radius: 20px;
@@ -366,7 +369,7 @@ input[type=checkbox]:checked:after {
 /* Send Button */
 #sendBtn {
     width: 60%;
-    padding: 1rem rem;
+    padding: 1rem;
     background-color: var(--background-color);
     color: var(--lightyear-red);
     font-size: 2rem;

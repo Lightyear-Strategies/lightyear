@@ -4,6 +4,7 @@ from flask_app.scripts.forms import PeriodicWriters
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
+from flask_app.scripts.config import Config
 
 from itsdangerous import URLSafeSerializer, BadData
 import traceback
@@ -51,7 +52,7 @@ def load_journalist_file():
                     len_pos_names = len(pos_names)
                     while True:
                         if i == len_pos_names:
-                            flash("You do not have neither \"Journalist(s)\" nor \"journalist(s)\"")
+                            flash("You do not have neither \"Journalist(s)\" nor \"journalist(s)\" in the CSV")
                             return redirect(JOURNALIST_ROUTE)
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
@@ -86,7 +87,7 @@ def load_journalist_file():
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-                    flash('Successfully Subscribed')
+                    return render_template('OnSuccess/Subscribed.html')
                 except Exception:
                     traceback.print_exc()
 
@@ -99,7 +100,7 @@ def load_journalist_file():
         else:
             print('No files')
 
-    return render_template('PeriodicWriters.html', form=form, email=email, files=files)
+    return render_template('PeriodicWriters.html', form=form, user_name=user_name, email=email, files=files)
 
 @app.route('/unsubscribe/<token>')
 def unsubscribe(token):
@@ -110,7 +111,7 @@ def unsubscribe(token):
         print(email_sub_string)
     except BadData:
         print('unsubscribe failed')
-        return render_template('error_pages/500.html')
+        return render_template('ErrorPages/500.html')
 
     email, subject = email_sub_string.split()[0], email_sub_string.split()[1]
     if subject == 'Daily':
@@ -120,7 +121,7 @@ def unsubscribe(token):
     elif subject == 'Weekly':
         timeframe = '_week'
     else:
-        return render_template('error_pages/500.html')
+        return render_template('ErrorPages/500.html')
         print('Error occured with subject')
 
     # TODO: redo replacing of table
@@ -130,7 +131,7 @@ def unsubscribe(token):
     jour_df_tf.reset_index(inplace=True, drop=True)
     jour_df_tf.to_sql(f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-    return render_template('successUnsubscribe.html')
+    return render_template('OnSuccess/Unsubscribed.html')
 
 
 def send_pdf_report(df_for_email, email, subject, clientname):
@@ -138,27 +139,38 @@ def send_pdf_report(df_for_email, email, subject, clientname):
     sends the weekly pdf report
     note: needs to be in flaskMain to access flask specific stuff
     """
-    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
-    token_string = f'{email} {subject}'
-    token = unsub.dumps(token_string)
-    # TODO: fix this :)
-    app.config['SERVER_NAME'] = '192.168.0.173:8000'
-    with app.app_context():
-        url = url_for('unsubscribe', token=token, _external=True)
-        print(url)
-    pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
-    # TODO: fix this :)
-    #filepath = 'flask_app/scripts/PeriodicWriters/reports/george@lightyearstrategies.com_journalist_report.pdf'
-    filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
-    pdf_maker_for_email.create_PDF(filename=filepath)
+    try:
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+        token_string = f'{email} {subject}'
+        token = unsub.dumps(token_string)
+        # TODO: fix this :)
+        app.config['SERVER_NAME'] = '192.168.0.173:8000'
+        with app.app_context():
+            url = url_for('unsubscribe', token=token, _external=True)
+            print(url)
+        pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
+        # TODO: fix this :)
+        #filepath = 'flask_app/scripts/PeriodicWriters/reports/george@lightyearstrategies.com_journalist_report.pdf'
+        filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
+        pdf_maker_for_email.create_PDF(filename=filepath)
 
-    str_date = str(datetime.now().date())
+        str_date = str(datetime.now().date())
 
-    to_send = report(
-        sender='george@lightyearstrategies.com',
-        to=email,
-        subject=f'{subject} Journalist Report {str_date}',
-        text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
-        file=filepath
-    )
-    to_send.sendMessage()
+        if Config.ENVIRONMENT == 'server':
+            if not authCheck():
+                return redirect('/authorizeCheck')
+        elif Config.ENVIRONMENT == 'local':
+            localServiceBuilder()
+
+        to_send = report(
+            sender='george@lightyearstrategies.com',
+            to=email,
+            subject=f'{subject} Journalist Report {str_date}',
+            text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
+            file=filepath
+        )
+        to_send.sendMessage()
+
+    except Exception as e:
+        print(e)
+        return render_template('ErrorPages/500.html')

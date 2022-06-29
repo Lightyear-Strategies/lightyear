@@ -17,7 +17,7 @@ def signup():
         db.session.commit()
         return redirect(url_for('login'))
 
-    return render_template('signup.html', form=form)
+    return render_template('LoginSignUp/signup.html', form=form)
 
 
 def login():
@@ -37,7 +37,7 @@ def login():
         login_user(user,remember=remember)
         return redirect(url_for('home'))
 
-    return render_template('login.html', form=form)
+    return render_template('LoginSignUp/login.html', form=form)
 
 
 @login_manager.user_loader

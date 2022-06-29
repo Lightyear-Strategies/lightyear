@@ -2,9 +2,9 @@ import os
 from flask import render_template, request, redirect
 from flask_login import login_required
 from werkzeug.utils import secure_filename
-from flask_app.scripts.EmailVerification import ev_API, emailReport
+from flask_app.scripts.EmailValidator import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
-from flask_app.scripts.forms import EmailVerification
+from flask_app.scripts.forms import EmailValidator
 from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import init_celery, app
 
@@ -12,7 +12,7 @@ from flask_app.scripts.create_flask_app import init_celery, app
 celery = init_celery(app)
 
 @login_required
-def email_verification():
+def email_validator():
 
     """
     Gets information from the form, extracts files.
@@ -23,18 +23,18 @@ def email_verification():
     """
     email = None
     files = None
-    form = EmailVerification()
+    form = EmailValidator()
     if form.validate_on_submit():
         filenames = []
         email = form.email.data
+        #print(email)
         files = request.files.getlist(form.files.name)
-        form.email.data = ''
 
-        # This part is only for web deployment
-        if not authCheck():
-            return redirect('/authorizeCheck')
-
-        #localServiceBuilder() # Uncomment this, and comment the above lines to run locally ##########################
+        if Config.ENVIRONMENT == 'server':
+            if not authCheck():
+                return redirect('/authorizeCheck')
+        elif Config.ENVIRONMENT == 'local':
+            localServiceBuilder()
 
         if files:
             for file in files:
@@ -47,11 +47,11 @@ def email_verification():
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
                 parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-            return redirect("/email_verification")
+            return render_template('OnSuccess/EmailSent.html')
         else:
             print('No files')
 
-    return render_template('emailVerification.html', form=form, email=email, files=files)
+    return render_template('emailValidator.html', form=form, email=email, files=files)
 
 
 def emailVerify(path, recipients=None):
@@ -68,6 +68,7 @@ def emailVerify(path, recipients=None):
     report = emailReport.report("george@lightyearstrategies.com", recipients,
                                 "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
     report.sendMessage()
+
 
 @celery.task(name='ev_flask_functions.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):

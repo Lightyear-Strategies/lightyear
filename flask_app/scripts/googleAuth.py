@@ -35,7 +35,7 @@ def localServiceBuilder():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(Config.LOCAL_CLIENT_SECRETS_FILE, SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(Config.CLIENT_SECRETS_FILE, SCOPES)
 
             creds = flow.run_local_server(port=0)
         with open(Config.PICKLE_FILE, 'wb') as token:
@@ -122,7 +122,7 @@ def authorizeCheck():
 
     # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
     flow = Flow.from_client_secrets_file(
-        Config.WEB_CLIENT_SECRETS_FILE, scopes=SCOPES)
+        Config.CLIENT_SECRETS_FILE, scopes=SCOPES)
 
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True, _scheme='https')
 
@@ -148,7 +148,7 @@ def authorizeService():
     @return:   redirect to authorization page
     """
 
-    flow = Flow.from_client_secrets_file(Config.WEB_CLIENT_SECRETS_FILE, scopes=SCOPES)
+    flow = Flow.from_client_secrets_file(Config.CLIENT_SECRETS_FILE, scopes=SCOPES)
     flow.redirect_uri = url_for('g_oauth.oauth2callbackService', _external=True, _scheme='https')
 
     authorization_url, state = flow.authorization_url(
@@ -169,7 +169,7 @@ def oauth2callback():
     # Specify the state when creating the flow in the callback so that it can verified in the authorization server response.
     state = flask.session['state']
 
-    flow = Flow.from_client_secrets_file(Config.WEB_CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow = Flow.from_client_secrets_file(Config.CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
     flow.redirect_uri = url_for('g_oauth.oauth2callbackCheck', _external=True,  _scheme='https')
 
     # Use the authorization server's response to fetch the OAuth 2.0 tokens.
@@ -196,7 +196,7 @@ def oauth2callbackCheck():
     """
     oauth2callback()
     flash('Authorized')
-    return redirect('/email_verification')
+    return redirect('/home')
 
 #@param:    None
 #@return:   serviceBuilder()

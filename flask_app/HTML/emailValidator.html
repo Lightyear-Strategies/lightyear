@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/emailVerification.css') }}">
-    <script src="{{ url_for('static',filename='js/emailVerification.js') }}" defer></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/emailValidator.css') }}">
+    <script src="{{ url_for('static',filename='js/emailValidator.js') }}" defer></script>
     <title>Email Verification</title>
 </head>
 
@@ -28,9 +28,11 @@
         <div>
             <ul>
                 <li><a href="/home"> Home </a></li>
-                <li><a href="/email_verification"> Email Verification </a></li>
+                <li><a href="/email_validator"> Email Validator </a></li>
                 <li><a href="/writers"> Periodic Writers </a></li>
-                <li><a href="/haros"> Haros Table </a></li>
+                <li><a href="/haro_table"> Haro Table </a></li>
+                <li><a href="/contact_us"> Contact Us </a></li>
+
             </ul>
         </div>
     </header>
@@ -56,11 +58,12 @@
         </div>
     </section>
 
-    <form method='POST' action="" enctype="multipart/form-data">
+    <form method='POST' action="/email_validator" enctype="multipart/form-data">
         {{ form.csrf_token }}
+
         <div>
             <hr>
-            <h1>Email Verification</h1>
+            <h1>Email Validator</h1>
             <hr style="color: #F04C23; border: 1px solid;">
             <hr>
             <h2>Guidelines:</h2>
@@ -73,8 +76,18 @@
                     <li>Press "Submit" button</li>
                 </ol>
             </div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
             <div action="" class="form__group field">
-                {{ form.email.label(for='email',class="form__label") }}
+                {{ form.email.label(for='email',class="form__label required__label") }}
                 {{ form.email(id='email', class="form__field") }}
                 {% if form.email.errors %}
                     <ul class="errors">
@@ -90,8 +103,8 @@
             </div>
             <br> <br>
             <div action="" class="form__group field">
-                {{ form.files.label(for='files', class="form__label") }}
-                {{ form.files(id='files', class="") }}
+                {{ form.files.label(for='files', class="form__label required__label") }}
+                {{ form.files(id='files', class="", accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel") }}
                 {% if form.files.errors %}
                     <ul class="errors">
                         {% for error in form.files.errors %}

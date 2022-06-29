@@ -46,10 +46,10 @@ def show_haro_table():
     @param:    None
     @return:   Haros table
     """
-    return render_template('haroTableView.html', title='LyS Haros Database')
+    return render_template('HaroTable/haroTableView.html', title='LyS Haros Database')
 
 
-def adding_used_unused(option : str = None, id : str = None):
+def adding_used_unused(option: str = None, id: str = None):
     """
     Changes value in "Used" column of certain haro by using id
     Values can be "Used" or "None"
@@ -125,12 +125,12 @@ def serve_data(option=None):
         # gets descending sorting
         descending = request.args.get(f'order[{i}][dir]') == 'desc'
 
-        desiredCol = getattr(Haros.columns,col_name)
+        desired_col = getattr(Haros.columns,col_name)
 
         #decending
         if descending:
-            desiredCol = desiredCol.desc()
-        order.append(desiredCol)
+            desired_col = desired_col.desc()
+        order.append(desired_col)
 
         i += 1
 

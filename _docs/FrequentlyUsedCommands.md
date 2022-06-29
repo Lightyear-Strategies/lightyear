@@ -4,7 +4,7 @@ deactivate
 
 sudo gunicorn -w 3wsgi:app
 
-celery -A flask_app.scripts.EmailVerification.ev_flask_functions.celery worker -l INFO
+celery -A flask_app.scripts.EmailValidator.ev_flask_functions.celery worker -l INFO
 
 pip3 freeze > requirements.txt
 

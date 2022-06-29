@@ -50,12 +50,12 @@ def add_configs(app,where):
 
 def set_broker(app,where='server'):
     if where == 'server':
-        app.config['CELERY_BROKER_URL'] = Config.CELERY_WEB_BROKER_URL
+        app.config['CELERY_BROKER_URL'] = Config.CELERY_BROKER_URL
         app.config['BROKER_TRANSPORT_OPTIONS'] = Config.BROKER_TRANSPORT_OPTIONS
 
     if where == 'local':
         # To work with Celery in local environment using RabbitMQ
-        app.config['CELERY_BROKER_URL'] = Config.CELERY_LOCAL_BROKER_URL
+        app.config['CELERY_BROKER_URL'] = Config.CELERY_BROKER_URL
 
     return app
 
@@ -76,4 +76,4 @@ def create_app(where='server'):
 
 # Always Created
 # either use 'local' or 'server'
-app = create_app(where='server')
+app = create_app(where=Config.ENVIRONMENT)

@@ -1,17 +1,18 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, SubmitField, MultipleFileField, RadioField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, MultipleFileField, RadioField, PasswordField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, ValidationError, Length, Regexp
 
 from flask_app.scripts.LoginSignUp.models import User
 
 
-class EmailVerification(FlaskForm):
+class EmailValidator(FlaskForm):
     """Constructor for the Email Verification Form"""
 
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
+                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
+                                                                      "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 
@@ -69,6 +70,16 @@ class LoginForm(FlaskForm):
         else:
             if not User.query.filter_by(username=username_email.data.lower()).first():
                 raise ValidationError('This username is not registered.')
+
+
+class ContactUs(FlaskForm):
+    """Constructor for the Contact Us Page"""
+    name = StringField(' Username', validators=[DataRequired(), Length(1, 64)])
+    email = StringField('Email', validators=[DataRequired(),Email(), Length(1, 64)])
+    subject = StringField('Subject of Inquiry', validators=[DataRequired(), Length(1, 64)])
+    message = TextAreaField('Message')
+    send_copy = BooleanField('Send me a copy of my message')
+    submit = SubmitField('Send')
 
 
 

@@ -81,7 +81,7 @@ ul {
     justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
-    text-align: right;
+    text-align: center;
 }
 
 div > div {
