@@ -15,6 +15,7 @@ class Config:
     CONFIG_DIR = os.path.join(FLASK_DIR,'configs')
     HTML_DIR = os.path.join(FLASK_DIR, 'HTML')
     STATIC_DIR = os.path.join(HTML_DIR, 'static')
+    print(STATIC_DIR)
     UPLOAD_DIR = os.path.join(FLASK_DIR,'uploadFolder')
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
