@@ -43,7 +43,7 @@ class Config:
         )
 
     elif ENVIRONMENT == 'local':
-        CLIENT_SECRETS_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
+        CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
         CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
                                  'aleksei@lightyearstrategies.com']
