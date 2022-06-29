@@ -27,3 +27,15 @@ Nginx:
 
 Gunicorn:
 * `gunicorn -w 3 wsgi:app`
+
+
+For Static Files:
+
+```
+location ^~ /static/  {
+    include  /etc/nginx/mime.types;
+    root /project_path/;
+}
+```
+
+replace /project_path/ with your app's absolute path, you should note that it doesn't include static directory and all the contents inside /project_path/static/ will be serverd in url /static/.
