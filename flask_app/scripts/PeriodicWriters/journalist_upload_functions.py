@@ -5,6 +5,7 @@ from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
+from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 
 from itsdangerous import URLSafeSerializer, BadData
 import traceback
@@ -100,7 +101,7 @@ def load_journalist_file():
         else:
             print('No files')
 
-    return render_template('PeriodicWriters.html', form=form, user_name=user_name, email=email, files=files)
+    return render_template('periodicWriters.html', form=form, user_name=user_name, email=email, files=files)
 
 @app.route('/unsubscribe/<token>')
 def unsubscribe(token):
