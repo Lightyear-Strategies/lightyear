@@ -5,9 +5,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> -->
+
     <link rel="stylesheet" href="styles/css/emailVerification.css">
     <script src="Lib/emailVerification.js" defer></script>
     <title>Email Verification</title>
+
+    <script type="text/javascript">
+
+        // $(document).ready(function() {
+        //     $(".form-group").dropzone( {
+        //         url: '/',
+        //         width: 300,
+        //         height: 300,
+        //         progressBarWidth: '100%',
+        //         // maxFileSize: '20MB',
+        //     })
+        // })
+
+        Dropzone.options.myDropzone = {
+        // Prevents Dropzone from uploading dropped files immediately
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxFiles: 10,
+        init: function() {
+            myDropzone = this; // closure
+            // Dropzone uploads everything when the "Submit" button is clicked
+            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            myDropzone.processQueue();
+            });
+        }
+    };
+
+    </script>
+
 </head>
 
 <body>
@@ -76,7 +112,7 @@
         </div>
     </div>
     <div>
-        <div id="drop_zone">
+        <!-- <div id="drop_zone">
             <div>
                 <input type="file" name="file" id="file" class="inputFile"
                     accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -86,7 +122,29 @@
                     </h2>
                 </label>
             </div>
-        </div>
+        </div> -->
+
+        <form action="/" class="dropzone" id="my-dropzone" method="POST">
+            <!-- <div class="form-group">
+              <button type="submit">Submit</button>
+            </div> -->
+            <div class="form-group">
+                <div class="dz-message" data-dz-message>
+                    <h2>Drop files here or <span>Click</span> to upload</h2>
+                </div>        
+            </div>
+        </form>
+        <script>
+            $(document).ready(function() {
+            $(".form-group").dropzone( {
+                url: '/',
+                width: 300,
+                height: 300,
+                progressBarWidth: '100%',
+                maxFileSize: '20MB',
+            })
+        })
+        </script>
         <!-- <div class="instruction"> 
             <div class="instructionBtn">
                 ?
@@ -96,9 +154,9 @@
     </div>
     
     <div>
-        <button id="submitBtn"
-                onclick="submitClick()">
-                Submit
+        <button type="submit" id="submitBtn"
+            onclick="submitClick()">
+            Submit
         </button>
     </div>
 
