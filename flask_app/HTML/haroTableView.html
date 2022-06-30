@@ -197,6 +197,7 @@ select {
     margin-bottom: 1em;
 }
 .haros-nav{
+    display: inline;
     width: fit-content;
     padding: .5em;
     font-weight: bold;
@@ -204,6 +205,23 @@ select {
     background-color:#E5E5E5;
     margin-right: 1em; 
     border: none;
+}
+
+.page-count{
+    display: inline;
+    margin-left: 40rem;
+    color: #F04C23;
+    background-color:#E5E5E5;
+    padding: .5rem;
+    font-weight: bold;
+    font-size: .825em;
+}
+.page-input{
+    width: 3rem;
+    border: 1.5px solid gray;
+    border-radius: .25rem;
+    margin-left: .25rem;
+
 }
     </style>
 </head>
@@ -213,7 +231,13 @@ select {
         <button class="all-haros haros-nav" id="all-haros">All Haros</button>
         <button class="fresh-haros haros-nav" id="fresh-haros">Fresh Haros</button>
         <button class="used-haros haros-nav" id="used-haros">Used Haros</button>
+        <form class = "page-count">
+            Haros Per Page
+            <input type="number" class = 'page-input' value = '1000' id = 'haros-per-page'>
+        </form>
     </div>
+    <button class="previous">previous</button>
+    <button class="next">next</button>
     <!--
     <div class="search-bar" id="search-bar"> 
         <div class="recieved-after-search-wrapper">
@@ -269,140 +293,55 @@ select {
 
 document.getElementById('all-haros').onclick = () => {
   console.log('serving normal')
-  getMediaQueryData('api/serveHaros')
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros')
 }
 
 document.getElementById('fresh-haros').onclick = () => {
   console.log('serving fresh')
-  getMediaQueryData('api/serveHaros/fresh')
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros/fresh')
 }
 
 document.getElementById('used-haros').onclick = () => {
   console.log('serving used')
-  getMediaQueryData('api/serveHaros/used')
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros/used')
 }
 
 const HAROS_TABLE = document.getElementById("haros-table");
 
 let DATA;
-let Categories =[];
-let next_index = 0;
+let Categories = [];
+let page_number = 0;
+let haros_per_page = document.getElementById('haros-per-page').value;
 const expanded_previously = {};
-/*
-const keywordsSe = document.getElementById('keywords-search');
-const recievedBeforeSe = document.getElementById('recieved-before-search');
-const recievedAfterSe = document.getElementById('recieved-after-search');
-const deadlineBeforeSe = document.getElementById('deadline-before-search');
-const deadlineAfterSe = document.getElementById('deadline-after-search');
-const categorySe = document.getElementById('category-search');
-const mediaOutletSe = document.getElementById('media-outlet-search');
-const journalistSe = document.getElementById('journalist-search');
 
-document.getElementById('search-button').onclick = () => {
-    
-    let searchValue = keywordsSe.value.split(' ');
-    lowerArray(searchValue);
-    
-    filtered_data = [];
-    fpi = []; //filtered_parse_indicies
-
-    for (let datum of DATA) {
-
-
-        if (fpi[matchvalue] == undefined){
-            for (let i = 0; i<matchvalue;i++){
-                if (fpi[i] == undefined){
-                    fpi[i] == 1;
-                }
-                else {
-                    fpi[i] == fpi[i] + 1;
-                }
-            }
-            fpi[matchvalue] == 0;
-            filtered_data.splice(0,0,datum);
-        }
-        else {
-            filtered_data.splice(fpi[matchvalue],0,datum);
-            for (let i = 0; i < matchvalue; i++){
-                fpi[i] = fpi[i] + 1;
-            }
-        }
-
-        
+document.getElementById('haros-per-page').onfocusout = () => {
+    ohpp = haros_per_page //old haros per page
+    opn = page_number //old page number
+    if (this.value < 10) {
+        this.value = 10;
     }
-    next_index = 0;
+    if (this.value > 1000) {
+        this.value = 1000;
+    }
+    haros_per_page = this.value;
+    page_number = Math.floor((opn*ohpp+1)/haros_per_page);
     displayData();
-
-}
-*/
-getMediaQueryData('api/serveHaros?search=true');
-/*
-document.getElementById('reset-button').onclick = () => {
-  displayData();
-}
-*/
-/*
-function rank_by_keywords(searchValue,datum,keys){
-    let matchvalue = 0;
-    const min_value = Math.floor(searchValue.length/2);
-    let keywords = [];
-    for (let key of keys){
-        keywords.concat(datum[key].split(' '))
-    }
-    for (let word of searchValue){
-        if (keywords.includes(word)){
-            matchvalue = matchvalue + 1;
-        }
-    }
-    if (matchvalue > min_value){
-        return Math.floor(10*matchvalue/keywords.length)
-    } else {
-        return 0
-    }
 }
 
-String.prototype.replaceAt = function(index, replacement) {
-    return this.substring(0, index) + replacement + this.substring(index + replacement.length);
-}
-
-String.prototype.removeAt = function(index) {
-    return this.substring(0, index) + this.substring(index + replacement.length);
-}
-
-function hammingDistance(str1,str2){
-    let len;
-    if (str1.length<str2.length){
-        len = str1.length;
-    } else {
-        len = str2.length;
-    }
-    let hd = 0;
-    for (let i = 0; i < len; i++) {
-        if (str1[i]==str2[i]) hd = hd + 1;
-    }
-    return hd;
-}
-
-function rank_by_keyword(searchValue,datum, key){
-    keyword = datum[key];
-    corrections = [];
-    corrections_mv = []; //corrections matchvalue
-    for (let i = 0; i < keyword.length; i++){
-        corrections.append(keywords.removeAt(i))
-        corrections.append(keywords.replaceAt(i,'.'))
-    }
-
-}
-*/
+getMediaQueryData('/api/serveHaros');
 
 function getMediaQueryData(requestUrl) {
-    console.log('making promise...')
+    
     const request = $.ajax(
       {
-        url : requestUrl,
+        'url' : requestUrl,
         success : (result, status, xhr) => {
           DATA = result.data;
           const e = document.createElement('div')
+          console.log(DATA);
           displayData();
           //configDropdownMenus();
         }
@@ -411,24 +350,23 @@ function getMediaQueryData(requestUrl) {
     )
 }
 
-function lowerArray(arr) {
-    for (let e of arr){
-        e = e.toLowerCase();
-    }
-}
-
-
 function displayData() {
     $('.haros-table *').remove();
-    for (let i = next_index; i < next_index+1000; i++) {
+    const min_index = haros_per_page*(page_number-1);
+    
+    const max_index = Math.min([
+        haros_per_page*page_number,
+        DATA.length
+    ])
+
+    for (let i = min_index; (i < max_index && i< DATA.length); i++) {
         try {
         insert_datum(DATA[i]);
         } catch (error) {
-            console.log(error);
-            console.log(DATA[i]);
+            console.log('error')
         }
     }
-    next_index = next_index + 1000;
+    page_number = page_number + 1;
 }
 
 function std_make(class_name, parent, ops) { //optional parameters: ops.content, ops.tag

@@ -75,6 +75,7 @@ def adding_used_unused(option : str = None, id : str = None):
 
 
 def serve_data(option=None):
+    print('\n\n\n\n\nhello!\n\n\n\n\n')
     """
     Sorts the table, returns searched data
     @param:    None/option
@@ -95,6 +96,7 @@ def serve_data(option=None):
 
     # search filter
     search = request.args.get('search')
+    print(search)
     if search:
         query = query.filter(db.or_(
             Haros.columns.Category.like(f'%{search}%'),
@@ -144,6 +146,8 @@ def serve_data(option=None):
     query = query.offset(start).limit(length)
 
     # response to be shown on HTML side
+
+
     return {
         'data': [dict(haro) for haro in query],
         'recordsFiltered': total_filtered,

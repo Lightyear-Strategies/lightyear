@@ -389,6 +389,6 @@ if __name__ == '__main__':
     #addDBData("/Users/rutkovskii/lightyear/haroListener/haro_csvs/ALL_OLD_HAROS.csv")
     #removeDBdups()
 
-    app.run(host='0.0.0.0', port=80,debug=False,threaded=True)
+    app.run(host='0.0.0.0', port=80,debug=True,threaded=True)
 
 
