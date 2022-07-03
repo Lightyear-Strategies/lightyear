@@ -17,61 +17,39 @@
         <button class="all-haros haros-nav" id="all-haros">All Haros</button>
         <button class="fresh-haros haros-nav" id="fresh-haros">Fresh Haros</button>
         <button class="used-haros haros-nav" id="used-haros">Used Haros</button>
-        <form class = "page-count">
-            Haros Per Page
-            <input type="number" class = 'page-input' value = '1000' id = 'haros-per-page'>
-        </form>
     </div>
-    <button class="previous">previous</button>
-    <button class="next">next</button>
+    
     
     <div class="search-bar" id="search-bar"> 
-        <div class="recieved-after-search-wrapper">
-            <span class="date-search-label">After</span>
-            <input type="date" class="recieved-after-search" id="recieved-after-search">
-        </div>
-        <div class="keywords-search-wrapper">
-            <span class="keywords-search-label">Keywords</span>
-            <input type="text" id="keywords-search" class="keywords-search">
+        <div class="search-wrapper">
+            <span class="search-label">Keywords</span>
+            <input type="text" id="keywords-search" class="search">
         </div>
 
-        <div class="media-outlet-search-wrapper">
-            <span class="media-outlet-search-label">Media Outlet</span>
-            <input id="media-outlet-search">
-        </div>
-
-        <div class="date-recieved-search-label">Date Recieved</div>
-        <div class="recieved-before-search-wrapper">
-            <span class="date-search-label">Before</span>
-            <input type="date" class="recieved-before-search" id="recieved-before-search">
-        </div>
-
-        <div class="deadline-search-label">Deadline</div>
-        <div class="deadline-before-search-wrapper">
-            <span class="date-search-label">Before</span>
-            <input type="date" class="deadline-before-search" id="deadline-before-search">
-        </div>
-        <div class="deadline-after-search-wrapper">
-            <span class="date-search-label">After</span>
-            <input type="date" class="deadline-after-search" id="deadline-after-search">        
-        </div>
-
-        <div class="category-search-wrapper">
-            <span class="category-search-label">Category</span>
-            <select id="category-search" class="category-search"></select>
+        <div class="search-wrapper">
+            <span class="search-label">Media Outlet</span>
+            <input type="text" id="mediaOutlet-search" class="search">
         </div>
 
         <div class="journalist-search-wrapper">
-            <span class="journalist-search-label">Journalist</span>
-            <input id="journalist-search" class="journalist-search">
+            <span class="search-label">Journalist</span>
+            <input type="text" id='journalist-search' class="search">
         </div>
-        <button id="search-button" class="search-button">
-            Search
-        </button>
     </div>
-    <button id="reset-button">Reset</button>
-    
+
+    <button id="search-button" class="search-button">
+        Search
+    </button>
+
+    <div class="page-nav">
+        <button class="page-nav-btn" onclick="previous_page()">previous</button>
+        <button class="page-nav-btn" onclick = "next_page()">next</button>
+    </div>
     <div id="haros-table" class="haros-table"></div>
+    <div class="page-nav">
+        <button class="page-nav-btn" onclick="previous_page()">previous</button>
+        <button class="page-nav-btn" onclick = "next_page()">next</button>
+    </div>
     
     
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

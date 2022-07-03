@@ -96,7 +96,7 @@ def serve_data(option=None):
     # search filter
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
-
+    journalist = request.args.get('journalist')
     if keywords:
         query = query.filter(db.or_(
             Haros.columns.Query.like(f'%{keywords}%'),
@@ -107,6 +107,11 @@ def serve_data(option=None):
     if mediaOutlet:
         query = query.filter(db.or_(
             Haros.columns.MediaOutlet(f'%{mediaOutlet}%')
+        ))
+
+    if journalist:
+        query = query.filter(db.or_(
+            Haros.columns.MediaOutlet(f'%{journalist}%')
         ))
 
     total_filtered = query.count()
