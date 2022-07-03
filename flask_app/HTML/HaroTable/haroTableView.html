@@ -1,151 +1,81 @@
-{% extends "HaroTable/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LyS Haro Table</title>
 
-{% block content %}
-  <table id="data" class="table table-striped">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Summary</th>
-        <th>Media Outlet</th>
-        <th>Category</th>
-        <th>Date Received</th>
-        <th>Add/Remove</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-{% endblock %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/haroTable.css">
+</head>
+<body>
+    <h1 class="page-header">LyS Haros Database</h1>
+    <div class="haros-menu">
+        <button class="all-haros haros-nav" id="all-haros">All Haros</button>
+        <button class="fresh-haros haros-nav" id="fresh-haros">Fresh Haros</button>
+        <button class="used-haros haros-nav" id="used-haros">Used Haros</button>
+        <form class = "page-count">
+            Haros Per Page
+            <input type="number" class = 'page-input' value = '1000' id = 'haros-per-page'>
+        </form>
+    </div>
+    <button class="previous">previous</button>
+    <button class="next">next</button>
+    
+    <div class="search-bar" id="search-bar"> 
+        <div class="recieved-after-search-wrapper">
+            <span class="date-search-label">After</span>
+            <input type="date" class="recieved-after-search" id="recieved-after-search">
+        </div>
+        <div class="keywords-search-wrapper">
+            <span class="keywords-search-label">Keywords</span>
+            <input type="text" id="keywords-search" class="keywords-search">
+        </div>
 
-{% block scripts %}
-<script>
-    /* Formatting function for row details - modify as you need */
-function format ( d ) {
-    // show nothing if there is no name
-    if (!(d.Name)) {d.Name = ''}
-    // `d` is the original data object for the row
-    return '<table class="table">'+
-        '<tr>'+
-            '<td>Name:</td>'+
-            '<td>'+d.Name+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Email:</td>'+
-            '<td>'+d.Email+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Query:</td>'+
-            '<td>'+d.Query+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Requirements:</td>'+
-            '<td>'+d.Requirements+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Deadline:</td>'+
-            '<td>'+d.Deadline+'</td>'+
-        '</tr>'+
-    '</table>';
-}
+        <div class="media-outlet-search-wrapper">
+            <span class="media-outlet-search-label">Media Outlet</span>
+            <input id="media-outlet-search">
+        </div>
 
-$(document).ready(function () {
-    var table = $('#data').DataTable({
-      order: [],
-      ajax: {
-        url:"/api/serveHaros",
-      },
-      serverSide: true,
-      columns: [
-        {  width:          "3%",
-          orderable:      false,
-          className:      'details-control',
-          data:           null,
-          defaultContent: ''
-        },
+        <div class="date-recieved-search-label">Date Recieved</div>
+        <div class="recieved-before-search-wrapper">
+            <span class="date-search-label">Before</span>
+            <input type="date" class="recieved-before-search" id="recieved-before-search">
+        </div>
 
-        {data: 'Summary', orderable: false, width: "42%"},
-        {data: 'MediaOutlet', width: "16%"},
-        {data: 'Category', width: "16%"},
-        {data: 'DateReceived', width: "13%"},
+        <div class="deadline-search-label">Deadline</div>
+        <div class="deadline-before-search-wrapper">
+            <span class="date-search-label">Before</span>
+            <input type="date" class="deadline-before-search" id="deadline-before-search">
+        </div>
+        <div class="deadline-after-search-wrapper">
+            <span class="date-search-label">After</span>
+            <input type="date" class="deadline-after-search" id="deadline-after-search">        
+        </div>
 
-        { width:          "10%",
-          orderable:      false,
-          data:           null,
-          defaultContent:
-              "<button id='Add' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 2px;cursor: pointer;\" >Add</button> " +
+        <div class="category-search-wrapper">
+            <span class="category-search-label">Category</span>
+            <select id="category-search" class="category-search"></select>
+        </div>
 
-              "<button id='Remove' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 3px;cursor: pointer;\" >Remove</button>"}
-      ]
-    });
-
-
-    //class=\"Add\" class=\"Remove\"
-    $('#data tbody').on( 'click', 'button', function(){
-
-      var action = this.id;
-      var index = table.row( $(this).parents('tr') ).data().index;
-
-      console.log(table.row( $(this).parents('tr') ).data())
-      console.log(index);
-      if (action === 'Add'){
-        requestUrl = "/api/used/add/"+index;
-        alert("Added to Used Table")
-      }
-      if (action === 'Remove'){
-        requestUrl = "/api/used/remove/"+index;
-        alert("Removed from Used Table")
-      }
-      $.ajax(requestUrl)
-    });
-
-    $('#all_button').click(function(){
-      requestUrl = "/api/serveHaros";
-      table.ajax.url(requestUrl).load();
-    });
-
-    $('#fresh_button').click(function(){
-      requestUrl = "/api/serveHaros/fresh";
-      table.ajax.url(requestUrl).load();
-    });
-
-    $('#used_button').click(function(){
-      requestUrl = "/api/serveHaros/used";
-      table.ajax.url(requestUrl).load();
-    });
-
-      // Switching with left and right keyboard buttons
-    $(document).keydown( function(e) {
-      // left arrow
-      if ((e.keyCode || e.which) === 37) {
-        $( "#data_previous" ).click();
-      }
-      // right arrow
-      if ((e.keyCode || e.which) === 39) {
-        $( "#data_next" ).click();
-      }
-    })
-});
-
-    // Add event listener for opening and closing details
-    $('#data tbody').on('click', 'tr td.details-control', function () {
-        var table = $('#data').DataTable();
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
-
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            tr.removeClass( 'details' );
-            row.child.hide();
-        }
-        else {
-            // Open this row
-            tr.addClass( 'details' );
-            row.child( format(row.data()) ).show();
-        }
-    } );
-
-
-  </script>
-{% endblock %}
+        <div class="journalist-search-wrapper">
+            <span class="journalist-search-label">Journalist</span>
+            <input id="journalist-search" class="journalist-search">
+        </div>
+        <button id="search-button" class="search-button">
+            Search
+        </button>
+    </div>
+    <button id="reset-button">Reset</button>
+    
+    <div id="haros-table" class="haros-table"></div>
+    
+    
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../static/js/haroTable.js"></script>
+</body>
+</html>
 
