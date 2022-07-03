@@ -116,67 +116,24 @@
     margin-left: 10.5em;
     padding: .5em 1em .5em;
     background: #EFEFEF;
-    display: grid;
+    display: inline-flex;
     width: fit-content;
-    grid-template-areas:    "keywords-search-wrapper        keywords-search-wrapper         media-outlet-search-wrapper"
-                            "date-recieved-search-label     deadline-search-label           category-search-wrapper"
-                            "recieved-before-search-wrapper deadline-before-search-wrapper  journalist-search-wrapper"
-                            "recieved-after-search-wrapper  deadline-after-search-wrapper   .";
-    grid-template-columns: 13em 13em 20em;
-    grid-template-rows: 1.75em 1.5em 1.5em 2.5em;
+    flex-direction: row;
+    height: fit-content;
 
 }
-select, input{
-    width: fit-content;
-    border: 0.5px solid black;
-    border-radius: 0;
-    height: 1.2em;
-    font-family: 'Inter'
+.search-wrapper{
+    margin-right: 1.5em;
 }
 
-select {
-    height: 1.5em;
+.search {
+    border: 1px solid black;
+    border-radius: .5px;
+    height: fit-content;
 }
 
-.keywords-search-wrapper{
-    grid-area: keywords-search-wrapper;
-}
-.keywords-search-label{
-    font-weight: bold;
-}
-.media-outlet-search-wrapper{
-    grid-area: media-outlet-search-wrapper;
-}
-.media-outlet-search-label{
-    font-weight: bold;
-}
-.date-recieved-search-label{
-    grid-area: date-recieved-search-label;
-    text-decoration: underline;
-}
-.recieved-before-search-wrapper{
-    grid-area: recieved-before-search-wrapper;
-}
-.recieved-after-search-wrapper{
-    grid-area: recieved-after-search-wrapper;
-}
-.deadline-search-label{
-    grid-area: deadline-search-label;
-    text-decoration: underline;
-}
-.deadline-before-search-wrapper{
-    grid-area: deadline-before-search-wrapper;
-}
-.deadline-after-search-wrapper{
-    grid-area: deadline-after-search-wrapper;
-}
-.category-search-wrapper{
-    grid-area: category-search-wrapper;
-}
-.journalist-search-wrapper{
-    grid-area: journalist-search-wrapper;
-}
 .search-button{
+    display: inline;
     background-color: #D8D8D8;
     color: #F04C23;
     font-weight: bold;
@@ -207,21 +164,22 @@ select {
     border: none;
 }
 
-.page-count{
-    display: inline;
-    margin-left: 40rem;
-    color: #F04C23;
-    background-color:#E5E5E5;
-    padding: .5rem;
-    font-weight: bold;
-    font-size: .825em;
+.page-nav{
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
-.page-input{
-    width: 3rem;
-    border: 1.5px solid gray;
-    border-radius: .25rem;
-    margin-left: .25rem;
-
+.page-nav-btn {
+    display: inline;
+    width: fit-content;
+    padding: .5em;
+    font-weight: bold;
+    color:#F04C23;
+    background-color:#E5E5E5;
+    margin-right: 1em; 
+    border: none;
+    margin-bottom: .75em;
+    margin-top: 2em;
 }
     </style>
 </head>
@@ -231,80 +189,58 @@ select {
         <button class="all-haros haros-nav" id="all-haros">All Haros</button>
         <button class="fresh-haros haros-nav" id="fresh-haros">Fresh Haros</button>
         <button class="used-haros haros-nav" id="used-haros">Used Haros</button>
-        <form class = "page-count">
-            Haros Per Page
-            <input type="number" class = 'page-input' value = '1000' id = 'haros-per-page'>
-        </form>
     </div>
-    <button class="previous">previous</button>
-    <button class="next">next</button>
-    <!--
+    
+    
     <div class="search-bar" id="search-bar"> 
-        <div class="recieved-after-search-wrapper">
-            <span class="date-search-label">After</span>
-            <input type="date" class="recieved-after-search" id="recieved-after-search">
-        </div>
-        <div class="keywords-search-wrapper">
-            <span class="keywords-search-label">Keywords</span>
-            <input type="text" id="keywords-search" class="keywords-search">
+        <div class="search-wrapper">
+            <span class="search-label">Keywords</span>
+            <input type="text" id="keywords-search" class="search">
         </div>
 
-        <div class="media-outlet-search-wrapper">
-            <span class="media-outlet-search-label">Media Outlet</span>
-            <input id="media-outlet-search">
-        </div>
-
-        <div class="date-recieved-search-label">Date Recieved</div>
-        <div class="recieved-before-search-wrapper">
-            <span class="date-search-label">Before</span>
-            <input type="date" class="recieved-before-search" id="recieved-before-search">
-        </div>
-
-        <div class="deadline-search-label">Deadline</div>
-        <div class="deadline-before-search-wrapper">
-            <span class="date-search-label">Before</span>
-            <input type="date" class="deadline-before-search" id="deadline-before-search">
-        </div>
-        <div class="deadline-after-search-wrapper">
-            <span class="date-search-label">After</span>
-            <input type="date" class="deadline-after-search" id="deadline-after-search">        
-        </div>
-
-        <div class="category-search-wrapper">
-            <span class="category-search-label">Category</span>
-            <select id="category-search" class="category-search"></select>
+        <div class="search-wrapper">
+            <span class="search-label">Media Outlet</span>
+            <input type="text" id="mediaOutlet-search" class="search">
         </div>
 
         <div class="journalist-search-wrapper">
-            <span class="journalist-search-label">Journalist</span>
-            <input id="journalist-search" class="journalist-search">
+            <span class="search-label">Journalist</span>
+            <input type="text" id='journalist-search' class="search">
         </div>
-        <button id="search-button" class="search-button">
-            Search
-        </button>
     </div>
-    <button id="reset-button">Reset</button>
-    -->
+
+    <button id="search-button" class="search-button">
+        Search
+    </button>
+
+    <div class="page-nav">
+        <button class="page-nav-btn" onclick="previous_page()">previous</button>
+        <button class="page-nav-btn" onclick = "next_page()">next</button>
+    </div>
     <div id="haros-table" class="haros-table"></div>
+    <div class="page-nav">
+        <button class="page-nav-btn" onclick="previous_page()">previous</button>
+        <button class="page-nav-btn" onclick = "next_page()">next</button>
+    </div>
     
     
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
 document.getElementById('all-haros').onclick = () => {
-  console.log('serving normal')
+    mode = 'all'
   page_number = 0;
   getMediaQueryData('/api/serveHaros')
 }
 
 document.getElementById('fresh-haros').onclick = () => {
-  console.log('serving fresh')
+    mode = 'fresh'
   page_number = 0;
   getMediaQueryData('/api/serveHaros/fresh')
 }
 
 document.getElementById('used-haros').onclick = () => {
-  console.log('serving used')
+    mode = 'used'
   page_number = 0;
   getMediaQueryData('/api/serveHaros/used')
 }
@@ -313,25 +249,12 @@ const HAROS_TABLE = document.getElementById("haros-table");
 
 let DATA;
 let Categories = [];
-let page_number = 0;
-let haros_per_page = document.getElementById('haros-per-page').value;
+let haros_per_page = 100;
 const expanded_previously = {};
-
-document.getElementById('haros-per-page').onfocusout = () => {
-    ohpp = haros_per_page //old haros per page
-    opn = page_number //old page number
-    if (this.value < 10) {
-        this.value = 10;
-    }
-    if (this.value > 1000) {
-        this.value = 1000;
-    }
-    haros_per_page = this.value;
-    page_number = Math.floor((opn*ohpp+1)/haros_per_page);
-    displayData();
-}
+let mode = 'all'
 
 getMediaQueryData('/api/serveHaros');
+
 
 function getMediaQueryData(requestUrl) {
     
@@ -339,11 +262,11 @@ function getMediaQueryData(requestUrl) {
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
-          DATA = result.data;
-          const e = document.createElement('div')
-          console.log(DATA);
-          displayData();
-          //configDropdownMenus();
+
+            DATA = result.data;
+            page_number = 1;
+            //configDropdownMenus();8
+            displayData();
         }
 
       }
@@ -351,22 +274,36 @@ function getMediaQueryData(requestUrl) {
 }
 
 function displayData() {
-    $('.haros-table *').remove();
-    const min_index = haros_per_page*(page_number-1);
     
-    const max_index = Math.min([
-        haros_per_page*page_number,
-        DATA.length
-    ])
+    $('.haros-table *').remove();
+    let min_index = haros_per_page*(page_number-1);
 
-    for (let i = min_index; (i < max_index && i< DATA.length); i++) {
+    let max_index = haros_per_page*page_number;
+    if (max_index > DATA.length) max_index = DATA.length;
+    console.log([min_index,max_index])
+    for (let i = min_index; (i < max_index); i++) {
         try {
         insert_datum(DATA[i]);
         } catch (error) {
             console.log('error')
         }
     }
-    page_number = page_number + 1;
+    $('html,body').scrollTop(0);
+}
+
+function next_page() {
+    if (page_number*haros_per_page<DATA.length){
+        page_number = page_number + 1;
+        displayData();
+    }
+
+}
+
+function previous_page() {
+    if (page_number > 1){
+        page_number = page_number - 1;
+        displayData();
+    }
 }
 
 function std_make(class_name, parent, ops) { //optional parameters: ops.content, ops.tag
@@ -497,27 +434,38 @@ function insert_datum(d) {
 
     datum_grid.classList.remove('hide');
 }
-/*
-function makeDropdownOption (parent, value){
-    const dde = document.createElement('option'); //dropdown element
-    dde.value = value;
-    dde.innerHTML = value;
-    parent.appendChild(dde);
-}
 
-function configDropdownMenus () {
-    Categories.push('');
-    for (let datum of DATA) {
-        if (!Categories.includes(datum.Category) && datum.Category != "") Categories.push(datum.Category);
+
+document.getElementById('search-button').onclick = () => {
+    terms = {
+        keywords: document.getElementById('keywords-search').value,
+        journalist: document.getElementById('journalist-search').value,
+        mediaOutlet: document.getElementById('mediaOutlet-search').value
     }
-    const category_search = document.getElementById('category-search')
-    for (let category of Categories) {
-        makeDropdownOption(
-            category_search,
-            category
-        )
+
+    let requestUrl = '/api/serveHaros'
+    if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
+    if (mode == 'used') requestUrl = requestUrl + '/used';
+    requestUrl = requestUrl + '?'
+
+    let allEmpty = true;
+    for (let e in terms){
+        if (terms[e]!=''){
+            allEmpty=false;
+            requestUrl = `${requestUrl}${e}=${terms[e]}&`
+        }
     }
-}*/
+    requestUrl = requestUrl.substring(0,requestUrl.length-1);
+    if (!allEmpty){
+        console.log(requestUrl)
+        getMediaQueryData(requestUrl);
+    }
+
+    
+
+    
+    
+}
     </script>
 </body>
 </html>
