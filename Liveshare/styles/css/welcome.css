@@ -65,6 +65,23 @@ ul {
     text-align: right;
 }
 
+ul > li > a {
+    padding: 0.5rem 2rem;
+    margin: 0.5rem 0rem;
+}
+
+ul > li:last-of-type > a {
+    padding: 0rem;
+}
+
+ul > li:last-of-type > a > span {
+    border: 2px solid var(--lightyear-red);
+    text-decoration: none;
+    text-align: center;
+    padding: 0.5rem 2rem;
+    border-radius: 1rem;
+}
+
 footer {
     width: 100%;
     display: flex;
@@ -335,19 +352,21 @@ img {
 
 .cards > div {
     flex: 1;
-    box-shadow: 0px 0px 25px var(--lightyear-red);
     margin: 1rem;
     min-height: 400px;
     min-width: 200px;
     padding: 8rem 3rem;
     border-radius: 0.5rem;
     border: var(--lightyear-red) solid 2px;
+    transition: ease-out 0.2s all;
+}
+
+.cards > div:hover {
+    box-shadow: 0px 0px 25px var(--lightyear-red);
 }
 
 .cards > div > h1{
     font-size: 3rem;
-    color: transparent;
-    -webkit-text-stroke: var(--lightyear-red) 2px;
 }
 
 .cards > div > hr{
@@ -435,23 +454,77 @@ img {
     width: 50%;
     margin:auto;
     padding: 0.5rem;
+    transition: ease-out 0.2s all;
 }
 
-.join3  > div > button {
+.join3 > div:hover {
+    border: 5px var(--lightyear-red) solid; 
+}
+
+.join3 > div > button {
     color: var(--lightyear-red);
     background-color: var(--background-color);
     border: none;
     cursor: pointer;
     font-size: 5rem;
-    padding: 2.5rem 20rem;
+    font-style: italic;
+    padding: 2.5rem clamp(6rem, 15rem, 15rem);
+    width: 100%;
+    font-weight: 800;
+    transition: all ease-out 0.2s;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1400px) {
+.join3 > div > button {
+    color: var(--lightyear-red);
+    background-color: var(--background-color);
+    border: none;
+    cursor: pointer;
+    font-size: 3rem;
+    font-style: italic;
+    padding: 1.25rem clamp(0rem, 4rem, 4rem);
     width: 100%;
     font-weight: 800;
     transition: all ease-out 0.2s;
 }
 
-.join3 > button:hover{
-    color: var(--lightyear-blue);
 }
-@media only screen and (max-width: 600px) {
 
+@media only screen and (min-width: 600px) {
+.cards > div {
+    min-width: 300px;
+}
+}
+
+@media only screen and (max-width: 900px) {
+.about > div:first-of-type {
+    transform: rotate(0deg);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.product > div:first-of-type {
+    transform: rotate(0deg);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.invisible {
+    display: none;
+}
+}
+
+@media only screen and (max-width: 400px) {
+ul > li:last-of-type > a > span {
+    border: 2px solid var(--lightyear-red);
+    text-decoration: none;
+    text-align: center;
+    padding: 0.0875rem 2rem;
+    border-radius: 1rem;
+}
+
+.intro {
+    margin-bottom: 40rem;
+}
 }

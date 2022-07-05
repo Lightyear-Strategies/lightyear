@@ -3,23 +3,34 @@ let maxSlide;
 
 document.addEventListener('scroll', () => {
     const header = document.querySelector("header");
+    const signUp = document.querySelector("#spanSignUp");
 
     if (scrollY == 0) {
         header.style.backgroundColor = "#ffffff";
+        signUp.style.border = "solid 2px #F04C23";
         document.getElementById("strat").style.color = "#F04C23";
         for (i = 1; i < 4; i ++) {
             document.getElementById("a-" + i).style.color = "#F04C23";
         }
     } else {
         header.style.backgroundColor = "#FCE300";
+        signUp.style.border = "solid 2px #FCE300";
         document.getElementById("strat").style.color = "#ffffff";
         for (i = 1; i < 4; i ++) {
             document.getElementById("a-" + i).style.color = "#ffffff";
         }
     }
-})
+    
+    let cards = document.querySelectorAll(".cards");
+    for (i = 0; i < cards.length; i ++) {
+        if (cards[i].clientHeight < scrollY - 800) {
+            cards[i].classList.add("animate__animated", "animate__fadeInUp");
+        }
+    }
+});
 
 window.onload = () => {
+    /*
     const slides = document.querySelectorAll(".slide");
 
     curSlide = 0;
@@ -54,4 +65,5 @@ window.onload = () => {
             slide.style.transform = `translateX(${100 * (index - curSlide)}%)`;
         })
     })
+    */
 };
