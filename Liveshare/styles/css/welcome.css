@@ -491,7 +491,7 @@ img {
 
 }
 
-@media only screen and (min-width: 600px) {
+@media only screen and (max-width: 600px) {
 .cards > div {
     min-width: 300px;
 }
@@ -515,7 +515,7 @@ img {
 }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
 ul > li:last-of-type > a > span {
     border: 2px solid var(--lightyear-red);
     text-decoration: none;
@@ -527,4 +527,9 @@ ul > li:last-of-type > a > span {
 .intro {
     margin-bottom: 40rem;
 }
+
+.cards > div {
+    padding: 2rem 3rem;
+}
+
 }
