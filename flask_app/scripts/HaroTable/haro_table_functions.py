@@ -75,6 +75,7 @@ def adding_used_unused(option: str = None, id: str = None):
 
 
 def serve_data(option=None):
+    print('calling serve_data')
     """
     Sorts the table, returns searched data
     @param:    None/option
@@ -106,12 +107,12 @@ def serve_data(option=None):
 
     if mediaOutlet:
         query = query.filter(db.or_(
-            Haros.columns.MediaOutlet(f'%{mediaOutlet}%')
+            Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
         ))
 
     if journalist:
         query = query.filter(db.or_(
-            Haros.columns.MediaOutlet(f'%{journalist}%')
+            Haros.columns.MediaOutlet.like(f'%{journalist}%')
         ))
 
     total_filtered = query.count()

@@ -228,8 +228,12 @@ document.getElementById('search-button').onclick = () => {
     }
     requestUrl = requestUrl.substring(0,requestUrl.length-1);
     if (!allEmpty){
-        console.log(requestUrl)
         getMediaQueryData(requestUrl);
+    } else {
+        if (mode == 'all') {
+            getMediaQueryData('/api/serveHaros')
+        } else getMediaQueryData(`/api/serverHaros/${mode}`)
+
     }
 
     
