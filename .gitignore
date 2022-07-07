@@ -33,4 +33,5 @@ haroListener/localclient.json
 
 flask_app/configs/
 .env
+
 flask_app/Database.sqlite3
