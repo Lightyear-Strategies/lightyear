@@ -307,7 +307,7 @@ footer > div:first-of-type > div > svg {
     border-color: var(--lightyear-red)
   }
   
-  .message__field:focus ~ .form__label {
+  /* .message__field:focus ~ .form__label {
     position: absolute;
     top: 0;
     display: block;
@@ -315,7 +315,7 @@ footer > div:first-of-type > div > svg {
     font-size: 1rem;
     color: var(--lightyear-red);
     font-weight: 700;
-  }
+  } */
 
 /* reset input */
 .form__field:required, .form__field:invalid {

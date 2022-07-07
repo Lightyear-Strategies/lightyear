@@ -6,7 +6,7 @@ const addListeners = () => {
     // File Picker/Drop Zone
     // const drop = document.getElementById("drop_zone");
     // const filePicker = document.getElementById("file")
-    
+
     // Modal Listener
     const instruction = document.querySelector(".instructionBtn");
     const modalBtn = document.querySelector("#modalBtn");

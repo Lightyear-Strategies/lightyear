@@ -1,0 +1,547 @@
+copying pandas/tests/extension/list/array.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/list
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/missing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/reshaping.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/methods.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/reduce.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/setitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/dtype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/io.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/interface.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/getitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/casting.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/groupby.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/base.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      copying pandas/tests/extension/base/printing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/extension/base
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_string.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_console.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_latex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_html.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_eng_formatting.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_printing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_style.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_css.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_excel.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_info.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_markdown.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_format.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      copying pandas/tests/io/formats/test_to_csv.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/formats
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_readers.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_xlwt.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_odswriter.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_xlsxwriter.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_writers.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_odf.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_openpyxl.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_xlrd.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      copying pandas/tests/io/excel/test_style.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/excel
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_comment.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_multi_thread.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_compression.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_converters.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_common.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_parse_dates.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_c_parser_only.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_dialect.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_skiprows.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_encoding.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_read_fwf.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_unsupported.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_mangle_dupes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_python_parser_only.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_textreader.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_network.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_na_values.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_usecols.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_quoting.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_header.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_index_col.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      copying pandas/tests/io/parser/test_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/parser
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_compression.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_deprecated_kwargs.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_json_table_schema.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_readlines.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_ujson.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_pandas.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      copying pandas/tests/io/json/test_normalize.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/json
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/sas
+      copying pandas/tests/io/sas/test_sas7bdat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/sas
+      copying pandas/tests/io/sas/test_sas.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/sas
+      copying pandas/tests/io/sas/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/sas
+      copying pandas/tests/io/sas/test_xport.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/sas
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/test_pytables_missing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/test_timezones.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/test_store.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/common.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/test_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      copying pandas/tests/io/pytables/test_complex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/io/pytables
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      copying pandas/tests/tseries/holiday/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      copying pandas/tests/tseries/holiday/test_observance.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      copying pandas/tests/tseries/holiday/test_federal.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      copying pandas/tests/tseries/holiday/test_calendar.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      copying pandas/tests/tseries/holiday/test_holiday.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/holiday
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/frequencies
+      copying pandas/tests/tseries/frequencies/test_inference.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/frequencies
+      copying pandas/tests/tseries/frequencies/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/frequencies
+      copying pandas/tests/tseries/frequencies/test_frequencies.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/frequencies
+      copying pandas/tests/tseries/frequencies/test_freq_code.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/frequencies
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/test_offsets_properties.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/test_fiscal.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/test_yqm_offsets.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/common.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/test_ticks.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      copying pandas/tests/tseries/offsets/test_offsets.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/tseries/offsets
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/frame/apply
+      copying pandas/tests/frame/apply/test_apply_relabeling.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/apply
+      copying pandas/tests/frame/apply/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/apply
+      copying pandas/tests/frame/apply/test_frame_apply.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/apply
+      copying pandas/tests/frame/apply/test_frame_transform.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/apply
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_value_counts.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_combine.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_convert_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_cov_corr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_add_prefix_suffix.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_shift.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_round.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_combine_first.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_infer_objects.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_assign.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_records.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_sort_values.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_transpose.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_filter.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_reset_index.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_describe.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_period.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_first_and_last.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_is_homogeneous_dtype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_reindex_like.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_append.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_copy.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_swaplevel.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_truncate.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_drop_duplicates.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_between_time.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_head_tail.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_timestamp.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_convert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_count.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_quantile.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_equals.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_nlargest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_tz_localize.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_dict_of_blocks.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_update.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_diff.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_dropna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_explode.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_matmul.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_values.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_duplicated.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_at_time.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_align.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_pop.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_pct_change.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_isin.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_rename.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_fillna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_sort_index.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_drop.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_set_index.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_asof.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_get_numeric_data.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_compare.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_dict.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_rename_axis.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_rank.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_replace.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_clip.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_tz_convert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_select_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_droplevel.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_asfreq.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_numpy.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_swapaxes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_interpolate.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_reindex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      copying pandas/tests/frame/methods/test_to_csv.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/methods
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_insert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_set_value.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_mask.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_xs.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_getitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_get_value.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_categorical.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_setitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_take.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_get.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_lookup.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_where.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      copying pandas/tests/frame/indexing/test_delitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/frame/indexing
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_construct_object_arr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_promote.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_construct_from_scalar.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_find_common_type.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_upcast.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_infer_dtype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_dict_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_infer_datetimelike.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_construct_ndarray.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      copying pandas/tests/dtypes/cast/test_downcast.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/dtypes/cast
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      copying pandas/tests/groupby/aggregate/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      copying pandas/tests/groupby/aggregate/test_cython.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      copying pandas/tests/groupby/aggregate/test_aggregate.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      copying pandas/tests/groupby/aggregate/test_numba.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      copying pandas/tests/groupby/aggregate/test_other.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/aggregate
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/transform
+      copying pandas/tests/groupby/transform/test_transform.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/transform
+      copying pandas/tests/groupby/transform/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/transform
+      copying pandas/tests/groupby/transform/test_numba.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/groupby/transform
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      copying pandas/tests/plotting/frame/test_frame_color.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      copying pandas/tests/plotting/frame/test_frame.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      copying pandas/tests/plotting/frame/test_frame_subplots.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      copying pandas/tests/plotting/frame/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      copying pandas/tests/plotting/frame/test_frame_groupby.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/plotting/frame
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_rolling_skew_kurt.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_ewm.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_rolling.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_consistency_ewm.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_consistency_rolling.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_rolling_apply.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_rolling_quantile.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_consistency_expanding.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      copying pandas/tests/window/moments/test_moments_rolling_functions.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/window/moments
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/string_
+      copying pandas/tests/arrays/string_/test_string.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/string_
+      copying pandas/tests/arrays/string_/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/string_
+      copying pandas/tests/arrays/string_/test_string_arrow.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/string_
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/interval
+      copying pandas/tests/arrays/interval/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/interval
+      copying pandas/tests/arrays/interval/test_interval.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/interval
+      copying pandas/tests/arrays/interval/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/interval
+      copying pandas/tests/arrays/interval/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/interval
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/masked
+      copying pandas/tests/arrays/masked/test_arrow_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/masked
+      copying pandas/tests/arrays/masked/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/masked
+      copying pandas/tests/arrays/masked/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/masked
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_warnings.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_missing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_sorting.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_operators.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_subclass.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_analytics.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_take.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_algos.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/common.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_repr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_api.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_replace.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      copying pandas/tests/arrays/categorical/test_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/categorical
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_logical.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_comparison.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_reduction.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_construction.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_repr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_function.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      copying pandas/tests/arrays/boolean/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/boolean
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_comparison.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_construction.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_repr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_concat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_function.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      copying pandas/tests/arrays/integer/test_dtypes.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/integer
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_comparison.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_construction.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_repr.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_concat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_function.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      copying pandas/tests/arrays/floating/test_to_numpy.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/floating
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_libsparse.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_accessor.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_array.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_arithmetics.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_dtype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      copying pandas/tests/arrays/sparse/test_combine_concat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/arrays/sparse
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_sample.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_reorder_levels.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_dot.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_set_axis.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_first_valid_index.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      copying pandas/tests/generic/methods/test_pipe.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/generic/methods
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/interval
+      copying pandas/tests/indexing/interval/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/interval
+      copying pandas/tests/indexing/interval/test_interval.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/interval
+      copying pandas/tests/indexing/interval/test_interval_new.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/interval
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_indexing_slow.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_multiindex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_ix.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_insert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_chaining_and_caching.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_getitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_sorted.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_setitem.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_iloc.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_loc.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_datetime.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_slice.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      copying pandas/tests/indexing/multiindex/test_partial.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexing/multiindex
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/interval
+      copying pandas/tests/scalar/interval/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/interval
+      copying pandas/tests/scalar/interval/test_interval.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/interval
+      copying pandas/tests/scalar/interval/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/interval
+      copying pandas/tests/scalar/interval/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/interval
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      copying pandas/tests/scalar/timedelta/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      copying pandas/tests/scalar/timedelta/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      copying pandas/tests/scalar/timedelta/test_timedelta.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      copying pandas/tests/scalar/timedelta/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      copying pandas/tests/scalar/timedelta/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timedelta
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/period
+      copying pandas/tests/scalar/period/test_period.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/period
+      copying pandas/tests/scalar/period/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/period
+      copying pandas/tests/scalar/period/test_asfreq.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/period
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_timezones.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_timestamp.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_comparisons.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_rendering.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_unary_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      copying pandas/tests/scalar/timestamp/test_arithmetic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/scalar/timestamp
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      copying pandas/tests/indexes/ranges/test_range.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/ranges
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_reshape.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      copying pandas/tests/indexes/base_class/test_where.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/base_class
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_interval_range.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_interval.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_equals.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_interval_tree.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      copying pandas/tests/indexes/interval/test_base.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/interval
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_names.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/conftest.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_missing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_sorting.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_get_level_values.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_copy.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_integrity.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_reshape.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_analytics.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_conversion.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_take.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_equivalence.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_get_set.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_monotonic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_isin.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_drop.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_duplicates.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_partial_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_lexsort.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      copying pandas/tests/indexes/multi/test_reindex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/multi
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_period.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_searchsorted.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_shift.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_factorize.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_to_timestamp.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_scalar_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_partial_slicing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_monotonic.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_fillna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_tools.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_asfreq.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      copying pandas/tests/indexes/period/test_period_range.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/period
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_equals.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_category.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_fillna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_map.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      copying pandas/tests/indexes/categorical/test_reindex.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/categorical
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      copying pandas/tests/indexes/numeric/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      copying pandas/tests/indexes/numeric/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      copying pandas/tests/indexes/numeric/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      copying pandas/tests/indexes/numeric/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      copying pandas/tests/indexes/numeric/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/numeric
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_shift.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_misc.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_insert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_pickle.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_to_period.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_date_range.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_timezones.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_datetimelike.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_snap.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_scalar_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_delete.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_datetime.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_partial_slicing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_fillna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_map.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      copying pandas/tests/indexes/datetimes/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/datetimes
+      creating build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_searchsorted.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_shift.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_insert.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_constructors.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_join.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_timedelta.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_scalar_compat.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_indexing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_delete.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_astype.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_formats.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_setops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_partial_slicing.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_fillna.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_ops.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      copying pandas/tests/indexes/timedeltas/test_timedelta_range.py -> build/lib.macosx-11-arm64-3.9/pandas/tests/indexes/timedeltas
+      creating build/lib.macosx-11-arm64-3.9/pandas/_libs/window
+      copying pandas/_libs/window/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/_libs/window
+      creating build/lib.macosx-11-arm64-3.9/pandas/_libs/tslibs
+      copying pandas/_libs/tslibs/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/_libs/tslibs
+      creating build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/misc.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/hist.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/compat.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/boxplot.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/style.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/tools.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/converter.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/core.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      copying pandas/plotting/_matplotlib/timeseries.py -> build/lib.macosx-11-arm64-3.9/pandas/plotting/_matplotlib
+      creating build/lib.macosx-11-arm64-3.9/pandas/api/indexers
+      copying pandas/api/indexers/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/api/indexers
+      creating build/lib.macosx-11-arm64-3.9/pandas/api/types
+      copying pandas/api/types/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/api/types
+      creating build/lib.macosx-11-arm64-3.9/pandas/api/extensions
+      copying pandas/api/extensions/__init__.py -> build/lib.macosx-11-arm64-3.9/pandas/api/extensions
+      creating build/lib.macosx-11-arm64-3.9/pandas/io/formats/templates
+      copying pandas/io/formats/templates/html.tpl -> build/lib.macosx-11-arm64-3.9/pandas/io/formats/templates
+      UPDATING build/lib.macosx-11-arm64-3.9/pandas/_version.py
+      set build/lib.macosx-11-arm64-3.9/pandas/_version.py to '1.2.4'
+      running build_ext
+      building 'pandas._libs.algos' extension
+      creating build/temp.macosx-11-arm64-3.9
+      creating build/temp.macosx-11-arm64-3.9/pandas
+      creating build/temp.macosx-11-arm64-3.9/pandas/_libs
+      clang -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -DNPY_NO_DEPRECATED_API=0 -I./pandas/_libs -Ipandas/_libs/src/klib -I/opt/homebrew/Cellar/python@3.9/3.9.12/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/include -I/opt/homebrew/Cellar/python@3.9/3.9.12/Frameworks/Python.framework/Versions/3.9/include/python3.9 -c pandas/_libs/algos.c -o build/temp.macosx-11-arm64-3.9/pandas/_libs/algos.o -Wno-error=unreachable-code
+      xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+      error: command '/usr/bin/clang' failed with exit code 1
+      [end of output]
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+  ERROR: Failed building wheel for pandas
+Failed to build pandas
+ERROR: Could not build wheels for pandas, which is required to install pyproject.toml-based projects
