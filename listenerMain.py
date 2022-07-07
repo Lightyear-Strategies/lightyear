@@ -16,11 +16,15 @@ logger.addHandler(handler)
 
 
 if __name__ == "__main__":
-    hl = HaroListener('george@lightyearstrategies.com')
-    recent_haro = hl.find_haro_from()[0]
-    haro_df = recent_haro.get_dataframe()
+    # hl = HaroListener('george@lightyearstrategies.com')
+    # recent_haro = hl.find_haro_from()[0]
+    # haro_df = recent_haro.get_dataframe()
+
+    haro_df = pd.read_csv('Aleksei.csv')
 
     # Debugging
+    #haro_df.head(1).to_csv('Aleksei.csv')
+
     logger.info(f'Adding {len(haro_df)} New Haros')
     pd.set_option('display.max_columns', None)
     logger.info(f'{haro_df.head(1)}')
@@ -28,4 +32,10 @@ if __name__ == "__main__":
     with app.app_context():
         #logger.info('4')
         addDBData(haro_df)
+
+# data = {'Summary ':'Short comings of DNA testing', 'Name':'Ameya Paleja','Category':'Biotech and Healthcare',
+#         'Email':'query-e1yp@helpareporter.net', 'MediaOutlet':'Interesting Engineering', 'Deadline':'7:00 PM EST',
+#         'Query':'What are the shortcomings of DNA testing for p', 'Requirements':'Experts with testing experience Experts with D',
+#         'DateReceived':'2022-07-07 ','Used':None,'TimeStamp':' 1.657141e+09'
+#         }
 
