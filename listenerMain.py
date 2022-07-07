@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
 
     # Debugging
-    # haro_df = pd.read_csv('Aleksei.csv')
+    # haro_df = pd.read_csv('flask_app/scratch_files/Aleksei.csv')
 
     logger.info(f'Adding {len(haro_df)} New Haros')
     pd.set_option('display.max_columns', None)
