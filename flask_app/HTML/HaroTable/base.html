@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
+    <style>
+    tr td.details-control {
+      background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+      cursor: pointer;
+    }
+    tr.details td.details-control {
+      background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+    }
+
+    .navbar-nav {
+        min-width:360px;
+        float: left;
+    }
+    .navbar-nav>li {
+        float: left;
+    }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark" style="background-color: #222222; font-size:14px">
+       <div class="container-fluid">
+          <nav class="navbar-expand">
+             <ul class=" nav navbar-nav horizontal">
+                 <li> <a class="nav-link active" href="/home">Home</a> </li>
+                 <li class="nav-item"> <a class="nav-link active" href="/email_validator">Email Validator</a> </li>
+                 <li class="nav-item"> <a class="nav-link active" href="/haro_table">Haro Table</a> </li>
+                 <li class="nav-item"> <a class="nav-link active" href="/writers">Periodic Writers</a> </li>
+                 <li class="nav-item"> <a class="nav-link active" href="/contact_us"> Contact Us </a> </li>
+             </ul>
+          </nav>
+       </div>
+    </nav>
+    <div class="container" style="max-width: 94%">
+      <br>
+      <h3>{{ title }}</h3>
+      <hr>
+      <button id="all_button" class="dt-button">All Haros</button>
+      <button id="fresh_button" class="dt-button">Fresh Haros</button>
+      <button id="used_button" class="dt-button">Used Haros</button>
+      {% block content %}{% endblock %}
+    </div>
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

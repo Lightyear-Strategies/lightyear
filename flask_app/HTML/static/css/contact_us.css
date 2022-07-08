@@ -1,0 +1,412 @@
+/* Scrollbar */
+body::-webkit-scrollbar {
+    width: 0.5rem;
+}
+ 
+body::-webkit-scrollbar-track {
+    background-color: var(--lightyear-yellow);
+}
+ 
+body::-webkit-scrollbar-thumb {
+    background-color: var(--lightyear-red);
+    border-radius: 20px;
+}
+
+/* General Styling */
+:root {
+    margin: none;
+    padding: none;
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    --lightyear-blue: #3452ff; 
+    --background-color: #FFFFFF;
+    font-family: 'Inter';
+    scroll-behavior: smooth;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow-x: hidden;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+/* p {
+    color: black
+} */
+
+h1 {
+    margin: 0px;
+    color: var(--lightyear-red);
+}
+
+h2 {
+    margin: 0px;
+}
+
+/* input {
+    width: clamp(80px, 70%, 800px);
+    padding: auto;
+    margin: auto;
+    margin-top: 20px;
+} */
+
+header{
+    display:flex;
+    z-index: 20;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: var(--lightyear-yellow);
+    position: sticky;
+    top: 0px;
+}
+
+ul {
+    justify-content: space-evenly;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: right;
+}
+
+footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--lightyear-yellow);
+    color: var(--background-color);
+    padding: 20px 0px;
+    margin-top: 20px;
+}
+
+section {
+    flex: 1;
+    display: grid;
+    min-width: 500px;
+}
+
+section:last-of-type {
+    background-color: white;
+}
+
+section > div {
+    width: clamp(300px, 80%, 600px);
+}
+
+section > div > div > h1 {
+    font-size: 4rem;
+}
+
+section > div > div > h2 {
+    font-size: 2rem;
+}
+
+/* Contact Us general setup */
+.contactus {
+    place-self: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    color: var(--lightyear-red);
+    padding: 2rem 0rem;
+    border-radius: 0.75rem;
+}
+
+.contactus > div {
+    flex: 1;
+}
+
+.contactus > div:first-of-type > div {
+    margin-bottom: 4rem;
+}
+
+.contactus > div:last-of-type {
+    padding-top: 4rem;
+}
+
+/* Header */
+header > div {
+    flex: 1;
+    margin: 20px 5%;
+}
+
+header > div:last-child{ 
+    text-align: end;
+}
+
+header > div:first-child {
+    color: var(--lightyear-red)
+}
+
+header > div:first-child > h1 {
+    color: var(--background-color);
+}
+
+ul > li {
+    font-size: 1.25rem;
+    font-weight: 800;
+    display: inline;
+    width: 200px;
+}
+
+ul > li > a {
+    text-decoration: none;
+    color: var(--background-color);
+}
+
+/* Footer */
+footer > div {
+    flex: 1;
+    width: clamp(200px, 80%, 1200px);
+    text-align: center;
+}
+
+footer > div:first-child {
+    width: auto;
+}
+
+footer > div:first-of-type {
+    display: flex;
+    flex-direction: column;
+}
+
+footer > div:first-of-type > div {
+    flex: 1;
+}
+
+footer > div:first-of-type > div:nth-of-type(2) {
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-evenly;
+}
+
+footer > div:first-of-type > div > svg {
+    flex: 1;
+    fill: var(--background-color);
+    margin: 0px 20px;
+}
+
+/* Contact Us input */
+.form__group {
+    position: relative;
+    padding: 35px 0 0;
+    margin-top: 15px;
+    width: 100%;
+}
+
+.form__field {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 100%;
+    border: 0;
+    border-bottom: 2px solid var(--lightyear-red);
+    outline: 0;
+    font-size: 1.3rem;
+    color: var(--lightyear-red);
+    padding: 4px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+    color: transparent;
+}
+
+.form__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.message__field {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 100%;
+    /* border: 2px;
+    border-bottom: 2px solid black;
+    outline: 2px; */
+    border-width: 2px;
+    border-radius: 20px;
+    border-color: var(--lightyear-red);
+    font-size: 1.3rem;
+    color: var(--lightyear-red);
+    margin-top: 45px;
+    padding: 4px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+}
+
+.message__field::placeholder {
+    color: transparent;
+}
+
+.message__field:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--lightyear-red);
+}
+
+.form__label:after {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--lightyear-red);
+    content: " *";
+    display: inline;
+}
+
+.required__label {
+    color: var(--lightyear-red)
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: var(--lightyear-red);
+  font-weight: 700;
+}
+
+.message__field:focus {
+    padding-bottom: 6rem;
+    padding-left: 3%;
+    padding-right: 3%;
+    box-sizing: border-box;
+    font-weight: 700;
+    border-width: 5px;
+    border-radius: 20px;
+    border-color: var(--lightyear-red)
+  }
+  
+  .message__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 1rem;
+    color: var(--lightyear-red);
+    font-weight: 700;
+  }
+
+/* reset input */
+.form__field:required, .form__field:invalid {
+    box-shadow: none;
+}
+
+/* Checkbox */
+.checkBox {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+input[type=checkbox] {
+	-webkit-appearance: none;
+    border: var(--lightyear-red) solid 2px;
+    margin-right: 1.25rem;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+    display: inline-block;
+    position: relative;
+}
+
+input[type=checkbox]:active, input[type=checkbox]:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+    color: var(--lightyear-red);
+}
+
+input[type=checkbox]:checked {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: var(--lightyear-red);
+}
+
+input[type=checkbox]:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+    color: var(--lightyear-red);
+    font-weight: 800;
+}
+
+/* Send Button */
+#sendBtn {
+    width: 60%;
+    padding: 1rem;
+    background-color: var(--background-color);
+    color: var(--lightyear-red);
+    font-size: 2rem;
+    border-radius: 0.25rem;
+    border: var(--lightyear-red) 2px solid;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all ease-out 0.2s;
+}
+
+#sendBtn:hover {
+    color: var(--lightyear-blue);
+    border: var(--lightyear-blue) 2px solid;
+}
+
+/* SVG */
+.svg {
+    margin: auto;
+    display: flex;
+    width: clamp(100px, 40%, 300px);
+}
+
+.svg > svg {
+    flex: 1;
+    cursor: pointer;
+    fill: var(--lightyear-red);
+    transition: all ease-out 0.2s;
+}
+
+.svg > svg:hover {
+    fill: var(--lightyear-blue);
+}
+
+/* Media Fitting */
+@media only screen and (max-width: 600px) {
+    section{
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+}

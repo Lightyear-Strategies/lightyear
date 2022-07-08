@@ -1,0 +1,28 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Lys Register{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h3>Create an Account at LyS</h3>
+    </div>
+<form action="" method="post" class="form" role="form">
+   {{ form.hidden_tag() }}
+{{ wtf.quick_form(form) }}
+</form>
+    <p></p>
+    <h4 style = "color: black;"><a href="{{ url_for('login') }}">Already have an account?</a></h4>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+   {% for message in messages %}
+   <li>{{ message }}</li>
+   {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+</div>
+
+{% endblock %}

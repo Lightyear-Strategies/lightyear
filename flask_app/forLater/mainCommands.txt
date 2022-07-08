@@ -1,9 +1,0 @@
-source lysenv1/bin/activate
-deactivate
-sudo gunicorn --bind 0.0.0.0:80 wsgi:app
-celery -A flaskMain.celery worker -l INFO
-export FLASK_APP=flaskMain
-sudo flask run -h 0.0.0.0 -p 80
-pip3 freeze > all_requirements.txt
-
-

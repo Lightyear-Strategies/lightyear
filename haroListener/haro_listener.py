@@ -1,21 +1,9 @@
 """A module for setting up a listener on an email. Listens for HARO emails, returns the body of any HARO emails received"""
 
-import os
-import datetime
-import json
-import time
-import os.path
-import pickle
-import pandas as pd
-import sys
-
-from google.auth.transport.requests import Request
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
+import os, datetime, json, time
 from googleapiclient.errors import HttpError
-
 from haroListener.haro_parser import Haro
-from flask_app.googleAuth import serviceBuilder, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
 
 
 class HaroListener():
@@ -29,17 +17,15 @@ class HaroListener():
         self.debug = debug
         self.scopes = ['https://mail.google.com/']
         self.save_dir = '/haro_jsons/'
-        #self.token_path = 'token.pickle'
-        #self.creds_path = 'client.json'
-        #self.creds = localServiceBuilder()
-        self.creds = serviceBuilder()
+        #self.service = localServiceBuilder()
+        self.service = serviceBuilder()
 
     # @params None
     # @return json-like dict object representing the most recent HARO email
     def __find_recent_haro(self):
         """a helper method to sort through all messages in the email (all inboxes, including trash and spam) and returns the entire google api message object of the most recent HARO query email"""
         try:
-            service = self.creds
+            service = self.service
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             # dictionary ordered, good news. index 0 is most recent messages, will help optimize code
@@ -135,7 +121,7 @@ class HaroListener():
         # from_date MUST be in correct ISO format
         from_datetime = datetime.date.fromisoformat(from_date)
         try: 
-            service = self.creds
+            service = self.service
             messages = service.users().messages()
             request = messages.list(userId=self.email, includeSpamTrash=True, maxResults=500, q='subject:[HARO]')
             page = request.execute()

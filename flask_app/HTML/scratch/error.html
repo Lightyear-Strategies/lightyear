@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}LyS Email Verification{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-expand-sm navbar-inverse bg-light" >
+   <div class="container-fluid">
+      <nav class="navbar-expand-sm">
+         <ul class=" nav navbar-nav horizontal">
+            <li> <a href="/email_verification">Email Validation</a> </li>
+            <li> <a href="/haros">Haros Table</a> </li>
+            <li> <a href="/journalists">Journalists</a> </li>
+         </ul>
+      </nav>
+   </div>
+</nav>
+{% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+   {% for message in messages %}
+   <li>{{ message }}</li>
+   {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<div class="container">
+   <div class="page-header">
+      <h2>Sorry, there was an error — try again!</h2>
+   </div>
+</div>
+{% endblock %}

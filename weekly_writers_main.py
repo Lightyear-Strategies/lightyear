@@ -1,21 +1,22 @@
-import flaskMain as fm
-import datetime
-from weeklyWriters.muckRack import google_muckrack as gm, Muckrack as mr
+from flask_app.scripts.create_flask_app import db, app
+from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
+from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as mr
+from flask_app.scripts.PeriodicWriters.journalist_upload_functions import send_pdf_report
+
 import sys
-import os
 import pandas as pd
 
-def links(journalists_db : pd.DataFrame, timeframe : str):
 
+def links(journalists_db : pd.DataFrame, timeframe : str):
     links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
     gm_ob = gm.google_muckrack(links_needed, 'Journalist')
     new_df = gm_ob.get_dataframe()
     journalists_db[journalists_db['Muckrack'].isnull()] = new_df
-    journalists_db.to_sql(f'journalists{timeframe}', fm.db.engine, index=False, if_exists='replace')
+    journalists_db.to_sql(f'journalists{timeframe}', db.engine, index=False, if_exists='replace')
 
 
 if __name__ == "__main__":
-    
+
     if sys.argv[2] == 'day':
         timeframe = '_day'
         days_back = 3
@@ -29,8 +30,8 @@ if __name__ == "__main__":
         days_back = 7
         subject = 'Weekly'
 
-
-    journalists_db = pd.read_sql_table(f'journalists{timeframe}', fm.db.engine)
+    with app.app_context():
+        journalists_db = pd.read_sql_table(f'journalists{timeframe}', db.engine)
 
     if sys.argv[1] == "links":
         links(journalists_db, timeframe)
@@ -66,6 +67,6 @@ if __name__ == "__main__":
                 # No info for any of the journalists for email
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
                 continue
-            
+
             clientname = df.ClientName.iloc[0]
-            fm.send_pdf_report(df_for_email, email, subject, clientname)
+            send_pdf_report(df_for_email, email, subject, clientname)
