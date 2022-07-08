@@ -76,7 +76,15 @@ class emailValidation:
                 params={'email': email},
                 headers={'Authorization': "Bearer " + self.key})
 
-        #print(response.json())
+        # Debugging
+        # Important to remember to verify sufficient balance at https://isitarealemail.com/
+
+        # print(response.json())
+        # try:
+        #     return response.json()['status']
+        # except as Exception:
+        #     pass
+
         return response.json()['status']
 
     def validation(self, save=False, stats=False, record_removed=False):
