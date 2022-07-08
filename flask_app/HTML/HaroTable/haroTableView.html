@@ -40,13 +40,18 @@
     <button id="search-button" class="search-button">
         Search
     </button>
-
-    <div class="page-nav">
+    <br>
+    <div class="item-count">
+        Haros per Page: 
+        <input type="number" class="item-count-input" id="item-count-input">
+        <button class="item-page-count" onclick="applyHarosCount()">Apply</button>
+    </div>
+    <div class="page-nav top-nav">
         <button class="page-nav-btn" onclick="previous_page()">previous</button>
         <button class="page-nav-btn" onclick = "next_page()">next</button>
     </div>
     <div id="haros-table" class="haros-table"></div>
-    <div class="page-nav">
+    <div class="page-nav bottom-nav">
         <button class="page-nav-btn" onclick="previous_page()">previous</button>
         <button class="page-nav-btn" onclick = "next_page()">next</button>
     </div>

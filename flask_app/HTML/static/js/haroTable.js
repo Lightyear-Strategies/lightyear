@@ -1,31 +1,32 @@
-document.getElementById('all-haros').onclick = () => {
-    mode = 'all'
-  page_number = 0;
-  getMediaQueryData('/api/serveHaros')
-}
-
-document.getElementById('fresh-haros').onclick = () => {
-    mode = 'fresh'
-  page_number = 0;
-  getMediaQueryData('/api/serveHaros/fresh')
-}
-
-document.getElementById('used-haros').onclick = () => {
-    mode = 'used'
-  page_number = 0;
-  getMediaQueryData('/api/serveHaros/used')
-}
-
 const HAROS_TABLE = document.getElementById("haros-table");
-
+let defaultHPP = 30;
 let DATA;
 let Categories = [];
-let haros_per_page = 100;
 const expanded_previously = {};
 let mode = 'all'
 
+initializeHarosPerPAge();
 getMediaQueryData('/api/serveHaros');
 
+function initializeHarosPerPAge(){
+    
+    haros_per_page = Number(localStorage.getItem('harosPerPage'));
+    
+    if (haros_per_page == undefined || haros_per_page == 0){
+        console.log('if')
+        haros_per_page = 30;
+    }
+    document.getElementById('item-count-input').value = haros_per_page
+    console.log(haros_per_page);
+}
+
+function applyHarosCount() {
+    console.log('applyHarosCount');
+    haros_per_page = document.getElementById('item-count-input').value
+    localStorage.setItem('haros_per_page',haros_per_page);
+    page_number = 1;
+    displayData();
+}
 
 function getMediaQueryData(requestUrl) {
     
@@ -44,9 +45,29 @@ function getMediaQueryData(requestUrl) {
     )
 }
 
+
+document.getElementById('all-haros').onclick = () => {
+    mode = 'all'
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros')
+}
+
+document.getElementById('fresh-haros').onclick = () => {
+    mode = 'fresh'
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros/fresh')
+}
+
+document.getElementById('used-haros').onclick = () => {
+    mode = 'used'
+  page_number = 0;
+  getMediaQueryData('/api/serveHaros/used')
+}
+
 function displayData() {
-    
+    console.log(`hpp ${haros_per_page} pn ${page_number} Data length ${DATA.length}`)
     $('.haros-table *').remove();
+    console.log
     let min_index = haros_per_page*(page_number-1);
 
     let max_index = haros_per_page*page_number;
