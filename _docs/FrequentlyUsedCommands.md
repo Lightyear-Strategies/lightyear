@@ -2,7 +2,7 @@ source venv/bin/activate
 
 deactivate
 
-sudo gunicorn -w 3wsgi:app
+sudo gunicorn -w 3 wsgi:app
 
 PATH=$PATH:/usr/local/sbin
 sudo rabbitmq-server -detached
