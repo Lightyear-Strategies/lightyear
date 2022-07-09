@@ -37,19 +37,13 @@ class emailValidation:
         except Exception:
             raise Exception('File not found')
 
-        if "email" in df.columns:
-            df.rename(columns={"email": "Email(s)"}, inplace=True)
-        elif "Email(s)" in df.columns:
-            pass
-        elif "Email" in df.columns:
-            df.rename(columns={"Email": "Email(s)"}, inplace=True)
-        elif "Email " in df.columns:
-            df.rename(columns={"Email ": "Email(s)"}, inplace=True)
-        else:
-            print(df.columns)
-            raise Exception("Column not found")
+        for i in range(len(df.columns)):
+            column_name = df.columns[i]
+            if 'email' in column_name.lower():
+                df.rename(columns={column_name: 'Email(s)'}, inplace=True)
+                return df
 
-        return df
+        raise Exception('No email column found')
 
     def set_key(self, key):
         self.key = key
@@ -148,7 +142,6 @@ class emailValidation:
 
 
 if __name__ == '__main__':
-    email = emailValidation(filename="rehab.csv")
+    email = emailValidation(filename="email_valid.csv")
     email.validation(save=True)
-    print(email.show_stats())
-    email.remove_duplicates(csv_file="rehab_clean.csv", save=True)
+
