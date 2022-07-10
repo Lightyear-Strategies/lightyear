@@ -13,6 +13,7 @@ class google_muckrack:
 
 
     def __parse_muckrack(self):
+        self.df["Muckrack"] = ""
         for index, row in self.df.iterrows():
             total = len(self.df)
             print("{}/{}".format(index, total))
@@ -21,7 +22,7 @@ class google_muckrack:
             if url != "" and url is not None:
                 if not url.endswith("/articles"):
                     url = url + "/articles"
-                row['Muckrack'] = url
+                self.df.at[index, "Muckrack"] = url
 
     def get_dataframe(self):
         return self.df
@@ -37,18 +38,14 @@ class google_muckrack:
 
         try:
             print("Searching for: " + name)
-        except:
+        except Exception as e:
+            print(e)
             return "ERROR"
         query = name + " " + "muckrack"
-
-        s = list(search(query, num_results=1))[0]
-        if "muckrack.com" not in s:
-            print("NONE")
-            return None
-        elif "muckrack.com" in s:
-            print(s)
-            return s
-
+        for j in search(query, tld="com", num=3, stop=3):
+            if "muckrack.com" in j:
+                print(j)
+                return j
 
 if __name__ == '__main__':
     df = pd.read_csv("valiot_MC.csv")
