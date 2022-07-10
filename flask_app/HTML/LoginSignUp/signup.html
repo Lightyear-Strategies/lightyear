@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/signup.css') }}">
+    <!-- <script src="Lib/signUp.js"></script> -->
     <title>Signup Page</title>
 </head>
 <body>
@@ -17,11 +18,13 @@
             <hr> 
         </section>
         <section>
-            <form method="POST" action="/signup">
+                <form method="POST" action="/signup">
                 {{ form.csrf_token }}
-                <h3> Do you have an account already? <a href="{{ url_for('login') }}" style='color:#F04C23'>Sign In!</a> </h3>
-                <div action="" class="form__group field">
-                    {{ form.username(id='username', class="form__field", placeholder="username") }}
+            <h3> Did you have an account already? <a href="{{ url_for('login') }} " style='color:#F04C23'>Sign In!</a> </h3>
+            <div action="" class="form__group field">
+{#                <input type="username" class="form__field" placeholder="username" name="username" id='username' required />#}
+{#                <label for="username" class="form__label">Username</label>#}
+                {{ form.username(id='username', class="form__field", placeholder="username") }}
                     {{ form.username.label(for='username',class="form__label") }}
                     {% if form.username.errors %}
                         <ul class="errors">
@@ -30,43 +33,49 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                </div>
-                <div action="" class="form__group field">
-                    {{ form.email(id='email', class="form__field", placeholder="email") }}
-                    {{ form.email.label(for='email',class="form__label") }}
-                    {% if form.email.errors %}
-                        <ul class="errors">
-                            {% for error in form.email.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-                <div action="" class="form__group field">
-                    {{ form.password1(id='password', class="form__field", placeholder="password") }}
-                    {{ form.password1.label(for='password',class="form__label") }}
-                    {% if form.password1.errors %}
-                        <ul class="errors">
-                            {% for error in form.password1.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-                <div action="" class="form__group field">
-                    {{ form.password2(id='confirmPassword', class="form__field", placeholder="confirmPassword") }}
-                    {{ form.password2.label(for='confirmPassword',class="form__label") }}
-                    {% if form.password2.errors %}
-                        <ul class="errors">
-                            {% for error in form.password2.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-               </div>
-               <button>
-                   Sign Up
-               </button>
+            </div>
+            <div action="" class="form__group field">
+{#                <input type="input" class="form__field" placeholder="email" name="email" id='email' required />#}
+{#                <label for="email" class="form__label"> Email </label>#}
+                {{ form.email(id='email', class="form__field", placeholder="email") }}
+                {{ form.email.label(for='email',class="form__label") }}
+                {% if form.email.errors %}
+                    <ul class="errors">
+                        {% for error in form.email.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div action="" class="form__group field">
+{#                <input type="password" class="form__field" placeholder="password" name="password" id="password" required />#}
+{#                <label for="password" class="form__label">Password</label>#}
+                {{ form.password1(id='password', class="form__field", placeholder="password") }}
+                {{ form.password1.label(for='password',class="form__label") }}
+                {% if form.password1.errors %}
+                    <ul class="errors">
+                        {% for error in form.password1.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+           </div>
+            <div action="" class="form__group field">
+{#                <input type="password" class="form__field" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" required />#}
+{#                <label for="confirmPassword" class="form__label">Confirm Password</label>#}
+                {{ form.password2(id='confirmPassword', class="form__field", placeholder="confirmPassword") }}
+                {{ form.password2.label(for='confirmPassword',class="form__label") }}
+                {% if form.password2.errors %}
+                    <ul class="errors">
+                        {% for error in form.password2.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+           </div>
+           <button>
+               Sign Up
+           </button>
             </form>
         </section>
     </main>

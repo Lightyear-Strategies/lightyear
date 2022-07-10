@@ -27,8 +27,12 @@ def email_validator():
     if form.validate_on_submit():
         filenames = []
         email = form.email.data
+
         #print(email)
-        files = request.files.getlist(form.files.name)
+        # files = request.files.getlist(form.files.name)
+
+        files = request.files
+        print(files)
 
         if Config.ENVIRONMENT == 'server':
             if not authCheck():

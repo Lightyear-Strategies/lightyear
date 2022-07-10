@@ -6,8 +6,8 @@ load_dotenv()
 
 
 class Config:
-    ENVIRONMENT = 'server'
-    # ENVIRONMENT = 'local'
+    #ENVIRONMENT = 'server'
+    ENVIRONMENT = 'local'
 
     SCRIPTS_DIR = os.path.abspath(os.path.dirname(__file__))
     FLASK_DIR = os.path.dirname(SCRIPTS_DIR)

@@ -116,7 +116,7 @@ body > div:first-child {
 }
 
 /* Drop-zone */
-#drop_zone {
+#my-dropzone {
     margin-bottom: 0;
     border-radius: 0.25rem;
     height: 400px;
@@ -125,15 +125,16 @@ body > div:first-child {
     border: dashed 2px var(--lightyear-red);
 }
 
-#drop_zone > div {
+#my-dropzone > div {
     width: 100%;
     height: 100%;
     color: var(--lightyear-red);
+    font-size: 1.25rem;
 }
 
-#drop_zone > div > label {
+/* #drop_zone > div > label {
     cursor: pointer;
-}
+} */
 
 .inputFile {
     width: 0.1px;

@@ -34,6 +34,7 @@ section {
 h1 {
     font-size: 8rem;
     -webkit-text-stroke: 2px var(--lightyear-red);
+    background-color: var(--background-color);
     margin: 0;
 }
 
@@ -55,6 +56,7 @@ span {
     font-size: 4rem;
     font-weight: 700;
     cursor: pointer;
+    color: var(--background-color);
     -webkit-text-stroke: 2px var(--lightyear-red);
     transition: all ease-out 0.5s;
 }

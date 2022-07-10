@@ -190,5 +190,16 @@ button:hover {
 
 /* Media Fitting | Mostly Font size  */
 @media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 3rem;
+    }   
 
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    button {
+        font-size: 2rem;
+        padding: 1.25rem 0rem;
+    }
 }

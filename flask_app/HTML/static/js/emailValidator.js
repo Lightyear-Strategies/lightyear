@@ -4,45 +4,46 @@ let toastAppear = false;
 
 const addListeners = () => {
     // File Picker/Drop Zone
-    const drop = document.getElementById("drop_zone");
-    const filePicker = document.getElementById("file")
+    // const drop = document.getElementById("drop_zone");
+    // const filePicker = document.getElementById("file")
+    
     // Modal Listener
     const instruction = document.querySelector(".instructionBtn");
     const modalBtn = document.querySelector("#modalBtn");
 
     // Drag over and drag leave are completely optional
-    drop.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        console.log("Over");
-    });
+    // drop.addEventListener("dragover", (event) => {
+    //     event.preventDefault();
+    //     console.log("Over");
+    // });
 
-    drop.addEventListener("dragleave", () => {
-        console.log("Leave");
-    });
+    // drop.addEventListener("dragleave", () => {
+    //     console.log("Leave");
+    // });
 
     // When you drop the files
-    drop.addEventListener("drop", (event) => {
-        event.preventDefault();
-        if(event.dataTransfer.items) {
-            for (let i = 0; i < event.dataTransfer.items.length; i++) {
-                const element = event.dataTransfer.items[i];
-                if (element.kind === 'file') {
-                    let file = element.getAsFile();
-                    //  If the following CSV or NOT
-                    if (file.type === "text/csv"){
-                        currentFile = file;
-                        addFile(currentFile);
-                    } else {
-                        toast("error", file.name + " is not of the type .csv, please drop a appropriate file.");
-                    }
-                }
-            }
-        } else {
-            for (let i = 0; i < event.dataTransfer.files.length; i++) {
-                console.log("B");
-            }
-        }
-    });
+    // drop.addEventListener("drop", (event) => {
+    //     event.preventDefault();
+    //     if(event.dataTransfer.items) {
+    //         for (let i = 0; i < event.dataTransfer.items.length; i++) {
+    //             const element = event.dataTransfer.items[i];
+    //             if (element.kind === 'file') {
+    //                 let file = element.getAsFile();
+    //                 //  If the following CSV or NOT
+    //                 if (file.type === "text/csv"){
+    //                     currentFile = file;
+    //                     addFile(currentFile);
+    //                 } else {
+    //                     toast("error", file.name + " is not of the type .csv, please drop a appropriate file.");
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         for (let i = 0; i < event.dataTransfer.files.length; i++) {
+    //             console.log("B");
+    //         }
+    //     }
+    // });
 
     filePicker.addEventListener("change", (event) => {
         currentFile = event.target.files;
@@ -68,20 +69,20 @@ const addListeners = () => {
 }
 
 // Trigger when drop file, add a file that can be deleted
-const addFile = (currentFile) => {
-    const fileLocation = document.querySelector("#fileSelected");
-    const fileChild = document.createElement("h2");
-    if (fileLocation.children.length > 0) {
-        fileLocation.removeChild(fileLocation.lastChild);
-    }
+// const addFile = (currentFile) => {
+//     const fileLocation = document.querySelector("#fileSelected");
+//     const fileChild = document.createElement("h2");
+//     if (fileLocation.children.length > 0) {
+//         fileLocation.removeChild(fileLocation.lastChild);
+//     }
 
-    if (currentFile.length == 1) {
-        fileChild.innerHTML = currentFile[0].name;
-    } else {
-        fileChild.innerHTML = currentFile.name;
-    }
-    fileLocation.appendChild(fileChild);
-}
+//     if (currentFile.length == 1) {
+//         fileChild.innerHTML = currentFile[0].name;
+//     } else {
+//         fileChild.innerHTML = currentFile.name;
+//     }
+//     fileLocation.appendChild(fileChild);
+// }
 
 // Toast | Maybe change the text color of Toast
 const toast = (type, text) => {
