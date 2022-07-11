@@ -130,19 +130,18 @@ const load = () => {
 
 // Submitting information
 const submitClick = () => {
-    const email = document.querySelector("#email");
-    // Change it to false
-    let success = true;
+//     const email = document.querySelector("#email");
+//     let success = true;
     
-    if (currentFile == null) {
-        toast("error", "Please drop a file for our program to process");
-        return;
-    }
+//     if (currentFile == null) {
+//         toast("error", "Please drop a file for our program to process");
+//         return;
+//     }
 
     // Check if Email is valid
-    if(success) {
-        toast("info", "Successfully processed.");
-    }
+//     if(success) {
+//         toast("info", "Successfully processed.");
+//     }
 }
 
 
