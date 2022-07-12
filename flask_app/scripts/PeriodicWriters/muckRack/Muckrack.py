@@ -165,12 +165,12 @@ class Muckrack:
             print(self.df)
 
 
-    def save_to_csv(self, filename):
+    def save_dataframe(self, filename):
         if(len(self.df)==0):
             raise Exception("No data to convert to dataframe")
         self.df.to_csv(filename)
 
-    def show_df(self):
+    def get_dataframe(self):
         if(len(self.df)==0):
             raise Exception("No data to convert to dataframe")
         return self.df
