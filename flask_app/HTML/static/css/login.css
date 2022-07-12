@@ -285,6 +285,9 @@ input[type=checkbox]:checked:after {
 .signUp > div > button:hover {
     color: var(--lightyear-yellow);
     background-color: black;
+    /* border-radius: 0.25rem;
+    border: 2px;
+    border-color: var(--lightyear-yellow); */
 }
 
 /* Media Fitting */
