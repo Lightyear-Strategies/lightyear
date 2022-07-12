@@ -18,10 +18,10 @@ class WeeklyReport:
             return df
         except:
             raise Exception("File not found")
-            return None
 
     def add_muckrack(self):
         look_up = gm.google_muckrack(self.df, self.colname)
+        look_up.save_dataframe(self.filename)
         self.df = look_up.get_dataframe()
 
     def muckrack_analysis(self):
@@ -36,6 +36,7 @@ class WeeklyReport:
 
 
 if __name__ == "__main__":
-    df = WeeklyReport("test.csv", "Name")
+    df = WeeklyReport("journalists/top50Economics.csv", "Name", parsed=True)
+    df.muckrack_analysis()
     #df.muckrack_analysis()
 

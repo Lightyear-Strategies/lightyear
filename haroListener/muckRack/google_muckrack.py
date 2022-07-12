@@ -38,7 +38,8 @@ class google_muckrack:
 
         try:
             print("Searching for: " + name)
-        except:
+        except Exception as e:
+            print(e)
             return "ERROR"
         query = name + " " + "muckrack"
         for j in search(query, tld="com", num=3, stop=3):
