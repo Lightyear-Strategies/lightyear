@@ -4,7 +4,7 @@ Possibly will need to redo shell scripts (Check)
 
 __ To Run the Worker: __
 
-celery -A flask_app.scripts.ev_flask_functions.celery worker -l INFO
+celery -A flask_app.scripts.EmailValidator.ev_flask_functions.celery worker -l INFO
 
 __For Future:__
 

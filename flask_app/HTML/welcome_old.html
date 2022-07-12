@@ -1,0 +1,60 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}LyS Welcome{% endblock %}
+{% block navbar %}
+<style>
+    .navbar-nav {
+        min-width:360px;
+        float: left;
+    }
+    .navbar-nav>li {
+        float: left;
+    }
+</style>
+
+<nav class="navbar navbar-expand-sm navbar-inverse bg-light" >
+    <div class="container-fluid">
+        <nav class="navbar-expand-sm">
+            <ul class=" nav navbar-nav horizontal">
+                <li> <a href="/home">Home</a> </li>
+                <li> <a href="/email_validator">Email Validator</a> </li>
+                <li> <a href="/haro_table">Haro Table</a> </li>
+                <li> <a href="/writers">Periodic Writers</a> </li>
+                <li> <a href="/contact_us"> Contact Us </a> </li>
+            </ul>
+        </nav>
+    </div>
+</nav>
+{% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+   {% for message in messages %}
+   <li>{{ message }}</li>
+   {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<div class="container">
+    <div class="page-header">
+        <h3>Welcome to Lightyear Strategies</h3>
+    </div>
+
+    <div>
+        <!-- <a href="{{ url_for('welcome') }}">Home</a> -->
+        <br>
+        {% if current_user.is_anonymous %}
+            <h4>
+                <strong>
+                    <a href="{{ url_for('login') }}">Login</a> or <a href="{{ url_for('signup') }}">Register</a> to use our Services
+                </strong>
+            </h4>
+        {% else %}
+        <p>Welcome {{current_user.username}}</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}

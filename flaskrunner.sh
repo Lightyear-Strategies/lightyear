@@ -11,7 +11,7 @@ if pgrep -f 'celery worker' 2>/dev/null; then
 fi
 
 echo "starting celery"
-celery -A flask_app.scripts.EmailVerification.ev_flask_functions.celery worker -l INFO --detach
+celery -A flask_app.scripts.EmailValidator.ev_flask_functions.celery worker -l INFO --detach
 echo "started celery"
 
 echo "starting gunicorn"

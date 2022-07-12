@@ -1,31 +1,52 @@
-from flask_app.scripts.create_flask_app import db
-from weeklyWriters.muckRack import google_muckrack as gm, Muckrack as mr
-from weeklyWriters.toPDF import pdfReport
-from weeklyWriters.emailWeeklyRep import report
-import sys, datetime
+from flask_app.scripts.create_flask_app import db, app
+from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
+from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as mr
+from flask_app.scripts.PeriodicWriters.journalist_upload_functions import send_pdf_report
+
+import sys
 import pandas as pd
 
 
+def links(journalists_db : pd.DataFrame, timeframe : str):
+    links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
+    gm_ob = gm.google_muckrack(links_needed, 'Journalist')
+    new_df = gm_ob.get_dataframe()
+    journalists_db[journalists_db['Muckrack'].isnull()] = new_df
+    journalists_db.to_sql(f'journalists{timeframe}', db.engine, index=False, if_exists='replace')
+
+
 if __name__ == "__main__":
-    
-    journalists_db = journalists = pd.read_sql_table('journalists', db.engine)
+
+    if sys.argv[2] == 'day':
+        timeframe = '_day'
+        days_back = 3
+        subject = 'Daily'
+    elif sys.argv[2] == 'month':
+        timeframe = '_month'
+        days_back = 30
+        subject = 'Monthly'
+    else:
+        timeframe = '_week'
+        days_back = 7
+        subject = 'Weekly'
+
+    with app.app_context():
+        journalists_db = pd.read_sql_table(f'journalists{timeframe}', db.engine)
 
     if sys.argv[1] == "links":
-        links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
-        gm_ob = gm.google_muckrack(links_needed, 'Journalist')
-        new_df = gm_ob.get_dataframe()
-        journalists_db[journalists_db['Muckrack'].isnull()] = new_df
-        journalists_db.to_sql('journalists', db.engine, index=False, if_exists='replace')
+        links(journalists_db, timeframe)
+
 
     if sys.argv[1] == "parse":
         unique_links = list(journalists_db['Muckrack'].unique())
-        parser = mr.Muckrack(unique_links)
+        parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         try:
             grouped_by_name = parser.df.groupby('Name')
         except KeyError:
             # no articles for anything
-            print('no articles this week')
+            grouped_by_name = None
+            print(f'no articles this {timeframe[1:]}')
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
@@ -33,6 +54,8 @@ if __name__ == "__main__":
             df_list_to_concat = list()
             for jour_name in df.Journalist:
                 try:
+                    if grouped_by_name == None:
+                        raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
                 except KeyError:
                     # no info for this journalist in particular
@@ -44,19 +67,6 @@ if __name__ == "__main__":
                 # No info for any of the journalists for email
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
                 continue
-            
-            pdf_maker_for_email = pdfReport(df_for_email)
-            filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
-            pdf_for_email = pdf_maker_for_email.create_PDF(filename=filepath)
 
             clientname = df.ClientName.iloc[0]
-            str_date = str(datetime.datetime.now().date())
-
-            email = report(
-                sender='george@lightyearstrategies.com',
-                to=email,
-                subject=f'Weekly Journalist Report {str_date}',
-                text=f'Hi {clientname},\n\nHere is your weekly report.',
-                file=filepath
-            )
-            email.sendMessage()
+            send_pdf_report(df_for_email, email, subject, clientname)
