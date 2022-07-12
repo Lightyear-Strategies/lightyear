@@ -45,11 +45,11 @@ const addListeners = () => {
     //     }
     // });
 
-    filePicker.addEventListener("change", (event) => {
-        currentFile = event.target.files;
-        addFile(currentFile);
-        this.value = "";
-    })
+    // filePicker.addEventListener("change", (event) => {
+    //     currentFile = event.target.files;
+    //     addFile(currentFile);
+    //     this.value = "";
+    // })
 
     /* Up Button */
     const upBtn = document.querySelector("#upBtn");

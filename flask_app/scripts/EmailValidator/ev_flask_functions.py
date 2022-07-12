@@ -21,6 +21,7 @@ def email_validator():
     @param:    None
     @return:   Email Verification Page
     """
+    print('email_validator()')
     email = None
     files = None
     form = EmailValidator()
@@ -59,6 +60,7 @@ def email_validator():
 
 
 def emailVerify(path, recipients=None):
+    print('emailVerify')
     """
     Uses functions from ev_API.py to verify emails.
     Creates email with processed file and sends it.
@@ -76,6 +78,7 @@ def emailVerify(path, recipients=None):
 
 @celery.task(name='ev_flask_functions.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
+    print('parseSendEmail')
     """
     Celery handler
     @param:    path to file with emails
@@ -92,9 +95,9 @@ def parseSendEmail(path, recipients=None, filename=None):
 
 
 def file_remover(path):
+    print('file_remover')
     if os.path.exists(path):
         os.remove(path)
         print("The file has been deleted successfully")
     else:
         print("The file does not exist!")
-
