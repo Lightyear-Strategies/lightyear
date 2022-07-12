@@ -17,9 +17,10 @@ class emailValidation:
         self.key = key
         if (self.key is None):
             try:
-                with open(Config.EV_API_KEY) as json_file:
-                    data = json.load(json_file)
-                    self.key = data
+                # with open(Config.EV_API_KEY) as json_file:
+                #     data = json.load(json_file)
+                #     self.key = data
+                self.key = Config.EV_API_KEY
             except Exception as e:
                 print(e)
                 print("No ev_api_key.json in CONFIG_DIR file found")
