@@ -8,7 +8,7 @@ body::-webkit-scrollbar-track {
 }
  
 body::-webkit-scrollbar-thumb {
-    background-color: var(--lightyear-red);
+    background-color: black;
     border-radius: 20px;
 }
 
@@ -38,17 +38,17 @@ body {
 
 h1 {
     margin: 0px;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 h2 {
     margin: 0px;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 ol {
     display: inline-block;
-    border: 2px solid var(--lightyear-red);
+    border: 2px solid black;
     border-radius: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -94,12 +94,12 @@ footer {
 
 hr  {
     margin: 20px 0px;
-    color: var(--background-color);
+    color: var(--lightyear-yellow);
     border: solid var(--background-color) 1px;
 }
 
 span {
-    text-decoration: underline 3px var(--lightyear-blue);
+    text-decoration: underline 3px var(--lightyear-yellow);
 }
 
 /* Body styling */
@@ -116,24 +116,25 @@ body > div:first-child {
 }
 
 /* Drop-zone */
-#drop_zone {
+#my-dropzone {
     margin-bottom: 0;
     border-radius: 0.25rem;
     height: 400px;
     display: grid;
     place-content: center;
-    border: dashed 2px var(--lightyear-red);
+    border: dashed 2px black;
 }
 
-#drop_zone > div {
+#my-dropzone > div {
     width: 100%;
     height: 100%;
-    color: var(--lightyear-red);
+    color: black;
+    font-size: 1.25rem;
 }
 
-#drop_zone > div > label {
+/* #drop_zone > div > label {
     cursor: pointer;
-}
+} */
 
 .inputFile {
     width: 0.1px;
@@ -154,7 +155,7 @@ header > div:last-child{
 }
 
 header > div:first-child {
-    color: var(--lightyear-red)
+    color: black
 }
 
 header > div:first-child > h1 {
@@ -209,7 +210,7 @@ footer > div:first-of-type > div > svg {
 #upBtn {
     color: var(--lightyear-yellow);
     border-radius: 1000px;
-    background-color: var(--lightyear-red);
+    background-color: black;
     display: grid;
     place-content: center;
     padding: 20px;
@@ -229,12 +230,12 @@ footer > div:first-of-type > div > svg {
 
 /* Submit Button */
 #submitBtn {
-    background-color: var(--lightyear-red);
-    color: var(--background-color);
+    background-color: var(--lightyear-yellow);
+    color: black;
     padding: 20px 40px;
     font-size: 1.4rem;
     border-radius: 0.25rem;
-    border: none;
+    border-color: var(--lightyear-yellow);
     margin-bottom: 10%;
     cursor: pointer;
     font-weight: 800;
@@ -243,8 +244,9 @@ footer > div:first-of-type > div > svg {
 }
 
 #submitBtn:hover {
-    background-color: var(--lightyear-blue);
-    border: var(--lightyear-blue) 2px solid;
+    background-color: black;
+    color: var(--lightyear-yellow);
+    border: var(--lightyear-yellow) 2px solid;
 }
 
 /* Directions | Instructions */
@@ -254,7 +256,7 @@ footer > div:first-of-type > div > svg {
     place-content: end;
     font-size: 2rem;
     font-weight: 600;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 .instruction > div {
@@ -278,10 +280,10 @@ footer > div:first-of-type > div > svg {
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid var(--lightyear-red);
+    border-bottom: 2px solid black;
     outline: 0;
     font-size: 1.3rem;
-    color: var(--lightyear-red);
+    color: black;
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -304,7 +306,7 @@ footer > div:first-of-type > div > svg {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 .form__label:after {
@@ -319,14 +321,14 @@ footer > div:first-of-type > div > svg {
 }
 
 .required__label {
-    color: var(--lightyear-red)
+    color: black
 }
 
 .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  border-image: linear-gradient(to right, black, black);
   border-image-slice: 1;
 }
 .form__field:focus ~ .form__label {
@@ -335,7 +337,7 @@ footer > div:first-of-type > div > svg {
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: var(--lightyear-red);
+  color: black;
   font-weight: 700;
 }
 
@@ -353,7 +355,7 @@ footer > div:first-of-type > div > svg {
     height: clamp(100px, 50%, 200px);
     background-color: var(--lightyear-gray);
     border-radius: 0.2rem;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 .toast > div {
@@ -424,7 +426,7 @@ footer > div:first-of-type > div > svg {
 }
 
 .modal > div > div:last-of-type > button{
-    background-color: var(--lightyear-red);
+    background-color: black;
     border: none;
     border-radius: 0.25rem;
     color: var(--background-color);
@@ -476,7 +478,7 @@ ol > li {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background-color: var(--lightyear-red);
+    background-color: black;
     transform-origin: 50%;
     animation: bounce 500ms alternate infinite ease;
 }
