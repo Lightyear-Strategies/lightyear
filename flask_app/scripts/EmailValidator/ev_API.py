@@ -20,7 +20,8 @@ class emailValidation:
                 with open(Config.EV_API_KEY) as json_file:
                     data = json.load(json_file)
                     self.key = data
-            except Exception:
+            except Exception as e:
+                print(e)
                 print("No ev_api_key.json in CONFIG_DIR file found")
 
         self.url = 'https://isitarealemail.com/api/email/validate'
