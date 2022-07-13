@@ -265,13 +265,13 @@ footer > div:first-of-type > div > svg {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--lightyear-red);
+    color: black;
     content: " *";
     display: inline;
 }
 
 .required__label {
-    color: var(--lightyear-red)
+    color: black;
 }
 
 .form__field:focus {
