@@ -370,6 +370,7 @@ input[type=checkbox]:checked:after {
 /* Send Button */
 #sendBtn {
     width: 60%;
+    height: 80px;;
     padding: 1rem rem;
     background-color: var(--lightyear-yellow);
     color: black;
