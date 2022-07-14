@@ -121,16 +121,21 @@ function insert_datum(d) {
     datum_grid.expanded_previously = false;
     datum_grid.expanded = false;
     const include_when_expanded = [];
-    //wrappers for grid elements
+
     const header = std_make('header',datum_grid);
+    
 
 
     const expand_button = std_make('expand-button',header, {tag: 'button'});
     expand_button.innerHTML = 'v';
+    const summary_mediaOutlet_wrapper = std_make('summary_mediaOutlet_wrapper',header)
     //data to display
-    const summary = std_make('Summary',header,{content: d['Summary']})
-    const mediaOutlet = std_make('MediaOutlet',header,{content:d['MediaOutlet']})
-    
+    const summary = std_make('Summary',summary_mediaOutlet_wrapper,{content: d['Summary']})
+    const mediaOutlet = std_make('MediaOutlet',summary_mediaOutlet_wrapper,{content:d['MediaOutlet']})
+
+    const dateReceived = std_make('DateReceived',header,{
+        content:dateConvert(d['DateReceived'])
+    })
 
     datum_grid.onclick = function () {
         if (!datum_grid.expanded_previously) {
@@ -141,12 +146,8 @@ function insert_datum(d) {
             const email = std_make('Email',name_email_wrapper,{content: d['Email'], tag: 'span'})
             
             const category = std_make('Category',datum_grid,{content:`Category: ${d['Category']}`})
-
-            const date_wrapper = std_make('date-wrapper',datum_grid);
-            const dateReceived = std_make('DateReceived',date_wrapper,{
-                content:("Recieved: " + d['DateReceived']), tag: 'span'
-            })
-            const deadline = std_make('Deadline',date_wrapper,{
+            
+            const deadline = std_make('Deadline',datum_grid,{
                 content:("Deadline: "+ d['Deadline']), tag: 'span'
             })
 
@@ -167,7 +168,7 @@ function insert_datum(d) {
             include_when_expanded.push(name_email_wrapper);
             include_when_expanded.push(query_wrapper);
             include_when_expanded.push(requirements_wrapper);
-            include_when_expanded.push(date_wrapper);
+            include_when_expanded.push(deadline);
             include_when_expanded.push(category);
 
             datum_grid.expanded_previously = true;
@@ -255,10 +256,11 @@ document.getElementById('search-button').onclick = () => {
             getMediaQueryData('/api/serveHaros')
         } else getMediaQueryData(`/api/serverHaros/${mode}`)
 
-    }
+    }    
+}
 
-    
-
-    
-    
+function dateConvert(date){
+    // yyyy-mm-dd to dd (month), yyyy
+    months = [undefined, 'Jan','Fed','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+    return months[Number(date.substring(5,7))] + ' ' + date.substring(8) + ', ' + date.substring(0,4);
 }
