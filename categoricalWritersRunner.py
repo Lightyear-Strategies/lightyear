@@ -7,11 +7,14 @@ import pandas as pd
 
 if __name__ == "__main__":
     if sys.argv[1] == "parse":
-        df = Report(parsed=True)
-        df.parse_all_categories()
-        #df.parse_category('test')
+        if sys.argv[2] == 'all':
+            df = Report(parsed=True)
+            df.parse_all_categories()
+        else:
+            df = Report(parsed=True)
+            df.parse_category(sys.argv[2])
 
-    if sys.argv[1] == "send":
+    elif sys.argv[1] == "send":
 
         if sys.argv[2] == 'day':
             timeframe = '_day'
