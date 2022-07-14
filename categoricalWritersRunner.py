@@ -1,9 +1,9 @@
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.categoricalWriters import send_pdf_report
 from flask_app.scripts.PeriodicWriters.weekly import Report
-import sys
 import pandas as pd
 import traceback
+import sys
 # import logging
 # from logging import StreamHandler, Formatter
 #

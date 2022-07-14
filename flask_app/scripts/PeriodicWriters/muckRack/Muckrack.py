@@ -9,6 +9,18 @@ import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 
+import sys
+import logging
+from logging import StreamHandler, Formatter
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = StreamHandler(stream=sys.stdout)
+handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
+logger.addHandler(handler)
+
+
 class Muckrack:
     def __init__(self, url_list=None, filename=None, sleep_time=2.5, timeframe=7):
         if filename is not None:
@@ -53,14 +65,17 @@ class Muckrack:
         with driver:
             for url in self.url_list:
                 try:
-                    print("Parsing: " + url)
-                    print("Time left: " + self.__time_left())
+                    logger.info("Parsing: " + url)
+                    logger.info("Time left: " + self.__time_left())
+                    # print("Parsing: " + url)
+                    # print("Time left: " + self.__time_left())
                     driver.get(url)
                     time.sleep(self.sleep_time)
                     self.read_HTML(driver.page_source)
                     time.sleep(self.sleep_time)
                 except Exception as e:
-                    print("Error: " + str(e))
+                    logger.info("Error: " + str(e))
+                    # print("Error: " + str(e))
                     continue
 
 
@@ -78,7 +93,7 @@ class Muckrack:
 
     def read_HTML(self, page_source=None):
         if page_source is None:
-            print("EMPTY PAGE SOURCE")
+            logger.info("EMPTY PAGE SOURCE")
             with open('savedHTML.txt', 'r') as f:
                 page_source = f.read()
 
@@ -94,7 +109,8 @@ class Muckrack:
                 if(position>10):
                     name_chosen = name[position].split(",")[0]
         except:
-            print("Empty page")
+            #print("Empty page")
+            logger.info("Empty page")
             return
         aTags = soup.find_all("a", {"class": "times-shared facebook"})
 
@@ -127,7 +143,7 @@ class Muckrack:
                 object = datetime.strptime(object, "%b %d, %Y")
                 time_stamps.append(object)
             except Exception as e:
-                print(e)
+                logger.info(e)
 
         link_tags = soup.find_all("h4", {"class": "news-story-title"})
         for link in range(len(link_tags)):
@@ -159,10 +175,10 @@ class Muckrack:
 
         #if df is empty
         if(len(df)==0):
-            print("Empty Dataframe")
+            logger.info("Empty Dataframe")
         else:
             self.df = self.df.append(df)
-            print(self.df)
+            logger.info(self.df)
 
 
     def save_dataframe(self, filename):
