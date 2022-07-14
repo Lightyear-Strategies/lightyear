@@ -28,6 +28,12 @@
                 e.stopPropagation();
                 myDropzone.processQueue();
             });
+            myDropzone.on("sending", function(file, xhr, formData) { 
+                formData.append(
+                    "email",
+                    document.getElementById('email').value
+                );  
+            });
         }
     };
 
@@ -170,8 +176,9 @@
             <p>copyright</p>
         </div>
     </footer>
+    <!--
     <script>
-        document.getElementById('form-group').dropzone( {
+        document.getElementById('form-group').Dropzone( {
                 url: '/email_validator',
                 width: 300,
                 height: 300,
@@ -179,5 +186,6 @@
                 maxFileSize: '20MB',
             })
     </script>
+    -->
 </body>
 </html>

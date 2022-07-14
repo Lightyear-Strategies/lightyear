@@ -27,10 +27,8 @@ def email_validator():
     form = EmailValidator()
 
     print(request.method)
-    print(form.email.data) # prints None, which means that Email field of the form is not sending information to the function
-    # You can use this this structure to check whether POST request goes through
-    # if request.method == "POST":
-    #   Do smth
+    print(form.email.data)
+    print(request.files)
 
 
     if form.validate_on_submit():

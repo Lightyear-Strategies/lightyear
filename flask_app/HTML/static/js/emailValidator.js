@@ -8,7 +8,6 @@ const addListeners = () => {
     // const filePicker = document.getElementById("file")
     
     // Modal Listener
-    const instruction = document.querySelector(".instructionBtn");
     const modalBtn = document.querySelector("#modalBtn");
 
     // Drag over and drag leave are completely optional
@@ -55,11 +54,6 @@ const addListeners = () => {
     const upBtn = document.querySelector("#upBtn");
     upBtn.addEventListener("click", () => {
         window.scrollTo(0, 0);
-    })
-
-    instruction.addEventListener("click", () => {
-        document.querySelector(".modal").style.visibility = "visible";
-        document.querySelector("body").style.overflowY = "hidden";
     })
 
     modalBtn.addEventListener("click", () => {
