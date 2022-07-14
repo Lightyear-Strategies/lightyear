@@ -1,8 +1,9 @@
 import pandas as pd
 import os
-from muckRack import Muckrack as MC
-from muckRack import google_muckrack as gm
-from toPDF import pdfReport as pdf
+from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as MC
+from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
+from flask_app.scripts.PeriodicWriters.toPDF import pdfReport as pdf
+from flask_app.scripts.config import Config
 
 class Report:
     #INNER METHODS
@@ -47,10 +48,12 @@ class Report:
             "Philosophy": "top50Philosophy.csv",
             "test": "test.csv"
         }
-        filename = "journalists/" + csvname[category]
+        filename = os.path.join(Config.SCRIPTS_DIR,"PeriodicWriters/journalists/" + csvname[category])
+        #filename = "journalists/" + csvname[category]
         r = Report(filename, "Name", True)
         r.muckrack_analysis()
-        pdf_filename = "reports/" + csvname[category].replace(".csv", ".pdf")
+        pdf_filename = os.path.join(Config.SCRIPTS_DIR, "PeriodicWriters/reports/" + csvname[category].replace(".csv", ".pdf"))
+        #pdf_filename = "reports/" + csvname[category].replace(".csv", ".pdf")
         r.convert_to_pdf(pdf_filename)
 
     def parse_all_categories(self):
@@ -67,7 +70,7 @@ class Report:
 
     #SAVE METHODS
     def save_analyzed_result(self, filename):
-        if(self.analyzed is None):
+        if not self.analyzed :
             raise Exception("No analyzed result")
         self.analyzed.to_csv(filename)
 
