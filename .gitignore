@@ -21,7 +21,7 @@ haroListener/client.json
 
 flask_app/scratch_files/emailValidity/test.csv
 haroListener/test.csv
-*.csv
+#*.csv
 *.pyc
 
 localclient.json
