@@ -8,8 +8,8 @@ import pandas as pd
 if __name__ == "__main__":
     if sys.argv[1] == "parse":
         df = Report(parsed=True)
-        #df.parse_all_categories()
-        df.parse_category('test')
+        df.parse_all_categories()
+        #df.parse_category('test')
 
     if sys.argv[1] == "send":
 
