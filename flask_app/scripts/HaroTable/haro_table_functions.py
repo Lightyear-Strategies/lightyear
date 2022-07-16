@@ -79,7 +79,7 @@ def adding_used_unused(option: str = None, id: str = None):
 
 
 def serve_data(option=None):
-    print('calling serve_data')
+    #print('calling serve_data')
     """
     Sorts the table, returns searched data
     @param:    None/option
