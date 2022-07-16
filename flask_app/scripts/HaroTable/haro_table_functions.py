@@ -79,6 +79,7 @@ def adding_used_unused(option: str = None, id: str = None):
 
 
 def serve_data(option=None):
+    print('calling serve_data')
     """
     Sorts the table, returns searched data
     @param:    None/option
@@ -98,16 +99,24 @@ def serve_data(option=None):
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
-    search = request.args.get('search[value]')
-    if search:
+    keywords = request.args.get('keywords')
+    mediaOutlet = request.args.get('mediaOutlet')
+    journalist = request.args.get('journalist')
+    if keywords:
         query = query.filter(db.or_(
-            Haros.columns.Category.like(f'%{search}%'),
-            Haros.columns.DateReceived.like(f'%{search}%'),
-            Haros.columns.Summary.like(f'%{search}%'),
-            Haros.columns.Email.like(f'%{search}%'),
-            Haros.columns.MediaOutlet.like(f'%{search}%'),
-            Haros.columns.Name.like(f'%{search}%'),
-            Haros.columns.Requirements.like(f'%{search}%')
+            Haros.columns.Query.like(f'%{keywords}%'),
+            Haros.columns.Summary.like(f'%{keywords}%'),
+            Haros.columns.Requirements.like(f'%{keywords}%')
+        ))
+
+    if mediaOutlet:
+        query = query.filter(db.or_(
+            Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
+        ))
+
+    if journalist:
+        query = query.filter(db.or_(
+            Haros.columns.MediaOutlet.like(f'%{journalist}%')
         ))
 
     total_filtered = query.count()
