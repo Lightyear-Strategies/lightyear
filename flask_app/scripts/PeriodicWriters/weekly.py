@@ -5,6 +5,19 @@ from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport as pdf
 from flask_app.scripts.config import Config
 
+import sys
+import logging
+from logging import StreamHandler, Formatter
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = StreamHandler(stream=sys.stdout)
+handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
+logger.addHandler(handler)
+
+
+
 class Report:
     #INNER METHODS
     def __init__(self, filename=None, colname=None, parsed=False):
@@ -59,6 +72,7 @@ class Report:
     def parse_all_categories(self):
         list_of_categories = ["AI", "Crypto", "Economics", "Marketing", "NFT", "Philosophy"]
         for category in list_of_categories:
+            logger.info(f'Now Parsing {category}!')
             self.parse_category(category)
 
     #GET METHODS
