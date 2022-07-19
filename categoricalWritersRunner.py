@@ -4,15 +4,16 @@ from flask_app.scripts.PeriodicWriters.weekly import Report
 import pandas as pd
 import traceback
 import sys
-# import logging
-# from logging import StreamHandler, Formatter
-#
-# logger = logging.getLogger(__name__)
-# logger.setLevel(logging.INFO)
-#
-# handler = StreamHandler(stream=sys.stdout)
-# handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
-# logger.addHandler(handler)
+
+import logging
+from logging import StreamHandler, Formatter
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = StreamHandler(stream=sys.stdout)
+handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
+logger.addHandler(handler)
 # logger.info(f'Adding {len(haro_df)} New Haros')
 
 
@@ -48,8 +49,10 @@ if __name__ == "__main__":
 
                         #send_pdf_report(df_for_email, email, subject, clientname)
                 except Exception:
+                    logger.info(f'Problem with smth particular:')
                     traceback.print_exc(file=sys.stdout)
     except Exception:
+        logger.info(f'Problem with smth broad:')
         traceback.print_exc(file=sys.stdout)
 
 

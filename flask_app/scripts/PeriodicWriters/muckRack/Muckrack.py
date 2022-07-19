@@ -5,6 +5,7 @@ import pickle
 import time
 import undetected_chromedriver as uc
 
+import traceback
 import pandas as pd
 from datetime import datetime
 from datetime import timedelta
@@ -75,6 +76,8 @@ class Muckrack:
                     time.sleep(self.sleep_time)
                 except Exception as e:
                     logger.info("Error: " + str(e))
+                    traceback.print_exc(file=sys.stdout)
+
                     # print("Error: " + str(e))
                     continue
 
@@ -143,7 +146,9 @@ class Muckrack:
                 object = datetime.strptime(object, "%b %d, %Y")
                 time_stamps.append(object)
             except Exception as e:
-                logger.info(e)
+                logger.info('\nError: ' + str(e))
+                traceback.print_exc(file=sys.stdout)
+
 
         link_tags = soup.find_all("h4", {"class": "news-story-title"})
         for link in range(len(link_tags)):
