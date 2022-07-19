@@ -56,7 +56,7 @@ ol {
 }
 
 input {
-    width: clamp(80px, 70%, 800px);
+    /*width: clamp(80px, 70%, 800px);*/
     padding: auto;
     margin: auto;
     margin-top: 20px;
@@ -137,7 +137,7 @@ body > div:first-child {
 } */
 
 .inputFile {
-    width: 0.1px;
+    width: .1px;
     height: 0.1px;
     overflow: hidden;
     position: absolute;
@@ -291,6 +291,12 @@ footer > div:first-of-type > div > svg {
 .form__field::placeholder {
     font-size: 1.0rem;
     color: var(--lightyear-gray);
+}
+
+/* styling dropzone */
+.click-upload{
+    text-decoration-color: var(--lightyear-red);
+    cursor: pointer;
 }
 
 .form__field:placeholder-shown ~ .form__label {
