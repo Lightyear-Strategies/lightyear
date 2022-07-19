@@ -31,7 +31,7 @@ If you want to install a specific version of Chrome:
 E.g.:
 ```
 wget "https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_103.0.5060.53-1_amd64.deb"
-sudo apt install google-chrome-stable_103.0.5060.53-1_amd64.deb
+sudo apt install ./google-chrome-stable_103.0.5060.53-1_amd64.deb
 ```
 
 To check its version: `google-chrome-stable --version`
