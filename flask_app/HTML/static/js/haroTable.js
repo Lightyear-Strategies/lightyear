@@ -233,9 +233,15 @@ document.getElementById('search-button').onclick = () => {
     terms = {
         keywords: document.getElementById('keywords-search').value,
         journalist: document.getElementById('journalist-search').value,
-        mediaOutlet: document.getElementById('mediaOutlet-search').value
+        mediaOutlet: document.getElementById('mediaOutlet-search').value,
+        dateBefore: document.getElementById('dateBefore-search').value,
+        dateAfter: document.getElementById('dateAfter-search').value
+        }
+    for (let e of ['dateBefore','dateAfter']){
+        terms[e] = terms[e].substring(5,7)+'/'+terms[e].substring(8,10)+'/'+terms[e].substring(0,4)
     }
-
+    terms['dateBefore'] = terms['dateBefore'] + ' 23:59:59'
+    terms['dateAfter'] = terms['dateAfter'] + ' 00:00:00'
     let requestUrl = '/api/serveHaros'
     if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
     if (mode == 'used') requestUrl = requestUrl + '/used';
@@ -244,10 +250,12 @@ document.getElementById('search-button').onclick = () => {
     let allEmpty = true;
     for (let e in terms){
         if (terms[e]!=''){
+            console.log(terms[e])
             allEmpty=false;
             requestUrl = `${requestUrl}${e}=${terms[e]}&`
         }
     }
+    console.log(requestUrl)
     requestUrl = requestUrl.substring(0,requestUrl.length-1);
     if (!allEmpty){
         getMediaQueryData(requestUrl);
@@ -255,9 +263,9 @@ document.getElementById('search-button').onclick = () => {
         if (mode == 'all') {
             getMediaQueryData('/api/serveHaros')
         } else getMediaQueryData(`/api/serverHaros/${mode}`)
-
     }    
 }
+
 
 function dateConvert(date){
     // yyyy-mm-dd to dd (month), yyyy

@@ -95,9 +95,24 @@ def serve_data(option=None):
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
+    print('\nArguments')
+    print(request.args)
+    print()
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
     journalist = request.args.get('journalist')
+    dateBefore = request.args.get('dateBefore')
+    dateAfter = request.args.get('dateAfter')
+    print('\n')
+    if dateBefore:
+        print(datetime.strptime(dateBefore, '%m/%d/%y %H:%M:%S'))
+        query = query.filter(Haros.columns.DateRecieved <= datetime.strptime(dateBefore, '%m/%d/%y %H:%M:%S'))
+
+    if dateAfter:
+        print(datetime.strptime(dateAfter, '%m/%d/%y %H:%M:%S'))
+        query = query.filter(Haros.columns.DateRecieved >= datetime.strptime(dateAfter, '%m/%d/%y %H:%M:%S'))
+
+
     if keywords:
         query = query.filter(db.or_(
             Haros.columns.Query.like(f'%{keywords}%'),
@@ -114,6 +129,8 @@ def serve_data(option=None):
         query = query.filter(db.or_(
             Haros.columns.MediaOutlet.like(f'%{journalist}%')
         ))
+
+    
 
     total_filtered = query.count()
 
