@@ -13,15 +13,15 @@ function initializeHarosPerPAge(){
     haros_per_page = Number(localStorage.getItem('harosPerPage'));
     
     if (haros_per_page == undefined || haros_per_page == 0){
-        console.log('if')
+
         haros_per_page = 30;
     }
     document.getElementById('item-count-input').value = haros_per_page
-    console.log(haros_per_page);
+
 }
 
 function applyHarosCount() {
-    console.log('applyHarosCount');
+
     haros_per_page = document.getElementById('item-count-input').value
     localStorage.setItem('haros_per_page',haros_per_page);
     page_number = 1;
@@ -34,10 +34,9 @@ function getMediaQueryData(requestUrl) {
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
-
-            DATA = result.data;
+            if (status != 304) DATA = result.data;
             page_number = 1;
-            //configDropdownMenus();8
+            //configDropdownMenus();
             displayData();
         }
 
@@ -65,19 +64,19 @@ document.getElementById('used-haros').onclick = () => {
 }
 
 function displayData() {
-    console.log(`hpp ${haros_per_page} pn ${page_number} Data length ${DATA.length}`)
+
     $('.haros-table *').remove();
-    console.log
+
     let min_index = haros_per_page*(page_number-1);
 
     let max_index = haros_per_page*page_number;
     if (max_index > DATA.length) max_index = DATA.length;
-    console.log([min_index,max_index])
+
     for (let i = min_index; (i < max_index); i++) {
         try {
         insert_datum(DATA[i]);
         } catch (error) {
-            console.log('error')
+            //do nothing
         }
     }
     $('html,body').scrollTop(0);
@@ -236,12 +235,20 @@ document.getElementById('search-button').onclick = () => {
         mediaOutlet: document.getElementById('mediaOutlet-search').value,
         dateBefore: document.getElementById('dateBefore-search').value,
         dateAfter: document.getElementById('dateAfter-search').value
-        }
-    for (let e of ['dateBefore','dateAfter']){
-        terms[e] = terms[e].substring(5,7)+'/'+terms[e].substring(8,10)+'/'+terms[e].substring(0,4)
     }
-    terms['dateBefore'] = terms['dateBefore'] + ' 23:59:59'
-    terms['dateAfter'] = terms['dateAfter'] + ' 00:00:00'
+    
+    for (let e of ['dateBefore','dateAfter']){
+        if (terms[e] != '') {
+            terms[e] = terms[e].substring(5,7)+'/'+terms[e].substring(8)+'/'+terms[e].substring(0,4);
+        }
+        else {
+            delete terms[e];
+        }
+        console.log(e)
+        console.log(terms[e])
+    }
+    if (terms['dateBefore']) terms['dateBefore'] = terms['dateBefore'] + ' 23:59:59'
+    if (terms['dateAfter']) terms['dateAfter'] = terms['dateAfter'] + ' 00:00:00'
     let requestUrl = '/api/serveHaros'
     if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
     if (mode == 'used') requestUrl = requestUrl + '/used';
@@ -250,13 +257,13 @@ document.getElementById('search-button').onclick = () => {
     let allEmpty = true;
     for (let e in terms){
         if (terms[e]!=''){
-            console.log(terms[e])
             allEmpty=false;
             requestUrl = `${requestUrl}${e}=${terms[e]}&`
         }
     }
+    
+    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing &
     console.log(requestUrl)
-    requestUrl = requestUrl.substring(0,requestUrl.length-1);
     if (!allEmpty){
         getMediaQueryData(requestUrl);
     } else {
