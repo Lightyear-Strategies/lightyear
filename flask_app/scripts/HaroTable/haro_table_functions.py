@@ -85,8 +85,6 @@ def serve_data(option=None):
     print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
-    if option == "used":
-        query = query.filter(Haros.columns.Used == "Used")
 
     # fresh queries
     if option == "fresh":

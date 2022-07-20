@@ -189,40 +189,6 @@ function insert_datum(d) {
     }
 
     //Additional collapse button
-    
-
-
-    //"Add button"
-    let str;
-    if (d['Used']=='Used') 
-    {
-        str = 'Remove'
-        datum_grid.classList.add('used-true');
-    }
-    else str = 'Add'
-    const add_button = std_make(
-        'add-button',
-        header,
-        {
-            content: str, 
-            tag:'button',
-            grid_child: true
-        }
-    )
-
-    add_button.onclick = function(e) {
-        if (this.innerHTML == "Add") {
-            this.innerHTML = "Remove"
-            $.ajax("/api/used/add/"+d['index'])
-        } else {
-            this.innerHTML = "Add"
-            $.ajax("/api/used/remove/"+d['index'])
-        }
-        datum_grid.classList.toggle('used-true')
-        e.stopPropagation();
-    }
-    
-    
 
     datum_grid.classList.remove('hide');
 }
@@ -251,7 +217,6 @@ document.getElementById('search-button').onclick = () => {
     if (terms['dateAfter']) terms['dateAfter'] = terms['dateAfter'] + ' 00:00:00'
     let requestUrl = '/api/serveHaros'
     if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
-    if (mode == 'used') requestUrl = requestUrl + '/used';
     requestUrl = requestUrl + '?'
 
     let allEmpty = true;
