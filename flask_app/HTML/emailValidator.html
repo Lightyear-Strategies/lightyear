@@ -91,8 +91,6 @@
     </section>
 
     <div>
-        <form method='POST' action="/email_validator" enctype="multipart/form-data">
-        {{ form.csrf_token }}
         <h1>Email Verification</h1>
         <hr style="color: #F04C23; border: 1px solid;">
         <h2>Guidelines:</h2>
@@ -106,32 +104,11 @@
             </ol>
         </div>
 
-        <!-- For showing general Errors -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
         <div action="" class="form__group field">
-{#            <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />#}
-{#            <label for="email" class="form__label">Email</label>#}
-{#            <label class="required__label" id="email id"></label>#}
-            {{ form.email.label(for='email', class="form__label required__label") }}
-            {{ form.email(id='email', placeholder="Enter Email", class="form__field") }}
-            {% if form.email.errors %}
-                <ul class="errors">
-                    {% for error in form.email.errors %}
-                        {{ error }}
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+            <label for="email" class="form__label">Email</label>
+            <label class="required__label" id="email id"></label>
         </div>
-    </form>
     </div>
 
     <div>

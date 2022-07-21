@@ -4,7 +4,6 @@ from flask_login import login_required
 from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailValidator import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
-from flask_app.scripts.forms import EmailValidator
 from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import init_celery, app
 
@@ -21,25 +20,12 @@ def email_validator():
     @param:    None
     @return:   Email Verification Page
     """
-    print('email_validator()')
-    email = None
-    files = None
-    form = EmailValidator()
-
-    print(request.method)
-    print(form.email.data)
-    print(request.files)
-
-
-    if form.validate_on_submit():
+    if request.method == 'POST':  # form.validate_on_submit():
         filenames = []
-        email = form.email.data
-
-        #print(email)
-        # files = request.files.getlist(form.files.name)
 
         files = request.files
-        print(files)
+        email = request.form.get('email')
+        print(email)
 
         if Config.ENVIRONMENT == 'server':
             if not authCheck():
@@ -49,20 +35,28 @@ def email_validator():
 
         if files:
             for file in files:
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(Config.UPLOAD_DIR, filename))
+                filename = secure_filename(files.get(file).filename) #.filename
+                print(filename)
+                #file.save(os.path.join(Config.UPLOAD_DIR, filename))
+                files.get(file).save(os.path.join(Config.UPLOAD_DIR, filename))
                 filenames.append(filename)
 
             for filename in filenames:
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
+                pass
+
+                ### Comment it out for now ###
                 parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
+            #print('Here')
+
             return render_template('OnSuccess/EmailSent.html')
+
         else:
             print('No files')
 
-    return render_template('emailValidator.html', form=form, email=email, files=files)
+    return render_template('emailValidator.html')
 
 
 def emailVerify(path, recipients=None):
