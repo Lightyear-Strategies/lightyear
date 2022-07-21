@@ -13,7 +13,7 @@
         <div class="login">
             <div>
                 <h1> Login </h1>
-                <form method="POST" action="/login">
+                <form method="POST" action="/">
                     {{ form.csrf_token }}
                     <!-- Copy and Paste the Text inputs -->
                     <div action="" class="form__group field">
@@ -39,7 +39,9 @@
                         {% endif %}
                     </div>
                     <br>
-                    {{ form.submit(id="loginBtn")}}
+                    <button onclick='location.href="{{ url_for('home') }}"' type="button" id="loginBtn">
+                    Login
+                    </button>
                     <div class="checkBox" id="checkBox">
                         <input type="checkbox" name="remember_me" id="remember_me">
                         <label for="remember_me">Remember login for next time?</label>

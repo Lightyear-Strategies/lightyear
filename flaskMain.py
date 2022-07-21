@@ -19,7 +19,7 @@ app.add_url_rule('/api/serveHaros/<option>', view_func=h_t_f.serve_data, methods
 app.add_url_rule('/api/used/<option>/<id>', view_func=h_t_f.adding_used_unused, methods=['GET','POST'])
 
 app.add_url_rule('/contact_us', view_func=c_u.contact_us, methods=['GET','POST'])
-app.add_url_rule('/login', view_func=auth.login, methods=['GET','POST'])
+app.add_url_rule('/', view_func=auth.login, methods=['GET','POST'])
 app.add_url_rule('/signup', view_func=auth.signup, methods=['GET','POST'])
 app.add_url_rule('/logout', view_func=auth.logout, methods=['GET','POST'])
 
@@ -30,12 +30,13 @@ app.errorhandler(500)(e_p.internal_error)
 
 
 @app.route('/')
-def welcome():
-    return render_template('welcome.html')
+# def welcome():
+#     return render_template('welcome.html')
 
 
 @app.route('/home')
 def home():
+    #return render_template('homePage.html')
     return render_template('welcome_old.html')
 
 

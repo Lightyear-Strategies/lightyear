@@ -20,7 +20,7 @@
         <section>
             <form method="POST" action="/signup">
                 {{ form.csrf_token }}
-                <h3> Do you have an account already? <a href="{{ url_for('login') }}" style='color:#F04C23'>Sign In!</a> </h3>
+                <h3> Do you have an account already? <a href="/" style='color:#F04C23'>Sign In!</a> </h3>
                 <div action="" class="form__group field">
                     {{ form.username(id='username', class="form__field", placeholder="username") }}
                     {{ form.username.label(for='username',class="form__label") }}
