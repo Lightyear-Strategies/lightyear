@@ -2,7 +2,15 @@ source venv/bin/activate
 
 deactivate
 
-sudo gunicorn -w 3wsgi:app
+sudo gunicorn -w 3 wsgi:app
+
+sudo systemctl start flaskrunner
+sudo systemctl stop flaskrunner
+sudo systemctl restart flaskrunner
+sudo systemctl status flaskrunner
+
+
+
 
 PATH=$PATH:/usr/local/sbin
 sudo rabbitmq-server -detached

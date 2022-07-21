@@ -22,14 +22,13 @@ class Config:
     EV_API_KEY = os.getenv('EV_API_KEY')
     DATABASE_URI = 'sqlite:///' + os.path.join(FLASK_DIR, 'Database.sqlite3')
 
-    PICKLE_FILE = os.path.join(CONFIG_DIR, 'token.pickle')
-
     if ENVIRONMENT == 'server':
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
                                  'aleksei@lightyearstrategies.com',
                                  'nima@lightyearstrategies.com']
 
         CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'web_google_client.json')
+        PICKLE_FILE = os.path.join(CONFIG_DIR, 'server_token.pickle')
 
         BROKER_TRANSPORT_OPTIONS = {"region": os.getenv('AWS_REGION')}
         CELERY_BROKER_URL = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}' \
@@ -44,6 +43,7 @@ class Config:
 
     elif ENVIRONMENT == 'local':
         CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
+        PICKLE_FILE = os.path.join(CONFIG_DIR, 'local_token.pickle')
         CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
                                  'aleksei@lightyearstrategies.com']

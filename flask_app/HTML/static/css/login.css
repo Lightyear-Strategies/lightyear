@@ -19,7 +19,7 @@ body::-webkit-scrollbar-track {
 }
  
 body::-webkit-scrollbar-thumb {
-    background-color: var(--lightyear-red);
+    background-color: white;
     border-radius: 20px;
 }
 
@@ -53,7 +53,7 @@ body{
 
 hr {
     width: 80%;
-    border-top: var(--lightyear-red) 2px solid;
+    border-top: black 2px solid;
     margin: auto;
 }
 
@@ -64,7 +64,7 @@ section {
 }
 
 section:last-of-type {
-    background-color: var(--lightyear-yellow);
+    background-color: black;
 }
 
 section > div {
@@ -86,7 +86,7 @@ section > div > div > h2 {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    color: var(--lightyear-red);
+    color: black;
     padding: 4rem 2rem;
     border-radius: 0.75rem;
 }
@@ -111,10 +111,10 @@ section > div > div > h2 {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     width: 60%;
     border: 0;
-    border-bottom: 2px solid var(--lightyear-red);
+    border-bottom: 2px solid black;
     outline: 0;
     font-size: 1.3rem;
-    color: var(--lightyear-red);
+    color: black;
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -137,14 +137,14 @@ section > div > div > h2 {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  border-image: linear-gradient(to right, black, black);
   border-image-slice: 1;
 }
 
@@ -154,7 +154,7 @@ section > div > div > h2 {
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: var(--lightyear-red);
+  color: black;
   font-weight: 700;
 }
 
@@ -174,7 +174,7 @@ section > div > div > h2 {
 
 input[type=checkbox] {
 	-webkit-appearance: none;
-    border: var(--lightyear-red) solid 2px;
+    border: black solid 2px;
     margin-right: 1.25rem;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
 	padding: 9px;
@@ -185,12 +185,12 @@ input[type=checkbox] {
 
 input[type=checkbox]:active, input[type=checkbox]:checked:active {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-    color: var(--lightyear-red);
+    color: black;
 }
 
 input[type=checkbox]:checked {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-    color: var(--lightyear-red);
+    color: black;
 }
 
 input[type=checkbox]:checked:after {
@@ -199,7 +199,7 @@ input[type=checkbox]:checked:after {
 	position: absolute;
 	top: 0px;
 	left: 3px;
-    color: var(--lightyear-red);
+    color: black;
     font-weight: 800;
 }
 
@@ -207,19 +207,20 @@ input[type=checkbox]:checked:after {
 #loginBtn {
     width: 60%;
     padding: 1rem 4rem;
-    background-color: var(--background-color);
-    color: var(--lightyear-red);
+    background-color: var(--lightyear-yellow);
+    color: black;
     font-size: 2rem;
     border-radius: 0.25rem;
-    border: var(--lightyear-red) 2px solid;
+    border: var(--lightyear-yellow) 2px solid;
     cursor: pointer;
     font-weight: 600;
     transition: all ease-out 0.2s;
 }
 
 #loginBtn:hover {
-    color: var(--lightyear-blue);
-    border: var(--lightyear-blue) 2px solid;
+    color: var(--lightyear-yellow);
+    background-color: black;
+    border: var(--lightyear-yellow) 2px solid;
 }
 /* SVG */
 .svg {
@@ -231,12 +232,12 @@ input[type=checkbox]:checked:after {
 .svg > svg {
     flex: 1;
     cursor: pointer;
-    fill: var(--lightyear-red);
+    fill: black;
     transition: all ease-out 0.2s;
 }
 
 .svg > svg:hover {
-    fill: var(--lightyear-blue);
+    fill: var(--lightyear-yellow);
 }
 /*  Sign up */
 .signUp {
@@ -257,7 +258,7 @@ input[type=checkbox]:checked:after {
 }
 
 .signUp > div > h1 > span {
-    color: var(--lightyear-red);
+    color: var(--lightyear-yellow);
     font-weight: 800;
     text-decoration: underline var(--background-color) 0.5rem;
 }
@@ -268,9 +269,10 @@ input[type=checkbox]:checked:after {
 }
 
 .signUp > div > button {
-    background-color: var(--background-color);
-    color: var(--lightyear-red);
-    border: none;
+    background-color: var(--lightyear-yellow);
+    color: black;
+    border: 2px solid;
+    border-color: var(--lightyear-yellow);
     font-size: 2.25rem;
     padding: 20px 40px;
     border-radius: 0.25rem;
@@ -281,8 +283,11 @@ input[type=checkbox]:checked:after {
 }
 
 .signUp > div > button:hover {
-    color:var(--background-color);
-    background-color: var(--lightyear-red);
+    color: var(--lightyear-yellow);
+    background-color: black;
+    /* border-radius: 0.25rem;
+    border: 2px;
+    border-color: var(--lightyear-yellow); */
 }
 
 /* Media Fitting */

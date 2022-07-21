@@ -25,10 +25,14 @@ def addDBData(df: pd.DataFrame): #(file):
     @return:   None
     """
     # checking for duplicates
-    whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
-    print(len(whole_db))
-    print(whole_db.columns)
-    res = pd.concat([df,whole_db])
+    try:
+        whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
+        print(len(whole_db))
+        print(whole_db.columns)
+        res = pd.concat([df, whole_db])
+    except Exception as e:
+        res = df
+        print(e)
     print(len(res))
     res.drop_duplicates(subset=['Summary'], inplace=True)
     print(len(res))
