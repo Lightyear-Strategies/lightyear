@@ -79,7 +79,6 @@ def adding_used_unused(option: str = None, id: str = None):
 
 
 def serve_data(option=None):
-    #print('calling serve_data')
     """
     Sorts the table, returns searched data
     @param:    None/option
@@ -87,21 +86,35 @@ def serve_data(option=None):
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns.DateReceived.all_())
+    print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
-    if option == "used":
-        query = query.filter(Haros.columns.Used == "Used")
 
     # fresh queries
     if option == "fresh":
         freshmark = datetime.today().date() - timedelta(days=3)
-        query = query.filter(Haros.columns.DateReceived >= freshmark)
+        query = query.filter(db.and_(Haros.columns.DateReceived >= freshmark))
 
     # search filter
+    print('Arguments:',end=' ')
+    print(request.args)
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
     journalist = request.args.get('journalist')
+    dateBefore = request.args.get('dateBefore')
+    dateAfter = request.args.get('dateAfter')
+    
+    if dateBefore:
+        print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
+        #query.filter(Haros.columns.DateReceived >= freshmark)
+        query = query.filter(db.and_(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S')))
+    
+
+    if dateAfter:
+        print(datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(db.and_(Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S')))
+
+
     if keywords:
         query = query.filter(db.or_(
             Haros.columns.Query.like(f'%{keywords}%'),
@@ -118,6 +131,8 @@ def serve_data(option=None):
         query = query.filter(db.or_(
             Haros.columns.MediaOutlet.like(f'%{journalist}%')
         ))
+
+    
 
     total_filtered = query.count()
 

@@ -17,24 +17,36 @@
     <div class="haros-menu">
         <button class="all-haros haros-nav" id="all-haros">All</button>
         <button class="fresh-haros haros-nav" id="fresh-haros">Fresh</button>
-        <button class="used-haros haros-nav" id="used-haros">Used</button>
     </div>
     
     
     <div class="search-bar" id="search-bar"> 
-        <div class="search-wrapper">
-            <span class="search-label">Keywords</span>
-            <input type="text" id="keywords-search" class="search">
-        </div>
+        <div>
+            <div class="search-wrapper">
+                <span class="search-label">Keywords</span>
+                <input type="text" id="keywords-search" class="search">
+            </div>
 
-        <div class="search-wrapper">
-            <span class="search-label">Media Outlet</span>
-            <input type="text" id="mediaOutlet-search" class="search">
-        </div>
+            <div class="search-wrapper">
+                <span class="search-label">Media Outlet</span>
+                <input type="text" id="mediaOutlet-search" class="search">
+            </div>
 
-        <div class="journalist-search-wrapper">
-            <span class="search-label">Journalist</span>
-            <input type="text" id='journalist-search' class="search">
+            <div class="journalist-search-wrapper">
+                <span class="search-label">Journalist</span>
+                <input type="text" id='journalist-search' class="search">
+            </div>
+        </div>
+        <br>
+        <div class="date-recieved-search-wrapper">
+            <span class="search-label">Date Recieved</span>
+            <br>
+            From: 
+            <input type="date" id="dateAfter-search" class="search">
+
+            To: 
+            <input type="date" id="dateBefore-search" class="search">
+            
         </div>
     </div>
 

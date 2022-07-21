@@ -13,15 +13,15 @@ function initializeHarosPerPAge(){
     haros_per_page = Number(localStorage.getItem('harosPerPage'));
     
     if (haros_per_page == undefined || haros_per_page == 0){
-        console.log('if')
+
         haros_per_page = 30;
     }
     document.getElementById('item-count-input').value = haros_per_page
-    console.log(haros_per_page);
+
 }
 
 function applyHarosCount() {
-    console.log('applyHarosCount');
+
     haros_per_page = document.getElementById('item-count-input').value
     localStorage.setItem('haros_per_page',haros_per_page);
     page_number = 1;
@@ -34,10 +34,9 @@ function getMediaQueryData(requestUrl) {
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
-
-            DATA = result.data;
+            if (status != 304) DATA = result.data;
             page_number = 1;
-            //configDropdownMenus();8
+            //configDropdownMenus();
             displayData();
         }
 
@@ -65,19 +64,19 @@ document.getElementById('used-haros').onclick = () => {
 }
 
 function displayData() {
-    console.log(`hpp ${haros_per_page} pn ${page_number} Data length ${DATA.length}`)
+
     $('.haros-table *').remove();
-    console.log
+
     let min_index = haros_per_page*(page_number-1);
 
     let max_index = haros_per_page*page_number;
     if (max_index > DATA.length) max_index = DATA.length;
-    console.log([min_index,max_index])
+
     for (let i = min_index; (i < max_index); i++) {
         try {
         insert_datum(DATA[i]);
         } catch (error) {
-            console.log('error')
+            //do nothing
         }
     }
     $('html,body').scrollTop(0);
@@ -190,40 +189,6 @@ function insert_datum(d) {
     }
 
     //Additional collapse button
-    
-
-
-    //"Add button"
-    let str;
-    if (d['Used']=='Used') 
-    {
-        str = 'Remove'
-        datum_grid.classList.add('used-true');
-    }
-    else str = 'Add'
-    const add_button = std_make(
-        'add-button',
-        header,
-        {
-            content: str, 
-            tag:'button',
-            grid_child: true
-        }
-    )
-
-    add_button.onclick = function(e) {
-        if (this.innerHTML == "Add") {
-            this.innerHTML = "Remove"
-            $.ajax("/api/used/add/"+d['index'])
-        } else {
-            this.innerHTML = "Add"
-            $.ajax("/api/used/remove/"+d['index'])
-        }
-        datum_grid.classList.toggle('used-true')
-        e.stopPropagation();
-    }
-    
-    
 
     datum_grid.classList.remove('hide');
 }
@@ -233,12 +198,25 @@ document.getElementById('search-button').onclick = () => {
     terms = {
         keywords: document.getElementById('keywords-search').value,
         journalist: document.getElementById('journalist-search').value,
-        mediaOutlet: document.getElementById('mediaOutlet-search').value
+        mediaOutlet: document.getElementById('mediaOutlet-search').value,
+        dateBefore: document.getElementById('dateBefore-search').value,
+        dateAfter: document.getElementById('dateAfter-search').value
     }
-
+    
+    for (let e of ['dateBefore','dateAfter']){
+        if (terms[e] != '') {
+            terms[e] = terms[e].substring(5,7)+'/'+terms[e].substring(8)+'/'+terms[e].substring(0,4);
+        }
+        else {
+            delete terms[e];
+        }
+        console.log(e)
+        console.log(terms[e])
+    }
+    if (terms['dateBefore']) terms['dateBefore'] = terms['dateBefore'] + ' 23:59:59'
+    if (terms['dateAfter']) terms['dateAfter'] = terms['dateAfter'] + ' 00:00:00'
     let requestUrl = '/api/serveHaros'
     if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
-    if (mode == 'used') requestUrl = requestUrl + '/used';
     requestUrl = requestUrl + '?'
 
     let allEmpty = true;
@@ -248,16 +226,18 @@ document.getElementById('search-button').onclick = () => {
             requestUrl = `${requestUrl}${e}=${terms[e]}&`
         }
     }
-    requestUrl = requestUrl.substring(0,requestUrl.length-1);
+    
+    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing &
+    console.log(requestUrl)
     if (!allEmpty){
         getMediaQueryData(requestUrl);
     } else {
         if (mode == 'all') {
             getMediaQueryData('/api/serveHaros')
         } else getMediaQueryData(`/api/serverHaros/${mode}`)
-
     }    
 }
+
 
 function dateConvert(date){
     // yyyy-mm-dd to dd (month), yyyy
