@@ -29,7 +29,7 @@ app.errorhandler(401)(e_p.unauthorized)
 app.errorhandler(500)(e_p.internal_error)
 
 
-@app.route('/')
+#@app.route('/')
 # def welcome():
 #     return render_template('welcome.html')
 
