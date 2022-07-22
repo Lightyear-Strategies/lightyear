@@ -65,6 +65,13 @@ class Muckrack:
         driver = uc.Chrome(headless=True)
         with driver:
             for url in self.url_list:
+                if(url=="" or url==" " or url=="\n" or url=="\t"):
+                    continue
+                if(not url.endswith("/articles")):
+                    continue
+                if("media-outlet" in url):
+                    continue
+
                 try:
                     logger.info("Parsing: " + url)
                     logger.info("Time left: " + self.__time_left())
