@@ -29,11 +29,16 @@
                 myDropzone.processQueue();
             });
             myDropzone.on("sending", function(file, xhr, formData) { 
-                console.log(typeof(xhr))
                 formData.append(
                     "email",
                     document.getElementById('email').value
                 );  
+                thisxhr = xhr
+                xhr.onreadystatechange = () => {
+                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                        window.location.href = "email_sent"
+                    }
+                }
             });
         }
     };

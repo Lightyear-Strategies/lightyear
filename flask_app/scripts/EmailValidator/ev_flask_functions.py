@@ -27,11 +27,11 @@ def email_validator():
         email = request.form.get('email')
         print(email)
 
-        if Config.ENVIRONMENT == 'server':
-            if not authCheck():
-                return redirect('/authorizeCheck')
-        elif Config.ENVIRONMENT == 'local':
-            localServiceBuilder()
+#        if Config.ENVIRONMENT == 'server':
+#            if not authCheck():
+#                return redirect('/authorizeCheck')
+#        elif Config.ENVIRONMENT == 'local':
+#            localServiceBuilder()
 
         if files:
             for file in files:
