@@ -149,8 +149,7 @@ main {
     font-size: 2.75rem;
     margin: 0px;
     padding: 0px;
-    -webkit-text-stroke: 1px var(--contrast-color);
-    color: var(--background-color);
+    color: var(--contrast-color);
 }
 
 .card > div > p {
@@ -162,23 +161,20 @@ main {
     color: var(--background-color);
 }
 
-.card:hover > div > h1{
-    -webkit-text-stroke: 1px var(--background-color);
-}
-
 .card::after {
     content: "Check it out";
     text-align: center;
     z-index: 1;
     position: absolute;
     padding: 18rem 0.25rem;
-    bottom: -70%;
+    bottom: -150%;
+    display: grid;
+    place-items: center;
     left: 0;
     width: 100%;
     background-color: var(--background-color);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: var(--background-color);
-    -webkit-text-stroke: 1px var(--contrast-color);
+    color: var(--contrast-color);
     font-size: 4rem;
     font-weight: bold;
     transition: all ease-out 0.25s;
@@ -215,6 +211,7 @@ aside > div{
     flex-direction: column;
 }
 
+
 aside > div > div {
     position: relative;
     overflow: hidden;
@@ -233,6 +230,175 @@ aside > div > div::after {
 
 aside > div > div:hover::after{
     right: 0px;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--lightyear-yellow);
+    margin-top: 7.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+footer > section:last-of-type {
+    flex: 1;
+    margin-top: 3rem;
+    padding-top: 4rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    color: var(--background-color);
+    text-align: center;
+}
+
+footer > section:last-of-type > hr {
+    border-top: solid 2px var(--background-color);
+    width: 80%;
+    margin: auto;
+}
+
+.footerWrapper {
+    flex: 1;
+    display: flex;
+    width: 90%;
+    flex-wrap: wrap;
+}
+
+.footerLeft {
+    flex: 3;
+    min-width: 300px;
+    min-height: 600px;
+    position: relative;
+    color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+.footerLeft > hr {
+    width: 62.5%;
+    border-top: solid 2px var(--background-color);
+}
+
+.footerLeft-Top {
+    width: 80%;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.footerLeft > section:first-of-type {
+    flex: 1;
+    text-align: left;
+}
+
+.footerLeft-Top > section:first-of-type > img {
+    min-width: 100px;
+    min-height: 100px;
+}
+
+.footerLeft-Top > section:last-of-type {
+    flex: 2;
+    min-width: 300px;
+    text-align: left;
+}
+
+.footerLeft-Top > section:last-of-type > svg {
+    padding-left: 1rem;
+    flex: 1;
+    transition: all 0.1s ease-out;
+}
+
+.footerLeft-Top > section:last-of-type > svg:hover {
+    fill: var(--background-color);
+}
+
+.footerLeft-Top > section {
+    min-width: 200px;
+}
+
+.footerLeft-Bottom {
+    width: 80%;
+    flex: 2;
+    min-width: 300px;
+    display: flex;
+}
+
+.footerLeft-Bottom > section  {
+    flex: 1;
+    display: grid;
+    place-content: center flex-start;
+}
+
+.footerLeft-Bottom > section > h2 {
+        margin: 0px;
+        min-height: 125px;
+}
+
+.footerRight {
+    flex: 2;
+    min-width: 200px;
+    min-height: 600px;
+    border: solid 2px var(--background-color);
+    text-align: center;
+    position: relative;
+}
+
+.footerRight > section {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+}
+
+.footerRight > section > div {
+    flex: 1;
+}
+
+.footerRight > section > div:first-of-type {
+    display: flex;
+    margin: auto;
+    width: 90%;
+    justify-content: flex-start;
+}
+
+.footerRight > section > div:first-of-type > input {
+    flex: 1;
+    width: 45%;
+    height: 50%;
+    margin: 0.25rem;
+}
+
+.footerRight > section> div:nth-of-type(2) > input, .footerRight > section > div:nth-of-type(3) > input {
+    width: 87.5%;
+    height: 50%;
+}
+
+
+.footerRight > button {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    padding: 2rem 0rem;
+    bottom: 1rem;
+    background-color: var(--background-color);
+    color: var(--contrast-color);
+    border: none;
+    font-weight: 800;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    font-size: 2rem;
+}
+
+.footerRight > h1 {
+    font-size: 2.5rem;
+    color: var(--background-color);
 }
 
 @media screen and (max-width: 1900px) {
@@ -255,10 +421,34 @@ aside > div > div:hover::after{
         padding: 0rem 1rem;
     }
 
-    .card::after {
-        padding: 17rem 0rem;
+    .footerWrapper {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
     }
 
+    .footerWrapper > section {
+        margin: auto;
+        width: 90%;
+    }
+
+    .footerLeft {
+        color: var(--background-color);
+        padding-bottom: 3rem;
+        font-size: 1rem;
+    }
+
+    .footerLeft > hr {
+        width: 100%;
+        border-top: solid 2px var(--background-color);
+    }
+
+    .footerRight > section > div:first-of-type > input {
+        flex: 1;
+        width: 45%;
+        height: 50%;
+    }
     
 }
 
@@ -266,11 +456,6 @@ aside > div > div:hover::after{
 
     .cards-wrapper {
         width: 80%;
-    }
-
-
-    .card::after {
-        padding: 18rem 0rem;
     }
     
 }
@@ -281,9 +466,4 @@ aside > div > div:hover::after{
         width: 90%;
     }
 
-
-    .card::after {
-        padding: 15.5rem 0rem;
-    }
-    
 }
