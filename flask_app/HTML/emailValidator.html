@@ -29,6 +29,7 @@
                 myDropzone.processQueue();
             });
             myDropzone.on("sending", function(file, xhr, formData) { 
+                console.log(typeof(xhr))
                 formData.append(
                     "email",
                     document.getElementById('email').value

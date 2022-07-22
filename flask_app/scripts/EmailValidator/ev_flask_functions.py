@@ -59,6 +59,7 @@ def email_validator():
     return render_template('emailValidator.html')
 
 
+
 def emailVerify(path, recipients=None):
     print('emailVerify')
     """
