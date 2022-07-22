@@ -25,18 +25,18 @@ def email_validator():
 
         files = request.files
         email = request.form.get('email')
-        print(email)
+        #print(email)
 
-#        if Config.ENVIRONMENT == 'server':
-#            if not authCheck():
-#                return redirect('/authorizeCheck')
-#        elif Config.ENVIRONMENT == 'local':
-#            localServiceBuilder()
+        if Config.ENVIRONMENT == 'server':
+           if not authCheck():
+               return redirect('/authorizeCheck')
+        elif Config.ENVIRONMENT == 'local':
+           localServiceBuilder()
 
         if files:
             for file in files:
                 filename = secure_filename(files.get(file).filename) #.filename
-                print(filename)
+                #print(filename)
                 #file.save(os.path.join(Config.UPLOAD_DIR, filename))
                 files.get(file).save(os.path.join(Config.UPLOAD_DIR, filename))
                 filenames.append(filename)
@@ -45,13 +45,11 @@ def email_validator():
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
-                pass
 
-                ### Comment it out for now ###
                 parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-            #print('Here')
 
-            return render_template('OnSuccess/EmailSent.html')
+            # Not functional rn,
+            #return render_template('OnSuccess/EmailSent.html')
 
         else:
             print('No files')
