@@ -65,6 +65,8 @@ class Muckrack:
         driver = uc.Chrome(headless=True)
         with driver:
             for url in self.url_list:
+                if(type(url) is not str):
+                    continue
                 if(url=="" or url==" " or url=="\n" or url=="\t"):
                     continue
                 if(not url.endswith("/articles")):
