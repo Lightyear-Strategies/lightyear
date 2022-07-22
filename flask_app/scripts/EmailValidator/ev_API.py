@@ -1,5 +1,6 @@
 import requests, re, os, json
 import pandas as pd
+from threading import Thread
 
 from flask_app.scripts.config import Config
 
@@ -72,19 +73,10 @@ class emailValidation:
                 params={'email': email},
                 headers={'Authorization': "Bearer " + self.key})
 
-        # Debugging
-        # Important to remember to verify sufficient balance at https://isitarealemail.com/
-
-        # print(response.json())
-        # try:
-        #     return response.json()['status']
-        # except as Exception:
-        #     pass
-
         return response.json()['status']
 
-    def validation(self, save=False, stats=False, record_removed=False):
-        data = self.df
+    def validation_sub(self, to_check, record_removed=False):
+        data = to_check
         length = len(data)
         removed = 0
 
@@ -104,14 +96,31 @@ class emailValidation:
 
         self.statistics['Invalid Emails Removed'] = removed
         self.statistics['Final Length'] = len(data)
-        self.df = data
 
-        if stats:
-            print(self.show_stats())
+    def validation(self, save=False):
+        df = self.df
+        threads = []
+        data = []
+        #split dataframe into 4 parts and append to list
+        for i in range(4):
+            data.append(df.iloc[i::4])
+        for entry in data:
+            entry.reset_index(drop=True, inplace=True)
+            t = Thread(target=self.validation_sub, args=(entry, False))
+            threads.append(t)
+            t.start()
+
+        for t in threads:
+            t.join()
+
+        df = pd.concat(data)
+        df.reset_index(drop=True, inplace=True)
+        self.df = df
+
         if save:
             self.to_cvs()
-        else:
-            return self.df
+
+        return self.df
 
 
     def to_cvs(self):
