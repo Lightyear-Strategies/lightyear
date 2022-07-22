@@ -3,18 +3,15 @@ let maxSlide;
 
 document.addEventListener('scroll', () => {
     const header = document.querySelector("header");
-    const signUp = document.querySelector("#spanSignUp");
 
     if (scrollY == 0) {
         header.style.backgroundColor = "#ffffff";
-        signUp.style.border = "solid 2px #F04C23";
         document.getElementById("strat").style.color = "#F04C23";
         for (i = 1; i < 4; i ++) {
             document.getElementById("a-" + i).style.color = "#F04C23";
         }
     } else {
         header.style.backgroundColor = "#FCE300";
-        signUp.style.border = "solid 2px #FCE300";
         document.getElementById("strat").style.color = "#ffffff";
         for (i = 1; i < 4; i ++) {
             document.getElementById("a-" + i).style.color = "#ffffff";

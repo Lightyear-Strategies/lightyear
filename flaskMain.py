@@ -29,6 +29,9 @@ app.errorhandler(403)(e_p.forbidden)
 app.errorhandler(401)(e_p.unauthorized)
 app.errorhandler(500)(e_p.internal_error)
 
+@app.route('/email_sent')
+def email_sent():
+    return render_template('confirmation.html')
 
 #@app.route('/')
 # def welcome():

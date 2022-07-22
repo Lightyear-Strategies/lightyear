@@ -10,9 +10,9 @@ class EmailValidator(FlaskForm):
     """Constructor for the Email Verification Form"""
 
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
-                                                                      "Only CSV or XLSX files are allowed")])
+    # files = MultipleFileField('Select your files',
+    #                           validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
+    #                                                                   "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 

@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/signup.css') }}">
-    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Signup Page</title>
 </head>
 <body>
@@ -20,7 +19,7 @@
         <section>
             <form method="POST" action="/signup">
                 {{ form.csrf_token }}
-                <h3> Do you have an account already? <a href="/" >Sign In!</a> </h3>
+                <h3> Do you have an account already? <a href="{{ url_for('login') }}" style='color:#F04C23'>Sign In!</a> </h3>
                 <div action="" class="form__group field">
                     {{ form.username(id='username', class="form__field", placeholder="username") }}
                     {{ form.username.label(for='username',class="form__label") }}
