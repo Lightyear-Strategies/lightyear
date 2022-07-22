@@ -1,0 +1,289 @@
+:root {
+    margin: none;
+    padding: none;
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    --lightyear-blue: #3452ff; 
+    --background-color: #ffffff;
+    --contrast-color: #000;
+    font-family: 'Inter';
+    scroll-behavior: smooth;
+    outline: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--contrast-color);
+    padding: 0;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+svg:nth-of-type(2) {
+    display: none;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-content: center;
+    text-align: right;
+    min-height: 60px;
+    height: 100%;
+    padding: 0.5rem 0rem;
+    font-weight: 700;
+    background-color: var(--lightyear-yellow);
+    color: var(--contrast-color);
+    box-shadow: 0px -100px 125px var(--contrast-color);
+}
+
+img {
+    min-height: 50px;
+}
+
+.hamburger {
+    display: none;
+    padding-right: 1.5rem;
+}
+
+header > section {
+    padding: 2rem;
+}
+
+header > section:first-of-type {
+    display: flex;   
+    justify-content: flex-start;
+}
+
+header > section:last-of-type {
+    display: block;
+    flex-wrap: wrap;
+    text-align: right;
+    justify-content: flex-end;
+}
+
+header > section:last-of-type > div {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    margin-right: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+header > section:last-of-type > div > a {
+    text-decoration: none;
+    color: var(--contrast-color);
+}
+
+header > section:last-of-type > div::after {
+    content: "";
+    padding: 2px 150px;
+    position: absolute;
+    top: 0px;
+    right: -300%;
+    transition: all ease-in 0.25s;
+}
+
+header > section:last-of-type > div:hover::after{
+    background-color: var(--contrast-color);
+    right: 0px;
+}
+
+.flex-1{
+    flex:1;
+}
+
+.flex-6{
+    flex:6;
+}
+
+main {
+    margin-top: 3rem;
+}
+
+.cards-wrapper{
+    display: flex;
+    width: clamp(300px, 90%, 1500px);
+    min-width: 300px;
+    margin: auto;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px clamp(0rem, 4rem, 4rem);
+    margin: 1rem 5rem;
+    border-radius: 0.25rem;
+    background-color: var(--lightyear-yellow);
+    overflow: hidden;
+    position: relative;
+    transition: all ease-out 0.125s;
+    border: solid 1px var(--lightyear-yellow);
+}
+
+.card > div {
+    flex: 1;
+    z-index: 5;
+    min-height: 300px;
+    cursor: pointer;
+}
+
+.card > div > h1 {
+    font-size: 2.75rem;
+    margin: 0px;
+    padding: 0px;
+    -webkit-text-stroke: 1px var(--contrast-color);
+    color: var(--background-color);
+}
+
+.card > div > p {
+    font-size: 1.125rem;
+}
+
+.card:hover {
+    border: solid 1px var(--lightyear-yellow);
+    color: var(--background-color);
+}
+
+.card:hover > div > h1{
+    -webkit-text-stroke: 1px var(--background-color);
+}
+
+.card::after {
+    content: "Check it out";
+    text-align: center;
+    z-index: 1;
+    position: absolute;
+    padding: 18rem 0.25rem;
+    bottom: -70%;
+    left: 0;
+    width: 100%;
+    background-color: var(--background-color);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: var(--background-color);
+    -webkit-text-stroke: 1px var(--contrast-color);
+    font-size: 4rem;
+    font-weight: bold;
+    transition: all ease-out 0.25s;
+}
+
+.card:hover::after {
+    bottom: 0px;
+    z-index: 10;
+}
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 99;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.199);
+}
+
+aside {
+    font-size: 2rem;
+    background-color: var(--lightyear-yellow);
+    font-weight: 700;
+    padding-bottom: 1rem;
+    padding-right: 1.5rem;
+    display: none;
+    transition: all ease-in-out 100s;
+}
+
+aside > div{
+    display: flex;
+    text-align: right;
+    flex-direction: column;
+}
+
+aside > div > div {
+    position: relative;
+    overflow: hidden;
+}
+
+aside > div > div::after {
+    content: "";
+    right: -100%;
+    bottom: 0;
+    padding: 2px;
+    width: clamp(300px, 50vh, 400px);
+    background-color: var(--contrast-color);
+    position: absolute;
+    transition: all ease-in-out 0.25s;
+}
+
+aside > div > div:hover::after{
+    right: 0px;
+}
+
+@media screen and (max-width: 1900px) {
+    .hamburger {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    header > section:last-of-type {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+
+    .card {
+        margin: 0px;
+        margin-top: 2rem;
+        padding: 0rem 1rem;
+    }
+
+    .card::after {
+        padding: 17rem 0rem;
+    }
+
+    
+}
+
+@media only screen and (max-width: 550px) {
+
+    .cards-wrapper {
+        width: 80%;
+    }
+
+
+    .card::after {
+        padding: 18rem 0rem;
+    }
+    
+}
+
+@media only screen and (max-width: 400px) {
+
+    .cards-wrapper {
+        width: 90%;
+    }
+
+
+    .card::after {
+        padding: 15.5rem 0rem;
+    }
+    
+}
