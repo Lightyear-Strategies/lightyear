@@ -1,4 +1,5 @@
 from flask import render_template
+from flask_login import login_required
 from flask_app.scripts.create_flask_app import app
 from flask_app.scripts.EmailValidator import ev_flask_functions as ev_f_f
 from flask_app.scripts.PeriodicWriters import journalist_upload_functions as j_u_f
@@ -38,7 +39,9 @@ def email_sent():
 #     return render_template('welcome.html')
 
 
+
 @app.route('/home')
+@login_required
 def home():
     return render_template('homePage.html')
     #return render_template('welcome_old.html')
