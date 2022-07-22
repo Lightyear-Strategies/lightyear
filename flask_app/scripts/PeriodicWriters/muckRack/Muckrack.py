@@ -37,7 +37,7 @@ class Muckrack:
         self.timeframe = timeframe
         self.sleep_time = sleep_time
         self.time_total = len(url_list)*(self.sleep_time*2)
-        self.time_left = self.time_total
+        self.time_left = self.time_total+(self.sleep_time*2)
 
     def __find_list(self, filename):
         #empty dataframe
@@ -62,9 +62,13 @@ class Muckrack:
         return url_list
 
     def parse_HTML(self):
-        driver = uc.Chrome(headless=True)
+        options = uc.ChromeOptions()
+        options.arguments.extend(["--no-sandbox", "--disable-setuid-sandbox", "--headless"])
+        driver = uc.Chrome(options=options)
+
         with driver:
             for url in self.url_list:
+                self.time_left -= self.sleep_time*2
                 if(type(url) is not str):
                     continue
                 if(url=="" or url==" " or url=="\n" or url=="\t"):
@@ -90,8 +94,6 @@ class Muckrack:
                     # print("Error: " + str(e))
                     continue
 
-
-                self.time_left -= self.sleep_time*2
         driver.quit()
 
     def __time_left(self):
