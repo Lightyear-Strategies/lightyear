@@ -12,7 +12,7 @@
 <body>
     <header>
         <section class="flex-1">
-            <img src="{{ url_for('static',filename='img/logo.png') }}" alt="">
+            <img src="{{ url_for('static',filename='img/logo.png') }}" alt="" onclick="window.location.href='/home'">
         </section>
         <section class="flex-6">
             <div>
@@ -77,39 +77,39 @@
 
     <main>
         <section class="cards-wrapper">
-            <div class="card">
+            <div class="card" onclick="window.location.href='/email_validator'">
                 <div class="card-spacing">
 
                 </div>
-                <div class="card-content" onclick="window.location.href='/email_validator'">
+                <div class="card-content">
                     <h1> Email Validator</h1>
                     <p> Quickly verify a CSV of reporter emails to increase the deliverability rate PR campaigns. Keeps mail out of the spam box.</p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" onclick="window.location.href='/jtracker'">
                 <div class="card-spacing">
 
                 </div>
-                <div class="card-content" onclick="window.location.href='/jtracker'">
+                <div class="card-content">
                     <h1> Journalist Tracker </h1>
                     <p> Keep better track of journalists you already know! Get a daily email that displays the title and subheading for articles they released that day!</p>
                 </div>
             </div>
         </section>
         <section class="cards-wrapper">
-            <div class="card">
+            <div class="card" onclick="window.location.href='/haro_table'">
                 <div class="card-spacing">
                 </div>
-                <div class="card-content" onclick="window.location.href='/haro_table'">
+                <div class="card-content">
                     <h1> Haro Table</h1>
                     <p>  Search any phrase and see a year's worth of reporter questions. Make better press releases and personalized pitches with titles that impress.</p>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="card" onclick="window.location.href='/contact_us'">
                 <div class="card-spacing">
                 </div>
-                <div class="card-content" onclick="window.location.href='/contact_us'">
+                <div class="card-content">
                     <h1> Contact Us</h1>
                     <p> Feel free to reach out to us about any matter! </p>
                 </div>
