@@ -35,3 +35,6 @@ flask_app/configs/
 .env
 
 flask_app/Database.sqlite3
+
+flask_app/scratch_files/Aleksei.csv
+
