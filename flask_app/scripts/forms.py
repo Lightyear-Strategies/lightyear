@@ -49,18 +49,18 @@ class SignUpForm(FlaskForm):
 
     def validate_username(self, username):
         if User.query.filter_by(username=username.data.lower()).first():
-            raise ValidationError('Username already in use.')
+            raise ValidationError('Username is already in use.')
 
     def validate_email(self, email):
         if User.query.filter_by(email=email.data.lower()).first():
-            raise ValidationError('Email already in exists.')
+            raise ValidationError('Email already exists.')
 
 
 class LoginForm(FlaskForm):
     """Constructor for the Login Page"""
     username_email = StringField('Email or Username', validators=[DataRequired(), Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
-    remember_me = BooleanField('Remember Me') # if remember then sessions?
+    remember_me = BooleanField('Remember Me')  # if remember then sessions?
     submit = SubmitField('Login')
 
     def validate_username_email(self,username_email):

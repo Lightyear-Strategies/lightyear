@@ -30,6 +30,8 @@
                     <div action="" class="form__group field">
                         {{ form.password(id='password', class="form__field", placeholder="password") }}
                         {{ form.password.label(for='password',class="form__label") }}
+
+                        <!-- For showing Password related errors during form.validate_on_submit -->
                         {% if form.password.errors %}
                             <ul class="errors">
                                 {% for error in form.password.errors %}
@@ -37,9 +39,21 @@
                                 {% endfor %}
                             </ul>
                         {% endif %}
+
+                        <!-- For showing Password related errors after form.validate_on_submit -->
+                        {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                <ul class="errors">
+                                    {% for message in messages %}
+                                        {{ message }}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                     <br>
-                    <button onclick='location.href="{{ url_for('home') }}"' type="button" id="loginBtn">
+{#                    onclick='location.href="{{ url_for('home') }}"' type="button" #}
+                    <button  id="loginBtn">
                     Sign In
                     </button>
                     <div class="checkBox" id="checkBox">
