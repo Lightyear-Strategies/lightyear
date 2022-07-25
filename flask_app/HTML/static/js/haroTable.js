@@ -5,10 +5,10 @@ let Categories = [];
 const expanded_previously = {};
 let mode = 'all'
 
-initializeHarosPerPAge();
+initializeHarosPerPage();
 getMediaQueryData('/api/serveHaros');
 
-function initializeHarosPerPAge(){
+function initializeHarosPerPage(){
     
     haros_per_page = Number(localStorage.getItem('harosPerPage'));
     
