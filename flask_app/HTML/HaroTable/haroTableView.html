@@ -1,19 +1,19 @@
 {% extends "HaroTable/base.html" %}
 
 {% block content %}
+
   <table id="data" class="table table-striped">
     <thead>
       <tr>
         <th></th>
         <th>Summary</th>
         <th>Media Outlet</th>
-        <th>Category</th>
         <th>Date Received</th>
-        <th>Add/Remove</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
+  <input type="text">
 {% endblock %}
 
 {% block scripts %}
@@ -55,27 +55,16 @@ $(document).ready(function () {
       },
       serverSide: true,
       columns: [
-        {  width:          "3%",
+        {  width:          "5%",
           orderable:      false,
           className:      'details-control',
           data:           null,
           defaultContent: ''
         },
 
-        {data: 'Summary', orderable: false, width: "42%"},
-        {data: 'MediaOutlet', width: "16%"},
-        {data: 'Category', width: "16%"},
-        {data: 'DateReceived', width: "13%"},
-
-        { width:          "10%",
-          orderable:      false,
-          data:           null,
-          defaultContent:
-              "<button id='Add' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 2px;cursor: pointer;\" >Add</button> " +
-
-              "<button id='Remove' style=\"background: rgba(230, 230, 230, 0.1);color: black;font-size: .88em;" +
-              "border: 1px solid rgba(0, 0, 0, 0.3);padding: 0.3em;border-radius: 3px;cursor: pointer;\" >Remove</button>"}
+        {data: 'Summary', orderable: false, width: "45%"},
+        {data: 'MediaOutlet', width: "25%"},
+        {data: 'DateReceived', width: "25%"},
       ]
     });
 
