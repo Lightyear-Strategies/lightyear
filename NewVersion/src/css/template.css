@@ -1,0 +1,233 @@
+:root {
+    margin: none;
+    padding: none;
+    --primary-color: #F7f8fc;
+    --primary-color-dark: #9fa2b4;
+    --secondary-color:#363740 ; 
+    --secondary-color-dark: #A4A6b3;
+    --secondary-color-contrast: #DDe2ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    scroll-behavior: smooth;
+    outline: none;
+}
+
+body {
+    position: relative;
+    margin: 0px;
+    overflow: hidden;
+}
+
+nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background-color: var(--secondary-color);
+    min-width: 20rem;
+    color: var(--secondary-color-dark);
+}
+
+nav > section {
+    display: grid;
+    place-items: center;
+}
+
+nav > section:first-of-type {
+    font-size: 1.5rem;
+    padding: 2rem 0rem;
+    font-weight: 500;
+}
+
+nav > section:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+}
+ 
+nav > section:nth-of-type(2) > div {
+    width: 20rem;
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    place-items: center;
+}
+
+nav > section:nth-of-type(2) > div::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 100% 2px;
+    background-color: var(--secondary-color);
+}
+
+
+nav > section:nth-of-type(2) > div:hover > div > svg{
+    fill: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div:hover::before {
+    background-color: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div > div{
+    display: flex;
+    width: 15rem;
+    padding: 1rem 0rem;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: flex-start;
+}
+
+nav > section:nth-of-type(2) > div > div > svg  {
+    flex: 1;
+    fill: var(--secondary-color-dark);
+}
+
+nav > section:nth-of-type(2) > div > div > div{
+    flex: 5;
+    font-size: 1.25rem;
+} 
+
+nav > section:last-of-type {
+    position: absolute;
+    bottom: 0;
+    width: 20rem;
+    display: grid;
+    left: 0;
+    place-content: center;
+    font-size: 1.5rem;
+    color: var(--secondary-color-dark);
+    border-top: solid 1px var(--primary-color-dark);
+}
+
+nav > section:last-of-type > div {
+    display: grid;
+    padding: 1.5rem 0rem;
+    place-items: center;
+    width: 20rem;
+    position: relative;
+    overflow: hidden;
+}
+
+nav > section:last-of-type > div::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 100% 2px;
+    background-color: var(--secondary-color);
+}
+
+
+nav > section:last-of-type > div:hover > div > svg{
+    fill: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div:hover::before {
+    background-color: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div > div{
+    width: 15rem;
+    display: flex;
+    align-items: center;
+}
+
+nav > section:last-of-type > div > div > svg{
+    flex: 1;
+    fill: var(--secondary-color-dark);
+}
+
+nav > section:last-of-type > div > div > div{
+    flex: 5;
+}
+
+
+
+
+/* Main */
+main {
+    position: relative;
+    background-color: var(--primary-color);
+    left: 20rem;
+    width: calc(100vw - 20rem);
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+main > header {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100px;
+}
+
+main > section {
+    flex: 10
+}
+
+main > header > div:first-of-type {
+    flex: 1;
+    display: grid;
+    place-content:  center flex-start;
+}
+
+main > header > div:first-of-type > h2 {
+    padding: 0rem 3rem;
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+main > header > div:last-of-type {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+main > header > div:last-of-type > div:first-of-type{
+    display: grid;
+    place-items: center;
+    height: 50%; 
+    border-right: solid 1px var(--secondary-color);
+    width: 100px;
+}
+
+main > header > div:last-of-type > div:last-of-type{
+    width: 200px;
+    padding-left: 1rem;
+    padding-right: 3rem;
+    transform: translateY(25%);
+}
+
+main > header > div:last-of-type > div:last-of-type > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main > header > div:last-of-type > div:last-of-type > div:last-of-type {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    visibility: hidden;
+}
+
+main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~ #logout {
+    visibility: visible;
+}
