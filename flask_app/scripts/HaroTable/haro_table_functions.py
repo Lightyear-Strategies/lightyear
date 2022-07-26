@@ -43,7 +43,7 @@ def addDBData(df: pd.DataFrame): #(file):
     res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
 
 
-@login_required
+#@login_required
 def show_haro_table():
     """
     Shows Haro Table
@@ -86,7 +86,6 @@ def serve_data(option=None):
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
 
@@ -100,7 +99,7 @@ def serve_data(option=None):
     print(request.args)
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
-    journalist = request.args.get('journalist')
+    category = request.args.get('journalist')
     dateBefore = request.args.get('dateBefore')
     dateAfter = request.args.get('dateAfter')
     
@@ -127,9 +126,9 @@ def serve_data(option=None):
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
         ))
 
-    if journalist:
+    if category:
         query = query.filter(db.or_(
-            Haros.columns.MediaOutlet.like(f'%{journalist}%')
+            Haros.columns.MediaOutlet.like(f'%{category}%')
         ))
 
     

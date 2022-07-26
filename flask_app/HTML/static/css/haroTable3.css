@@ -20,7 +20,7 @@ h1{
     font-size: 1.5em;
 }
 
-table{
+#main-table{
     border-collapse: collapse;
 }
 
@@ -28,13 +28,13 @@ th {
     text-align: left;
 }
 
-tbody{
+#main-table > tbody{
     box-shadow: 0 0 0 1px #EDEEF1;
     border: 3px solid #EDEEF1;
     border-radius: 4px;
 }
 
-tr {
+#haro-table-body > tr, .table-head > th {
     height: 3em;
 }
 
@@ -42,10 +42,10 @@ tr {
     padding-left: 1em;
 }
 
-tbody > tr:nth-child(odd){
+.even-sibling-false {
     background-color: white;
 }
-tbody > tr:nth-child(even){
+.even-sibling-true{
     background-color: rgba(196, 196, 196, 0.12); 
 }
 
@@ -56,7 +56,8 @@ tbody > tr:nth-child(even){
     width: fit-content;
     padding: 1em;
     font-weight: bold;
-    font-size: .75rem;
+    border-collapse: separate;
+    border-spacing: 1.5em 0;
 }
 
 .search-header{
@@ -77,4 +78,32 @@ tbody > tr:nth-child(even){
     position: relative;
     top: 2px;
     text-justify: center;
+}
+
+.search-menu > thead > tr > th {
+    padding-right: 2em;
+}
+
+.search-menu > tr > td > * {
+    height: 2rem;
+}
+
+.details {
+    display: grid;
+    grid-template-areas: 'Journalist-label Journalist'
+    'Email-label Email'
+    'Query-label Query'
+    'Requirements-label Requirements';
+    row-gap: .75em;
+    column-gap: .75em;
+    width: 80em;
+    margin: none;
+}
+
+.details-label{
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
 }
