@@ -15,9 +15,11 @@ const search_bar_toggle_elements = [
     document.getElementById('category-label'),
     document.getElementById('category'),
     document.getElementById('search-collapse-button'),
-    document.getElementById('dateRecieved-label'),
-    document.getElementById('dateRecieved')
+    document.getElementById('dateReceived-label'),
+    document.getElementById('dateReceived'),
+    document.getElementById('date-checkbox')
 ]
+
 
 const saved_haros = new Set()
 
@@ -65,9 +67,9 @@ $( document ).ready(function() {
     //binding enter to all the search bars
     for (let id of search_menu_ids){
         e = document.getElementById(id)
-        console.log(e)
+
         e.onkeydown = function(e){
-            console.log(e.key)
+
             if(e.key == 'Enter'){
 
                 submitSearch()
@@ -75,25 +77,40 @@ $( document ).ready(function() {
         }
     }
 
-    //declaring dateRangePicker
-    $('input[name="dateRecieved"]').daterangepicker({
-        timePicker: true,
+
+    $('input[name="dateReceived"]').daterangepicker({
+        timePicker: false,
         startDate: moment().startOf('hour'),
         endDate: moment().startOf('hour').add(32, 'hour'),
         locale: {
-          format: 'MM/DD'
+          format: 'MM/DD/YYYY'
         }
       });
 })
 
 
+function getDates() {
+    strDates = document.getElementById('dateReceived').value
+
+    let  from  = strDates.substring(0,10)
+    let to = strDates.substring(13)
+    return [from + ' 00:00:00', to + ' 23:59:59']
+}
+
 function submitSearch() {
+    dateRange = getDates()
     terms = {
         keywords: document.getElementById('keywords').value,
         category: document.getElementById('category').value,
         mediaOutlet: document.getElementById('mediaOutlet').value,
+        dateAfter: '',
+        dateBefore: '',
     }
-    
+    if (document.getElementById('date-checkbox').checked) {
+        terms.dateAfter = dateRange[0];
+        terms.dateBefore = dateRange[1];
+    }
+
     let requestUrl = '/api/serveHaros'
     if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
     requestUrl = requestUrl + '?'
@@ -143,7 +160,7 @@ function insertEntry(id,datum, parent) {
 }
 
 function displayData() {
-    $('.haro-table-body *').remove()
+    $('.haro-table-body > *').remove()
 
     even_sibling = false;
     for (let i = 3; i < 23; i++) {
@@ -161,12 +178,17 @@ function insertDetailsRow(id,table,datum){
     let label = document.createElement('div');
     let content = document.createElement('div');
     label.innerHTML = `${id}: `;
-    content.innerHTML = datum[id];
+    
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
     table.appendChild(label)
     table.appendChild(content)
+    if (id=='Journalist'){
+        content.innerHTML = datum['Name']
+    } else {
+        content.innerHTML = datum[id];
+    }
 }
 
 function insertRow(datum) {
@@ -220,29 +242,21 @@ function insertRow(datum) {
     save_button.style['grid-area'] = 'save-button'
     save_button.innerHTML = noSaveSvg;
     row.appendChild(save_button)
-
     row.saved = false;
-    save_button.onmouseover = function() {
-        console.log('mouse over')
-        save_button.innerHTML = saveHoverSvg
-        console.log(save_button.innerHTML == saveHoverSvg)
-    }
-    save_button.onmouseleave = function() {
-        console.log('mouse off')
-        if (!row.saved) save_button.innerHTML = noSaveSvg
-    }
+
     save_button.onclick = function() {
-        console.log('click')
         if (!row.saved) {
             save_button.innerHTML = saveSvg
+
             saved_haros.add(Number(datum.index))
             row.saved = true
+            
         } else {
             save_button.innerHTML = noSaveSvg
+
             saved_haros.delete(Number(datum.index))
             row.saved = false
         }
-        console.log(saved_haros)
     }
 }
 
@@ -293,5 +307,11 @@ function initializeGridAreas(grid){
         if (node.tagName == 'INPUT' || node.tagName == 'DIV' || node.tagName == 'BUTTON') {
             node.style['grid-area'] = node.getAttribute('id')
         }
+    }
+}
+
+function toggleDatePicker() {
+    for (let id of ['dateReceived-label','dateReceived']) {
+        document.getElementById(id).classList.toggle('disabled')
     }
 }

@@ -86,8 +86,8 @@ td{
 }
 .search-menu.expanded{
     grid-template-areas:
-    'keywords-label  mediaOutlet-label category-label dateRecieved-label .'
-    'keywords        mediaOutlet       category       dateRecieved       search-collapse-button';
+    'keywords-label  mediaOutlet-label category-label dateReceived-label . .'
+    'keywords        mediaOutlet       category       dateReceived       date-checkbox search-collapse-button';
 }
 
 .filter-btn {
@@ -119,12 +119,14 @@ td{
     background-color: white;
 }
 
-#dateRecieved{
-    width: 7em;
+#dateReceived{
+    width: 13em;
 }
-.filter-btn-txt{
+
+#date-checkbox{
     position: relative;
-    bottom: .5em;
+    top: .5em;
+    right: .5em;
 }
 
 .details {
@@ -135,7 +137,7 @@ td{
     'Requirements-label Requirements';
     row-gap: .75em;
     column-gap: .75em;
-    width: 80em;
+    width: 75em;
     margin: none;
 }
 
@@ -150,4 +152,8 @@ td{
 button{
     border: none;
     background-color: rgba(0,0,0,0);
+}
+
+.disabled {
+    opacity: .5
 }
