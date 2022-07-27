@@ -24,6 +24,9 @@ then
     echo "Categorical Parser"
     sudo python3 categoricalWritersRunner.py $1 $2
 
+    echo "scp reports to the main server"
+    scp -i /home/ubuntu/pems/MainServer.pem -r /home/ubuntu/lightyear/flask_app/scripts/PeriodicWriters/reports ubuntu@99.79.179.105:/home/ubuntu/lightyear/flask_app/scripts/PeriodicWriters
+
   elif [ "$1" == "send" ];
   then
     echo "Categorical Send $2"
