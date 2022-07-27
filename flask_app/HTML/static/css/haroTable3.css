@@ -22,20 +22,41 @@ h1{
 
 #main-table{
     border-collapse: collapse;
+    margin: none;
 }
 
 th {
     text-align: left;
 }
 
-#main-table > tbody{
+td{
+    padding-right: 1em;
+}
+
+.haros-table-body{
     box-shadow: 0 0 0 1px #EDEEF1;
     border: 3px solid #EDEEF1;
     border-radius: 4px;
 }
+.head-element{
+    font-weight: bold;
+    padding: .5em;
+}
+.table-head{
+    display: grid;
+    grid-template-areas:
+    '. Summary MediaOutlet Category DateReceived  Deadline expand-button';
+    grid-template-columns: 3em 25em 10em 15em 10em 10em 4em
+}
+.haro-row {
+    display: grid;
+    grid-template-areas:
+    'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
+    grid-template-columns: 3em 25em 10em 15em 10em 10em 4em
+}
 
-#haro-table-body > tr, .table-head > th {
-    height: 3em;
+.haro-row > * {
+    padding: .5em;
 }
 
 .Summary {
@@ -50,23 +71,23 @@ th {
 }
 
 .search-menu{
-    background: white;
-    border: 2px solid #A4A6B3;
+    padding: .5em;
+    display: grid;
+    column-gap: 1em;
+    border: 1px solid #A4A6B36B;
     border-radius: 4px;
-    width: fit-content;
-    padding: 1em;
-    font-weight: bold;
-    border-collapse: separate;
-    border-spacing: 1.5em 0;
+    background-color: white;
+    width: fit-content
 }
-
-.search-header{
-    margin-bottom: .5em;
+.search-menu:not(.expanded){
+    grid-template-areas:
+    'keywords-label .'
+    'keywords       filter-btn';
 }
-
-.main-search {
-    height: 1.25rem;
-    width: 30em;
+.search-menu.expanded{
+    grid-template-areas:
+    'keywords-label  mediaOutlet-label category-label dateRecieved-label .'
+    'keywords        mediaOutlet       category       dateRecieved       search-collapse-button';
 }
 
 .filter-btn {
@@ -74,18 +95,36 @@ th {
     background-color: white;
     border: 4px solid #A4A6B36B;
     border-radius: 4px;
-    padding-bottom: .5em;
+    font-weight: bold;
+    height: 2.5em;
+}
+
+.search-label{
+    font-weight: bold;
+}
+
+.search-bar {
+    border: 1px solid #A4A6B36B;
+    border-radius: 4px;
+    height: 2.5em;
+}
+#keywords{
+    width: 23em;
+}
+#mediaOutlet, #category{
+    width: 10em;
+}
+#search-collapse-button{
+    border: none;
+    background-color: white;
+}
+
+#dateRecieved{
+    width: 7em;
+}
+.filter-btn-txt{
     position: relative;
-    top: 2px;
-    text-justify: center;
-}
-
-.search-menu > thead > tr > th {
-    padding-right: 2em;
-}
-
-.search-menu > tr > td > * {
-    height: 2rem;
+    bottom: .5em;
 }
 
 .details {
@@ -106,4 +145,9 @@ th {
 
 .hidden {
     display: none;
+}
+
+button{
+    border: none;
+    background-color: rgba(0,0,0,0);
 }

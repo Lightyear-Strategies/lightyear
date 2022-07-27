@@ -6,15 +6,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <!--Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../static/css/haroTable3.css">
-
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!--DateRangePicker-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <div class="bigger-wrapper">
 <div class="margin-bar"></div>
@@ -22,85 +26,54 @@
 <h1>
   HARO
 </h1>
-<form action="GET" id="search-form">
-<table class="search-menu">
-  <thead>
-    <tr>
-      <th>
-        What are you looking for?
-      </th>
-      <th></th>
-      <th>
-        Media Outlet
-      </th>
-      <th>
-        Category
-      </th>
-      <th>
-        Date Interval
-      </th>
-      <th>
-        Expired Due Dates
-      </th>
-    </tr>
-  </thead>
 
-  <tr>
-    <td>
-      <input type="text" class="main-search" id='keywords' placeholder="Search for Summary, Journalist, Media, Query etc.">
-    </td>
-    
-    <td>
-      <button class="filter-btn" onclick="expandSearchMenu()">
-        <svg width="20" height="16" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.09619 2.0625H23.9039C24.0915 2.0625 24.2752 2.10998 24.4325 2.19917C24.5897 2.28836 24.7139 2.41542 24.7898 2.56491C24.8657 2.71439 24.8902 2.87987 24.8601 3.04123C24.8301 3.20258 24.7469 3.35287 24.6207 3.47382L16.6582 11.1024C16.4961 11.2577 16.4063 11.4601 16.4063 11.6699V17.6422C16.4063 17.7811 16.3669 17.9178 16.2917 18.0403C16.2164 18.1628 16.1076 18.2672 15.9749 18.3442L12.0999 20.5942C11.954 20.6789 11.7844 20.7276 11.6093 20.735C11.4342 20.7423 11.26 20.7082 11.1054 20.6361C10.9508 20.564 10.8216 20.4568 10.7315 20.3258C10.6414 20.1948 10.5938 20.0449 10.5938 19.8922V11.67C10.5938 11.4601 10.504 11.2577 10.3418 11.1024L2.37937 3.47382C2.25313 3.35287 2.16994 3.20258 2.13992 3.04123C2.10989 2.87987 2.13433 2.71439 2.21026 2.56491C2.28618 2.41542 2.41033 2.28836 2.5676 2.19917C2.72488 2.10998 2.90852 2.0625 3.09619 2.0625V2.0625Z" stroke="#252733" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Filter      
-      </button>
-    </td>
+  <div class="search-menu" id="search-menu">
+    <div class="search-label" id="keywords-label">
+      What are you looking for?
+    </div>
+    <input type="text" class="search-bar" id='keywords' placeholder="Search for Summary, Journalist, Media, Query etc.">
+    <button id="filter-btn" class="filter-btn" onclick="toggleExpandedSearchBar()">
+      <svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" id="funnel-svg">
+        <path d="M3.09619 2.0625H23.9039C24.0915 2.0625 24.2752 2.10998 24.4325 2.19917C24.5897 2.28836 24.7139 2.41542 24.7898 2.56491C24.8657 2.71439 24.8902 2.87987 24.8601 3.04123C24.8301 3.20258 24.7469 3.35287 24.6207 3.47382L16.6582 11.1024C16.4961 11.2577 16.4063 11.4601 16.4063 11.6699V17.6422C16.4063 17.7811 16.3669 17.9178 16.2917 18.0403C16.2164 18.1628 16.1076 18.2672 15.9749 18.3442L12.0999 20.5942C11.954 20.6789 11.7844 20.7276 11.6093 20.735C11.4342 20.7423 11.26 20.7082 11.1054 20.6361C10.9508 20.564 10.8216 20.4568 10.7315 20.3258C10.6414 20.1948 10.5938 20.0449 10.5938 19.8922V11.67C10.5938 11.4601 10.504 11.2577 10.3418 11.1024L2.37937 3.47382C2.25313 3.35287 2.16994 3.20258 2.13992 3.04123C2.10989 2.87987 2.13433 2.71439 2.21026 2.56491C2.28618 2.41542 2.41033 2.28836 2.5676 2.19917C2.72488 2.10998 2.90852 2.0625 3.09619 2.0625V2.0625Z" stroke="#252733" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="filter-btn-txt" id="filter-btn-txt" style="display: inline; font-weight: bold">
+          Filter
+        </div>
+    </button>
+    <div class="search-label hidden" id="mediaOutlet-label">
+      Media Outlet
+    </div>
+    <input type="text" class="search-bar hidden" id="mediaOutlet" list="media-outlets" placeholder="Type or Select">
+    <datalist id='media-outlets'></datalist>
 
-    <td>
-      <input type="text" class="media-outlet-search" id="mediaOutlet" list="media-outlets" placeholder="Type or Select">
-      <datalist id='media-outlets'></datalist>
-    </td>
+    <div class="search-label hidden" id="category-label">
+      Category
+    </div>
+    <input type="text" class="search-bar hidden" id="category" list="categories" placeholder="Type or Select">
+    <datalist id="categories"></datalist>
+    <button id="search-collapse-button" class="hidden" onclick="toggleExpandedSearchBar()">
+      <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1L1 6.5L8 12" stroke="#888A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="search-label hidden" id="dateRecieved-label">
+      Date Interval
+    </div>
+    <input type="text" name="dateRecieved" id="dateRecieved" class="hidden">
+  </div>
 
-    <td>
-      <input type="text" class="category-search" id="category" list="categories" placeholder="Type or Select">
-      <datalist id="categories"></datalist>
-    </td>
 
-    <td>
-      <input type="date" class="date-range-search">
-    </td>
 
-    <td>
-      <button>
-        Show expired
-      </button>
-    </td>
-  </tr>
-</form>
-  
-  
-  
-  
-    
-
+<div id="main-table">
+  <div class="table-head">
+    <div class="head-element" style="grid-area: Summary">Summary</div>
+    <div class="head-element" style="grid-area: MediaOutlet">Media Outlet</div>
+    <div class="head-element" style="grid-area: Category">Category</div>
+    <div class="head-element" style="grid-area: DateReceived">Date Added</div>
+    <div class="head-element" style="grid-area: Deadline">Due Date</div>
+  </div>
+  <div id="haro-table-body"><!--it all goes in here--></div>
 </div>
-
-<table id="main-table">
-  <thead>
-    <tr class="table-head">
-      <th style="width: 34%">Summary</th>
-      <th style="width: 14%">Media Outlet</th>
-      <th style="width: 20%">Category</th>
-      <th style="width: 15%">Date Added</th>
-      <th style="width: 15%">Due Date</th>
-      <th style="width: 2%"></th>
-    </tr>
-  </thead>
-<tbody id="haro-table-body"></tbody>
-</table>
 </div>
 </div>
 <script src="../static/js/haroTable3.js"></script>

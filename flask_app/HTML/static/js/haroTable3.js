@@ -8,23 +8,90 @@ let even_sibling;
 const searchMenu = document.getElementById('search-menu'); 
 const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
+const search_bar_toggle_elements = [
+    document.getElementById('filter-btn'),
+    document.getElementById('mediaOutlet-label'),
+    document.getElementById('mediaOutlet'),
+    document.getElementById('category-label'),
+    document.getElementById('category'),
+    document.getElementById('search-collapse-button'),
+    document.getElementById('dateRecieved-label'),
+    document.getElementById('dateRecieved')
+]
+
+const saved_haros = new Set()
+
+//gotta do it like this because idk how to configure browser files
+const rightArrowSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+const leftArrowSvg =`<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M8 1L1 6.5L8 12" stroke="#888A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+const downArrowSvg =`
+<svg width="13" height="9" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M1.12634 1L6.61271 8L12.0991 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+
+const noSaveSvg =`
+<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+
+const saveHoverSvg =`
+<svg width="14" height="16" viewBox="0 0 14 16" fill="#A4A6B3" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+
+const saveSvg =`
+<svg width="14" height="16" viewBox="0 0 14 16" fill="black" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`
+
+
+initializeGridAreas(
+    document.getElementById('search-menu')
+)
 getMediaQueryData('/api/serveHaros');
 
 
+$( document ).ready(function() {
+    //binding enter to all the search bars
+    for (let id of search_menu_ids){
+        e = document.getElementById(id)
+        console.log(e)
+        e.onkeydown = function(e){
+            console.log(e.key)
+            if(e.key == 'Enter'){
 
-for (let id of search_menu_ids){
-    document.getElementById(id).onkeydown = function(e){
-        if(e.key == 'Enter'){
-          document.getElementById('search-form').submit()
+                submitSearch()
+            }
         }
     }
-}
+
+    //declaring dateRangePicker
+    $('input[name="dateRecieved"]').daterangepicker({
+        timePicker: true,
+        startDate: moment().startOf('hour'),
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'MM/DD'
+        }
+      });
+})
+
 
 function submitSearch() {
     terms = {
-        keywords: document.getElementById('main-search').value,
-        category: document.getElementById('category-search').value,
-        mediaOutlet: document.getElementById('media-outlet-search').value,
+        keywords: document.getElementById('keywords').value,
+        category: document.getElementById('category').value,
+        mediaOutlet: document.getElementById('mediaOutlet').value,
     }
     
     let requestUrl = '/api/serveHaros'
@@ -68,15 +135,15 @@ function getMediaQueryData(requestUrl) {
 }
 
 function insertEntry(id,datum, parent) {
-    const entry = document.createElement('td');
+    const entry = document.createElement('div');
     entry.innerHTML = datum[id];
     entry.classList.add(id);
+    entry.style['grid-area'] = id
     parent.appendChild(entry);
 }
 
 function displayData() {
-    let tbodyRowCount = HARO_BODY.rows.length;
-    for (let i = 0; i<tbodyRowCount; i++) HARO_BODY.deleteRow(0)
+    $('.haro-table-body *').remove()
 
     even_sibling = false;
     for (let i = 3; i < 23; i++) {
@@ -102,46 +169,81 @@ function insertDetailsRow(id,table,datum){
     table.appendChild(content)
 }
 
-function insertRow(datum,index) {
+function insertRow(datum) {
     if (datum==undefined) throw 'datum undefined';
-    let row = document.createElement('tr')
+    let row = document.createElement('div')
+    row.classList.add('haro-row')
     HARO_BODY.appendChild(row);
     for (let id of ['Summary','MediaOutlet','Category','DateReceived','Deadline']){
         insertEntry(id,datum,row)
     }
 
     const expand_button = document.createElement('button')
-    expand_button.innerHTML = 'expand'
-    const expand_wrapper = document.createElement('td');
-    expand_wrapper.appendChild(expand_button)
-    row.appendChild(expand_wrapper);
-    
+    expand_button.innerHTML = rightArrowSvg
+    expand_button.style['grid-area'] = 'expand-button'
+    row.appendChild(expand_button)
+
+
     row.expanded_previously = false;
-    let details_wrapper
+    row.expanded = false;
+    let details
     expand_button.onclick = function() {
         //on initial expansion of a given table entry, inserts a new row containing a single cell spanning the entire column
         //the cell contians a div with class='details'. It's set to display the information as a grid
         if (!row.expanded_previously) {
-            details_wrapper = HARO_BODY.insertRow(row.rowIndex);
-            details_wrapper.classList.add(`even-sibling-${row.even_sibling}`)
-
-            let details_cell = details_wrapper.insertCell();
-            details_cell.colSpan = 8;
-            let details = document.createElement('div');
-            details_wrapper.appendChild(details_cell);
-            details_cell.appendChild(details)
+            details = document.createElement('div');
+            row.appendChild(details)
             for (let id of ['Journalist','Email','Query','Requirements']){
                 insertDetailsRow(id,details,datum)
             }
             details.classList.add('details')
             row.expanded_previously = true;
         } else {
-            details_wrapper.classList.toggle('hidden')
+            details.classList.toggle('hidden')
+            row.classList.toggle('expanded')  
+        }
+        if (row.expanded) {
+            row.expanded = false;
+            expand_button.innerHTML = rightArrowSvg
+        } else {
+            row.expanded = true
+            expand_button.innerHTML = downArrowSvg
         }
     }
 
+    //for coloring backgrounds
     row.classList.add(`even-sibling-${even_sibling}`)
     row.even_sibling = even_sibling
+
+    //insert bookmark button
+    save_button = document.createElement('button')
+    save_button.style['grid-area'] = 'save-button'
+    save_button.innerHTML = noSaveSvg;
+    row.appendChild(save_button)
+
+    row.saved = false;
+    save_button.onmouseover = function() {
+        console.log('mouse over')
+        save_button.innerHTML = saveHoverSvg
+        console.log(save_button.innerHTML == saveHoverSvg)
+    }
+    save_button.onmouseleave = function() {
+        console.log('mouse off')
+        if (!row.saved) save_button.innerHTML = noSaveSvg
+    }
+    save_button.onclick = function() {
+        console.log('click')
+        if (!row.saved) {
+            save_button.innerHTML = saveSvg
+            saved_haros.add(Number(datum.index))
+            row.saved = true
+        } else {
+            save_button.innerHTML = noSaveSvg
+            saved_haros.delete(Number(datum.index))
+            row.saved = false
+        }
+        console.log(saved_haros)
+    }
 }
 
 function initializeDropdownMenus() {
@@ -156,13 +258,12 @@ function initializeDropdownMenus() {
 }
 
 function initializeDropdownMenu(datalist,id) {
-    console.log(id)
+
     const values = [];
     let e;
     for (let i = 0; i<15; i++){
         e = DATA[i][id]
-        console.log(e)
-        console.log(values.includes(e))
+
         if (!values.includes(e)){
             values.push(e)
         }
@@ -173,5 +274,24 @@ function initializeDropdownMenu(datalist,id) {
         option = document.createElement('option')
         option.value = e;
         datalist.appendChild(option);
+    }
+}
+
+function toggleExpandedSearchBar(){
+    document.getElementById('search-menu').classList.toggle('expanded')
+    for (let e of search_bar_toggle_elements) {
+        e.classList.toggle('hidden')
+    }
+}
+
+function initializeGridAreas(grid){
+
+    let children = grid.childNodes
+
+    for (let node of children) {
+
+        if (node.tagName == 'INPUT' || node.tagName == 'DIV' || node.tagName == 'BUTTON') {
+            node.style['grid-area'] = node.getAttribute('id')
+        }
     }
 }
