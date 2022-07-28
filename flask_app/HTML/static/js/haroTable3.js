@@ -21,8 +21,8 @@ const search_bar_toggle_elements = [
 ]
 
 
-const saved_haros = new Set()
-
+if (localStorage.getItem('saved_haros_indicies') == undefined) saved_haros_indicies = new Set() 
+else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
 //gotta do it like this because idk how to configure browser files
 const rightArrowSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -87,7 +87,8 @@ $( document ).ready(function() {
         }
       });
 })
-
+document.addEventListener('beforeunload',)
+localStorage.setItem('saved_haros_indices', saved_haros_indicies)
 
 function getDates() {
     strDates = document.getElementById('dateReceived').value
@@ -160,17 +161,33 @@ function insertEntry(id,datum, parent) {
 }
 
 function displayData() {
-    $('.haro-table-body > *').remove()
+    haros_per_page = 100
+    $('#haro-table-body > *').remove()
 
     even_sibling = false;
-    for (let i = 3; i < 23; i++) {
-        try {
-            insertRow(DATA[i],i)
-            if (even_sibling) even_sibling = false 
-            else even_sibling = true
-        } catch (e) {console.log(e)}
+
+    if (mode == 'saved') {
+        let haros_displayed = 0;
+        for (let i of saved_haros_indicies) {
+            try {
+                if (haros_displayed == haros_per_page) break;
+                insertRow(DATA[i],i)
+                haros_displayed = haros_displayed + 1;
+                if (even_sibling) even_sibling = false 
+                else even_sibling = true
+            } catch (e) {console.log(e)}
+        }
     }
-    $('html,body').scrollTop(0);
+    else{
+        for (let i = 3; i < haros_per_page; i++) {
+            try {
+                insertRow(DATA[i],i)
+                if (even_sibling) even_sibling = false 
+                else even_sibling = true
+            } catch (e) {console.log(e)}
+        }
+        $('html,body').scrollTop(0);
+    }
 }
 
 function insertDetailsRow(id,table,datum){
@@ -238,26 +255,38 @@ function insertRow(datum) {
     row.even_sibling = even_sibling
 
     //insert bookmark button
-    save_button = document.createElement('button')
+    save_button = document.createElement('svg')
     save_button.style['grid-area'] = 'save-button'
     save_button.innerHTML = noSaveSvg;
     row.appendChild(save_button)
-    row.saved = false;
+    if (saved_haros_indicies.has(datum.index)) row.saved = true;
+    else row.saved = false;
+    replaceSaveButton(row,datum)
+}
 
-    save_button.onclick = function() {
-        if (!row.saved) {
-            save_button.innerHTML = saveSvg
-
-            saved_haros.add(Number(datum.index))
-            row.saved = true
-            
-        } else {
-            save_button.innerHTML = noSaveSvg
-
-            saved_haros.delete(Number(datum.index))
-            row.saved = false
-        }
+function replaceSaveButton(parent,datum,oldSaveButton){
+    let flag = false;
+    if (oldSaveButton) {
+        oldSaveButton.remove()
+        flag = true;
     }
+    console.log(parent.saved)
+    let save_button = document.createElement('svg')
+    save_button.style['grid-area'] = 'save-button'
+    if (parent.saved) save_button.innerHTML = saveSvg
+    else save_button.innerHTML = noSaveSvg
+    parent.appendChild(save_button)
+    save_button.onclick = function() {
+        if (parent.saved) {
+            saved_haros_indicies.delete(Number(datum.index))
+            parent.saved = false
+        } else {
+            saved_haros_indicies.add(Number(datum.index))
+            parent.saved = true
+        }
+        replaceSaveButton(parent,datum,save_button)
+    }
+
 }
 
 function initializeDropdownMenus() {
@@ -275,7 +304,7 @@ function initializeDropdownMenu(datalist,id) {
 
     const values = [];
     let e;
-    for (let i = 0; i<15; i++){
+    for (let i = 0; i<DATA.length; i++){
         e = DATA[i][id]
 
         if (!values.includes(e)){
@@ -315,3 +344,17 @@ function toggleDatePicker() {
         document.getElementById(id).classList.toggle('disabled')
     }
 }
+
+function switchTable(btnmode) {
+    if (btnmode != mode) {
+        mode = btnmode
+        displayData();
+        for (let e of document.getElementsByClassName('search-tab')) {
+            e.classList.toggle('disabled')
+        }
+    }
+}
+
+$(window).unload( function () { 
+    
+ } );
