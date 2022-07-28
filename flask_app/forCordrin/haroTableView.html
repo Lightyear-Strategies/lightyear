@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../static/css/haroTable3.css">
+    <link rel="stylesheet" href="haroTable3.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!--DateRangePicker-->
@@ -24,7 +24,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
-<body onbeforeunload="saveSavedHaros()">
+<body>
+
 <div class="bigger-wrapper">
 <div class="margin-bar"></div>
 <div class="big-wrapper">
@@ -40,13 +41,13 @@
       <div class="saved-haros search-tab disabled" id="saved-haros" onclick="switchTable('saved')">
         Saved
       </div>
-<br>
+
 
       <div class="search-menu" id="search-menu">
         <div class="search-label" id="keywords-label">
           What are you looking for?
         </div>
-        <input type="text" class="search-bar" id='keywords' placeholder='Search for Summary, Journalist, Media, Query etc.'>
+        <input type="text" class="search-bar" id='keywords' placeholder="Search for Summary, Journalist, Media, Query etc.">
         <button id="filter-btn" class="filter-btn" onclick="toggleExpandedSearchBar()">
           <svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" id="funnel-svg">
             <path d="M3.09619 2.0625H23.9039C24.0915 2.0625 24.2752 2.10998 24.4325 2.19917C24.5897 2.28836 24.7139 2.41542 24.7898 2.56491C24.8657 2.71439 24.8902 2.87987 24.8601 3.04123C24.8301 3.20258 24.7469 3.35287 24.6207 3.47382L16.6582 11.1024C16.4961 11.2577 16.4063 11.4601 16.4063 11.6699V17.6422C16.4063 17.7811 16.3669 17.9178 16.2917 18.0403C16.2164 18.1628 16.1076 18.2672 15.9749 18.3442L12.0999 20.5942C11.954 20.6789 11.7844 20.7276 11.6093 20.735C11.4342 20.7423 11.26 20.7082 11.1054 20.6361C10.9508 20.564 10.8216 20.4568 10.7315 20.3258C10.6414 20.1948 10.5938 20.0449 10.5938 19.8922V11.67C10.5938 11.4601 10.504 11.2577 10.3418 11.1024L2.37937 3.47382C2.25313 3.35287 2.16994 3.20258 2.13992 3.04123C2.10989 2.87987 2.13433 2.71439 2.21026 2.56491C2.28618 2.41542 2.41033 2.28836 2.5676 2.19917C2.72488 2.10998 2.90852 2.0625 3.09619 2.0625V2.0625Z" stroke="#252733" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -77,22 +78,12 @@
         <input type="text" name="dateReceived" id="dateReceived" class="hidden search-bar disabled">
         <input class="form-check-input hidden" type="checkbox" value="check" style="grid-area: date-checkbox;" id="date-checkbox" onclick="toggleDatePicker()">
       </div>
-<br>
 
       <div class="page-nav">
-        <button class="page-nav-btn" onclick='pageNav("previous")'>
-          <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 1L1 6.5L8 12" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-             Previous
-          </button>
-          <button class="page-nav-btn" onclick='pageNav("next")'>
-            Next 
-            <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
+        <div class="page-nav-btn" onclick='page("previous")'>Previous</div>
+        <div class="page-nav-btn" onclick='page("next")'>Next</div>
       </div>
+
 
 <div id="main-table">
   <div class="table-head">
@@ -106,23 +97,9 @@
 </div>
 </div>
 </div>
-<div class="page-nav bottom-nav hidden" id="bottom-nav">
-  <button class="page-nav-btn" onclick='pageNav("previous")'>
-  <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 1L1 6.5L8 12" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-     Previous
-  </button>
-  <button class="page-nav-btn" onclick='pageNav("next")'>
-    Next 
-    <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-</div>
-<div class="breahting-room" style="height:5em"></div>
 
-<script src="../static/js/haroTable3.js"></script>
+
+<script src="haroTable3.js"></script>
 </html>
 
 </body>

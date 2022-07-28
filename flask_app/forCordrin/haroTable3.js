@@ -8,7 +8,6 @@ let even_sibling;
 const searchMenu = document.getElementById('search-menu'); 
 const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
-let page = 1;
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -20,15 +19,10 @@ const search_bar_toggle_elements = [
     document.getElementById('dateReceived'),
     document.getElementById('date-checkbox')
 ]
-let haros_per_page = 100;
-let saved_iterator;
 
 
-/*
 if (localStorage.getItem('saved_haros_indicies') == undefined) saved_haros_indicies = new Set() 
 else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
-*/
-
 //gotta do it like this because idk how to configure browser files
 const rightArrowSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -93,7 +87,8 @@ $( document ).ready(function() {
         }
       });
 })
-
+document.addEventListener('beforeunload',)
+localStorage.setItem('saved_haros_indices', saved_haros_indicies)
 
 function getDates() {
     strDates = document.getElementById('dateReceived').value
@@ -118,6 +113,7 @@ function submitSearch() {
     }
 
     let requestUrl = '/api/serveHaros'
+    if (mode == 'fresh') requestUrl = requestUrl + '/fresh';
     requestUrl = requestUrl + '?'
 
     let allEmpty = true;
@@ -133,7 +129,9 @@ function submitSearch() {
     if (!allEmpty){
         getMediaQueryData(requestUrl);
     } else {
-        getMediaQueryData('/api/serveHaros')
+        if (mode == 'all') {
+            getMediaQueryData('/api/serveHaros')
+        } else getMediaQueryData(`/api/serverHaros/${mode}`)
     }    
 }
 
@@ -162,43 +160,33 @@ function insertEntry(id,datum, parent) {
     parent.appendChild(entry);
 }
 
-function pageNav(direction) {
-    let length = DATA.length
-    if (direction == 'next' && haros_per_page*page < length ) page = page + 1
-    if (direction == 'previous' && page > 1) page = page - 1;
-    displayData()
-}
-
 function displayData() {
-    toDisplay = [];
-    if (mode == 'saved') {
-        for (let i of saved_haros_indicies) {
-            console.log(DATA[i])
-            toDisplay.push(DATA[i])
-        }
-    } else toDisplay = DATA
+    haros_per_page = 100
     $('#haro-table-body > *').remove()
 
     even_sibling = false;
-    let min_index = haros_per_page*(page-1);
-    let max_index = haros_per_page*page;
-    if (max_index > toDisplay.length) max_index = toDisplay.length;
 
-    if (max_index > toDisplay.length) max_index = toDisplay.length;
-    let iterations = 0;
-    for (let i = min_index; i < max_index ; i++) {
-        try {
-            if (iterations > 2000) break
-            iterations = iterations + 1;
-            insertRow(toDisplay[i])
-            if (even_sibling) even_sibling = false 
-            else even_sibling = true
-        } catch (e) {i = i - 1}
+    if (mode == 'saved') {
+        let haros_displayed = 0;
+        for (let i of saved_haros_indicies) {
+            try {
+                if (haros_displayed == haros_per_page) break;
+                insertRow(DATA[i],i)
+                haros_displayed = haros_displayed + 1;
+                if (even_sibling) even_sibling = false 
+                else even_sibling = true
+            } catch (e) {console.log(e)}
+        }
     }
-    $('html,body').scrollTop(0);
-    
-    if (document.getElementById('bottom-nav').classList.contains('hidden')) {
-        document.getElementById('bottom-nav').classList.remove('hidden')
+    else{
+        for (let i = 3; i < haros_per_page; i++) {
+            try {
+                insertRow(DATA[i],i)
+                if (even_sibling) even_sibling = false 
+                else even_sibling = true
+            } catch (e) {console.log(e)}
+        }
+        $('html,body').scrollTop(0);
     }
 }
 
@@ -267,13 +255,13 @@ function insertRow(datum) {
     row.even_sibling = even_sibling
 
     //insert bookmark button
-    save_button = document.createElement('button')
+    save_button = document.createElement('svg')
     save_button.style['grid-area'] = 'save-button'
     save_button.innerHTML = noSaveSvg;
     row.appendChild(save_button)
     if (saved_haros_indicies.has(datum.index)) row.saved = true;
     else row.saved = false;
-    save_button.onclick = replaceSaveButton(row,datum)
+    replaceSaveButton(row,datum)
 }
 
 function replaceSaveButton(parent,datum,oldSaveButton){
@@ -282,7 +270,8 @@ function replaceSaveButton(parent,datum,oldSaveButton){
         oldSaveButton.remove()
         flag = true;
     }
-    let save_button = document.createElement('button')
+    console.log(parent.saved)
+    let save_button = document.createElement('svg')
     save_button.style['grid-area'] = 'save-button'
     if (parent.saved) save_button.innerHTML = saveSvg
     else save_button.innerHTML = noSaveSvg
@@ -297,7 +286,7 @@ function replaceSaveButton(parent,datum,oldSaveButton){
         }
         replaceSaveButton(parent,datum,save_button)
     }
-    
+
 }
 
 function initializeDropdownMenus() {
@@ -357,7 +346,6 @@ function toggleDatePicker() {
 }
 
 function switchTable(btnmode) {
-    console.log(saved_haros_indicies)
     if (btnmode != mode) {
         mode = btnmode
         displayData();
@@ -367,28 +355,6 @@ function switchTable(btnmode) {
     }
 }
 
-saved_haros_indicies = new Set()
-getSavedHaros()
-
-function saveSavedHaros() {
-    localStorage.setItem('test','true')
-    istr = ''
-    for (let i of saved_haros_indicies) {
-        istr = `${istr} ${i}`
-    }
-    localStorage.setItem('saved_haros_indicies',istr)
-}
-
-function getSavedHaros() {
-    const strArray = localStorage.getItem('saved_haros_indicies').split(' ')
-    for (let istr of strArray) {
-        saved_haros_indicies.add(Number(istr))
-    }
-
-}
-
-
-
-function logSaved() {
-    console.log(saved_haros_indicies)
-}
+$(window).unload( function () { 
+    
+ } );

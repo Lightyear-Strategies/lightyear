@@ -39,13 +39,13 @@ h1{
     display: grid;
     grid-template-areas:
     '. Summary MediaOutlet Category DateReceived  Deadline expand-button';
-    grid-template-columns: 3em 25em 10em 15em 10em 13em 4em
+    grid-template-columns: 3em 25em 10em 15em 10em 10em 4em
 }
 .haro-row {
     display: grid;
     grid-template-areas:
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
-    grid-template-columns: 3em 25em 10em 15em 10em 13em 4em;
+    grid-template-columns: 3em 25em 10em 15em 10em 10em 4em;
     border: 1px solid #EDEEF1;
 }
 
@@ -64,6 +64,9 @@ h1{
     background-color: rgba(196, 196, 196, 0.12); 
 }
 
+.search-table{
+    border-collapse: collapse;
+}
 
 .search-tab{
     border: 2px solid #A4A6B36B;
@@ -89,7 +92,7 @@ h1{
 .search-menu{
     margin-top: .5em;
     padding: .5em;
-    display: inline-grid;
+    display: grid;
     column-gap: 1em;
     border: 2px solid #A4A6B36B;
     border-radius: 8px;
@@ -107,10 +110,10 @@ h1{
     'keywords        mediaOutlet       category       dateReceived       date-checkbox search-collapse-button';
 }
 
-.filter-btn.filter-btn {
+.filter-btn {
     height: 1.75rem;
     background-color: white;
-    border: 2px solid #A4A6B36B;
+    border: 4px solid #A4A6B36B;
     border-radius: 8px;
     font-weight: bold;
     height: 2.5em;
@@ -166,40 +169,11 @@ h1{
     display: none;
 }
 
-button:not(.dev-btns > *){
+button{
     border: none;
     background-color: rgba(0,0,0,0);
 }
 
 .disabled {
     opacity: .5
-}
-
-.page-nav {
-    position: absolute;
-    top: 9em;
-    left: 73.2em;
-    display: inline;
-    width: fit-content;
-}
-.page-nav-btn.page-nav-btn{
-    display:inline;
-    width: fit-content;
-    margin-right: 1em;
-    border: 2px solid #A4A6B36B;
-    border-radius: 8px;
-    padding: .6em;
-    cursor: pointer;
-}
-
-.page-nav-btn > svg {
-    position: relative;
-    bottom: .1em;
-}
-
-.page-nav.bottom-nav {
-    top: 1em;
-    position: relative;
-    margin-bottom: 15em;
-    left: 38.5em;
 }
