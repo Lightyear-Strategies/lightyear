@@ -436,3 +436,12 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     margin: 0px;
 }
 
+@media screen and (max-width: 1800px) {
+}
+
+@media screen and (max-width: 1500px) {
+    /* Smaller Screen */
+    .content {
+        background-color: var(--secondary-color);
+    }
+}
