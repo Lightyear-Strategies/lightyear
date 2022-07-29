@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/css/journalistTracker.css">
+    <link rel="stylesheet" href="src/css/journalistTracker.css"> -->
     <script src="lib/journalistTracker.js"></script>
     <title> Journalist Tracker </title>
 </head>
@@ -78,6 +78,11 @@
                 <header>
                     <!-- Search Bar -->
                     <section>
+                        <div class="search-bar" id="search-bar"> 
+                            <div>
+                                <input type="text" id="search" class="search" placeholder="Enter journalist's name...">
+                            </div>
+                        </div>
                     </section>
                 </header>
                 <section>
@@ -85,22 +90,27 @@
                         <section>
                             <h2> Bio </h2>
                             <img src="../flask_app/HTML/logo.png" alt="">
-                            <h1> Bob Woody </h1>
+                            <h1> Bob Woodward </h1>
                             <div>
-                                <h2> Title </h2>
+                                <h2> Title: </h2>
                                 <h3> Title Information </h3>
                             </div>
                             <div>
-                                <h2> Title </h2>
-                                <h3> Title Information </h3>
+                                <h2> Location: </h2>
+                                <h3> Location Information </h3>
                             </div>
                             <div>
-                                <h2> Title </h2>
-                                <h3> Title Information </h3>
+                                <h2> Topics: </h2>
+                                <h3> Topics Information </h3>
                             </div>
                         </section>
-                        <section>
-                            <!-- Slider Bar thing -->
+                        <!-- Slider -->
+                        <section class="slider" id="slider">
+                            <h2> Include Bob in... </h2>
+                            <div>
+                                <input type="range" min="1" max="4" value="1" class="mySlider" id="myRange">
+                            </div>
+                            <h2> email brief. </h2>
                         </section>
                     </section>
                     <section>
@@ -170,7 +180,7 @@
                     </div>
                 </div>
                 <div>
-                    <h1> Bobby Woddy</h1>
+                    <h1> Bob Woodward</h1>
                     <h2> New York Times </h2>
                 </div>
                 <div>

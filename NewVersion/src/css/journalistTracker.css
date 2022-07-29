@@ -4,7 +4,7 @@
     --primary-color: #F7F8FC;
     --primary-color-dark: #9fa2b4;
     --secondary-color:#363740 ; 
-    --secondary-color-dark: #A4A6b3;
+    --secondary-color-dark: #A4A6B3;
     --secondary-color-contrast: #DDe2ff;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     scroll-behavior: smooth;
@@ -154,7 +154,6 @@ nav > section:last-of-type > div > div > div{
 
 
 
-
 /* Main */
 main {
     position: relative;
@@ -278,7 +277,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > article > section > section > section:first-of-type > h1{
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0px;
 }
 
@@ -302,6 +301,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 
 .content > article > section > section > section:last-of-type {
     /* Slider Code here */
+    
 }
 
 .content > article > section > section:last-of-type {
@@ -387,13 +387,13 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > aside > div > h1 {
-    font-size: 1.75rem;
+    font-size: 1.00rem;
     margin: 0px;
     color: var(--secondary-color);
 }
 
 .content > aside > div > h2 {
-    font-size: 1.00rem;
+    font-size: 0.75rem;
     margin: 0px;
     color: var(--primary-color-dark);
 }
@@ -434,6 +434,94 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     font-size: 2.25rem;
     color: var(--primary-color-dark);
     margin: 0px;
+}
+
+/* Search Bar */
+.search-bar {
+    margin: auto;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.search-bar input[type=text] {
+    margin: auto;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px var(--secondary-color);
+
+    position: relative;
+    width: 300px;
+    height: 50px;
+    left: 300px;
+
+    background: #FFFFFF;
+    border: 1px solid var(--primary-color-dark);
+    border-radius: 8px;
+}
+
+.search::placeholder {
+    font-size: 1.0rem;
+    color: var(--secondary-color-dark);
+}
+
+/* Slider */
+.slider {
+    /* need to make fit relative to screen size */
+    position: absolute;
+    width: 200px;
+    height: 150px;
+    /* top: 425px;  */
+    bottom: 225px;
+    
+    background: var(--primary-color);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}
+
+.slider > h2 {
+    font-size: 1.25rem;
+
+    letter-spacing: 0.4px;
+
+    background: linear-gradient(90deg, #662CE3 0%, #A9209B 37.06%, #BA40CE 56.62%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.slider > h2:last-of-type {
+    text-align: right;
+}
+
+.mySlider {
+    margin: auto;
+    -webkit-appearance: none;
+    width: 80%;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--secondary-color);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+  
+.mySlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(139.4deg, #662CE3 -43.67%, #FC08F2 13.78%, #6129D8 69.92%, #0E80E9 129.41%);
+    cursor: pointer;
+}
+  
+.mySlider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: linear-gradient(139.4deg, #662CE3 -43.67%, #FC08F2 13.78%, #6129D8 69.92%, #0E80E9 129.41%);
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1800px) {
