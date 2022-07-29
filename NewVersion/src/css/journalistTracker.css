@@ -23,7 +23,7 @@ nav {
     top: 0;
     height: 100vh;
     background-color: var(--secondary-color);
-    min-width: 20rem;
+    min-width: 17rem;
     color: var(--secondary-color-dark);
 }
 
@@ -44,7 +44,7 @@ nav > section:nth-of-type(2) {
 }
  
 nav > section:nth-of-type(2) > div {
-    width: 20rem;
+    width: 17rem;
     position: relative;
     display: grid;
     overflow: hidden;
@@ -96,7 +96,7 @@ nav > section:nth-of-type(2) > div > div > div{
 nav > section:last-of-type {
     position: absolute;
     bottom: 0;
-    width: 20rem;
+    width: 17rem;
     display: grid;
     left: 0;
     place-content: center;
@@ -109,7 +109,7 @@ nav > section:last-of-type > div {
     display: grid;
     padding: 1.5rem 0rem;
     place-items: center;
-    width: 20rem;
+    width: 15rem;
     position: relative;
     overflow: hidden;
 }
@@ -159,8 +159,8 @@ nav > section:last-of-type > div > div > div{
 main {
     position: relative;
     background-color: var(--primary-color);
-    left: 20rem;
-    width: calc(100vw - 20rem);
+    left: 17rem;
+    width: calc(100vw - 17rem);
     height: 100vh;
     margin: 0px;
     padding: 0px;
