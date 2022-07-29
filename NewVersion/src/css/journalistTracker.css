@@ -1,0 +1,438 @@
+:root {
+    margin: none;
+    padding: none;
+    --primary-color: #F7f8fc;
+    --primary-color-dark: #9fa2b4;
+    --secondary-color:#363740 ; 
+    --secondary-color-dark: #A4A6b3;
+    --secondary-color-contrast: #DDe2ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    scroll-behavior: smooth;
+    outline: none;
+}
+
+body {
+    position: relative;
+    margin: 0px;
+    overflow: hidden;
+}
+
+nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background-color: var(--secondary-color);
+    min-width: 20rem;
+    color: var(--secondary-color-dark);
+}
+
+nav > section {
+    display: grid;
+    place-items: center;
+}
+
+nav > section:first-of-type {
+    font-size: 1.5rem;
+    padding: 2rem 0rem;
+    font-weight: 500;
+}
+
+nav > section:nth-of-type(2) {
+    display: flex;
+    flex-direction: column;
+}
+ 
+nav > section:nth-of-type(2) > div {
+    width: 20rem;
+    position: relative;
+    display: grid;
+    overflow: hidden;
+    place-items: center;
+}
+
+nav > section:nth-of-type(2) > div::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 100% 2px;
+    background-color: var(--secondary-color);
+}
+
+
+nav > section:nth-of-type(2) > div:hover > div > svg{
+    fill: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div:hover::before {
+    background-color: var(--secondary-color-contrast);
+}
+
+nav > section:nth-of-type(2) > div > div{
+    display: flex;
+    width: 15rem;
+    padding: 1rem 0rem;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: flex-start;
+}
+
+nav > section:nth-of-type(2) > div > div > svg  {
+    flex: 1;
+    fill: var(--secondary-color-dark);
+}
+
+nav > section:nth-of-type(2) > div > div > div{
+    flex: 5;
+    font-size: 1.25rem;
+} 
+
+nav > section:last-of-type {
+    position: absolute;
+    bottom: 0;
+    width: 20rem;
+    display: grid;
+    left: 0;
+    place-content: center;
+    font-size: 1.5rem;
+    color: var(--secondary-color-dark);
+    border-top: solid 1px var(--primary-color-dark);
+}
+
+nav > section:last-of-type > div {
+    display: grid;
+    padding: 1.5rem 0rem;
+    place-items: center;
+    width: 20rem;
+    position: relative;
+    overflow: hidden;
+}
+
+nav > section:last-of-type > div::before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 100% 2px;
+    background-color: var(--secondary-color);
+}
+
+
+nav > section:last-of-type > div:hover > div > svg{
+    fill: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div:hover::before {
+    background-color: var(--secondary-color-contrast);
+}
+
+nav > section:last-of-type > div > div{
+    width: 15rem;
+    display: flex;
+    align-items: center;
+}
+
+nav > section:last-of-type > div > div > svg{
+    flex: 1;
+    fill: var(--secondary-color-dark);
+}
+
+nav > section:last-of-type > div > div > div{
+    flex: 5;
+}
+
+
+
+
+/* Main */
+main {
+    position: relative;
+    background-color: var(--primary-color);
+    left: 20rem;
+    width: calc(100vw - 20rem);
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+main > header {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100px;
+}
+
+main > section {
+    flex: 10
+}
+
+main > header > div:first-of-type {
+    flex: 1;
+    display: grid;
+    place-content:  center flex-start;
+}
+
+main > header > div:first-of-type > h2 {
+    padding: 0rem 3rem;
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+main > header > div:last-of-type {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+main > header > div:last-of-type > div:first-of-type{
+    display: grid;
+    place-items: center;
+    height: 50%; 
+    border-right: solid 1px var(--secondary-color);
+    width: 100px;
+}
+
+main > header > div:last-of-type > div:last-of-type{
+    width: 200px;
+    padding-left: 1rem;
+    padding-right: 3rem;
+    transform: translateY(25%);
+}
+
+main > header > div:last-of-type > div:last-of-type > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main > header > div:last-of-type > div:last-of-type > div:last-of-type {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    visibility: hidden;
+}
+
+main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~ #logout {
+    visibility: visible;
+}
+
+.content {
+    display: flex;
+    padding-right: 0rem;
+    position: relative;
+}
+/* Main Left*/
+.content > article {
+    display: flex;
+    flex-direction: column;
+}
+
+.content > article > header {
+    flex: 1;
+}
+
+.content > article > section {
+    background-color: #FFF;
+    margin: 3rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 5px var(--secondary-color);
+    flex: 12;
+    display: flex;
+}
+
+.content > article > section > section {
+    margin: 2rem;
+}
+
+.content > article > section > section:first-of-type {
+    flex: 2;
+    display: flex;
+    margin-left: 4rem;
+}
+
+.content > article > section > section > section:first-of-type {
+    flex: 2;
+}
+
+.content > article > section > section > section:first-of-type > img{
+    width: 200px;
+    height: 200px;
+    margin: 0.5rem 0rem;
+}
+
+.content > article > section > section > section:first-of-type > h1{
+    font-size: 2rem;
+    margin: 0px;
+}
+
+.content > article > section > section > section:first-of-type > h2{
+    color: var(--primary-color-dark);
+}
+
+.content > article > section > section > section:first-of-type > div {
+    margin: 1rem 0rem;
+}
+
+.content > article > section > section > section:first-of-type > div > h2{
+    color: var(--primary-color-dark);
+    margin: 0px;
+}
+
+.content > article > section > section > section:first-of-type > div >h3{
+    color: var(--secondary-color);
+    margin: 0px;
+}
+
+.content > article > section > section > section:last-of-type {
+    /* Slider Code here */
+}
+
+.content > article > section > section:last-of-type {
+    flex: 6;
+    height: 650px;
+    overflow-y: scroll;
+}
+
+.content > article > section > section:last-of-type > section > section {
+    display: flex;
+    background-color: var(--primary-color);
+    box-shadow: 0px 0px 10px var(--primary-color-dark);
+    padding: 1rem;
+    max-height: 150px;
+    margin-left: 2.5%;
+    margin-bottom: 1rem;
+    border-radius: 0.4rem;
+    width: 90%;
+}
+
+.content > article > section > section:last-of-type > section > section:hover {
+    box-shadow: 0px 0px 10px var(--secondary-color);
+}
+
+.content > article > section > section:last-of-type > section > section > div:first-of-type {
+    flex: 8
+}
+
+.content > article > section > section:last-of-type > section > section > div:first-of-type > h2{
+    color: var(--secondary-color);
+    margin: 0px;
+}
+
+.content > article > section > section:last-of-type > section > section > div:first-of-type > h3{
+    color: var(--secondary-color-dark);
+    margin: 0px;
+    margin-bottom: 1rem;
+}
+
+.content > article > section > section:last-of-type > section > section > div:first-of-type > h4{
+    margin: 0px;
+    color: var(--primary-color-dark);
+}
+
+.content > article > section > section:last-of-type > section > section > div:last-of-type {
+    flex: 1;
+    display: grid;
+    place-items: flex-start flex-end;
+    fill: var(--primary-color-dark);
+}
+
+.content > article > section > section:last-of-type > h2 {
+    margin: 1rem 0px;
+    color: var(--primary-color-dark);
+}
+
+/* Main Aside */
+
+.content > article {
+    flex: 4;
+}
+
+.content > aside {
+    flex: 1;
+    margin-top: 3rem;
+    position: relative;
+    display: flex;
+    height: 700px;
+    overflow-y: scroll;
+    flex-direction: column;
+}
+
+.content > aside > div {
+    flex: 1;
+    margin: 0.25rem 2rem;
+    border-radius: 0.25rem;
+    max-height: 80px;
+    padding-left: 1rem;
+}
+
+.content > aside > div:hover {
+    background-color: #e7e7e7cc;
+}
+
+.content > aside > div > h1 {
+    font-size: 2rem;
+    margin: 0px;
+    color: var(--secondary-color);
+}
+
+.content > aside > div > h2 {
+    font-size: 1.25rem;
+    margin: 0px;
+    color: var(--primary-color-dark);
+}
+
+.content > aside > div:first-of-type {
+    max-height: 40px;
+    display: flex;
+    border-bottom: solid 2px var(--primary-color-dark);
+    padding-bottom: 1rem;
+    border-radius: 0rem;
+}
+
+.content > aside > div:first-of-type:hover {
+    background-color: var(--primary-color);
+}
+
+.content > aside > div:first-of-type > div {
+    flex: 1;
+}
+
+.content > aside > div:first-of-type > div:last-of-type {
+    display: grid;
+    place-items: flex-end flex-start;
+    fill: var(--secondary-color-dark);
+}
+
+.content > aside > div:first-of-type > div:last-of-type > svg {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.content > aside > div:first-of-type > div:first-of-type {
+    display: grid;
+    place-items: flex-end flex-end;
+}
+
+.content > aside > div:first-of-type > div > h1 {
+    font-size: 2.25rem;
+    color: var(--primary-color-dark);
+    margin: 0px;
+}
+
