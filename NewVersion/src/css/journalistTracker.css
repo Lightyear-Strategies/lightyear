@@ -166,6 +166,7 @@ main {
     padding: 0px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 }
 
 main > header {
@@ -438,45 +439,53 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 /* Search Bar */
-.input-icons {
-    margin: auto; 
-    max-width: 400px;
-}
-
-.input-icons i {
-    position: absolute;
-    width: 10%;
-}
-
-.icon {
-    padding: 10px;
-    min-width: 40px;
-    color: var(--secondary-color-dark);
-}
-
-.input-icons button {
-    float: left;
-    width: 10%;
-    /* padding: 10px; */
-    /* background: #FFFFFF; */
-    /* color: var(--secondary-color-dark); */
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.input-icons input[type=text] {
+.flex-container {
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    display: flex; 
+    width: 30%;
     margin: auto;
-    padding: 10px;
-    text-align: center;
-    float: left;
-    width: 80%; 
+    left: 50px;
 
     box-sizing: border-box;
     box-shadow: 0px 0px 5px var(--secondary-color);
     background: #FFFFFF;
     border: 1px solid var(--primary-color-dark);
     border-radius: 8px;
+  }
+  
+.flex-container > div {
+    background-color: transparent;
+    margin: auto;
+    font-size: 30px;
+    flex: 0 0 auto;
+}
+
+.flex-container > div:first-of-type {
+    width: 2.5%;
+}
+
+.flex-container > div:last-of-type {
+    width: 5%;
+}
+
+.flex-container > div > svg {
+    fill: var(--secondary-color-dark);
+}
+
+.flex-container > div > input[type=text] {
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    display: flex;
+    font-size: 1.25rem;
+    width: 100%;
+    -webkit-appearance: none;
+    outline: 0;
 }
 
 .search-input::placeholder {
@@ -486,11 +495,10 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 
 /* Slider */
 .slider {
-    /* need to make fit relative to screen size */
     position: absolute;
-    width: 200px;
-    height: 150px;
-    bottom: 225px;
+    width: 18%;
+    height: 18%;
+    bottom: 5%;
     
     background: var(--primary-color);
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -498,9 +506,13 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     border-radius: 8px;
 }
 
-.slider > h2 {
-    font-size: 1.25rem;
+.slider > div {
+    margin: 1rem;
+}
 
+/* Need to make words fit relative to screen size */
+.slider > div > h2 {
+    font-size: 1.20rem;
     letter-spacing: 0.4px;
 
     background: linear-gradient(90deg, #662CE3 0%, #A9209B 37.06%, #BA40CE 56.62%);
@@ -509,14 +521,21 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     background-clip: text;
 }
 
-.slider > h2:last-of-type {
+.slider > div > h2:last-of-type {
     text-align: right;
+}
+
+.slider > div > h3 {
+    font-size: 1.0rem;
+    text-align: center;
+    word-spacing: 20px;
+    color: var(--secondary-color);
 }
 
 .mySlider {
     margin: auto;
     -webkit-appearance: none;
-    width: 80%;
+    width: 100%;
     height: 5px;
     border-radius: 3px;
     background: var(--secondary-color);
