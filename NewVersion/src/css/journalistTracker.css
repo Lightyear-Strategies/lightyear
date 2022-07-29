@@ -109,7 +109,7 @@ nav > section:last-of-type > div {
     display: grid;
     padding: 1.5rem 0rem;
     place-items: center;
-    width: 15rem;
+    width: 17rem;
     position: relative;
     overflow: hidden;
 }
