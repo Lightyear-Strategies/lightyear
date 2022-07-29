@@ -315,11 +315,11 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     background-color: var(--primary-color);
     box-shadow: 0px 0px 10px var(--primary-color-dark);
     padding: 1rem;
-    max-height: 250px;
+    max-height: 500px;
     margin-left: 2.5%;
     margin-bottom: 1rem;
     border-radius: 0.4rem;
-    width: 90%;
+    width: 80%;
 }
 
 .content > article > section > section:last-of-type > section > section:hover {
