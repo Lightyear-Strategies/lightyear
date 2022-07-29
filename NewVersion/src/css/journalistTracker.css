@@ -159,7 +159,7 @@ main {
     position: relative;
     background-color: var(--primary-color);
     left: 17rem;
-    top: -2rem;
+    top: -1.24rem;
     width: calc(100vw - 17rem);
     height: 100vh;
     margin: 0px;
