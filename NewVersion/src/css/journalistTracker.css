@@ -1,7 +1,7 @@
 :root {
     margin: none;
     padding: none;
-    --primary-color: #F7f8fc;
+    --primary-color: #F7F8FC;
     --primary-color-dark: #9fa2b4;
     --secondary-color:#363740 ; 
     --secondary-color-dark: #A4A6b3;
@@ -272,8 +272,8 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > article > section > section > section:first-of-type > img{
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     margin: 0.5rem 0rem;
 }
 
@@ -387,13 +387,13 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > aside > div > h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
     margin: 0px;
     color: var(--secondary-color);
 }
 
 .content > aside > div > h2 {
-    font-size: 1.25rem;
+    font-size: 1.00rem;
     margin: 0px;
     color: var(--primary-color-dark);
 }
@@ -437,11 +437,4 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 @media screen and (max-width: 1800px) {
-}
-
-@media screen and (max-width: 1500px) {
-    /* Smaller Screen */
-    .content {
-        background-color: var(--secondary-color);
-    }
 }
