@@ -66,45 +66,37 @@ h1{
 
 
 .search-tab{
-    border: 2px solid #A4A6B36B;
-    border-radius: 8px;
     text-align: center;
     width: fit-content;
     padding: .5em;
     font-weight: bold;
-    display: inline-block;
-    margin-right: 1em;
     cursor: pointer;
 }
-
-.search-tab.disabled{
-    border: 1px
-}
-
-.search-tab-extra {
-    
-    border-bottom: 3px solid #A4A6B36B;
-}
-
 .search-menu{
-    margin-top: .5em;
+    /* ----------------- Modified ----------------- */
+    position:relative;
+    z-index:1;
+    margin-top: 0;
+    /* ----------------- Modified ----------------- */
     padding: .5em;
-    display: inline-grid;
+    display: grid;
     column-gap: 1em;
-    border: 2px solid #A4A6B36B;
-    border-radius: 8px;
+    border-top:0;
+    border-radius: 0px 8px 8px 8px;
     background-color: white;
-    width: fit-content
+    width: fit-content;
+    border: 1px solid rgba(164, 166, 179, 0.5);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
 }
 .search-menu:not(.expanded){
     grid-template-areas:
-    'keywords-label .'
-    'keywords       filter-btn';
+    'keywords-label     .'
+    'keywords   filter-btn';
 }
 .search-menu.expanded{
     grid-template-areas:
-    'keywords-label  mediaOutlet-label category-label dateReceived-label . .'
-    'keywords        mediaOutlet       category       dateReceived       date-checkbox search-collapse-button';
+    'keywords-label    mediaOutlet-label category-label dateReceived-label . .'
+    'keywords  mediaOutlet       category       dateReceived       date-checkbox search-collapse-button';
 }
 
 .filter-btn.filter-btn {
@@ -123,10 +115,34 @@ h1{
 .search-bar {
     border: 1px solid #A4A6B36B;
     border-radius: 8px;
-    height: 2.5em;
+    height: 3em;
+    padding-left: 1em;
 }
+.svg-container {
+    width: fit-content;
+    height: fit-content;
+    
+}
+
+input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #E2E3E4;
+    opacity: 1; /* Firefox */
+    font-weight: bold;
+  }
+  
+  input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #E2E3E4;
+    font-weight: bold;
+  }
+  
+  input::-ms-input-placeholder { /* Microsoft Edge */
+    color: #E2E3E4;
+    font-weight: bold;
+  }
+
 #keywords{
-    width: 23em;
+    width: 25.5em;
+    background: url("http://kodyrabatowe.wp.pl/img/ico/search_gr.png") top left     no-repeat;
 }
 #mediaOutlet, #category{
     width: 10em;
@@ -203,3 +219,74 @@ button:not(.dev-btns > *){
     margin-bottom: 15em;
     left: 38.5em;
 }
+
+
+/* ---------------------New Code------------------------- */
+
+
+.select-container{
+    display:flex;
+}
+
+
+.search-tab.selected {
+
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+
+    line-height: 44px; 
+    margin-bottom: 0em;
+    padding:0;
+
+    /* From Figma */
+    width: 109px;
+    height: 44px;/*Adjusted for esthetics */
+    background: #FFFFFF;
+    border: 1px solid rgba(164, 166, 179, 0.5);
+
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+    
+}
+
+/* Add a small white rectangle under the div */
+
+.search-tab.selected::after {
+    position: relative;
+    z-index:2;
+    background-color: rgb(255, 255, 255);
+    height: 6px;
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+  }
+
+
+.search-tab{
+    position:relative;
+    text-align: center;
+    vertical-align: middle;
+
+    line-height: 44px; 
+    margin-bottom: 0em;
+    padding:0;
+
+    /* From Figma */
+    width: 109px;
+    height: 44px;/*Adjusted for esthetics */
+    background: rgba(215, 215, 215, 0.5);
+
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+#all-btn{
+    border-radius: 8px 0px 0px 0px;
+}
+#saved-btn{
+    border-radius: 0px 8px 0px 0px;
+}
+
+
+
+/* ---------------------New Code------------------------- */ 

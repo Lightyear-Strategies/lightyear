@@ -12,7 +12,7 @@ let page = 1;
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
-    document.getElementById('mediaOutlet'),
+    document.getElementById('media-outlet-wrapper'),
     document.getElementById('category-label'),
     document.getElementById('category'),
     document.getElementById('search-collapse-button'),
@@ -170,15 +170,15 @@ function pageNav(direction) {
 }
 
 function displayData() {
+    console.log('displayData()')
     toDisplay = [];
     if (mode == 'saved') {
-        for (let i of saved_haros_indicies) {
-            console.log(DATA[i])
-            toDisplay.push(DATA[i])
+        for (let e of DATA) {
+            if (saved_haros_indicies.has(DATA.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
     $('#haro-table-body > *').remove()
-
+    console.log(toDisplay)
     even_sibling = false;
     let min_index = haros_per_page*(page-1);
     let max_index = haros_per_page*page;
@@ -362,7 +362,7 @@ function switchTable(btnmode) {
         mode = btnmode
         displayData();
         for (let e of document.getElementsByClassName('search-tab')) {
-            e.classList.toggle('disabled')
+            e.classList.toggle('selected')
         }
     }
 }

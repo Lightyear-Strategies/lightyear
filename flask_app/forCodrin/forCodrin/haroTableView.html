@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Font-->
+    <!-- OldFont-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
@@ -34,16 +34,31 @@
 </h1>
 
 
-    <div class="all-haros search-tab" id="content" onclick="switchTable('all')">
+   <!-- /* ---------------------Modified------------------------- */ -->
+
+
+    <!-- <div class="all-haros search-tab" id="content" onclick="switchTable('all')">
       Table
     </div>
 
       <div class="saved-haros search-tab disabled" id="saved-haros" onclick="switchTable('saved')">
         Saved
-      </div>
+      </div> -->
 
 
+   <div class="select-container">
+      <div class="select-table"  onclick="switchTable('all')">Table</div>
+      <div class="select-saved" onclick="switchTable('saved')">Saved</div>
+   </div>
+   
+    
+   <!-- /* ---------------------Modified------------------------- */ -->
+
+
+
+   
       <div class="search-menu" id="search-menu">
+
         <div class="search-label" id="keywords-label">
           What are you looking for?
         </div>
@@ -79,10 +94,6 @@
         <input class="form-check-input hidden" type="checkbox" value="check" style="grid-area: date-checkbox;" id="date-checkbox" onclick="toggleDatePicker()">
       </div>
 
-      <div class="page-nav">
-        <div class="page-nav-btn" onclick='page("previous")'>Previous</div>
-        <div class="page-nav-btn" onclick='page("next")'>Next</div>
-      </div>
 
 
 <div id="main-table">
