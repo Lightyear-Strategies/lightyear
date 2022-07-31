@@ -2,7 +2,7 @@ from flask import render_template
 from flask_login import login_required
 from flask_app.scripts.create_flask_app import app
 from flask_app.scripts.EmailValidator import ev_flask_functions as ev_f_f
-from flask_app.scripts.PeriodicWriters import journalist_upload_functions as j_u_f
+from flask_app.scripts.PeriodicWriters import categoricalWriters as c_w
 from flask_app.scripts.HaroTable import haro_table_functions as h_t_f
 from flask_app.scripts.ContactUs import contact_us as c_u
 from flask_app.scripts.LoginSignUp import auth
@@ -11,8 +11,8 @@ from flask_app.scripts.config import Config
 
 
 app.add_url_rule('/email_validator', view_func=ev_f_f.email_validator, methods=['GET','POST'])
-app.add_url_rule('/jtracker', view_func=j_u_f.load_journalist_file, methods=['GET','POST'])
-app.add_url_rule('/unsubscribe/<token>', view_func=j_u_f.unsubscribe, methods=['GET','POST'], endpoint='unsubscribe')
+app.add_url_rule('/jtracker', view_func=c_w.receive_category, methods=['GET','POST'])
+app.add_url_rule('/unsubscribe/<token>', view_func=c_w.unsubscribe, methods=['GET','POST'], endpoint='unsubscribe')
 
 app.add_url_rule('/haro_table', view_func=h_t_f.show_haro_table, methods=['GET'])
 app.add_url_rule('/api/serveHaros', view_func=h_t_f.serve_data, methods=['GET','POST'])

@@ -23,7 +23,7 @@ class PeriodicWriters(FlaskForm):
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
     frequency = RadioField('How frequently do you want to receive updates?',
                             validators=[InputRequired()],
-                            choices=[('_day', 'daily'), ('_week', 'weekly'), ('_month', 'monthly')])
+                            choices=[('_day', 'daily'), ('_week', 'weekly')])
 
     files = MultipleFileField('Select your files',
                               validators=[DataRequired(),
@@ -80,6 +80,23 @@ class ContactUs(FlaskForm):
     message = TextAreaField('Message')
     send_copy = BooleanField('Send me a copy of my message')
     submit = SubmitField('Send')
+
+
+class CategoricalWriters(FlaskForm):
+    """Constructor for the Categorical Writers  Subscription Form"""
+
+    username = StringField('What is your full name?', validators=[DataRequired()])
+    email = StringField('What is your email?', validators=[DataRequired(), Email()])
+    category = RadioField('Choose category of your interest:',
+                            validators=[InputRequired()],
+                            choices=[("AI","AI"), ("Crypto","Crypto"),("NFT","NFT"),
+                                     ("Economics","Economics"), ("Marketing","Marketing"), ("Philosophy","Philosophy")])
+
+    frequency = RadioField('How frequently do you want to receive updates?',
+                            validators=[InputRequired()],
+                            choices=[('_now','now'), ('_day', 'daily'), ('_week', 'weekly')])
+
+    submit = SubmitField('Submit')
 
 
 
