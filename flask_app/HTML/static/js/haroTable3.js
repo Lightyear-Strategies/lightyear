@@ -12,7 +12,7 @@ let page = 1;
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
-    document.getElementById('media-outlet-wrapper'),
+    document.getElementById('mediaOutlet'),
     document.getElementById('category-label'),
     document.getElementById('category'),
     document.getElementById('search-collapse-button'),
@@ -174,7 +174,7 @@ function displayData() {
     toDisplay = [];
     if (mode == 'saved') {
         for (let e of DATA) {
-            if (saved_haros_indicies.has(DATA.index)) toDisplay.push(e)
+            if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
     $('#haro-table-body > *').remove()

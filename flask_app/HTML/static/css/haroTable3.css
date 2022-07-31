@@ -47,6 +47,7 @@ h1{
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
     grid-template-columns: 3em 25em 10em 15em 10em 13em 4em;
     border: 1px solid #EDEEF1;
+    height: 4em;
 }
 
 .haro-row > * {
