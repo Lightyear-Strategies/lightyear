@@ -126,12 +126,10 @@ def serve_data(option=None):
         print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
         #query.filter(Haros.columns.DateReceived >= freshmark)
         query = query.filter(db.and_(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S')))
-    
 
     if dateAfter:
         print(datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
         query = query.filter(db.and_(Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S')))
-
 
     if keywords:
         query = query.filter(db.or_(
@@ -141,48 +139,49 @@ def serve_data(option=None):
         ))
 
     if mediaOutlet:
-        query = query.filter(db.or_(
+        # query = query.filter(db.or_(
+        #     Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
+        # ))
+        query = query.filter(
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
-        ))
+        )
 
     if journalist:
         query = query.filter(db.or_(
             Haros.columns.MediaOutlet.like(f'%{journalist}%')
         ))
 
-    
-
     total_filtered = query.count()
 
     # sorting
-    order = []
-    i = 0
-    while True:
-
-        col_index = request.args.get(f'order[{i}][column]')
-        if col_index is None:
-            break
-        col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','MediaOutlet','DateReceived']:
-            col_name = 'TimeStamp'
-        if col_name == 'DateReceived':
-            col_name = 'TimeStamp'
-
-        # gets descending sorting
-        descending = request.args.get(f'order[{i}][dir]') == 'desc'
-
-        desired_col = getattr(Haros.columns,col_name)
-
-        #decending
-        if descending:
-            desired_col = desired_col.desc()
-        order.append(desired_col)
-
-        i += 1
-
-    # ordering
-    if order:
-        query = query.order_by(*order)
+    # order = []
+    # i = 0
+    # while True:
+    #
+    #     col_index = request.args.get(f'order[{i}][column]')
+    #     if col_index is None:
+    #         break
+    #     col_name = request.args.get(f'columns[{col_index}][data]')
+    #     if col_name not in ['Category','MediaOutlet','DateReceived']:
+    #         col_name = 'TimeStamp'
+    #     if col_name == 'DateReceived':
+    #         col_name = 'TimeStamp'
+    #
+    #     # gets descending sorting
+    #     descending = request.args.get(f'order[{i}][dir]') == 'desc'
+    #
+    #     desired_col = getattr(Haros.columns,col_name)
+    #
+    #     #decending
+    #     if descending:
+    #         desired_col = desired_col.desc()
+    #     order.append(desired_col)
+    #
+    #     i += 1
+    #
+    # # ordering
+    # if order:
+    #     query = query.order_by(*order)
 
     # pagination
     start = request.args.get('start', type=int)
