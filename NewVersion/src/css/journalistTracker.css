@@ -309,20 +309,23 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 
 .content > article > section > section:last-of-type {
     flex: 6;
-    height: 650px;
-    overflow-y: scroll;
 }
 
 .content > article > section > section:last-of-type > section > section {
     display: flex;
     background-color: var(--primary-color);
     box-shadow: 0px 0px 10px var(--primary-color-dark);
-    padding: 1rem;
-    max-height: 500px;
     margin-left: 2.5%;
     margin-bottom: 1rem;
     border-radius: 0.4rem;
     width: 80%;
+    padding: 1rem;
+}
+
+.articles {
+    padding: 0.5rem 0rem;
+    height: 600px;
+    overflow-y: scroll;
 }
 
 .content > article > section > section:last-of-type > section > section:hover {
