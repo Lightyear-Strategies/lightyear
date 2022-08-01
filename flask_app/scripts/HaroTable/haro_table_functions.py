@@ -139,20 +139,14 @@ def serve_data(option=None):
         ))
 
     if mediaOutlet:
-        # query = query.filter(db.or_(
-        #     Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
-        # ))
         query = query.filter(
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
         )
 
     if journalist:
-        # query = query.filter(db.or_(
-        #     Haros.columns.Name.like(f'%{journalist}%')
-        # ))
-        query = query.filter(db.or_(
+        query = query.filter(
             Haros.columns.Name.like(f'%{journalist}%')
-        ))
+        )
 
     total_filtered = query.count()
 
