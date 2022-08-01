@@ -71,29 +71,29 @@ def show_haro_table():
     return render_template('HaroTable/haroTableView.html', title='LyS Haros Database')
 
 
-def adding_used_unused(option: str = None, id: str = None):
-    """
-    Changes value in "Used" column of certain haro by using id
-    Values can be "Used" or "None"
-    @param:    option and id in the table
-    @return:   string
-    """
-
-    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    query = db.session.query(Haros).filter(Haros.columns.index == int(id))
-    #print(query.all())
-
-    if option == "add":
-        query.update({Haros.columns.Used : "Used" })
-        db.session.commit()
-
-    elif option == "remove":
-        query.update({Haros.columns.Used: "None"})
-        db.session.commit()
-
-   # print(query.all())
-
-    return "OK"
+# def adding_used_unused(option: str = None, id: str = None):
+#     """
+#     Changes value in "Used" column of certain haro by using id
+#     Values can be "Used" or "None"
+#     @param:    option and id in the table
+#     @return:   string
+#     """
+#
+#     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+#     query = db.session.query(Haros).filter(Haros.columns.index == int(id))
+#     #print(query.all())
+#
+#     if option == "add":
+#         query.update({Haros.columns.Used : "Used" })
+#         db.session.commit()
+#
+#     elif option == "remove":
+#         query.update({Haros.columns.Used: "None"})
+#         db.session.commit()
+#
+#    # print(query.all())
+#
+#     return "OK"
 
 
 def serve_data(option=None):
