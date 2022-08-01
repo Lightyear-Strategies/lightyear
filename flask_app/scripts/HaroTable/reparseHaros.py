@@ -1,7 +1,7 @@
-# To be used from root directory
+# To be used from ipython3
 
 import pandas as pd
-from .create_flask_app import db, app #flask_app.scripts
+from flask_app.scripts.create_flask_app import db, app
 from haroListener.haro_listener import HaroListener
 
 lis = HaroListener("george@lightyearstrategies.com")
