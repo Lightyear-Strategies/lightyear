@@ -6,6 +6,7 @@
     --secondary-color:#363740 ; 
     --secondary-color-dark: #A4A6B3;
     --secondary-color-contrast: #DDe2ff;
+    --aside-hover-color: #e7e7e7cc;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     scroll-behavior: smooth;
     outline: none;
@@ -360,6 +361,28 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     color: var(--primary-color-dark);
 }
 
+/* Article Pop-up */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+.popupOptions {
+    visibility: hidden;
+    width: 160px;
+    background-color: blue;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+}
+
 /* Main Aside */
 
 .content > article {
@@ -377,6 +400,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > aside > div {
+    position: relative;
     flex: 1;
     margin: 0.25rem 2rem;
     border-radius: 0.25rem;
@@ -385,7 +409,40 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .content > aside > div:hover {
-    background-color: #e7e7e7cc;
+    background-color: var(--aside-hover-color);
+}
+
+.delete-div {
+    position: absolute;
+    right: 50px;
+    top: 10px
+}
+
+.delete-button {
+	position: absolute;
+    z-index: 2;
+    display: none;
+}
+
+.delete-icon {
+    position: absolute;
+    z-index: 3;
+    display: none;
+    fill: var(--secondary-color);
+    width: 18px;
+    height: 18px;
+}
+
+.content > aside > div:hover .delete-button {
+    background-color: var(--aside-hover-color);
+    border: none;
+    display: block;
+}
+
+.content > aside > div:hover .delete-icon {
+    /* background-color: var(--aside-hover-color); */
+    border: none;
+    display: block;
 }
 
 .content > aside > div > h1 {
@@ -472,6 +529,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 
 .flex-container > div > svg {
     fill: var(--secondary-color-dark);
+    width: 18px;
 }
 
 .flex-container > div > input[type=text] {
@@ -512,7 +570,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 
 /* Need to make words fit relative to screen size */
 .slider > div > h2 {
-    font-size: 1.20rem;
+    font-size: 1.0rem;
     letter-spacing: 0.4px;
 
     background: linear-gradient(90deg, #662CE3 0%, #A9209B 37.06%, #BA40CE 56.62%);
@@ -526,9 +584,10 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 }
 
 .slider > div > h3 {
-    font-size: 1.0rem;
+    width: 100%; 
+    font-size: 0.75rem;
     text-align: center;
-    word-spacing: 20px;
+    word-spacing: 10px;
     color: var(--secondary-color);
 }
 
