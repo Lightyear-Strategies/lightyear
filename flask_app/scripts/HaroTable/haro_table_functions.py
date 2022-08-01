@@ -104,7 +104,7 @@ def serve_data(option=None):
     """
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    print(Haros.columns.DateReceived.all_())
+    #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
 
@@ -147,8 +147,11 @@ def serve_data(option=None):
         )
 
     if journalist:
+        # query = query.filter(db.or_(
+        #     Haros.columns.Name.like(f'%{journalist}%')
+        # ))
         query = query.filter(db.or_(
-            Haros.columns.MediaOutlet.like(f'%{journalist}%')
+            Haros.columns.Name.like(f'%{journalist}%')
         ))
 
     total_filtered = query.count()
