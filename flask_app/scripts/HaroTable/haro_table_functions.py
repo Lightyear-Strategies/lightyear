@@ -4,6 +4,8 @@ from flask import render_template, request
 from datetime import datetime, timedelta
 import pandas as pd
 
+import time
+
 import traceback
 import sys
 import logging
@@ -97,11 +99,15 @@ def show_haro_table():
 
 
 def serve_data(option=None):
+
     """
     Sorts the table, returns searched data
     @param:    None/option
     @return:   table entries
     """
+    start = time.time()
+    print("hello")
+
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     #print(Haros.columns.DateReceived.all_())
@@ -117,7 +123,6 @@ def serve_data(option=None):
     print('Arguments:',end=' ')
     print(request.args)
 
-
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
     journalist = request.args.get('journalist')
@@ -126,7 +131,6 @@ def serve_data(option=None):
     
     if dateBefore:
         print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
-        #query.filter(Haros.columns.DateReceived >= freshmark)
         query = query.filter(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
 
     if dateAfter:
@@ -186,6 +190,9 @@ def serve_data(option=None):
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
+
+    end = time.time()
+    print(end - start)
 
     # response to be shown on HTML side
     return {
