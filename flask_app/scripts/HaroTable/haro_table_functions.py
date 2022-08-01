@@ -105,7 +105,7 @@ def serve_data(option=None):
     @param:    None/option
     @return:   table entries
     """
-    start = time()
+    start_t = time()
 
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
@@ -190,8 +190,8 @@ def serve_data(option=None):
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    end = time()
-    print(end - start)
+    end_t = time()
+    print(end_t - start_t)
 
     # response to be shown on HTML side
     return {
