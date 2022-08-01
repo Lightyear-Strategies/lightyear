@@ -17,7 +17,7 @@ app.add_url_rule('/unsubscribe/<token>', view_func=c_w.unsubscribe, methods=['GE
 app.add_url_rule('/haro_table', view_func=h_t_f.show_haro_table, methods=['GET'])
 app.add_url_rule('/api/serveHaros', view_func=h_t_f.serve_data, methods=['GET','POST'])
 app.add_url_rule('/api/serveHaros/<option>', view_func=h_t_f.serve_data, methods=['GET','POST'])
-app.add_url_rule('/api/used/<option>/<id>', view_func=h_t_f.adding_used_unused, methods=['GET','POST'])
+#app.add_url_rule('/api/used/<option>/<id>', view_func=h_t_f.adding_used_unused, methods=['GET','POST'])
 
 app.add_url_rule('/contact_us', view_func=c_u.contact_us, methods=['GET','POST'])
 app.add_url_rule('/signup', view_func=auth.signup, methods=['GET','POST'])
