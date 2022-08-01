@@ -47,7 +47,12 @@ h1{
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
     grid-template-columns: 3em 25em 10em 15em 10em 13em 4em;
     border: 1px solid #EDEEF1;
-    height: 4em;
+    grid-template-rows: 4em;
+}
+.haro-row.expanded {
+    grid-template-areas:
+    'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button'
+    'details     details details     details  details       details  details';
 }
 
 .haro-row > * {
@@ -101,7 +106,7 @@ h1{
 }
 
 .filter-btn.filter-btn {
-    height: 1.75rem;
+    height: 3.5rem;
     background-color: white;
     border: 2px solid #A4A6B36B;
     border-radius: 8px;
@@ -142,11 +147,19 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   }
 
 #keywords{
-    width: 25.5em;
-    background: url("http://kodyrabatowe.wp.pl/img/ico/search_gr.png") top left     no-repeat;
+    width: 27em;
+    background: url("../img/MagnifyingGlass.svg") .4em .7em     no-repeat;
+    padding-left: 2.3em;
 }
 #mediaOutlet, #category{
-    width: 10em;
+    width: 11em;
+    padding-left: 2.3em;
+}
+#mediaOutlet {
+    background: url("../img/Newspaper.svg") .4em .7em     no-repeat;
+}
+#category{
+    background: url("../img/Briefcase.svg") .4em .7em     no-repeat;
 }
 #search-collapse-button{
     border: none;
@@ -154,7 +167,9 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 }
 
 #dateReceived{
-    width: 13em;
+    width: 15em;
+    padding-left: 2.5em;
+    background: url("../img/Briefcase.svg") .2em .7em     no-repeat;
 }
 
 #date-checkbox{
@@ -193,11 +208,10 @@ button:not(.dev-btns > *){
 }
 
 .page-nav {
-    position: absolute;
-    top: 9em;
-    left: 73.2em;
-    display: inline;
+    display: block;
     width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 .page-nav-btn.page-nav-btn{
     display:inline;
@@ -214,13 +228,9 @@ button:not(.dev-btns > *){
     bottom: .1em;
 }
 
-.page-nav.bottom-nav {
-    top: 1em;
-    position: relative;
-    margin-bottom: 15em;
-    left: 38.5em;
+.page-nav.bottom-nav{
+    margin-top: 2em;
 }
-
 
 /* ---------------------New Code------------------------- */
 
