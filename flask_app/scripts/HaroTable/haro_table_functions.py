@@ -4,7 +4,7 @@ from flask import render_template, request
 from datetime import datetime, timedelta
 import pandas as pd
 
-import time
+from time import time
 
 import traceback
 import sys
@@ -105,8 +105,7 @@ def serve_data(option=None):
     @param:    None/option
     @return:   table entries
     """
-    start = time.time()
-    print("hello")
+    start = time()
 
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
@@ -191,7 +190,7 @@ def serve_data(option=None):
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
 
-    end = time.time()
+    end = time()
     print(end - start)
 
     # response to be shown on HTML side
