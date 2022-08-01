@@ -361,6 +361,28 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     color: var(--primary-color-dark);
 }
 
+/* Article Pop-up */
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+.popupOptions {
+    visibility: hidden;
+    width: 160px;
+    background-color: blue;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+}
+
 /* Main Aside */
 
 .content > article {

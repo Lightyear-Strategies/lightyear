@@ -11,3 +11,8 @@ window.onload = () => {
         logoutVisible = !logoutVisible
     })
 }
+
+function popupFunc() {
+    var popup = document.getElementById("myPop");
+    popup.classList.toggle("show");
+}
