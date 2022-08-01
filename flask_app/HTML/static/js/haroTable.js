@@ -57,11 +57,11 @@ document.getElementById('fresh-haros').onclick = () => {
   getMediaQueryData('/api/serveHaros/fresh')
 }
 
-document.getElementById('used-haros').onclick = () => {
-    mode = 'used'
-  page_number = 0;
-  getMediaQueryData('/api/serveHaros/used')
-}
+// document.getElementById('used-haros').onclick = () => {
+//     mode = 'used'
+//   page_number = 0;
+//   getMediaQueryData('/api/serveHaros/used')
+// }
 
 function displayData() {
 
