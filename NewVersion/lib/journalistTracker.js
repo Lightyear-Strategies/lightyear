@@ -12,13 +12,35 @@ window.onload = () => {
     })
 }
 
-// Doesn't work
+// Add and Copy to Clipboard -- doesn't work
 function popupFunc() {
     var popup = document.getElementById("myPop");
     popup.classList.toggle("show");
 }
 
+function search() {
+
+}
+
+// Removing Follower
 function remove(el) {
     var element = el;
     element.parentElement.remove();
+}
+
+// Slider Gradient Change
+function dynamicSlider() {
+    var slider = document.getElementById("myRange");
+    if (slider.value == 1) {
+        slider.style.background = "linear-gradient(18.03deg, rgba(197, 28, 224, 0.996446) 4.12%, #AC5D73 13.65%, #A800C4 15.51%, #0085FF 99.61%)";
+    }
+    else if (slider.value > 1 && slider.value <= 2) {
+        slider.style.background = "linear-gradient(82.9deg, rgba(197, 28, 224, 0.996446) 34.6%, #AC5D73 39.54%, #A800C4 49.34%, #0085FF 81.6%)";
+    }
+    else if (slider.value > 2 && slider.value <= 3) {
+        slider.style.background = "linear-gradient(275.16deg, rgba(197, 28, 224, 0.996446) 7.94%, rgba(160, 67, 175, 0.996446) 30.47%, #2295FF 51.08%, #A800C4 76.26%)";
+    }
+    else {
+        slider.style.background = "linear-gradient(268.61deg, rgba(197, 28, 224, 0.996446) 5.78%, #AC5D73 16.08%, #A800C4 36.5%, #0085FF 103.73%)";
+    }
 }
