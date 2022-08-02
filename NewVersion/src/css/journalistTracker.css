@@ -382,9 +382,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     position: absolute;
     z-index: 1;
-    left: -2.5%;
-    top: 25%;
-    padding: 0.125rem 0.5rem;
+    right: 80%;
 }
   
   /* Toggle this class - hide and show the popup */
