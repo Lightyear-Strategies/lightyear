@@ -12,10 +12,34 @@ window.onload = () => {
     })
 }
 
-// Add and Copy to Clipboard -- doesn't work
+// Pop-up
 function popupFunc() {
-    var popup = document.getElementById("myPop");
+    var popup = document.getElementById("myPopup");
     popup.classList.toggle("show");
+}
+
+// Add and Copy Link to Clipboard -- need to test
+async function copyLinkToClipboard(){
+    await navigator.clipboard.writeText(document.getElementById('copyLink').value);
+}
+
+async function addLinkToClipboard(){
+    var addText = await navigator.clipboard.readText();
+    addText+= ", "+ document.getElementById('addLink').value;
+    await navigator.clipboard.writeText(addText);
+    console.log(addText);
+}
+
+// Add and Copy Brief to Clipboard -- need to test
+async function copyBriefToClipboard(){
+    await navigator.clipboard.writeText(document.getElementById('copyBrief').value);
+}
+
+async function addBriefToClipboard(){
+    var addText = await navigator.clipboard.readText();
+    addText+= ", "+ document.getElementById('addBrief').value;
+    await navigator.clipboard.writeText(addText);
+    console.log(addText);
 }
 
 function search() {
