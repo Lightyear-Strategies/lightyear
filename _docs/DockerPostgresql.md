@@ -41,9 +41,9 @@ Create and Run container:
 ```
 docker run --name postgresqlLYS -e POSTGRES_USER=ubuntu -e POSTGRES_PASSWORD=ubuntu -p 5432:5432 -v /home/ubuntu/lightyear/docker/postgres/volumes:/var/lib/postgresql/data -d postgres
 ```
---name <name_of_container>
--d <image>  — in detached mode
--v /<localpath>:/var/lib/postgresql/data
+* --name <name_of_container>
+* -d <image>  — in detached mode
+* -v /<localpath>:/var/lib/postgresql/data
 
 
 See Active and Inactive Containers:
@@ -51,7 +51,6 @@ See Active and Inactive Containers:
 docker ps
 docker ps -a 
 ```
-
 
 ### Connecting to PostgreSQL
 Connect to container using its name:
@@ -73,9 +72,10 @@ Inside of Postgres:
 \dn  - List of Schemas under current db
 \c <database name>; — connect to specific database and enter a password for the user
 
-Postgres SQL Connection:
+### Postgres SQL Connection:
 ```
 POSTGRES_DATABASE_URI = 'postgresql+psycopg2://ubuntu:ubuntu@0.0.0.0:5432/haros_db'
+POSTGRES_DATABASE_URI = 'postgresql+psycopg2://ubuntu:ubuntu@0.0.0.0:5432/journalist_db'
 ```
 Example: `postgres://user:secret@localhost:5432/DB_NAME`
 
@@ -92,6 +92,14 @@ Add the result of above operation before `:$PATH`:
 export PATH=/usr/lib/postgresql/12/bin/:$PATH
 ```
 
+May need to run these commands:
+```
+sudo apt-get install python3 python-dev python3-dev
+sudo apt-get install libpq-dev
+sudo apt-get install build-dep
+```
+
+Finally, run:
 ```
 sudo python3 -m pip install psycopg2
 ```

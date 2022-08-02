@@ -107,11 +107,8 @@ def serve_data(option=None):
     """
     start_t = time()
 
-
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
-
 
     # fresh queries
     if option == "fresh":
