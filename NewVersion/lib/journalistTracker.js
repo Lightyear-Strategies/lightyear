@@ -12,7 +12,13 @@ window.onload = () => {
     })
 }
 
+// Doesn't work
 function popupFunc() {
     var popup = document.getElementById("myPop");
     popup.classList.toggle("show");
+}
+
+function remove(el) {
+    var element = el;
+    element.parentElement.remove();
 }
