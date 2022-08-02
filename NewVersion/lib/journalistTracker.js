@@ -19,7 +19,7 @@ function popupFunc() {
 }
 
 // Add and Copy Link to Clipboard -- need to test
-async function copyLinkToClipboard(){
+async function copyLinkToClipboard(){ // only copies the text
     await navigator.clipboard.writeText(document.getElementById('copyLink').value);
 }
 
@@ -31,7 +31,7 @@ async function addLinkToClipboard(){
 }
 
 // Add and Copy Brief to Clipboard -- need to test
-async function copyBriefToClipboard(){
+async function copyBriefToClipboard(){ // only copies the text
     await navigator.clipboard.writeText(document.getElementById('copyBrief').value);
 }
 
