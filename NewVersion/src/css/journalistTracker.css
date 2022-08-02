@@ -7,6 +7,8 @@
     --secondary-color-dark: #A4A6B3;
     --secondary-color-contrast: #DDe2ff;
     --aside-hover-color: #e7e7e7cc;
+    --popup-hover-color: #94949433;
+
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     scroll-behavior: smooth;
     outline: none;
@@ -167,6 +169,7 @@ main {
     padding: 0px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 }
 
 main > header {
@@ -382,10 +385,9 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
     position: absolute;
     z-index: 1;
-    right: 80%;
+    right: 85%;
 }
   
-  /* Toggle this class - hide and show the popup */
 .show {
     visibility: visible;
 }
@@ -393,6 +395,8 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 .popup-div {
     justify-content: left;
     align-items: left;
+    padding-left: 5.5%;
+    padding-top: 2.5%;
 }
 
 .popup-div > p {
@@ -401,6 +405,8 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     padding: 0%;
     padding-top: 2.5%;
     margin: 0%;
+    text-align: left;
+    margin-left: 0.4rem;
 }
 
 .popupButton {
@@ -409,9 +415,16 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
     color: var(--secondary-color);
     z-index: 2;
     cursor: pointer;
+    width: 100%;
+    display: flex;
     text-align: left;
-    justify-content: left;
-    align-items: left;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.popupButton:hover {
+    background-color: var(--popup-hover-color);
 }
 
 /* Main Aside */
@@ -610,7 +623,7 @@ main > header > div:last-of-type > div:last-of-type > div:first-of-type:hover  ~
 .slider {
     position: absolute;
     width: 125%;
-    height: 30%;
+    height: 25%;
     left: -15%;
     bottom: -2.5%;
     background: var(--primary-color);
