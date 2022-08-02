@@ -12,6 +12,16 @@
     width: 5em;
 }
 
+.sticky-wrapper {
+    position: sticky;
+    top: 0;
+    margin-top: 0em;
+    width: 100%;
+    height: fit-content;
+    background: white;
+    border-bottom: 2px solid rgba(0,0,0,.3)
+}
+
 body{
     background-color: #F7F8FC
 }
@@ -20,10 +30,6 @@ h1{
     font-size: 1.5em;
 }
 
-#main-table{
-    border-collapse: collapse;
-    margin: none;
-}
 
 
 #haro-table-body{
@@ -77,6 +83,10 @@ h1{
 
 .haro-row:nth-child(even) {
     background-color: rgba(196, 196, 196, 0.12); 
+}
+
+.haro-row:nth-child(even) > .details {
+    border-top: 1px solid #d9dadc;
 }
 
 .haro-row:nth-child(even):hover {
@@ -230,7 +240,7 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     padding: 1em;
     padding-right: 3em;
     padding-left: 2em;
-    border-top: solid 1px #EDEEF1
+    border-top: solid 1px #d9dadc;
 }
 
 .details-label{
