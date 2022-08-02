@@ -1,5 +1,5 @@
 :root{
-    font-family: 'Inter';
+    font-family: 'Mulish';
     font-size: 11pt;
 }
 
@@ -39,20 +39,48 @@ h1{
     display: grid;
     grid-template-areas:
     '. Summary MediaOutlet Category DateReceived  Deadline expand-button';
-    grid-template-columns: 3em 25em 10em 15em 10em 13em 4em
+    grid-template-columns: 3em 40em 15em 15em 10em 7em 4em;
 }
 .haro-row {
     display: grid;
     grid-template-areas:
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
-    grid-template-columns: 3em 25em 10em 15em 10em 13em 4em;
-    border: 1px solid #EDEEF1;
+    grid-template-columns: 3em 40em 15em 15em 10em 7em 4em;
     grid-template-rows: 4em;
+    border-top: solid 1px #A4A6B36B
 }
 .haro-row.expanded {
     grid-template-areas:
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button'
     'details     details details     details  details       details  details';
+}
+
+.save-button {
+    background: url("../img/bookmark.svg") 1.5em 1.5em no-repeat;
+}
+
+.save-button:hover:not(.saved){
+    background: url("../img/bookmark_hover.svg") 1.5em 1.5em no-repeat;
+}
+
+.save-button.saved{
+    background: url("../img/bookmark_saved.svg") 1.5em 1.5em no-repeat;
+}
+
+.haro-row:nth-child(odd) {
+    background-color: white;
+}
+
+.haro-row:nth-child(odd):hover {
+    background-color: rgba(196, 196, 196, 0.03);
+}
+
+.haro-row:nth-child(even) {
+    background-color: rgba(196, 196, 196, 0.12); 
+}
+
+.haro-row:nth-child(even):hover {
+    background-color: rgba(196, 196, 196, 0.18);
 }
 
 .haro-row > * {
@@ -63,12 +91,7 @@ h1{
     padding-left: 1em;
 }
 
-.even-sibling-false {
-    background-color: white;
-}
-.even-sibling-true{
-    background-color: rgba(196, 196, 196, 0.12); 
-}
+
 
 
 .search-tab{
@@ -78,13 +101,20 @@ h1{
     font-weight: bold;
     cursor: pointer;
 }
+
+.search-tab:not(.selected):hover{
+    background-color: rgba(215, 215, 215, 0.7);
+}
+
 .search-menu{
     /* ----------------- Modified ----------------- */
     position:relative;
     z-index:1;
     margin-top: 0;
     /* ----------------- Modified ----------------- */
-    padding: .5em;
+    margin-bottom: 2em;
+    padding: 1em;
+    padding-left: 2em;
     display: grid;
     column-gap: 1em;
     border-top:0;
@@ -101,17 +131,24 @@ h1{
 }
 .search-menu.expanded{
     grid-template-areas:
-    'keywords-label    mediaOutlet-label category-label dateReceived-label . .'
-    'keywords  mediaOutlet       category       dateReceived       date-checkbox search-collapse-button';
+    'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox .'
+    'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
 }
 
 .filter-btn.filter-btn {
-    height: 3.5rem;
+    height: 3rem;
     background-color: white;
     border: 2px solid #A4A6B36B;
     border-radius: 8px;
     font-weight: bold;
-    height: 2.5em;
+}
+
+.filter-btn.filter-btn:hover{
+    position: relative;
+    left: -1px;
+    margin-right: -2px;
+    background-color: rgba(196, 196, 196, 0.06);
+    border: 3px solid #9a9ca96b;
 }
 
 .search-label{
@@ -147,12 +184,12 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   }
 
 #keywords{
-    width: 27em;
+    width: 40em;
     background: url("../img/MagnifyingGlass.svg") .4em .7em     no-repeat;
     padding-left: 2.3em;
 }
 #mediaOutlet, #category{
-    width: 11em;
+    width: 13.5em;
     padding-left: 2.3em;
 }
 #mediaOutlet {
@@ -164,18 +201,21 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 #search-collapse-button{
     border: none;
     background-color: white;
+    background: url("../img/leftarrow.svg")  0 1em no-repeat;
+}
+#search-collapse-button:hover{
+    background: url("../img/leftarrow_hover.svg")  0 1em no-repeat;
 }
 
 #dateReceived{
-    width: 15em;
+    width: 18.5em;
     padding-left: 2.5em;
-    background: url("../img/Briefcase.svg") .2em .7em     no-repeat;
+    background: url("../img/CalendarCheck.svg") .2em .7em     no-repeat;
 }
 
 #date-checkbox{
     position: relative;
-    top: .5em;
-    right: .5em;
+    left: -4em;
 }
 
 .details {
@@ -186,8 +226,11 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     'Requirements-label Requirements';
     row-gap: .75em;
     column-gap: .75em;
-    width: 75em;
-    margin: none;
+    width: 94em;
+    padding: 1em;
+    padding-right: 3em;
+    padding-left: 2em;
+    border-top: solid 1px #EDEEF1
 }
 
 .details-label{

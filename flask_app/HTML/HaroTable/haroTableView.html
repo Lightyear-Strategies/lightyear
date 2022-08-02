@@ -6,11 +6,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Font-->
+    <!--Font, Mulish-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="../static/css/haroTable3.css">
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -42,7 +41,7 @@
         <div class="search-label" id="keywords-label">
           What are you looking for?
         </div>
-        <input type="text" class="search-bar" id='keywords' placeholder='Search for Summary, Journalist, Media, Query etc.'>
+        <input type="text" class="search-bar" id='keywords' placeholder='Search for keywords'>
 
 
         <button id="filter-btn" class="filter-btn" onclick="toggleExpandedSearchBar()">
@@ -57,19 +56,16 @@
           <div class="search-label hidden" id="mediaOutlet-label">
             Media Outlet
           </div>
-          <input type="text" class="search-bar hidden" id="mediaOutlet" list="media-outlets" placeholder="Type or Select">
+          <input type="text" class="search-bar hidden" id="mediaOutlet" list="media-outlets" placeholder="Search">
 
         <datalist id='media-outlets'></datalist>
 
         <div class="search-label hidden" id="category-label">
           Category
         </div>
-        <input type="text" class="search-bar hidden" id="category" list="categories" placeholder="Type or Select">
+        <input type="text" class="search-bar hidden" id="category" list="categories" placeholder="Search">
         <datalist id="categories"></datalist>
         <button id="search-collapse-button" class="hidden" onclick="toggleExpandedSearchBar()">
-          <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 1L1 6.5L8 12" stroke="#888A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </button>
         <div class="search-label hidden disabled" id="dateReceived-label">
           Date Interval
@@ -78,22 +74,6 @@
         <input class="form-check-input hidden" type="checkbox" value="check" style="grid-area: date-checkbox;" id="date-checkbox" onclick="toggleDatePicker()">
       </div>
 
-      <br>
-
-      <div class="page-nav">
-        <button class="page-nav-btn" onclick='pageNav("previous")'>
-          <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 1L1 6.5L8 12" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-             Previous
-          </button>
-          <button class="page-nav-btn" onclick='pageNav("next")'>
-            Next 
-            <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-      </div>
 
 <div id="main-table">
   <div class="table-head">
@@ -105,20 +85,7 @@
   </div>
   <div id="haro-table-body"><!--it all goes in here--></div>
 </div>
-<div class="page-nav bottom-nav hidden" id="bottom-nav">
-  <button class="page-nav-btn" onclick='pageNav("previous")'>
-  <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 1L1 6.5L8 12" stroke="black" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-     Previous
-  </button>
-  <button class="page-nav-btn" onclick='pageNav("next")'>
-    Next 
-    <svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-</div>
+
 </div>
 </div>
 

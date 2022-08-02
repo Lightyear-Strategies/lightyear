@@ -4,11 +4,11 @@ var DATA;
 let Categories = [];
 const expanded_previously = {};
 let mode = 'all'
-let even_sibling;
 const searchMenu = document.getElementById('search-menu'); 
 const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
 let page = 1;
+let display_index = 0;
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -22,6 +22,7 @@ const search_bar_toggle_elements = [
 ]
 let haros_per_page = 100;
 let saved_iterator;
+let all_displayed;
 
 
 /*
@@ -44,24 +45,6 @@ const downArrowSvg =`
 </svg>
 `
 
-const noSaveSvg =`
-<svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-`
-
-const saveHoverSvg =`
-<svg width="14" height="16" viewBox="0 0 14 16" fill="#A4A6B3" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="#A4A6B3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-`
-
-const saveSvg =`
-<svg width="14" height="16" viewBox="0 0 14 16" fill="black" xmlns="http://www.w3.org/2000/svg">
-<path d="M12.5237 14.75L7.02305 11.9375L1.52368 14.75V2.375C1.52368 2.22582 1.59611 2.08274 1.72505 1.97725C1.85398 1.87176 2.02885 1.8125 2.21118 1.8125H11.8362C12.0185 1.8125 12.1934 1.87176 12.3223 1.97725C12.4512 2.08274 12.5237 2.22582 12.5237 2.375V14.75Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-`
-
 
 initializeGridAreas(
     document.getElementById('search-menu')
@@ -81,6 +64,17 @@ $( document ).ready(function() {
                 submitSearch()
             }
         }
+        $(window).scroll(function() {
+            /*
+            console.log(`document height: ${$(document).height()}`)
+            console.log(`scroll: ${$(window).scrollTop()}`)
+            console.log(`window height: ${$(window).height()}`)
+            console.log(`difference: ${$(window).scrollTop() + $(window).height() - 0.9*$(document).height()}`)
+            */
+            if($(window).scrollTop() + $(window).height() > 0.9*$(document).height()) {
+                if (!all_displayed) appendDisplay()
+            }
+         });
     }
 
 
@@ -144,7 +138,8 @@ function getMediaQueryData(requestUrl) {
         success : (result, status, xhr) => {
             if (status != 304) DATA = result.data;
             page_number = 1;
-            displayData();
+            resetDisplay();
+            appendDisplay();
             if (!init) {
                 initializeDropdownMenus();
                 init = true;
@@ -154,52 +149,48 @@ function getMediaQueryData(requestUrl) {
     )
 }
 
-function insertEntry(id,datum, parent) {
-    const entry = document.createElement('div');
-    entry.innerHTML = datum[id];
-    entry.classList.add(id);
-    entry.style['grid-area'] = id
-    parent.appendChild(entry);
+
+
+function resetDisplay() {
+    all_displayed = false;
+    display_index = 0;
+    $('#haro-table-body > *').remove()    
 }
 
-function pageNav(direction) {
-    let length = DATA.length
-    if (direction == 'next' && haros_per_page*page < length ) page = page + 1
-    if (direction == 'previous' && page > 1) page = page - 1;
-    displayData()
-}
+function appendDisplay() {
 
-function displayData() {
-    console.log('displayData()')
-    toDisplay = [];
+    let toDisplay = [];
     if (mode == 'saved') {
         for (let e of DATA) {
             if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
-    $('#haro-table-body > *').remove()
-    console.log(toDisplay)
-    even_sibling = false;
-    let min_index = haros_per_page*(page-1);
-    let max_index = haros_per_page*page;
-    if (max_index > toDisplay.length) max_index = toDisplay.length;
+    if (toDisplay.length == 0) {
+        document.getElementById('haro-table-body').innerHTML = 'ERR 400: no items match query'
+    }
 
-    if (max_index > toDisplay.length) max_index = toDisplay.length;
+    let len = toDisplay.length
+
+    let min_index = haros_per_page * display_index;
+    let max_index = min_index + haros_per_page;
+
     let iterations = 0;
-    for (let i = min_index; i < max_index ; i++) {
+    for (let i = min_index; i < max_index; i++) {
         try {
+            if (i >= len) {
+                all_displayed = true;
+                break;
+            }
             if (iterations > 2000) break
             iterations = iterations + 1;
             insertRow(toDisplay[i])
-            if (even_sibling) even_sibling = false 
-            else even_sibling = true
-        } catch (e) {i = i - 1}
+
+        } catch (e) {
+            i = i - 1; 
+            console.log(e); 
+        }
     }
-    $('html,body').scrollTop(0);
-    
-    if (document.getElementById('bottom-nav').classList.contains('hidden')) {
-        document.getElementById('bottom-nav').classList.remove('hidden')
-    }
+
 }
 
 function insertDetailsRow(id,table,datum){
@@ -220,11 +211,33 @@ function insertDetailsRow(id,table,datum){
     }
 }
 
+function insertEntry(id,datum, parent) {
+    
+    const entry = document.createElement('div');
+    if (id == 'DateReceived') {
+        entry.innerHTML = datum['DateReceived'].substring(5,7) + '/' + datum['DateReceived'].substring(8) + '/' + datum['DateReceived'].substring(0,4);
+    } else if (id == 'Deadline') {
+        deadlineArr = datum['Deadline'].split(' ');
+        let dlday = deadlineArr[4];
+        if (dlday.length == 1) dlday = '0' + dlday;
+        entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday;
+    } else {
+        entry.innerHTML = datum[id];
+    }
+
+    entry.classList.add(id);
+    entry.style['grid-area'] = id
+    entry.style['align-self'] = 'center'
+    parent.appendChild(entry);
+}
+
 function insertRow(datum) {
+    
     if (datum==undefined) throw 'datum undefined';
     let row = document.createElement('div')
     row.classList.add('haro-row')
     HARO_BODY.appendChild(row);
+
     for (let id of ['Summary','MediaOutlet','Category','DateReceived','Deadline']){
         insertEntry(id,datum,row)
     }
@@ -238,7 +251,7 @@ function insertRow(datum) {
     row.expanded_previously = false;
     row.expanded = false;
     let details
-    expand_button.onclick = function() {
+    row.onclick = function() {
         //on initial expansion of a given table entry, inserts a new row containing a single cell spanning the entire column
         //the cell contians a div with class='details'. It's set to display the information as a grid
         if (!row.expanded_previously) {
@@ -263,42 +276,32 @@ function insertRow(datum) {
     }
 
     //for coloring backgrounds
-    row.classList.add(`even-sibling-${even_sibling}`)
-    row.even_sibling = even_sibling
 
     //insert bookmark button
-    save_button = document.createElement('button')
-    save_button.style['grid-area'] = 'save-button'
-    save_button.innerHTML = noSaveSvg;
-    row.appendChild(save_button)
-    if (saved_haros_indicies.has(datum.index)) row.saved = true;
-    else row.saved = false;
-    save_button.onclick = replaceSaveButton(row,datum)
-}
-
-function replaceSaveButton(parent,datum,oldSaveButton){
-    let flag = false;
-    if (oldSaveButton) {
-        oldSaveButton.remove()
-        flag = true;
-    }
     let save_button = document.createElement('button')
     save_button.style['grid-area'] = 'save-button'
-    if (parent.saved) save_button.innerHTML = saveSvg
-    else save_button.innerHTML = noSaveSvg
-    parent.appendChild(save_button)
-    save_button.onclick = function() {
-        if (parent.saved) {
-            saved_haros_indicies.delete(Number(datum.index))
-            parent.saved = false
-        } else {
-            saved_haros_indicies.add(Number(datum.index))
-            parent.saved = true
-        }
-        replaceSaveButton(parent,datum,save_button)
+    save_button.classList.add('save-button')
+    if (saved_haros_indicies.has(datum.index)) {
+        row.saved = true;
+        save_button.classList.add('saved')
+    } else {
+        row.saved = false;
     }
-    
+
+    save_button.onclick = (e) => { 
+        if (row.saved) {
+            row.saved = false;
+            saved_haros_indicies.delete(Number(datum.index))
+        } else {
+            row.saved = true;
+            saved_haros_indicies.add(Number(datum.index))
+        }
+        save_button.classList.toggle('saved')
+        e.stopPropagation();
+    }
+    row.appendChild(save_button);
 }
+
 
 function initializeDropdownMenus() {
     initializeDropdownMenu(
@@ -357,10 +360,10 @@ function toggleDatePicker() {
 }
 
 function switchTable(btnmode) {
-    console.log(saved_haros_indicies)
     if (btnmode != mode) {
         mode = btnmode
-        displayData();
+        resetDisplay();
+        appendDisplay();
         for (let e of document.getElementsByClassName('search-tab')) {
             e.classList.toggle('selected')
         }
@@ -387,7 +390,11 @@ function getSavedHaros() {
 
 }
 
-
+function monthToNum(str) {
+    let num = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+    let month = ['January','Feburary','March','April','May','June','July','August','September','October','November','December']
+    return num[month.indexOf(str)]
+}
 
 function logSaved() {
     console.log(saved_haros_indicies)
