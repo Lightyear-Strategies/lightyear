@@ -22,7 +22,10 @@ class Report:
     #INNER METHODS
     def __init__(self, filename=None, colname=None, parsed=False):
         self.filename = filename
-        self.colname = colname
+        if(colname is None):
+            self.colname = "Name"
+        else:
+            self.colname = colname
         if(filename is not None):
             self.df = self.__parse_df(filename)
 
@@ -59,7 +62,8 @@ class Report:
             "Marketing": "top50Marketing.csv",
             "NFT": "top50NFT.csv",
             "Philosophy": "top50Philosophy.csv",
-            "test": "test.csv"
+            "test": "test.csv",
+            "Top10": "top10.csv"
         }
         filename = os.path.join(Config.SCRIPTS_DIR,"PeriodicWriters/journalists/" + csvname[category])
         #filename = "journalists/" + csvname[category]
@@ -70,7 +74,7 @@ class Report:
         r.convert_to_pdf(pdf_filename)
 
     def parse_all_categories(self):
-        list_of_categories = ["AI", "Crypto", "Economics", "Marketing", "NFT", "Philosophy"]
+        list_of_categories = ["AI", "Crypto", "Economics", "Marketing", "NFT", "Philosophy", "Top10"]
         for category in list_of_categories:
             logger.info(f'Now Parsing {category}!')
             self.parse_category(category)
@@ -84,7 +88,7 @@ class Report:
 
     #SAVE METHODS
     def save_analyzed_result(self, filename):
-        if not self.analyzed :
+        if self.analyzed is None:
             raise Exception("No analyzed result")
         self.analyzed.to_csv(filename)
 
@@ -95,6 +99,8 @@ class Report:
 
 
 if __name__ == "__main__":
-    df = Report(parsed=True)
-    df.parse_category("NFT")
+    df = Report(filename="journalists/top10.csv", parsed=True)
+    df.muckrack_analysis()
+    df.save_analyzed_result("top10_analyzed.csv")
+    df.convert_to_pdf("top10_analyzed.pdf")
 
