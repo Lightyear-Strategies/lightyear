@@ -40,7 +40,7 @@ def add_configs(app,where):
     app.secret_key = Config.FLASK_SECRET_KEY
     app.config['UPLOAD_FOLDER'] = Config.UPLOAD_DIR
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = Config.DATABASE_URI
+    app.config['SQLALCHEMY_DATABASE_URI'] = Config.POSTGRES_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     app = set_broker(app, where)
