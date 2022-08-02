@@ -21,7 +21,7 @@ class Config:
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
     EV_API_KEY = os.getenv('EV_API_KEY')
     DATABASE_URI = 'sqlite:///' + os.path.join(FLASK_DIR, 'Database.sqlite3')
-    POSTGRES_DATABASE_URI = 'postgresql://ubuntu:ubuntu@localhost:5432/postgresLYS'
+    POSTGRES_DATABASE_URI = 'postgresql+psycopg2://ubuntu:ubuntu@localhost:5432/postgresLYS'
     # postgres://user:secret@localhost:5432/mydatabasename
 
     if ENVIRONMENT == 'server':
