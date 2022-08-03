@@ -221,12 +221,12 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 #search-collapse-button{
     border: none;
     background-color: white;
-    background: url("../img/leftarrow.svg")  .75em 2em no-repeat;
+    background: url("../img/leftarrow.svg")  1em 2em no-repeat;
     padding-left: 1.5em;
     padding-right: .75em;
 }
 #search-collapse-button:hover{
-    background: url("../img/leftarrow_hover.svg")  .75em 2em no-repeat;
+    background: url("../img/leftarrow_hover.svg")  1em 2em no-repeat;
 }
 
 #dateReceived{
