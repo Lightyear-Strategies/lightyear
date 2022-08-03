@@ -27,15 +27,21 @@
 <div class="bigger-wrapper">
 <div class="margin-bar"></div>
 <div class="big-wrapper">
-  <div class="sticky-wrapper">
+  <!--div class="sticky-wrapper"-->
 <h1>
   HARO
 </h1>
 
 
 <div class="select-container">
-  <div class="selected search-tab" id="all-btn" onclick="switchTable('all')">Table</div>
-  <div class="search-tab" id="saved-btn" onclick="switchTable('saved')">Saved</div>
+  <div class="selected search-tab" id="all-btn" onclick="switchTable('all')">
+    <img src="../static/img/table.svg" alt="" style="position: relative; top: -2px">
+    Table
+  </div>
+  <div class="search-tab" id="saved-btn" onclick="switchTable('saved')">
+    <img src="../static/img/saved.svg" alt="">
+    Saved
+  </div>
 </div>
 
       <div class="search-menu" id="search-menu">
@@ -83,10 +89,9 @@
       <div class="head-element" style="grid-area: DateReceived">Date Added</div>
       <div class="head-element" style="grid-area: Deadline">Due Date</div>
     </div>
-  </div> <!--End sticky wrapper-->
+  <!--/div--> <!--End sticky wrapper-->
 
-    <div id="haro-table-body"><!--it all goes in here--></div>
-
+    <div id="haro-table-body"></div>
 
 </div>
 </div>

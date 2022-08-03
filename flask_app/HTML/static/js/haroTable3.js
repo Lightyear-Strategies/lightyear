@@ -64,17 +64,7 @@ $( document ).ready(function() {
                 submitSearch()
             }
         }
-        $(window).scroll(function() {
-            /*
-            console.log(`document height: ${$(document).height()}`)
-            console.log(`scroll: ${$(window).scrollTop()}`)
-            console.log(`window height: ${$(window).height()}`)
-            console.log(`difference: ${$(window).scrollTop() + $(window).height() - 0.9*$(document).height()}`)
-            */
-            if($(window).scrollTop() + $(window).height() > 0.9*$(document).height()) {
-                if (!all_displayed) appendDisplay()
-            }
-         });
+
     }
 
 
@@ -85,7 +75,27 @@ $( document ).ready(function() {
         locale: {
           format: 'MM/DD/YYYY'
         }
-      });
+    });
+
+
+
+
+
+
+    $("#haro-table-body").scroll(function() {
+        const htb = document.getElementById('haro-table-body')
+        const row_height = (htb.childNodes)[0].offsetHeight;
+        
+        //console.log(`element height?: ${[0].height()*haros_per_page}`)
+       
+    
+        
+        
+        if($("#haro-table-body").scrollTop() > 0.9*row_height*haros_per_page*(display_index-1)) {
+            if (!all_displayed) appendDisplay()
+        }
+        
+    });
 })
 
 
@@ -173,6 +183,7 @@ function appendDisplay() {
 
     let min_index = haros_per_page * display_index;
     let max_index = min_index + haros_per_page;
+    display_index = display_index + 1;
 
     let iterations = 0;
     for (let i = min_index; i < max_index; i++) {

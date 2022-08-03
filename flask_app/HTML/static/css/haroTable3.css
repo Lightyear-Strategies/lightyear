@@ -23,20 +23,30 @@
 }
 
 body{
-    background-color: #F7F8FC
+    background-color: #F7F8FC;
+}
+
+body::-webkit-scrollbar{
+    display: none;
 }
 
 h1{
+    padding-top: .25em;
     font-size: 1.5em;
 }
-
 
 
 #haro-table-body{
 
     border: 2px solid #EDEEF1;
-    border-radius: 8px;
+    border-radius: 1.5em;
+    overflow: auto;
+    height: 60em;
 }
+#haro-table-body::-webkit-scrollbar{
+    display: none;
+}
+
 .head-element{
     font-weight: bold;
     padding: .5em;
@@ -48,6 +58,7 @@ h1{
     grid-template-columns: 3em 40em 15em 15em 10em 7em 4em;
 }
 .haro-row {
+    cursor: pointer;
     display: grid;
     grid-template-areas:
     'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
@@ -78,11 +89,11 @@ h1{
 }
 
 .haro-row:nth-child(odd):hover {
-    background-color: rgba(196, 196, 196, 0.03);
+    background-color: rgba(196, 196, 196, 0.08);
 }
 
 .haro-row:nth-child(even) {
-    background-color: rgba(196, 196, 196, 0.12); 
+    background-color: rgba(196, 196, 196, 0.18); 
 }
 
 .haro-row:nth-child(even) > .details {
@@ -90,7 +101,7 @@ h1{
 }
 
 .haro-row:nth-child(even):hover {
-    background-color: rgba(196, 196, 196, 0.18);
+    background-color: rgba(196, 196, 196, 0.24);
 }
 
 .haro-row > * {
@@ -122,9 +133,8 @@ h1{
     z-index:1;
     margin-top: 0;
     /* ----------------- Modified ----------------- */
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     padding: 1em;
-    padding-left: 2em;
     display: grid;
     column-gap: 1em;
     border-top:0;
@@ -141,7 +151,7 @@ h1{
 }
 .search-menu.expanded{
     grid-template-areas:
-    'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox .'
+    'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox search-collapse-button'
     'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
 }
 
@@ -154,15 +164,15 @@ h1{
 }
 
 .filter-btn.filter-btn:hover{
-    position: relative;
-    left: -1px;
-    margin-right: -2px;
-    background-color: rgba(196, 196, 196, 0.06);
-    border: 3px solid #9a9ca96b;
+
+    background-color: #A4A6B36B;
+    border: 2px solid #9a9ca96b;
 }
 
 .search-label{
     font-weight: bold;
+    align-self: center;
+    padding-bottom: .3em;
 }
 
 .search-bar {
@@ -211,10 +221,12 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 #search-collapse-button{
     border: none;
     background-color: white;
-    background: url("../img/leftarrow.svg")  0 1em no-repeat;
+    background: url("../img/leftarrow.svg")  .75em 2em no-repeat;
+    padding-left: 1.5em;
+    padding-right: .75em;
 }
 #search-collapse-button:hover{
-    background: url("../img/leftarrow_hover.svg")  0 1em no-repeat;
+    background: url("../img/leftarrow_hover.svg")  .75em 2em no-repeat;
 }
 
 #dateReceived{
@@ -225,7 +237,8 @@ input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 
 #date-checkbox{
     position: relative;
-    left: -4em;
+    left: -5.7em;
+    top: .1em;
 }
 
 .details {
@@ -343,6 +356,10 @@ button:not(.dev-btns > *){
     background: rgba(215, 215, 215, 0.5);
 
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+}
+
+.search-tab:not(.selected) {
+    opacity: .65;
 }
 #all-btn{
     border-radius: 8px 0px 0px 0px;
