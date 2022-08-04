@@ -77,11 +77,6 @@ $( document ).ready(function() {
         }
     });
 
-
-
-
-
-
     $("#haro-table-body").scroll(function() {
         const htb = document.getElementById('haro-table-body')
         const row_height = (htb.childNodes)[0].offsetHeight;
@@ -96,6 +91,8 @@ $( document ).ready(function() {
         }
         
     });
+
+    document.getElementById('haro-table-body').style['height'] = screen.height
 })
 
 

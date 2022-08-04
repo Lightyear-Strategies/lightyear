@@ -40,7 +40,7 @@
   border: 2px solid #EDEEF1;
   border-radius: 1.5em;
   overflow: auto;
-  height: 60em;
+  height: 100vh;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
