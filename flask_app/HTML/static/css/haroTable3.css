@@ -38,7 +38,7 @@
 
 #page-body #haro-table-body {
   border: 2px solid #EDEEF1;
-  border-radius: 1.5em;
+  border-radius: 1.5em 1.5em 0 0;
   overflow: auto;
   height: 100vh;
   width: -webkit-fit-content;

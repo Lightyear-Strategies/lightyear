@@ -76,16 +76,12 @@ $( document ).ready(function() {
           format: 'MM/DD/YYYY'
         }
     });
-
+    
     $("#haro-table-body").scroll(function() {
         const htb = document.getElementById('haro-table-body')
         const row_height = (htb.childNodes)[0].offsetHeight;
         
-        //console.log(`element height?: ${[0].height()*haros_per_page}`)
-       
-    
-        
-        
+        //console.log(`element height?: ${[0].height()*haros_per_page}`
         if($("#haro-table-body").scrollTop() > 0.9*row_height*haros_per_page*(display_index-1)) {
             if (!all_displayed) appendDisplay()
         }
@@ -93,6 +89,7 @@ $( document ).ready(function() {
     });
 
     document.getElementById('haro-table-body').style['height'] = screen.height
+
 })
 
 
@@ -448,8 +445,6 @@ window.onload = () => {
     document.querySelector(".toast-loader").style.visibility = "hidden";
     document.querySelector("body").style.overflowY = "hidden";
     load();
-    document.querySelector("#upBtn").style.opacity = "0";
-    addListeners();
 }
 
 const load = () => {
