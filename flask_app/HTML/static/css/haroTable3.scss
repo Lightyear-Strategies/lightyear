@@ -1,8 +1,11 @@
 #page-body{
+    background-color: #F7F8FC
+}
+
+#page-body{
     margin-left: 5em;
     margin-right: 3em;
-
-
+    
 
     .bigger-wrapper{
         margin-left: 5em;
@@ -16,10 +19,6 @@
         height: fit-content;
         background: white;
         border-bottom: 2px solid rgba(0,0,0,.3)
-    }
-
-    body{
-        background-color: #F7F8FC;
     }
 /*
     body::-webkit-scrollbar{
@@ -103,16 +102,16 @@
     }
 
     .haro-row:nth-child(odd):hover {
-        background-color: rgba(196, 196, 196, 0.08);
+        background-color: rgba(192, 211, 220, 0.08);
     }
 
     .haro-row:nth-child(even) {
-        background-color: rgba(196, 196, 196, 0.18); 
+        background-color: rgba(208, 208, 208, 0.20); 
     }
 
 
     .haro-row:nth-child(even):hover {
-        background-color: rgba(196, 196, 196, 0.24);
+        background-color: rgba(196, 196, 196, 0.26);
     }
 
     .haro-row:last-child.haro-row:last-child{
@@ -223,6 +222,10 @@
         font-weight: bold;
     }
 
+    input.search-bar.search-bar {
+        background-color: #F7F8FC;
+    }
+
     .search-menu.expanded #keywords {
         width: 37.5em;
     }
@@ -252,7 +255,7 @@
     }
     #search-collapse-button{
         border: none;
-        background-color: white;
+        background-color: rgba(0,0,0,0);
         background: url("../img/leftarrow.svg")  1.3em 2.2em no-repeat;
         
     }
@@ -367,7 +370,7 @@
     .search-tab.selected::after {
         position: relative;
         z-index:2;
-        background-color: rgb(255, 255, 255);
+        background-color: white;
         height: 6px;
         content: "";
         position: absolute;
@@ -411,7 +414,9 @@
 }
 
 /* ---------------------Header------------------------- */ 
-
+body {
+    background-color: #F7F8FC;
+}
 
 :root {
     --lightyear-red: #F04C23;

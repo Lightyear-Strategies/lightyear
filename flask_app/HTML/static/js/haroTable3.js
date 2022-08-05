@@ -56,9 +56,10 @@ getMediaQueryData('/api/serveHaros');
 
 $( document ).ready(function() {
     //binding enter to all the search bars
+    document.getElementById('dateReceived').style['background-color'] = '#F7F8FC'
     for (let id of search_menu_ids){
         e = document.getElementById(id)
-
+        e.style['background-color'] = '#F7F8FC'
         e.onkeydown = function(e){
 
             if(e.key == 'Enter'){
