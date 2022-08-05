@@ -49,6 +49,8 @@ const downArrowSvg =`
 initializeGridAreas(
     document.getElementById('search-menu')
 )
+saved_haros_indicies = new Set()
+getSavedHaros()
 getMediaQueryData('/api/serveHaros');
 
 
@@ -88,7 +90,6 @@ $( document ).ready(function() {
         
     });
 
-    document.getElementById('haro-table-body').style['height'] = screen.height
 
 })
 
@@ -158,7 +159,10 @@ function getMediaQueryData(requestUrl) {
 function resetDisplay() {
     all_displayed = false;
     display_index = 0;
-    $('#haro-table-body > *').remove()    
+    $('#haro-table-body > *').remove()
+    
+
+    document.getElementById('haro-table-body').classList.remove('underflown')
 }
 
 function appendDisplay() {
@@ -170,7 +174,16 @@ function appendDisplay() {
         }
     } else toDisplay = DATA
     if (toDisplay.length == 0) {
-        document.getElementById('haro-table-body').innerHTML = 'ERR 400: no items match query'
+        let err = document.createElement('div')
+        err.classList.add('none-to-display-error')
+        console.log(mode)
+        if (mode == 'saved') {
+            err.innerHTML = 'No Haros saved'
+        } else {
+            err.innerHTML = 'Sorry! No Haros match your query :('
+        }
+        
+        document.getElementById('haro-table-body').appendChild(err)
     }
 
     let len = toDisplay.length
@@ -184,6 +197,9 @@ function appendDisplay() {
         try {
             if (i >= len) {
                 all_displayed = true;
+                if (!isOverflown(document.getElementById('haro-table-body'))){
+                    document.getElementById('haro-table-body').classList.add('underflown')
+                }
                 break;
             }
             if (iterations > 2000) break
@@ -223,9 +239,10 @@ function insertEntry(id,datum, parent) {
         entry.innerHTML = datum['DateReceived'].substring(5,7) + '/' + datum['DateReceived'].substring(8) + '/' + datum['DateReceived'].substring(0,4);
     } else if (id == 'Deadline') {
         deadlineArr = datum['Deadline'].split(' ');
+
         let dlday = deadlineArr[4];
         if (dlday.length == 1) dlday = '0' + dlday;
-        entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday;
+        entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday + ' ' + (deadlineArr[0].split(':'))[0] + deadlineArr[1];
     } else {
         entry.innerHTML = datum[id];
     }
@@ -237,7 +254,7 @@ function insertEntry(id,datum, parent) {
 }
 
 function insertRow(datum) {
-    
+    if (datum.Summary == '"Rotten Egg" Flatulence' || datum.Summary == 'Garlic Breath') return
     if (datum==undefined) throw 'datum undefined';
     let row = document.createElement('div')
     row.classList.add('haro-row')
@@ -286,6 +303,9 @@ function insertRow(datum) {
     let save_button = document.createElement('button')
     save_button.style['grid-area'] = 'save-button'
     save_button.classList.add('save-button')
+    if(datum.index == 0) {
+        console.log(saved_haros_indicies)
+    }
     if (saved_haros_indicies.has(datum.index)) {
         row.saved = true;
         save_button.classList.add('saved')
@@ -303,6 +323,18 @@ function insertRow(datum) {
         }
         save_button.classList.toggle('saved')
         e.stopPropagation();
+    }
+    row.onmouseout = () => {
+        if(!row.saved && mode == 'saved') {
+            $( row ).remove()
+            console.log(document.getElementById('haro-table-body').childNodes.length)
+            if (document.getElementById('haro-table-body').childNodes.length == 0) {
+                let err = document.createElement('div')
+                err.classList.add('none-to-display-error')
+                err.innerHTML = 'Sorry! No Haros match your query :('
+                document.getElementById('haro-table-body').appendChild(err)
+            }
+        }
     }
     row.appendChild(save_button);
 }
@@ -375,11 +407,9 @@ function switchTable(btnmode) {
     }
 }
 
-saved_haros_indicies = new Set()
-getSavedHaros()
+
 
 function saveSavedHaros() {
-    localStorage.setItem('test','true')
     istr = ''
     for (let i of saved_haros_indicies) {
         istr = `${istr} ${i}`
@@ -388,9 +418,15 @@ function saveSavedHaros() {
 }
 
 function getSavedHaros() {
+
     const strArray = localStorage.getItem('saved_haros_indicies').split(' ')
+    console.log(strArray)
     for (let istr of strArray) {
-        saved_haros_indicies.add(Number(istr))
+        console.log(istr)
+        if (istr != '') {
+            saved_haros_indicies.add(Number(istr))
+        }
+
     }
 
 }
@@ -452,5 +488,9 @@ const load = () => {
     setTimeout(() => {
         loader.style.transform = "translateY(-100%)"; 
         document.querySelector("body").style.overflowY = "inherit";
-    }, 1000);
+    }, 1500);
 }
+
+function isOverflown(element) {
+    return element.scrollHeight > element.clientHeight
+  }

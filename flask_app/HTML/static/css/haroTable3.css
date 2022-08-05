@@ -1,6 +1,11 @@
 #page-body {
   margin-left: 5em;
   margin-right: 3em;
+  /*
+    body::-webkit-scrollbar{
+        display: none;
+    }
+*/
   /* ---------------------New Code------------------------- */
   /* Add a small white rectangle under the div */
   /* ---------------------New Code------------------------- */
@@ -27,23 +32,33 @@
   background-color: #F7F8FC;
 }
 
-#page-body body::-webkit-scrollbar {
-  display: none;
-}
-
 #page-body h1 {
   padding-top: 1em;
   font-size: 1.5em;
 }
 
+#page-body .none-to-display-error {
+  font-weight: bold;
+  width: 94rem;
+  text-align: center;
+  text-justify: center;
+  height: 5em;
+  padding-top: 2em;
+  font-size: 2em;
+}
+
 #page-body #haro-table-body {
   border: 2px solid #EDEEF1;
-  border-radius: 1.5em 1.5em 0 0;
   overflow: auto;
-  height: 100vh;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  border-radius: 8px;
+}
+
+#page-body #haro-table-body:not(.underflown) {
+  height: 95vh;
+  border-radius: 8px 8px 0 0;
 }
 
 #page-body #haro-table-body::-webkit-scrollbar {
@@ -55,12 +70,16 @@
   padding: .5em;
 }
 
+#page-body #summary-col-label {
+  padding-left: 1em;
+}
+
 #page-body .table-head {
   display: -ms-grid;
   display: grid;
       grid-template-areas: '. Summary MediaOutlet Category DateReceived  Deadline expand-button';
-  -ms-grid-columns: 3em 40em 15em 15em 10em 7em 4em;
-      grid-template-columns: 3em 40em 15em 15em 10em 7em 4em;
+  -ms-grid-columns: 3em 37em 15em 15em 10em 10em 4em;
+      grid-template-columns: 3em 37em 15em 15em 10em 10em 4em;
 }
 
 #page-body .haro-row {
@@ -68,11 +87,11 @@
   display: -ms-grid;
   display: grid;
       grid-template-areas: 'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
-  -ms-grid-columns: 3em 40em 15em 15em 10em 7em 4em;
-      grid-template-columns: 3em 40em 15em 15em 10em 7em 4em;
+  -ms-grid-columns: 3em 37em 15em 15em 10em 10em 4em;
+      grid-template-columns: 3em 37em 15em 15em 10em 10em 4em;
   -ms-grid-rows: 4em;
       grid-template-rows: 4em;
-  border-top: solid 1px #A4A6B36B;
+  border-bottom: solid 1px #A4A6B36B;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -106,12 +125,12 @@
   background-color: rgba(196, 196, 196, 0.18);
 }
 
-#page-body .haro-row:nth-child(even) > .details {
-  border-top: 1px solid #d9dadc;
-}
-
 #page-body .haro-row:nth-child(even):hover {
   background-color: rgba(196, 196, 196, 0.24);
+}
+
+#page-body .haro-row:last-child.haro-row:last-child {
+  border-bottom: none;
 }
 
 #page-body .haro-row > * {
@@ -127,7 +146,6 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  padding: .5em;
   font-weight: bold;
   cursor: pointer;
 }
@@ -146,8 +164,7 @@
   padding: 1em;
   display: -ms-grid;
   display: grid;
-  -webkit-column-gap: 1em;
-          column-gap: 1em;
+  padding-top: .5em;
   border-top: 0;
   border-radius: 0px 8px 8px 8px;
   background-color: white;
@@ -160,11 +177,16 @@
 }
 
 #page-body .search-menu:not(.expanded) {
+  -webkit-column-gap: 1em;
+          column-gap: 1em;
       grid-template-areas: 'keywords-label     .' 'keywords   filter-btn';
 }
 
 #page-body .search-menu.expanded {
+  width: 94em;
       grid-template-areas: 'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox search-collapse-button' 'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
+  -ms-grid-columns: 39em 15.5em 14.5em 10em 10em 3em;
+      grid-template-columns: 39em 15.5em 14.5em 10em 10em 3em;
 }
 
 #page-body .filter-btn.filter-btn {
@@ -173,6 +195,7 @@
   border: 2px solid #A4A6B36B;
   border-radius: 8px;
   font-weight: bold;
+  padding-left: .25em;
 }
 
 #page-body .filter-btn.filter-btn:hover {
@@ -185,14 +208,13 @@
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
-  padding-bottom: .3em;
+  padding-bottom: .2em;
 }
 
 #page-body .search-bar {
   border: 1px solid #A4A6B36B;
   border-radius: 8px;
   height: 3em;
-  padding-left: 1em;
 }
 
 #page-body .svg-container {
@@ -248,15 +270,22 @@
   font-weight: bold;
 }
 
+#page-body .search-menu.expanded #keywords {
+  width: 37.5em;
+}
+
+#page-body .search-menu:not(.expanded) #keywords {
+  width: 31em;
+}
+
 #page-body #keywords {
-  width: 40em;
   background: url("../img/MagnifyingGlass.svg") 0.4em 0.7em no-repeat;
   padding-left: 2.3em;
 }
 
 #page-body #mediaOutlet, #page-body #category {
-  width: 13.5em;
-  padding-left: 2.3em;
+  width: 12.5em;
+  padding-left: 2.5em;
 }
 
 #page-body #mediaOutlet {
@@ -278,25 +307,29 @@
 #page-body #search-collapse-button {
   border: none;
   background-color: white;
-  background: url("../img/leftarrow.svg") 1em 2em no-repeat;
-  padding-left: 1.5em;
-  padding-right: .75em;
+  background: url("../img/leftarrow.svg") 1.3em 2.2em no-repeat;
 }
 
 #page-body #search-collapse-button:hover {
-  background: url("../img/leftarrow_hover.svg") 1em 2em no-repeat;
+  background: url("../img/leftarrow_hover.svg") 1.3em 2.2em no-repeat;
 }
 
 #page-body #dateReceived {
-  width: 16em;
+  width: 15em;
   padding-left: 2.5em;
   background: url("../img/CalendarCheck.svg") 0.2em 0.7em no-repeat;
 }
 
 #page-body #date-checkbox {
   position: relative;
-  left: -4.4em;
+  left: -3.4em;
   top: .1em;
+}
+
+#page-body #category #category-label {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 
 #page-body .details {
@@ -364,6 +397,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  width: 13.25em;
 }
 
 #page-body .search-tab.selected {
@@ -434,15 +468,12 @@
   scroll-behavior: smooth;
   outline: none;
   overflow-x: hidden;
+  font-family: 'Mulish';
+  font-size: 11pt;
 }
 
 body::-webkit-scrollbar {
   display: none;
-}
-
-:root {
-  font-family: 'Mulish';
-  font-size: 11pt;
 }
 
 #page-header html {
@@ -477,9 +508,6 @@ body::-webkit-scrollbar {
   -ms-flex-line-pack: center;
       align-content: center;
   text-align: right;
-  min-height: 60px;
-  height: 100%;
-  padding: 0.5rem 0rem;
   font-weight: 700;
   background-color: var(--lightyear-yellow);
   color: var(--contrast-color);
@@ -488,7 +516,7 @@ body::-webkit-scrollbar {
 }
 
 #page-header img {
-  min-height: 50px;
+  padding-left: 4.75em;
 }
 
 #page-header .hamburger {
@@ -497,7 +525,7 @@ body::-webkit-scrollbar {
 }
 
 #page-header header > section {
-  padding: 2rem;
+  padding: .5rem;
 }
 
 #page-header header > section:first-of-type {
@@ -523,9 +551,7 @@ body::-webkit-scrollbar {
   display: inline-block;
   text-align: center;
   vertical-align: middle;
-  font-size: 1.5rem;
-  margin-top: 0.5rem;
-  margin-right: 4rem;
+  margin-right: 2rem;
   position: relative;
   overflow: hidden;
 }
@@ -556,7 +582,16 @@ body::-webkit-scrollbar {
           flex: 1;
 }
 
+#page-header #logout-svg {
+  position: relative;
+  top: -.05em;
+}
+
 #page-header .flex-6 {
+  padding-top: .75em;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  padding-right: 5em;
   -webkit-box-flex: 6;
       -ms-flex: 6;
           flex: 6;
@@ -610,7 +645,7 @@ body::-webkit-scrollbar {
 }
 
 #page-header .card > div > h1 {
-  font-size: 2.75rem;
+  font-size: 11pt;
   margin: 0px;
   padding: 0px;
   color: var(--contrast-color);
