@@ -173,17 +173,9 @@ function appendDisplay() {
             if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
+    console.log(toDisplay)
     if (toDisplay.length == 0) {
-        let err = document.createElement('div')
-        err.classList.add('none-to-display-error')
-        console.log(mode)
-        if (mode == 'saved') {
-            err.innerHTML = 'No Haros saved'
-        } else {
-            err.innerHTML = 'Sorry! No Haros match your query :('
-        }
-        
-        document.getElementById('haro-table-body').appendChild(err)
+        noHarosDisplay();
     }
 
     let len = toDisplay.length
@@ -322,23 +314,34 @@ function insertRow(datum) {
             saved_haros_indicies.add(Number(datum.index))
         }
         save_button.classList.toggle('saved')
+
         e.stopPropagation();
     }
-    row.onmouseout = () => {
+    row.onmouseleave = () => {
+        
+        console.log('mouseout')
         if(!row.saved && mode == 'saved') {
             $( row ).remove()
             console.log(document.getElementById('haro-table-body').childNodes.length)
             if (document.getElementById('haro-table-body').childNodes.length == 0) {
-                let err = document.createElement('div')
-                err.classList.add('none-to-display-error')
-                err.innerHTML = 'Sorry! No Haros match your query :('
-                document.getElementById('haro-table-body').appendChild(err)
+                noHarosDisplay();
             }
         }
+        
     }
     row.appendChild(save_button);
 }
 
+function noHarosDisplay() {
+    let err = document.createElement('div')
+    err.classList.add('none-to-display-error')
+    if (mode == 'saved') {
+        err.innerHTML = 'No saved queries at this time :)'
+    } else {
+        err.innerHTML = 'Sorry! No Haros match your query :('
+    }
+    document.getElementById('haro-table-body').appendChild(err)
+}
 
 function initializeDropdownMenus() {
     initializeDropdownMenu(
@@ -397,14 +400,17 @@ function toggleDatePicker() {
 }
 
 function switchTable(btnmode) {
+
     if (btnmode != mode) {
         mode = btnmode
+        document.getElementById('haro-table-body').classList.toggle('saved')
         resetDisplay();
         appendDisplay();
         for (let e of document.getElementsByClassName('search-tab')) {
             e.classList.toggle('selected')
         }
     }
+    console.log(mode)
 }
 
 
