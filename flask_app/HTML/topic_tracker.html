@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/periodicWriters.css') }}">
     <script src="{{ url_for('static',filename='js/periodicWriters.js') }}" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-    <title>Subscribe to Topic Updates</title>
+    <title> Subscribe to Topic Updates </title>
 </head>
 
 
@@ -35,7 +35,7 @@
                 <li><a href="/home"> Home </a></li>
                 <li><a href="/email_validator"> Email Validator </a></li>
                 <li><a href="/topic_tracker"> Topic Tracker </a></li>
-                <li><a href="/query_db"> Reporter Query Database </a></li>
+                <li><a href="/query_db"> Haro Table </a></li>
                 <li><a href="/contact_us"> Contact Us </a></li>
 
             </ul>
@@ -66,11 +66,11 @@
     </section>
 
     <div>
-        <h1>Subscribe to Journalist Updates</h1>
+        <h1>Subscribe to Topic Updates</h1>
         <hr style="color: #F04C23; border: 1px solid;">
     </div>
     <div>
-        <form method='POST' action="/writers">
+        <form method='POST' action="/topic_tracker">
             {{ form.csrf_token }}
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
