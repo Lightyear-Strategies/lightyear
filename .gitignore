@@ -1,41 +1,40 @@
 ssh_keys
-.idea
 .DS_Store
+.idea
 __pycache__
 
-
+.env
 env/*
-
-.ipynb_checkpoints
-
-haroListener/config/*
-haroListener/haro_jsons/*
-crunchbase/config/*
-crunchbase/crunch_test.ipynb
-linkedinSupport/config/*
-linkedinSupport/df_checker.ipynb
 venv
 
-haroListener/token.pickle
-haroListener/client.json
-
-flask_app/scratch_files/emailValidity/test.csv
-haroListener/test.csv
 #*.csv
 *.pyc
 
 localclient.json
 token.pickle
 client.json
-HarosDB.sqlite3
-flask_app/localclient.json
+
+.ipynb_checkpoints
+
+crunchbase/config/*
+crunchbase/crunch_test.ipynb
+
+linkedinSupport/config/*
+linkedinSupport/df_checker.ipynb
+
+haroListener/token.pickle
+haroListener/client.json
+haroListener/test.csv
+haroListener/config/*
+haroListener/haro_jsons/*
 haroListener/localclient.json
 
-flask_app/configs/
-.env
-
+flask_app/localclient.json
 flask_app/Database.sqlite3
-
+flask_app/configs/
 flask_app/scratch_files/Aleksei.csv
+flask_app/scratch_files/emailValidity/test.csv
 flask_app/scripts/PeriodicWriters/reports/
+
+_docs/FUC_local.md
 
