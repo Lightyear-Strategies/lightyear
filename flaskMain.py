@@ -14,7 +14,7 @@ app.add_url_rule('/email_validator', view_func=ev_f_f.email_validator, methods=[
 app.add_url_rule('/topic_tracker', view_func=c_w.receive_category, methods=['GET','POST'])
 app.add_url_rule('/unsubscribe/<token>', view_func=c_w.unsubscribe, methods=['GET','POST'], endpoint='unsubscribe')
 
-app.add_url_rule('/haro_table', view_func=h_t_f.show_haro_table, methods=['GET'])
+app.add_url_rule('/query_db', view_func=h_t_f.show_haro_table, methods=['GET'])
 app.add_url_rule('/api/serveHaros', view_func=h_t_f.serve_data, methods=['GET','POST'])
 app.add_url_rule('/api/serveHaros/<option>', view_func=h_t_f.serve_data, methods=['GET','POST'])
 
