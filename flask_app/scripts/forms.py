@@ -82,7 +82,7 @@ class ContactUs(FlaskForm):
     submit = SubmitField('Send')
 
 
-class CategoricalWriters(FlaskForm):
+class TopicTracker(FlaskForm):
     """Constructor for the Categorical Writers  Subscription Form"""
 
     username = StringField('What is your full name?', validators=[DataRequired()])

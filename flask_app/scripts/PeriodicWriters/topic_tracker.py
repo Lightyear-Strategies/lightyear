@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for
 from flask_login import login_required
-from flask_app.scripts.forms import CategoricalWriters
+from flask_app.scripts.forms import TopicTracker
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
@@ -44,7 +44,7 @@ def receive_category():
     user_name, email = None, None
     user_category, timeframe = None, None
 
-    form = CategoricalWriters()
+    form = TopicTracker()
     if form.validate_on_submit():
 
         # TODO: lower()
@@ -101,7 +101,7 @@ def receive_category():
 
         return redirect(JOURNALIST_ROUTE)
 
-    return render_template('categoricalWriters.html', form=form, user_name=user_name, email=email,
+    return render_template('topic_tracker.html', form=form, user_name=user_name, email=email,
                            user_category=user_category, timeframe=timeframe)
 
 @app.route('/unsubscribe/<token>')

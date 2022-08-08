@@ -22,7 +22,7 @@ then
   if [ "$1" == "parse" ];
   then
     echo "Categorical Parser"
-    sudo python3 categoricalWritersRunner.py $1 $2
+    sudo python3 topicTrackerRunner.py $1 $2
 
     echo "scp reports to the main server"
     #scp -v -i /home/ubuntu/pems/MainServer.pem -r /home/ubuntu/lightyear/flask_app/scripts/PeriodicWriters/reports ubuntu@99.79.179.105:/home/ubuntu/lightyear/flask_app/scripts/PeriodicWriters
@@ -31,7 +31,7 @@ then
   elif [ "$1" == "send" ];
   then
     echo "Categorical Send $2"
-    sudo python3 categoricalWritersRunner.py $1 $2
+    sudo python3 topicTrackerRunner.py $1 $2
 
   else
     echo "Incorrect 1st argument"
