@@ -119,7 +119,7 @@ const toast = (type, text) => {
 
 // Loader Loading
 const load = () => {
-    loader = document.querySelector("#loader"); 
+    let loader = document.querySelector("#loader"); 
     setTimeout(() => {
         loader.style.transform = "translateY(-100%)"; 
         document.querySelector("body").style.overflowY = "inherit";

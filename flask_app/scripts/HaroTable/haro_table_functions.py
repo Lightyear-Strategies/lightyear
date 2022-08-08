@@ -99,7 +99,6 @@ def show_haro_table():
 
 
 def serve_data(option=None):
-
     """
     Sorts the table, returns searched data
     @param:    None/option
@@ -124,7 +123,7 @@ def serve_data(option=None):
 
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
-    journalist = request.args.get('journalist')
+    category = request.args.get('journalist')
     dateBefore = request.args.get('dateBefore')
     dateAfter = request.args.get('dateAfter')
     
@@ -148,9 +147,9 @@ def serve_data(option=None):
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
         )
 
-    if journalist:
+    if category:
         query = query.filter(
-            Haros.columns.Name.like(f'%{journalist}%')
+            Haros.columns.MediaOutlet.like(f'%{category}%')
         )
 
     total_filtered = query.count()
