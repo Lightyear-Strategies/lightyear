@@ -23,8 +23,10 @@ const search_bar_toggle_elements = [
 let haros_per_page = 100;
 let saved_iterator;
 let all_displayed;
-
-
+let initial_haro_load = false;
+let toDisplay;
+const vkregex = /^[a-zA-Z]+$/
+let request_count = 0;
 /*
 if (localStorage.getItem('saved_haros_indicies') == undefined) saved_haros_indicies = new Set() 
 else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
@@ -61,9 +63,7 @@ $( document ).ready(function() {
         e = document.getElementById(id)
         e.style['background-color'] = '#F7F8FC'
         e.onkeydown = function(e){
-
-            if(e.key == 'Enter'){
-
+            if(searchKeypress(e.key)){
                 submitSearch()
             }
         }
@@ -83,17 +83,21 @@ $( document ).ready(function() {
     $("#haro-table-body").scroll(function() {
         const htb = document.getElementById('haro-table-body')
         const row_height = (htb.childNodes)[0].offsetHeight;
-        
-        //console.log(`element height?: ${[0].height()*haros_per_page}`
-        if($("#haro-table-body").scrollTop() > 0.9*row_height*haros_per_page*(display_index-1)) {
+        var scroll_distance = $("#haro-table-body").scrollTop();
+
+        if(scroll_distance > 0.9*row_height*haros_per_page*(display_index-1)) {
             if (!all_displayed) appendDisplay()
         }
-        
+
+        updateHaroCounter()
     });
 
 
 })
 
+function searchKeypress(char) {
+    return (vkregex.test(char) || char == 'Backspace')
+}
 
 function getDates() {
     strDates = document.getElementById('dateReceived').value
@@ -138,24 +142,38 @@ function submitSearch() {
 }
 
 function getMediaQueryData(requestUrl) {
+    request_count = request_count + 1;
+    const request_no = request_count;
+
     const request = $.ajax(
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
             if (status != 304) DATA = result.data;
             page_number = 1;
-            resetDisplay();
-            appendDisplay();
-            if (!init) {
-                initializeDropdownMenus();
-                init = true;
+            if (request_no == request_count) {
+                resetDisplay();
+                appendDisplay();
+                if (!init) {
+                    initializeDropdownMenus();
+                    init = true;
+                }
+                if (!initial_haro_load){
+                    endLoad();
+                    initial_haro_load = true;
+                }
             }
         }
       }
     )
 }
 
-
+function updateHaroCounter() {
+    const htb = document.getElementById('haro-table-body')
+    const row_height = (htb.childNodes)[0].offsetHeight;
+    var scroll_distance = $("#haro-table-body").scrollTop();
+    document.getElementById('haro-counter').innerHTML = `${Math.floor(scroll_distance/row_height) + 6} / ${toDisplay.length} Entries`
+}
 
 function resetDisplay() {
     all_displayed = false;
@@ -168,13 +186,17 @@ function resetDisplay() {
 
 function appendDisplay() {
 
-    let toDisplay = [];
+    toDisplay = [];
     if (mode == 'saved') {
         for (let e of DATA) {
             if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
-    console.log(toDisplay)
+    let summaries = [];
+    for (let e of toDisplay) {
+        summaries.push(e['Summary'])
+    }
+    console.log(summaries)
     if (toDisplay.length == 0) {
         noHarosDisplay();
     }
@@ -204,7 +226,7 @@ function appendDisplay() {
             console.log(e); 
         }
     }
-
+    updateHaroCounter()
 }
 
 function insertDetailsRow(id,table,datum){
@@ -277,6 +299,9 @@ function insertRow(datum) {
             }
             details.classList.add('details')
             row.expanded_previously = true;
+            details.onclick = function(e) {
+                e.stopPropagation();
+            }
         } else {
             details.classList.toggle('hidden')
             row.classList.toggle('expanded')  
@@ -296,9 +321,6 @@ function insertRow(datum) {
     let save_button = document.createElement('button')
     save_button.style['grid-area'] = 'save-button'
     save_button.classList.add('save-button')
-    if(datum.index == 0) {
-        console.log(saved_haros_indicies)
-    }
     if (saved_haros_indicies.has(datum.index)) {
         row.saved = true;
         save_button.classList.add('saved')
@@ -320,10 +342,9 @@ function insertRow(datum) {
     }
     row.onmouseleave = () => {
         
-        console.log('mouseout')
+
         if(!row.saved && mode == 'saved') {
             $( row ).remove()
-            console.log(document.getElementById('haro-table-body').childNodes.length)
             if (document.getElementById('haro-table-body').childNodes.length == 0) {
                 noHarosDisplay();
             }
@@ -411,7 +432,6 @@ function switchTable(btnmode) {
             e.classList.toggle('selected')
         }
     }
-    console.log(mode)
 }
 
 
@@ -426,10 +446,8 @@ function saveSavedHaros() {
 
 function getSavedHaros() {
 
-    const strArray = localStorage.getItem('saved_haros_indicies').split(' ')
-    console.log(strArray)
+    const strArray = (localStorage.getItem('saved_haros_indicies')).split(' ')
     for (let istr of strArray) {
-        console.log(istr)
         if (istr != '') {
             saved_haros_indicies.add(Number(istr))
         }
@@ -444,9 +462,6 @@ function monthToNum(str) {
     return num[month.indexOf(str)]
 }
 
-function logSaved() {
-    console.log(saved_haros_indicies)
-}
 
 //Load screen? Idk
 let toastAppear = false;
@@ -483,21 +498,20 @@ const toast = (type, text) => {
     }, 1500);
 }
 
-window.onload = () => {
+function endLoad() {
     document.querySelector(".toast").style.visibility = "hidden";
     document.querySelector(".toast-loader").style.visibility = "hidden";
-    document.querySelector("body").style.overflowY = "hidden";
     load();
 }
 
-const load = () => {
+function load() {
     let loader = document.querySelector("#loader"); 
     setTimeout(() => {
         loader.style.transform = "translateY(-100%)"; 
-        document.querySelector("body").style.overflowY = "inherit";
     }, 1500);
 }
 
 function isOverflown(element) {
     return element.scrollHeight > element.clientHeight
   }
+

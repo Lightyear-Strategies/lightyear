@@ -123,17 +123,19 @@ def serve_data(option=None):
 
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
-    category = request.args.get('journalist')
+    category = request.args.get('category')
     dateBefore = request.args.get('dateBefore')
     dateAfter = request.args.get('dateAfter')
     
     if dateBefore:
-        print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
-        query = query.filter(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(db.or_(
+            Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S')
+            ))
 
     if dateAfter:
-        print(datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
-        query = query.filter(Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(db.or_(
+            Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S')
+            ))
 
     if keywords:
         query = query.filter(db.or_(
@@ -143,17 +145,16 @@ def serve_data(option=None):
         ))
 
     if mediaOutlet:
-        query = query.filter(
+        query = query.filter(db.or_(
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
-        )
+        ))
 
     if category:
         query = query.filter(
-            Haros.columns.MediaOutlet.like(f'%{category}%')
+            Haros.columns.Category.like(f'%{category}%')
         )
 
     total_filtered = query.count()
-
     # sorting
     # order = []
     # i = 0

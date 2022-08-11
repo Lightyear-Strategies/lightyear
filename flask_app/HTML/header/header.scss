@@ -1,0 +1,161 @@
+
+body {
+    margin: 0;
+}
+
+:root {
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    --lightyear-blue: #3452ff; 
+    --background-color: #ffffff;
+    --contrast-color: #000;
+    scroll-behavior: smooth;
+    font-family: 'Mulish', sans-serif;
+    font-size: 11pt;
+}
+
+#header { /* Header */
+
+    html {
+        width: 100%;
+        height: 100%;
+    }
+
+    header {
+        display: flex;
+        flex-wrap: wrap;
+        text-align: right;
+        width: 100%;
+        font-weight: 700;
+        background-color: var(--lightyear-yellow);
+        color: var(--contrast-color);
+        padding-left: 5em;
+    }
+
+    .alignment-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        text-align: right;
+        width: 94em;
+    }
+    .alignment-wrapper > section {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+    }
+
+    .alignment-wrapper > section:first-of-type {
+        display: flex;   
+        justify-content: flex-start;
+    }
+
+    header > section:last-of-type {
+        display: block;
+        flex-wrap: wrap;
+        text-align: right;
+        justify-content: flex-end;
+    }
+
+
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .flex-6 > div:hover::after{
+        background-color: var(--contrast-color);
+        right: 0px;
+    }
+
+    .flex-1{
+        flex:1;
+    }
+    #logout-svg#logout-svg{
+        margin-top: 0;
+    }
+
+    #logout-svg#logout-svg::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 3px;
+        left: 0;
+        background-color: black;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    #logout-svg#logout-svg:hover::after{
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .flex-6{
+        padding-top: .75em;
+        flex:6;
+    }
+    .flex-6 > * {
+        margin-top: .5em;
+        width: fit-content;
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        margin-right: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .flex-6 > *#logout-svg {
+        margin-right: 0;
+    }
+    .flex-6 > *:not(.current-page)::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: black;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+    .flex-6 > *:hover::after{
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+    .flex-6 > *::after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: black;
+    }
+    
+} /* End Header */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
