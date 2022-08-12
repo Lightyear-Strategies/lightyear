@@ -34,7 +34,6 @@ body {
   font-weight: 700;
   background-color: var(--lightyear-yellow);
   color: var(--contrast-color);
-  padding-left: 5em;
 }
 
 #header .alignment-wrapper {
@@ -44,7 +43,9 @@ body {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   text-align: right;
-  width: 94em;
+  width: 100%;
+  margin-left: 2em;
+  margin-right: 2.4em;
 }
 
 #header .alignment-wrapper > section {

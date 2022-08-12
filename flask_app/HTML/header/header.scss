@@ -30,15 +30,17 @@ body {
         font-weight: 700;
         background-color: var(--lightyear-yellow);
         color: var(--contrast-color);
-        padding-left: 5em;
     }
 
     .alignment-wrapper{
         display: flex;
         flex-wrap: wrap;
         text-align: right;
-        width: 94em;
+        width: 100%;
+        margin-left: 2em;
+        margin-right: 2.4em;
     }
+    
     .alignment-wrapper > section {
         padding-top: .5rem;
         padding-bottom: .5rem;

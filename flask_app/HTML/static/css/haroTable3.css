@@ -152,12 +152,20 @@ body::-webkit-scrollbar {
   background-color: rgba(192, 211, 220, 0.08);
 }
 
+#page-body .haro-row.expanded:nth-child(odd):hover {
+  background-color: white;
+}
+
 #page-body .haro-row:nth-child(even) {
   background-color: rgba(208, 208, 208, 0.2);
 }
 
 #page-body .haro-row:nth-child(even):hover {
   background-color: rgba(196, 196, 196, 0.26);
+}
+
+#page-body .haro-row.expanded:nth-child(even):hover {
+  background-color: rgba(208, 208, 208, 0.2);
 }
 
 #page-body .haro-row:last-child.haro-row:last-child {
@@ -376,7 +384,7 @@ body::-webkit-scrollbar {
   row-gap: .75em;
   -webkit-column-gap: .75em;
           column-gap: .75em;
-  width: 94em;
+  width: 100em;
   padding: 1em;
   padding-right: 3em;
   padding-left: 2em;
@@ -537,7 +545,6 @@ body::-webkit-scrollbar {
   font-weight: 700;
   background-color: var(--lightyear-yellow);
   color: var(--contrast-color);
-  padding-left: 5em;
 }
 
 #header .alignment-wrapper {
@@ -547,7 +554,9 @@ body::-webkit-scrollbar {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   text-align: right;
-  width: 94em;
+  width: 100%;
+  margin-left: 2em;
+  margin-right: 2.4em;
 }
 
 #header .alignment-wrapper > section {

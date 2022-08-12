@@ -25,8 +25,11 @@ let saved_iterator;
 let all_displayed;
 let initial_haro_load = false;
 let toDisplay;
-const vkregex = /^[a-zA-Z]+$/
+let requests = [];
 let request_count = 0;
+
+let terms = {};
+let terms_0 = {};
 /*
 if (localStorage.getItem('saved_haros_indicies') == undefined) saved_haros_indicies = new Set() 
 else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
@@ -54,11 +57,16 @@ initializeGridAreas(
 saved_haros_indicies = new Set()
 getSavedHaros()
 getMediaQueryData('/api/serveHaros');
-
-
+setInterval(submitSearch,100)
 $( document ).ready(function() {
     //binding enter to all the search bars
     document.getElementById('dateReceived').style['background-color'] = '#F7F8FC'
+    document.getElementById('dateReceived').onchange = () => {
+        if (document.getElementById('date-checkbox').checked) {
+            submitSearch();
+        }
+    }
+    /*
     for (let id of search_menu_ids){
         e = document.getElementById(id)
         e.style['background-color'] = '#F7F8FC'
@@ -67,10 +75,10 @@ $( document ).ready(function() {
                 submitSearch()
             }
         }
-
     }
 
-
+    */
+   
     $('input[name="dateReceived"]').daterangepicker({
         timePicker: false,
         startDate: moment().startOf('hour'),
@@ -95,8 +103,9 @@ $( document ).ready(function() {
 
 })
 
-function searchKeypress(char) {
-    return (vkregex.test(char) || char == 'Backspace')
+function checkSearch() {
+    console.log('check search')
+    
 }
 
 function getDates() {
@@ -120,6 +129,9 @@ function submitSearch() {
         terms.dateAfter = dateRange[0];
         terms.dateBefore = dateRange[1];
     }
+
+    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
+    terms_0 = terms;
 
     let requestUrl = '/api/serveHaros'
     requestUrl = requestUrl + '?'
@@ -166,13 +178,20 @@ function getMediaQueryData(requestUrl) {
         }
       }
     )
+    requests.push(request)
 }
 
 function updateHaroCounter() {
     const htb = document.getElementById('haro-table-body')
     const row_height = (htb.childNodes)[0].offsetHeight;
     var scroll_distance = $("#haro-table-body").scrollTop();
-    document.getElementById('haro-counter').innerHTML = `${Math.floor(scroll_distance/row_height) + 6} / ${toDisplay.length} Entries`
+    const len = toDisplay.length;
+    if (len <= 6) {
+        document.getElementById('haro-counter').innerHTML = `${len} / ${len} Entries`
+    } else {
+        document.getElementById('haro-counter').innerHTML = `${Math.floor((scroll_distance)/row_height+htb.offsetHeight/row_height+.9)} / ${len} Entries`
+    }
+
 }
 
 function resetDisplay() {
@@ -180,7 +199,7 @@ function resetDisplay() {
     display_index = 0;
     $('#haro-table-body > *').remove()
     
-
+    document.getElementById('table-head').classList.remove('hidden')
     document.getElementById('haro-table-body').classList.remove('underflown')
 }
 
@@ -196,7 +215,6 @@ function appendDisplay() {
     for (let e of toDisplay) {
         summaries.push(e['Summary'])
     }
-    console.log(summaries)
     if (toDisplay.length == 0) {
         noHarosDisplay();
     }
@@ -302,6 +320,7 @@ function insertRow(datum) {
             details.onclick = function(e) {
                 e.stopPropagation();
             }
+            row.classList.add('expanded')
         } else {
             details.classList.toggle('hidden')
             row.classList.toggle('expanded')  
@@ -362,6 +381,7 @@ function noHarosDisplay() {
     } else {
         err.innerHTML = 'Sorry! No Haros match your query :('
     }
+    document.getElementById('table-head').classList.add('hidden')
     document.getElementById('haro-table-body').appendChild(err)
 }
 
