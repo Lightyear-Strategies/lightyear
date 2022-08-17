@@ -66,18 +66,11 @@ $( document ).ready(function() {
             submitSearch();
         }
     }
-    /*
-    for (let id of search_menu_ids){
-        e = document.getElementById(id)
-        e.style['background-color'] = '#F7F8FC'
-        e.onkeydown = function(e){
-            if(searchKeypress(e.key)){
-                submitSearch()
-            }
-        }
+
+    for (let id of search_menu_ids){ 
+        document.getElementById(id).style['background-color'] = '#F7F8FC'
     }
 
-    */
    
     $('input[name="dateReceived"]').daterangepicker({
         timePicker: false,
