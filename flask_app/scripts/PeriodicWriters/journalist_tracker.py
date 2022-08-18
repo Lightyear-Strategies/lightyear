@@ -104,7 +104,7 @@ def receive_journalists():
     return render_template('periodicWriters.html', form=form, user_name=user_name, email=email, files=files)
 
 @app.route('/unsubscribe_journalist/<token>')
-def unsubscribe(token):
+def unsubscribe_journalist(token):
     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
 
     try:

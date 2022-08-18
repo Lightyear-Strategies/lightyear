@@ -104,9 +104,9 @@ def receive_category():
     return render_template('topic_tracker.html', form=form, user_name=user_name, email=email,
                            user_category=user_category, timeframe=timeframe)
 
-@app.route('/unsubscribe/<token>')
-def unsubscribe(token):
-    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+@app.route('/unsubscribe_topic/<token>')
+def unsubscribe_topic(token):
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
 
     try:
         email_sub_string = unsub.loads(token)
@@ -140,13 +140,13 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
     note: needs to be in flaskMain to access flask specific stuff
     """
     try:
-        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
         # TODO: fix this :)
         app.config['SERVER_NAME'] = '192.168.0.174:8000'
         with app.app_context():
-            url = url_for('unsubscribe', token=token, _external=True)
+            url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
 
         str_date = str(datetime.now().date())
