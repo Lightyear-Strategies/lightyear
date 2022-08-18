@@ -40,7 +40,6 @@ body {
         margin-left: 2em;
         margin-right: 2.4em;
     }
-    
     .alignment-wrapper > section {
         padding-top: .5rem;
         padding-bottom: .5rem;
@@ -73,56 +72,51 @@ body {
     .flex-1{
         flex:1;
     }
-    #logout-svg#logout-svg{
-        margin-top: 0;
-    }
-
-    #logout-svg#logout-svg::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        transform: scaleX(0);
-        height: 3px;
-        left: 0;
-        background-color: black;
-        transform-origin: bottom right;
-        transition: transform 0.25s ease-out;
-    }
-
-    #logout-svg#logout-svg:hover::after{
-        transform: scaleX(1);
-        transform-origin: bottom left;
-    }
 
     .flex-6{
         padding-top: .75em;
         flex:6;
     }
     .flex-6 > * {
-        margin-top: .5em;
         width: fit-content;
         display: inline-block;
         text-align: center;
         vertical-align: middle;
-        margin-right: 2rem;
         position: relative;
         overflow: hidden;
+
+        width: fit-content;
+        text-align: center;
+    }
+    .flex-6 > *:not(#logout-svg) {
+        
+        margin-right: 2rem;
+        margin-top: .5em;
+        overflow: visible
     }
 
-    .flex-6 > *#logout-svg {
-        margin-right: 0;
+    #logout-svg{
+        padding-top: .65em;
+
     }
-    .flex-6 > *:not(.current-page)::after {
+    /* hover underline */
+    .flex-6 > *::after {
         content: '';
         position: absolute;
         width: 100%;
         transform: scaleX(0);
-        height: 3px;
         bottom: 0;
         left: 0;
         background-color: black;
         transform-origin: bottom right;
         transition: transform 0.25s ease-out;
+    }
+    .flex-6 > *:not(#logout-svg)::after {
+        height: 3px;
+        bottom: -.25em;
+    }
+    #logout-svg::after{
+        height: 3px;
     }
     .flex-6 > *:hover::after{
         transform: scaleX(1);

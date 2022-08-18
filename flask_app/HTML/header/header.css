@@ -16,6 +16,7 @@ body {
 
 #header {
   /* Header */
+  /* hover underline */
 }
 
 #header html {
@@ -88,34 +89,6 @@ body {
           flex: 1;
 }
 
-#header #logout-svg#logout-svg {
-  margin-top: 0;
-}
-
-#header #logout-svg#logout-svg::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  -webkit-transform: scaleX(0);
-          transform: scaleX(0);
-  height: 3px;
-  left: 0;
-  background-color: black;
-  -webkit-transform-origin: bottom right;
-          transform-origin: bottom right;
-  -webkit-transition: -webkit-transform 0.25s ease-out;
-  transition: -webkit-transform 0.25s ease-out;
-  transition: transform 0.25s ease-out;
-  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
-}
-
-#header #logout-svg#logout-svg:hover::after {
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
-  -webkit-transform-origin: bottom left;
-          transform-origin: bottom left;
-}
-
 #header .flex-6 {
   padding-top: .75em;
   -webkit-box-flex: 6;
@@ -124,29 +97,34 @@ body {
 }
 
 #header .flex-6 > * {
-  margin-top: .5em;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   display: inline-block;
   text-align: center;
   vertical-align: middle;
-  margin-right: 2rem;
   position: relative;
   overflow: hidden;
+  width: fit-content;
+  text-align: center;
 }
 
-#header .flex-6 > *#logout-svg {
-  margin-right: 0;
+#header .flex-6 > *:not(#logout-svg) {
+  margin-right: 2rem;
+  margin-top: .5em;
+  overflow: visible;
 }
 
-#header .flex-6 > *:not(.current-page)::after {
+#header #logout-svg {
+  padding-top: .65em;
+}
+
+#header .flex-6 > *::after {
   content: '';
   position: absolute;
   width: 100%;
   -webkit-transform: scaleX(0);
           transform: scaleX(0);
-  height: 3px;
   bottom: 0;
   left: 0;
   background-color: black;
@@ -156,6 +134,15 @@ body {
   transition: -webkit-transform 0.25s ease-out;
   transition: transform 0.25s ease-out;
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+}
+
+#header .flex-6 > *:not(#logout-svg)::after {
+  height: 3px;
+  bottom: -.25em;
+}
+
+#header #logout-svg::after {
+  height: 3px;
 }
 
 #header .flex-6 > *:hover::after {

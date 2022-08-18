@@ -628,7 +628,6 @@ body::-webkit-scrollbar {
 
 #header #logout-svg {
   padding-top: .65em;
-  padding-bottom: 4px;
 }
 
 #header .flex-6 > *::after {
