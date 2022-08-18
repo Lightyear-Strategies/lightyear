@@ -12,10 +12,10 @@ import traceback
 import pandas as pd
 from datetime import datetime
 
-JOURNALIST_ROUTE = '/writers'
+JOURNALIST_ROUTE = '/journalist_tracker'
 
 @login_required
-def load_journalist_file():
+def receive_journalists():
     """
     Gets csv(s) with Journalists from the form, extracts data.
     @param:    None
@@ -103,9 +103,9 @@ def load_journalist_file():
 
     return render_template('periodicWriters.html', form=form, user_name=user_name, email=email, files=files)
 
-@app.route('/unsubscribe/<token>')
+@app.route('/unsubscribe_journalist/<token>')
 def unsubscribe(token):
-    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
 
     try:
         email_sub_string = unsub.loads(token)
@@ -141,13 +141,13 @@ def send_pdf_report(df_for_email, email, subject, clientname):
     note: needs to be in flaskMain to access flask specific stuff
     """
     try:
-        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
         token_string = f'{email} {subject}'
         token = unsub.dumps(token_string)
         # TODO: fix this :)
         app.config['SERVER_NAME'] = '192.168.0.173:8000'
         with app.app_context():
-            url = url_for('unsubscribe', token=token, _external=True)
+            url = url_for('unsubscribe_journalist', token=token, _external=True)
             print(url)
         pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
         # TODO: fix this :)

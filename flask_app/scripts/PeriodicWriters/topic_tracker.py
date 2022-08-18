@@ -11,7 +11,7 @@ import traceback
 import pandas as pd
 from datetime import datetime
 
-JOURNALIST_ROUTE = '/writers'
+JOURNALIST_ROUTE = '/topic_tracker'
 
 csvname = {
                 "AI": "top50AI.pdf",
