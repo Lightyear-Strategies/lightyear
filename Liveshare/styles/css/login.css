@@ -106,7 +106,6 @@ section > div > div > h2 {
     padding: 5px 0;
     background: transparent;
     transition: border-color 0.2s;
-    margin-bottom: 2.5em;
 }
 
 .form__field::placeholder {

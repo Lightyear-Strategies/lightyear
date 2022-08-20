@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/css/signUp.css">
+    <script src="Lib/signUp.js"></script>
+    <title>Signup Page</title>
+</head>
+<body>
+    <main>
+        <section>
+            <div class="title">
+                <h1> Sign Up</h1>
+                <h2> Please Fill in the following information to create an account </h2>
+            </div>
+            <hr> 
+        </section>
+        <section>
+            <h3> Did you have an account already? <span>Sign In!</span> </h3>
+            <div action="" class="form__group field">
+                <input type="username" class="form__field" placeholder="username" name="username" id='username' required />
+                <label for="username" class="form__label">Username</label>
+            </div>
+            <div action="" class="form__group field">
+                <input type="input" class="form__field" placeholder="email" name="email" id='email' required />
+                <label for="email" class="form__label"> Email </label>
+            </div>
+            <div action="" class="form__group field">
+                <input type="password" class="form__field" placeholder="password" name="password" id="password" required />
+                <label for="password" class="form__label">Password</label>
+           </div>
+            <div action="" class="form__group field">
+                <input type="password" class="form__field" placeholder="Confirm Password" name="confirmPassword" id="confirmPassword" required />
+                <label for="confirmPassword" class="form__label">Confirm Password</label>
+           </div>
+           <button>
+               Sign Up
+           </button>
+        </section>
+    </main>
+</body>
+</html>
