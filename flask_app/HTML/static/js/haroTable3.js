@@ -458,8 +458,13 @@ function saveSavedHaros() {
 }
 
 function getSavedHaros() {
-
-    const strArray = (localStorage.getItem('saved_haros_indicies')).split(' ')
+    let strArray
+    try {
+        strArray = (localStorage.getItem('saved_haros_indicies')).split(' ')
+    } catch (e) {
+        strArray = [];
+    }
+    
     for (let istr of strArray) {
         if (istr != '') {
             saved_haros_indicies.add(Number(istr))

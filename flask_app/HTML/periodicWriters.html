@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/periodicWriters.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-    <script src="{{ url_for('static',filename='js/periodicWriters.js') }}" defer></script>
+    <!--<script src="{{ url_for('static',filename='js/periodicWriters.js') }}" defer></script>-->
 
     <title>Journalist Tracker — Lightyear Strategies</title>
 </head>
@@ -63,41 +63,19 @@
           </div>
         </header>
       </div> <!--End Header-->
-    <!-- Preloader -->
-    <section class="loader" id="loader">
-        <div class="loading">
-            <div class="ball"></div>
-            <div class="ball delay-100"></div>
-            <div class="ball delay-200"></div>
-            <div class="ball delay-200"></div>
-        </div>
-    </section>
-
-    <!-- Toasts-->
-    <section class="toast">
-        <div>
-            <div class="toast-loader"> </div>
-            <div class="toast-content">
-                <h2>
-                </h2>
-            </div>
-        </div>
-    </section>
-
+      <div class="page-main">
+        <section class="nth-of-type3">
     <div>
         <h1>Subscribe to Journalist Updates</h1>
         <hr style="border: 1px solid;">
         <h2>Guidelines:</h2>
         <div>
             <ol>
-                <li>Enter your full name</li>
-                <li>Enter the email address where you want to receive the file(s)</li>
-                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to receive updates on</li>
+                <li>Enter the email address where you want to recieve the file(s)</li>
+                <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
                 <li>Select the file(s)</li>
                 <li>Press "Submit" button</li>
             </ol>
-            You will receive an email report immediately upon subscribing, then again every night at midnight, every Sunday at midnight (EST), or
-            every month at midnight, depending on your subscription.
         </div>
     </div>
     <div>
@@ -191,6 +169,7 @@
                 <button id="submitBtn"> Submit </button>
             </div>
         </form>
+    </section>
     </div>
 
     <section id="upBtn">
@@ -217,5 +196,6 @@
             <p>copyright</p>
         </div>
     </footer>
+</div>
 </body>
 </html>
