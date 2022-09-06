@@ -93,7 +93,6 @@ $( document ).ready(function() {
         updateHaroCounter()
     });
 
-
 })
 
 function checkSearch() {

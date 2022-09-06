@@ -31,6 +31,7 @@ body::-webkit-scrollbar{
     margin-right: 2em;
     background-color: #F7F8FC;
     overflow: hidden;
+    height: 100%;
 
     .bigger-wrapper{
         margin-left: 5em;
@@ -80,7 +81,7 @@ body::-webkit-scrollbar{
         
     }
     #haro-table-body:not(.underflown){
-        height: 50vh;
+        height: 50%;
         border-radius:  8px;
     }
     #haro-table-body::-webkit-scrollbar{

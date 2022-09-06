@@ -1,22 +1,29 @@
-
-body {
-    margin: 0;
-}
-
+/* General Elements */
 :root {
-    --lightyear-red: #F04C23;
+    margin: none;
+    padding: none;
+    --lightyear-red: black; /*sorry, I know you're probably thinking, "why the fuck did he do this", and honestly, I couldn't tell you*/
     --lightyear-yellow: #FCE300;
     --lightyear-gray: #EFEFEF;
     --lightyear-blue: #3452ff; 
-    --background-color: #ffffff;
-    --contrast-color: #000;
+    --background-color: #FFFFFF;
+    font-family: 'Inter';
     scroll-behavior: smooth;
-    font-family: 'Mulish', sans-serif;
-    font-size: 11pt;
+}
+
+body {
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    margin: 0;
+    padding: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 #header { /* Header */
-
+    width: 100%;
     html {
         width: 100%;
         height: 100%;
@@ -134,26 +141,35 @@ body {
     
 } /* End Header */
 
-#page-main{
-    padding: 5em;
+#page-main {
+/* Scrollbar */
+
+
+
 h1 {
     margin: 0px;
-    color: black;
+    color: var(--lightyear-red);
 }
 
 h2 {
     margin: 0px;
-    color: black;
+    color: var(--lightyear-red);
 }
 
-p {
-    font-size: 1.25rem;
+ol {
+    display: inline-block;
+    border: 2px solid var(--lightyear-red);
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
 }
 
-hr {
-    margin: 20px 0px;
-    color: var(--lightyear-yellow);
-    border: solid var(--background-color) 1px;
+input {
+    /*width: clamp(80px, 70%, 800px);*/
+    padding: auto;
+    margin: auto;
+    margin-top: 20px;
 }
 
 header{
@@ -167,36 +183,11 @@ header{
     top: 0px;
 }
 
-ol {
-    display: inline-block;
-    border: 2px solid black;
-    border-radius: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-}
-
 ul {
     justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
-    /* text-align: right; */
-}
-
-section:nth-of-type(3) {
-    flex: 1;
-    display: grid;
-    width: 40%; 
-    min-width: 600px;
-    padding: 2.5% 2.5%;
-}
-
-section:nth-of-type(3) > div:nth-of-type(3) {
-    padding: 2.5% 0%;
-}
-
-div > div {
-    font-size: 1.25rem;
+    text-align: right;
 }
 
 footer {
@@ -211,8 +202,14 @@ footer {
     margin-top: 20px;
 }
 
+hr  {
+    margin: 20px 0px;
+    color: var(--background-color);
+    border: solid var(--background-color) 1px;
+}
+
 span {
-    text-decoration: underline 3px var(--lightyear-yellow);
+    text-decoration: underline 3px var(--lightyear-blue);
 }
 
 /* Body styling */
@@ -229,27 +226,28 @@ body > div:first-child {
 }
 
 /* Drop-zone */
-#drop_zone {
+#my-dropzone {
     margin-bottom: 0;
     border-radius: 0.25rem;
     height: 400px;
     display: grid;
     place-content: center;
-    border: dashed 2px black;
+    border: dashed 2px var(--lightyear-red);
 }
 
-#drop_zone > div {
+#my-dropzone > div {
     width: 100%;
     height: 100%;
-    color: black;
+    color: var(--lightyear-red);
+    font-size: 1.25rem;
 }
 
-#drop_zone > div > label {
+/* #drop_zone > div > label {
     cursor: pointer;
-}
+} */
 
 .inputFile {
-    width: 0.1px;
+    width: .1px;
     height: 0.1px;
     overflow: hidden;
     position: absolute;
@@ -267,7 +265,7 @@ header > div:last-child{
 }
 
 header > div:first-child {
-    color: black
+    color: var(--lightyear-red)
 }
 
 header > div:first-child > h1 {
@@ -322,7 +320,7 @@ footer > div:first-of-type > div > svg {
 #upBtn {
     color: var(--lightyear-yellow);
     border-radius: 1000px;
-    background-color: black;
+    background-color: var(--lightyear-red);
     display: grid;
     place-content: center;
     padding: 20px;
@@ -342,12 +340,12 @@ footer > div:first-of-type > div > svg {
 
 /* Submit Button */
 #submitBtn {
-    background-color: var(--lightyear-yellow);
-    color: black;
+    background-color: var(--lightyear-red);
+    color: var(--background-color);
     padding: 20px 40px;
     font-size: 1.4rem;
     border-radius: 0.25rem;
-    border-color: var(--lightyear-yellow);
+    border: none;
     margin-bottom: 10%;
     cursor: pointer;
     font-weight: 800;
@@ -356,15 +354,33 @@ footer > div:first-of-type > div > svg {
 }
 
 #submitBtn:hover {
-    background-color: black;
-    color: var(--lightyear-yellow);
-    border: var(--lightyear-yellow) 2px solid;
+    background-color: var(--lightyear-blue);
+    border: var(--lightyear-blue) 2px solid;
+}
+
+/* Directions | Instructions */
+.instruction {
+    text-align: right;
+    display: grid;
+    place-content: end;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--lightyear-red);
+}
+
+.instruction > div {
+    cursor: pointer;
+    background-color: var(--lightyear-yellow);
+    width: fit-content;
+    padding: 10px 25px;
+    border-radius: 100rem;
+    margin: 0px;
 }
 
 /* Inputs */
 .form__group {
     position: relative;
-    padding: 35px 0 0;
+    padding: 15px 0 0;
     margin-top: 10px;
     width: 100%;
 }
@@ -373,10 +389,10 @@ footer > div:first-of-type > div > svg {
     font-family: inherit;
     width: 100%;
     border: 0;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid var(--lightyear-red);
     outline: 0;
     font-size: 1.3rem;
-    color: black;
+    color: var(--lightyear-red);
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -385,6 +401,12 @@ footer > div:first-of-type > div > svg {
 .form__field::placeholder {
     font-size: 1.0rem;
     color: var(--lightyear-gray);
+}
+
+/* styling dropzone */
+.click-upload{
+    text-decoration-color: var(--lightyear-red);
+    cursor: pointer;
 }
 
 .form__field:placeholder-shown ~ .form__label {
@@ -399,9 +421,9 @@ footer > div:first-of-type > div > svg {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: black;
-    
+    color: var(--lightyear-red);
 }
+
 .form__label:after {
     position: absolute;
     top: 0;
@@ -414,14 +436,14 @@ footer > div:first-of-type > div > svg {
 }
 
 .required__label {
-    color: black
+    color: var(--lightyear-red)
 }
 
 .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  /* border-image: linear-gradient(to right, black, black); */
+  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
   border-image-slice: 1;
 }
 .form__field:focus ~ .form__label {
@@ -430,7 +452,7 @@ footer > div:first-of-type > div > svg {
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: black;
+  color: var(--lightyear-red);
   font-weight: 700;
 }
 
@@ -448,7 +470,7 @@ footer > div:first-of-type > div > svg {
     height: clamp(100px, 50%, 200px);
     background-color: var(--lightyear-gray);
     border-radius: 0.2rem;
-    color: black;
+    color: var(--lightyear-red);
 }
 
 .toast > div {
@@ -476,27 +498,61 @@ footer > div:first-of-type > div > svg {
     width: 0%;
 }
 
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display:grid;
+    background-color: #00000062;
+    visibility: hidden;
+    z-index: 100;
+}
+
+.modal > div {
+    place-self: center;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    padding: 20px;
+    width: clamp(160px, 80%, 800px);
+    height: clamp(80px, 80%, 450px);
+    border-radius: 0.2rem;
+}
+
+.modal > div > div {
+    flex: 1;
+    padding: 20px;
+}
+
+.modal > div > div:first-of-type > h1 {
+    font-size: 2rem;
+    padding: 1rem;
+}
+
+.modal > div > div:nth-of-type(2) {
+    flex: 3;
+}
+
+.modal > div > div:last-of-type {
+    text-align: right;
+}
+
+.modal > div > div:last-of-type > button{
+    background-color: var(--lightyear-red);
+    border: none;
+    border-radius: 0.25rem;
+    color: var(--background-color);
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-weight: 800;
+}
+
 ol > li {
     font-size: 1.1rem;
 }
-
-/* Drop-zone */
-#my-dropzone {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
-    border-radius: 0.25rem;
-    height: 200px;
-    display: grid;
-    place-content: center;
-    border: dashed 2px black;
-    cursor: pointer;
-}
-
-#my-dropzone > div {
-    color: black;
-    font-size: 1.25rem;
-}
-
 /* Loader */
 
 .loader {
@@ -537,7 +593,7 @@ ol > li {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background-color: black;
+    background-color: var(--lightyear-red);
     transform-origin: 50%;
     animation: bounce 500ms alternate infinite ease;
 }
@@ -557,13 +613,5 @@ ol > li {
   100% {
     top: 0;
   }
-}
-
-/* Media Fitting */
-@media only screen and (max-width: 700px) {
-    section{
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
 }
 }

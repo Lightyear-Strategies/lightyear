@@ -63,7 +63,7 @@
           <img src="../static/img/logo.png" alt="" style="cursor: pointer;" >
           </a>
       </section>
-      <section class="flex-6">
+      <section class="flex-6" id="header-nav">
           <div>
               <a href="">
                   Email Verification
@@ -106,62 +106,63 @@
     <h1>
       HARO
     </h1>
-    <div class="select-container">
-      <div class="selected search-tab" id="all-btn" onclick="switchTable('all')">
-        <img src="../static/img/table.svg" alt="" style="position: relative; top: -2px">
-        Table
+    <div class="menu-container">
+      <div class="select-container">
+        <div class="selected search-tab" id="all-btn" onclick="switchTable('all')">
+          <img src="../static/img/table.svg" alt="" style="position: relative; top: -2px">
+          Table
+        </div>
+        <div class="search-tab" id="saved-btn" onclick="switchTable('saved')">
+          <img src="../static/img/saved.svg" alt="">
+          Saved
+        </div>
       </div>
-      <div class="search-tab" id="saved-btn" onclick="switchTable('saved')">
-        <img src="../static/img/saved.svg" alt="">
-        Saved
-      </div>
-    </div>
 
-          <div class="search-menu" id="search-menu">
-            <div class="search-label" id="keywords-label">
-              What are you looking for?
-            </div>
-            <input type="text" class="search-bar" id='keywords' placeholder='Search for Summary, Query, Requirements, etc.'>
-
-
-            <button id="filter-btn" class="filter-btn" onclick="toggleExpandedSearchBar()">
-              <svg width="27" height="23"  viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" id="funnel-svg">
-                <path stroke-width="2" d="M3.09619 2.0625H23.9039C24.0915 2.0625 24.2752 2.10998 24.4325 2.19917C24.5897 2.28836 24.7139 2.41542 24.7898 2.56491C24.8657 2.71439 24.8902 2.87987 24.8601 3.04123C24.8301 3.20258 24.7469 3.35287 24.6207 3.47382L16.6582 11.1024C16.4961 11.2577 16.4063 11.4601 16.4063 11.6699V17.6422C16.4063 17.7811 16.3669 17.9178 16.2917 18.0403C16.2164 18.1628 16.1076 18.2672 15.9749 18.3442L12.0999 20.5942C11.954 20.6789 11.7844 20.7276 11.6093 20.735C11.4342 20.7423 11.26 20.7082 11.1054 20.6361C10.9508 20.564 10.8216 20.4568 10.7315 20.3258C10.6414 20.1948 10.5938 20.0449 10.5938 19.8922V11.67C10.5938 11.4601 10.504 11.2577 10.3418 11.1024L2.37937 3.47382C2.25313 3.35287 2.16994 3.20258 2.13992 3.04123C2.10989 2.87987 2.13433 2.71439 2.21026 2.56491C2.28618 2.41542 2.41033 2.28836 2.5676 2.19917C2.72488 2.10998 2.90852 2.0625 3.09619 2.0625V2.0625Z" stroke="#252733" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <div class="filter-btn-txt" id="filter-btn-txt" style="display: inline; font-weight: bold">
-                  Filter
-                </div>
-            </button>
-          
-              <div class="search-label hidden" id="mediaOutlet-label">
-                Media Outlet
+            <div class="search-menu" id="search-menu">
+              <div class="search-label" id="keywords-label">
+                What are you looking for?
               </div>
-              <input type="text" class="search-bar hidden" id="mediaOutlet" list="media-outlets" placeholder="Select or Type">
+              <input type="text" class="search-bar" id='keywords' placeholder='Search for Summary, Query, Requirements, etc.'>
 
-            <datalist id='media-outlets'></datalist>
 
-            <div class="search-label hidden" id="category-label">
-              Category
+              <button id="filter-btn" class="filter-btn" onclick="toggleExpandedSearchBar()">
+                <svg width="27" height="23"  viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" id="funnel-svg">
+                  <path stroke-width="2" d="M3.09619 2.0625H23.9039C24.0915 2.0625 24.2752 2.10998 24.4325 2.19917C24.5897 2.28836 24.7139 2.41542 24.7898 2.56491C24.8657 2.71439 24.8902 2.87987 24.8601 3.04123C24.8301 3.20258 24.7469 3.35287 24.6207 3.47382L16.6582 11.1024C16.4961 11.2577 16.4063 11.4601 16.4063 11.6699V17.6422C16.4063 17.7811 16.3669 17.9178 16.2917 18.0403C16.2164 18.1628 16.1076 18.2672 15.9749 18.3442L12.0999 20.5942C11.954 20.6789 11.7844 20.7276 11.6093 20.735C11.4342 20.7423 11.26 20.7082 11.1054 20.6361C10.9508 20.564 10.8216 20.4568 10.7315 20.3258C10.6414 20.1948 10.5938 20.0449 10.5938 19.8922V11.67C10.5938 11.4601 10.504 11.2577 10.3418 11.1024L2.37937 3.47382C2.25313 3.35287 2.16994 3.20258 2.13992 3.04123C2.10989 2.87987 2.13433 2.71439 2.21026 2.56491C2.28618 2.41542 2.41033 2.28836 2.5676 2.19917C2.72488 2.10998 2.90852 2.0625 3.09619 2.0625V2.0625Z" stroke="#252733" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <div class="filter-btn-txt" id="filter-btn-txt" style="display: inline; font-weight: bold">
+                    Filter
+                  </div>
+              </button>
+            
+                <div class="search-label hidden" id="mediaOutlet-label">
+                  Media Outlet
+                </div>
+                <input type="text" class="search-bar hidden" id="mediaOutlet" list="media-outlets" placeholder="Select or Type">
+
+              <datalist id='media-outlets'></datalist>
+
+              <div class="search-label hidden" id="category-label">
+                Category
+              </div>
+              <input type="text" class="search-bar hidden" id="category" list="categories" placeholder="Select or Type">
+              <datalist id="categories"></datalist>
+              <button id="search-collapse-button" class="hidden" onclick="toggleExpandedSearchBar()">
+              </button>
+              <div class="search-label hidden disabled" id="dateReceived-label">
+                Date Interval
+              </div>
+              <input type="text" name="dateReceived" id="dateReceived" class="hidden search-bar disabled">
+              <input class="form-check-input hidden" type="checkbox" value="check" style="grid-area: date-checkbox;" id="date-checkbox" onclick="toggleDatePicker()">
             </div>
-            <input type="text" class="search-bar hidden" id="category" list="categories" placeholder="Select or Type">
-            <datalist id="categories"></datalist>
-            <button id="search-collapse-button" class="hidden" onclick="toggleExpandedSearchBar()">
-            </button>
-            <div class="search-label hidden disabled" id="dateReceived-label">
-              Date Interval
-            </div>
-            <input type="text" name="dateReceived" id="dateReceived" class="hidden search-bar disabled">
-            <input class="form-check-input hidden" type="checkbox" value="check" style="grid-area: date-checkbox;" id="date-checkbox" onclick="toggleDatePicker()">
           </div>
 
-
-        <div class="table-head" id="table-head">
-          <div class="head-element" style="grid-area: Summary" id="summary-col-label">Summary</div>
-          <div class="head-element" style="grid-area: MediaOutlet">Media Outlet</div>
-          <div class="head-element" style="grid-area: Category">Category</div>
-          <div class="head-element" style="grid-area: DateReceived">Date Added</div>
-          <div class="head-element" style="grid-area: Deadline">Due Date</div>
-        </div>
+          <div class="table-head" id="table-head">
+            <div class="head-element" style="grid-area: Summary" id="summary-col-label">Summary</div>
+            <div class="head-element" style="grid-area: MediaOutlet">Media Outlet</div>
+            <div class="head-element" style="grid-area: Category">Category</div>
+            <div class="head-element" style="grid-area: DateReceived">Date Added</div>
+            <div class="head-element" style="grid-area: Deadline">Due Date</div>
+          </div>
       <!--/div--> <!--End sticky wrapper-->
 
         <div id="haro-table-body"></div>
