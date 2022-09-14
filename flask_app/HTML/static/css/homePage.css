@@ -216,16 +216,17 @@ body {
   display: flex;
   width: clamp(300px, 90%, 1500px);
   min-width: 300px;
-  margin: auto;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  margin: 4rem;
+  justify-content: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
 }
 
 .main .card {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  min-width: 350px;
+  min-width: 150px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -233,8 +234,8 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 0px clamp(0rem, 4rem, 4rem);
-  margin: 1rem 5rem;
+  padding: 0px clamp(0rem, 1rem, 4rem);
+  margin: 1rem 2rem;
   border-radius: 0.25rem;
   background-color: var(--lightyear-yellow);
   overflow: hidden;
@@ -249,7 +250,7 @@ body {
       -ms-flex: 1;
           flex: 1;
   z-index: 5;
-  min-height: 300px;
+  min-height: 160px;
   cursor: pointer;
 }
 
@@ -279,8 +280,8 @@ body {
   text-align: center;
   z-index: 1;
   position: absolute;
-  padding: 18rem 0.25rem;
-  bottom: -70%;
+  padding: 9rem 0.25rem;
+  bottom: -85%;
   display: -ms-grid;
   display: grid;
   place-items: center;
@@ -289,7 +290,7 @@ body {
   background-color: var(--background-color);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   color: var(--contrast-color);
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: bold;
   -webkit-transition: all ease-out 0.25s;
   transition: all ease-out 0.25s;
