@@ -15,16 +15,20 @@ body {
 }
 
 #header {
+  /* End Header */
+}
+
+#header #header {
   /* Header */
   /* hover underline */
 }
 
-#header html {
+#header #header html {
   width: 100%;
   height: 100%;
 }
 
-#header header {
+#header #header header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -37,7 +41,7 @@ body {
   color: var(--contrast-color);
 }
 
-#header .alignment-wrapper {
+#header #header .alignment-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -49,12 +53,12 @@ body {
   margin-right: 2.4em;
 }
 
-#header .alignment-wrapper > section {
+#header #header .alignment-wrapper > section {
   padding-top: .5rem;
   padding-bottom: .5rem;
 }
 
-#header .alignment-wrapper > section:first-of-type {
+#header #header .alignment-wrapper > section:first-of-type {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -63,7 +67,7 @@ body {
           justify-content: flex-start;
 }
 
-#header header > section:last-of-type {
+#header #header header > section:last-of-type {
   display: block;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
@@ -73,30 +77,30 @@ body {
           justify-content: flex-end;
 }
 
-#header a {
+#header #header a {
   text-decoration: none;
   color: black;
 }
 
-#header .flex-6 > div:hover::after {
+#header #header .flex-6 > div:hover::after {
   background-color: var(--contrast-color);
   right: 0px;
 }
 
-#header .flex-1 {
+#header #header .flex-1 {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
 }
 
-#header .flex-6 {
+#header #header .flex-6 {
   padding-top: .75em;
   -webkit-box-flex: 6;
       -ms-flex: 6;
           flex: 6;
 }
 
-#header .flex-6 > * {
+#header #header .flex-6 > * {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -109,17 +113,17 @@ body {
   text-align: center;
 }
 
-#header .flex-6 > *:not(#logout-svg) {
+#header #header .flex-6 > *:not(#logout-svg) {
   margin-right: 2rem;
   margin-top: .5em;
   overflow: visible;
 }
 
-#header #logout-svg {
+#header #header #logout-svg {
   padding-top: .65em;
 }
 
-#header .flex-6 > *::after {
+#header #header .flex-6 > *::after {
   content: '';
   position: absolute;
   width: 100%;
@@ -136,23 +140,23 @@ body {
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
 }
 
-#header .flex-6 > *:not(#logout-svg)::after {
+#header #header .flex-6 > *:not(#logout-svg)::after {
   height: 3px;
   bottom: -.25em;
 }
 
-#header #logout-svg::after {
+#header #header #logout-svg::after {
   height: 3px;
 }
 
-#header .flex-6 > *:hover::after {
+#header #header .flex-6 > *:hover::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
   -webkit-transform-origin: bottom left;
           transform-origin: bottom left;
 }
 
-#header .flex-6 > *::after {
+#header #header .flex-6 > *::after {
   content: '';
   position: absolute;
   width: 100%;
