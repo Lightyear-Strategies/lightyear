@@ -72,8 +72,11 @@ body::-webkit-scrollbar {
 
 #page-body #haro-counter {
   font-weight: bold;
-  margin-top: 1em;
+  padding-top: 0.5em;
+  margin-bottom: 1em;
   margin-left: 1.7em;
+  position:absolute;
+  bottom: 0px;
 }
 
 #page-body #haro-table-body {
@@ -127,7 +130,8 @@ body::-webkit-scrollbar {
 }
 
 #page-body .haro-row.expanded {
-      grid-template-areas: 'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button' 'details     details details     details  details       details  details';
+      grid-template-areas: 'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button'
+ 'details     details details     details  details       details  details';
 }
 
 #page-body .haro-row > * {
@@ -163,7 +167,7 @@ body::-webkit-scrollbar {
 }
 
 #page-body .haro-row:nth-child(even):hover {
-  background-color: rgba(196, 196, 196, 0.26);
+  background-color: rgba(192, 211, 220, 0.08);
 }
 
 #page-body .haro-row.expanded:nth-child(even):hover {
@@ -220,14 +224,16 @@ body::-webkit-scrollbar {
 #page-body .search-menu:not(.expanded) {
   -webkit-column-gap: 1em;
           column-gap: 1em;
-      grid-template-areas: 'keywords-label     .' 'keywords   filter-btn';
+      grid-template-areas: 'keywords-label     .'
+ 'keywords   filter-btn';
 }
 
 #page-body .search-menu.expanded {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-      grid-template-areas: 'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox search-collapse-button' 'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
+      grid-template-areas: 'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox search-collapse-button'
+ 'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
   -ms-grid-columns: 43em 16em 16em 10em 9em 4em;
       grid-template-columns: 43em 16em 16em 10em 9em 4em;
 }
@@ -382,7 +388,10 @@ body::-webkit-scrollbar {
 #page-body .details {
   display: -ms-grid;
   display: grid;
-      grid-template-areas: 'Journalist-label Journalist' 'Email-label Email' 'Query-label Query' 'Requirements-label Requirements';
+      grid-template-areas: 'Journalist-label Journalist'
+ 'Email-label Email'
+ 'Query-label Query'
+ 'Requirements-label Requirements';
   row-gap: .75em;
   -webkit-column-gap: .75em;
           column-gap: .75em;
