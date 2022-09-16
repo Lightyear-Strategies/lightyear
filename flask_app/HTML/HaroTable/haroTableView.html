@@ -181,22 +181,30 @@
 
 </body>
 <script type="text/javascript">
-  function resize_table () {
-    let counter = document.getElementById('haro-counter');
-    let c_rect = counter.getBoundingClientRect();
-    let c_top = c_rect.top;
-
-    let table_head = document.getElementById('table-head');
-    let t_rect = table_head.getBoundingClientRect();
-    let t_bot = t_rect.bottom;
-
-    let table_height = c_top - t_bot;
-    console.log(table_height);
-    document.getElementById('haro-table-body').style.height = table_height + 'px';
-  }
   $(document).ready(function () {
+    function resize_table () {
+      let counter = document.getElementById('haro-counter');
+      let c_rect = counter.getBoundingClientRect();
+      let c_top = c_rect.top;
+
+      let table_head = document.getElementById('table-head');
+      let t_rect = table_head.getBoundingClientRect();
+      let t_bot = t_rect.bottom;
+
+      let table_height = c_top - t_bot;
+      console.log(table_height);
+      document.getElementById('haro-table-body').style.height = table_height + 'px';
+    }
+
     $(window).on('resize', resize_table);
-    resize_table();
-  })
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutationRecord) {
+          resize_table();
+        });    
+    });
+  
+    var target = document.getElementById('loader');
+    observer.observe(target, { attributes : true, attributeFilter : ['style'] });
+    });
 </script>
 </html>
