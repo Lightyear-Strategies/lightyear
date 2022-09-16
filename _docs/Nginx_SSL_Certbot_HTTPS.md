@@ -25,6 +25,9 @@ Nginx:
 * `sudo nano /etc/nginx/nginx.conf`
 * `systemctl status nginx.service`
 
+Certbot:
+* `sudo certbot --nginx`
+
 Gunicorn:
 * `gunicorn -w 3 wsgi:app`
 
