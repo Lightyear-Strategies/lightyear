@@ -1,9 +1,9 @@
 from flask_login import login_required
 from flask_app.scripts.create_flask_app import db
-from flask import render_template, request
+from flask import render_template, request, current_app
 from datetime import datetime, timedelta
 import pandas as pd
-
+import os
 from time import time
 
 import traceback
@@ -70,8 +70,12 @@ def show_haro_table():
     @param:    None
     @return:   Haros table
     """
-    return render_template('HaroTable/haroTableView.html', title='LyS Haros Database')
+    updated = get_last_updated()
+    return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0], time_updated = updated.split()[1][:8])
 
+def get_last_updated():
+    db_path = os.path.join(current_app.root_path, '..', 'Database.sqlite3')
+    return str(datetime.fromtimestamp(os.path.getmtime(db_path)))
 
 # def adding_used_unused(option: str = None, id: str = None):
 #     """

@@ -73,10 +73,20 @@ body::-webkit-scrollbar {
 #page-body #haro-counter {
   font-weight: bold;
   padding-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   margin-left: 1.7em;
   position:absolute;
   bottom: 0px;
+}
+
+#page-body #last-updated {
+  font-weight: bold;
+  padding-top: 0.5em;
+  margin-bottom: 2em;
+  margin-left: -19.6em;
+  position:absolute;
+  bottom: 0px;
+  left: 100em;
 }
 
 #page-body #haro-table-body {
