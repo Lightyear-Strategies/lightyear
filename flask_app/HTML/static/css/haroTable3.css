@@ -1,17 +1,16 @@
 body {
-margin:0;
+  margin: 0;
+  background-color: var(--background-color);
 }
 
 :root {
   --lightyear-red: #F04C23;
   --lightyear-yellow: #FCE300;
-  --lightyear-gray: #EFEFEF;
+  --lightyear-gray: #b6b6b6;
   --lightyear-blue: #3452ff;
-  --background-color: #ffffff;
+  --background-color: #F7F8FC;
   --contrast-color: #000;
   scroll-behavior: smooth;
-  outline: none;
-  overflow-x: hidden;
   font-family: 'Mulish', sans-serif;
   font-size: 11pt;
 }
@@ -60,6 +59,7 @@ body::-webkit-scrollbar {
 
 #page-body h1 {
   font-size: 1.5em;
+  margin:0;
 }
 
 #page-body .none-to-display-error {
@@ -88,7 +88,7 @@ body::-webkit-scrollbar {
   margin-left: -19.6em;
   position:absolute;
   bottom: 0px;
-  left: 103em;
+  left: 103.5em;
 }
 
 #page-body #haro-table-body {
@@ -211,6 +211,10 @@ body::-webkit-scrollbar {
   background-color: rgba(215, 215, 215, 0.7);
 }
 
+#page-body #keywords {
+  font-family: inherit;
+}
+
 #page-body .search-menu {
   /* ----------------- Modified ----------------- */
   position: relative;
@@ -218,6 +222,7 @@ body::-webkit-scrollbar {
   margin-top: 0;
   /* ----------------- Modified ----------------- */
   margin-bottom: 1em;
+  font-family: inherit;
   padding: 1em;
   display: -ms-grid;
   display: grid;
@@ -525,23 +530,6 @@ body::-webkit-scrollbar {
   border-radius: 0px 8px 0px 0px;
 }
 
-body {
-  background-color: #F7F8FC;
-}
-
-:root {
-  --lightyear-red: #F04C23;
-  --lightyear-yellow: #FCE300;
-  --lightyear-gray: #EFEFEF;
-  --lightyear-blue: #3452ff;
-  --background-color: #ffffff;
-  --contrast-color: #000;
-  scroll-behavior: smooth;
-  outline: none;
-  overflow-x: hidden;
-  font-family: 'Mulish', sans-serif;
-  font-size: 11pt;
-}
 
 body::-webkit-scrollbar {
   display: none;

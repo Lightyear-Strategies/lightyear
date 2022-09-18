@@ -7,9 +7,9 @@ body::-webkit-scrollbar {
   padding: none;
   --lightyear-red: #F04C23;
   --lightyear-yellow: #FCE300;
-  --lightyear-gray: #EFEFEF;
+  --lightyear-gray: #b6b6b6;
   --lightyear-blue: #3452ff;
-  --background-color: #ffffff;
+  --background-color: #F7F8FC;
   --contrast-color: #000;
   font-family: 'Mulish', sans-serif;
   font-size: 11pt;
@@ -25,6 +25,7 @@ html {
 body {
   margin: 0;
   outline: none;
+  background-color: var(--background-color);
   color: var(--contrast-color);
   padding: 0;
   display: -ms-grid;
@@ -288,7 +289,7 @@ body {
   left: 0;
   width: 100%;
   background-color: var(--background-color);
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: inherit;
   color: var(--contrast-color);
   font-size: 3rem;
   font-weight: bold;

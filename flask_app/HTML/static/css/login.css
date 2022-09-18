@@ -13,17 +13,15 @@ body::-webkit-scrollbar-thumb {
 
 /* General Styling */
 :root {
-    margin: none;
-    padding: none;
-    --lightyear-red: #F04C23;
-    --lightyear-yellow: #FCE300;
-    --lightyear-gray: #EFEFEF;
-    --lightyear-blue: #3452ff; 
-    --background-color: #FFFFFF;
-    font-family: 'Inter';
-    scroll-behavior: smooth;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    overflow-x: hidden;
+  --lightyear-red: #F04C23;
+  --lightyear-yellow: #FCE300;
+  --lightyear-gray: #b6b6b6;
+  --lightyear-blue: #3452ff;
+  --background-color: #F7F8FC;
+  --contrast-color: #000;
+  scroll-behavior: smooth;
+  font-family: 'Mulish', sans-serif;
+  font-size: 11pt;
 }
 
 html {
@@ -32,6 +30,7 @@ html {
 }
 
 body{
+    background-color: var(--background-color);
     display: flex;
     flex-wrap: wrap;
     margin: 0px;
@@ -96,7 +95,7 @@ section > div > div > h2 {
 }
 
 .form__field {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: inherit;
     width: 60%;
     border: 0;
     border-bottom: 2px solid black;

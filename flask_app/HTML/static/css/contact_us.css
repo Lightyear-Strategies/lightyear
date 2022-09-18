@@ -1,13 +1,14 @@
 body {
   margin: 0;
+  background-color: var(--background-color);
 }
 
 :root {
   --lightyear-red: #F04C23;
   --lightyear-yellow: #FCE300;
-  --lightyear-gray: #EFEFEF;
+  --lightyear-gray: #b6b6b6;
   --lightyear-blue: #3452ff;
-  --background-color: #ffffff;
+  --background-color: #F7F8FC;
   --contrast-color: #000;
   scroll-behavior: smooth;
   font-family: 'Mulish', sans-serif;
@@ -696,7 +697,7 @@ body {
 }
 
 .form__field {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: inherit;
     width: 60%;
     border: 0;
     border-bottom: 2px solid black;
@@ -718,9 +719,10 @@ body {
 }
 
 .message__field {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: inherit;
     width: 99.6%;
     height: 200px;
+    background-color: var(--background-color);
     /* border: 2px;
     border-bottom: 2px solid black;
     outline: 2px; */
@@ -729,10 +731,6 @@ body {
     border-width: 2px;
     font-size: 1.3rem;
     transition: border-color 0.2s;
-}
-.message__field:focus{
-  border: dashed black;
-  border-width:3px;
 }
 
 .message__field::placeholder {
