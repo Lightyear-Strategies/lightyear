@@ -207,18 +207,15 @@ body {
           flex: 6;
 }
 
-.main main {
-  margin-top: 3rem;
-}
 
 .main .cards-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: clamp(300px, 90%, 1500px);
   min-width: 300px;
   margin: 4rem;
   justify-content: center;
+  text-align: center;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
 }

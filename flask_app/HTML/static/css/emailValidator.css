@@ -193,6 +193,7 @@ body {
 #page-main h2 {
   margin: 0px;
   color: black;
+  font-weight: 500;
 }
 
 #page-main p {
