@@ -186,6 +186,7 @@ body {
 #page-main h1 {
   margin: 0px;
   color: black;
+  font-size:1.5em;
 }
 
 #page-main h2 {
@@ -704,61 +705,6 @@ body {
 /*# sourceMappingURL=periodicWriters.css.map */
 
 /* Contact Us general setup */
-.contactus {
-    place-self: center;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    color: black;
-    padding: 2rem 0rem;
-    border-radius: 0.75rem;
-}
-
-.contactus > div {
-    flex: 1;
-}
-
-.contactus > div:first-of-type > div {
-    margin-bottom: 4rem;
-}
-
-.contactus > div:last-of-type {
-    padding-top: 4rem;
-}
-
-
-/* Footer */
-footer > div {
-    flex: 1;
-    width: clamp(200px, 80%, 1200px);
-    text-align: center;
-}
-
-footer > div:first-child {
-    width: auto;
-}
-
-footer > div:first-of-type {
-    display: flex;
-    flex-direction: column;
-}
-
-footer > div:first-of-type > div {
-    flex: 1;
-}
-
-footer > div:first-of-type > div:nth-of-type(2) {
-    display: flex;
-    margin-top: 20px;
-    justify-content: space-evenly;
-}
-
-footer > div:first-of-type > div > svg {
-    flex: 1;
-    fill: var(--background-color);
-    margin: 0px 20px;
-}
 
 /* Contact Us input */
 .form__group {

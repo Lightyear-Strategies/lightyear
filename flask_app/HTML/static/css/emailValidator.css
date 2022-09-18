@@ -1,36 +1,17 @@
-/* General Elements */
+body {
+  margin: 0;
+}
+
 :root {
-  margin: none;
-  padding: none;
-  --lightyear-red: black;
-  /*sorry, I know you're probably thinking, "why the fuck did he do this", and honestly, I couldn't tell you*/
-  /* why did you do any of it like this ?????? */
+  --lightyear-red: #F04C23;
   --lightyear-yellow: #FCE300;
   --lightyear-gray: #EFEFEF;
   --lightyear-blue: #3452ff;
-  --background-color: #FFFFFF;
-  font-family: 'Inter';
+  --background-color: #ffffff;
+  --contrast-color: #000;
   scroll-behavior: smooth;
-}
-
-body {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  overflow-x: hidden;
-  margin: 0;
-  padding: none;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Mulish', sans-serif;
+  font-size: 11pt;
 }
 
 #header {
@@ -43,7 +24,7 @@ body {
 }
 
 #header #header html {
-  width: 100vw;
+  width: 100%;
   height: 100%;
 }
 
@@ -54,7 +35,7 @@ body {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   text-align: right;
-  width: 100vw;
+  width: 100%;
   font-weight: 700;
   background-color: var(--lightyear-yellow);
   color: var(--contrast-color);
@@ -184,50 +165,43 @@ body {
   left: 0;
   background-color: black;
 }
+
+/* End Header */
 #page-main {
-  /* Scrollbar */
+  padding: 5em;
   /* Body styling */
   /* Drop-zone */
-  /* #drop_zone > div > label {
-    cursor: pointer;
-} */
   /* Header */
   /* Footer */
   /* Up Button | To be replaced with SVG */
   /* Submit Button */
-  /* Directions | Instructions */
   /* Inputs */
-  /* styling dropzone */
   /* reset input */
   /* Toast */
-  /* Modal */
+  /* Drop-zone */
   /* Loader */
+  /* Media Fitting */
 }
 
 #page-main h1 {
   margin: 0px;
-  color: var(--lightyear-red);
+  color: black;
+  font-size: 1.5em;
 }
 
 #page-main h2 {
   margin: 0px;
-  color: var(--lightyear-red);
+  color: black;
 }
 
-#page-main ol {
-  display: inline-block;
-  border: 2px solid var(--lightyear-red);
-  border-radius: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-right: 10px;
+#page-main p {
+  font-size: 1.25rem;
 }
 
-#page-main input {
-  /*width: clamp(80px, 70%, 800px);*/
-  padding: auto;
-  margin: auto;
-  margin-top: 20px;
+#page-main hr {
+  margin: 20px 0px;
+  color: var(--lightyear-yellow);
+  border: solid var(--background-color) 1px;
 }
 
 #page-main header {
@@ -248,6 +222,15 @@ body {
   top: 0px;
 }
 
+#page-main ol {
+  display: inline-block;
+  border: 2px solid black;
+  border-radius: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+}
+
 #page-main ul {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
@@ -257,7 +240,26 @@ body {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  text-align: right;
+  /* text-align: right; */
+}
+
+#page-main section:nth-of-type(3) {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -ms-grid;
+  display: grid;
+  width: 40%;
+  min-width: 600px;
+  padding: 2.5% 2.5%;
+}
+
+#page-main section:nth-of-type(3) > div:nth-of-type(3) {
+  padding: 2.5% 0%;
+}
+
+#page-main div > div {
+  font-size: 1.25rem;
 }
 
 #page-main footer {
@@ -281,15 +283,9 @@ body {
   margin-top: 20px;
 }
 
-#page-main hr {
-  margin: 20px 0px;
-  color: var(--background-color);
-  border: solid var(--background-color) 1px;
-}
-
 #page-main span {
-  -webkit-text-decoration: underline 3px var(--lightyear-blue);
-          text-decoration: underline 3px var(--lightyear-blue);
+  -webkit-text-decoration: underline 3px var(--lightyear-yellow);
+          text-decoration: underline 3px var(--lightyear-yellow);
 }
 
 #page-main body > div {
@@ -305,25 +301,28 @@ body {
   padding: 0 20%;
 }
 
-#page-main #my-dropzone {
+#page-main #drop_zone {
   margin-bottom: 0;
   border-radius: 0.25rem;
   height: 400px;
   display: -ms-grid;
   display: grid;
   place-content: center;
-  border: dashed 2px var(--lightyear-red);
+  border: dashed 2px black;
 }
 
-#page-main #my-dropzone > div {
+#page-main #drop_zone > div {
   width: 100%;
   height: 100%;
-  color: var(--lightyear-red);
-  font-size: 1.25rem;
+  color: black;
+}
+
+#page-main #drop_zone > div > label {
+  cursor: pointer;
 }
 
 #page-main .inputFile {
-  width: .1px;
+  width: 0.1px;
   height: 0.1px;
   overflow: hidden;
   position: absolute;
@@ -342,7 +341,7 @@ body {
 }
 
 #page-main header > div:first-child {
-  color: var(--lightyear-red);
+  color: black;
 }
 
 #page-main header > div:first-child > h1 {
@@ -410,7 +409,7 @@ body {
 #page-main #upBtn {
   color: var(--lightyear-yellow);
   border-radius: 1000px;
-  background-color: var(--lightyear-red);
+  background-color: black;
   display: -ms-grid;
   display: grid;
   place-content: center;
@@ -431,12 +430,12 @@ body {
 }
 
 #page-main #submitBtn {
-  background-color: var(--lightyear-red);
-  color: var(--background-color);
+  background-color: var(--lightyear-yellow);
+  color: black;
   padding: 20px 40px;
   font-size: 1.4rem;
   border-radius: 0.25rem;
-  border: none;
+  border-color: var(--lightyear-yellow);
   margin-bottom: 10%;
   cursor: pointer;
   font-weight: 800;
@@ -445,34 +444,14 @@ body {
 }
 
 #page-main #submitBtn:hover {
-  background-color: var(--lightyear-blue);
-  border: var(--lightyear-blue) 2px solid;
-}
-
-#page-main .instruction {
-  text-align: right;
-  display: -ms-grid;
-  display: grid;
-  place-content: end;
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--lightyear-red);
-}
-
-#page-main .instruction > div {
-  cursor: pointer;
-  background-color: var(--lightyear-yellow);
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 10px 25px;
-  border-radius: 100rem;
-  margin: 0px;
+  background-color: black;
+  color: var(--lightyear-yellow);
+  border: var(--lightyear-yellow) 2px solid;
 }
 
 #page-main .form__group {
   position: relative;
-  padding: 15px 0 0;
+  padding: 35px 0 0;
   margin-top: 10px;
   width: 100%;
 }
@@ -481,10 +460,10 @@ body {
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid var(--lightyear-red);
+  border-bottom: 2px solid black;
   outline: 0;
   font-size: 1.3rem;
-  color: var(--lightyear-red);
+  color: black;
   padding: 7px 0;
   background: transparent;
   -webkit-transition: border-color 0.2s;
@@ -511,12 +490,6 @@ body {
   color: var(--lightyear-gray);
 }
 
-#page-main .click-upload {
-  -webkit-text-decoration-color: var(--lightyear-red);
-          text-decoration-color: var(--lightyear-red);
-  cursor: pointer;
-}
-
 #page-main .form__field:placeholder-shown ~ .form__label {
   font-size: 1.3rem;
   cursor: text;
@@ -530,7 +503,7 @@ body {
   -webkit-transition: 0.2s;
   transition: 0.2s;
   font-size: 1rem;
-  color: var(--lightyear-red);
+  color: black;
 }
 
 #page-main .form__label:after {
@@ -546,16 +519,14 @@ body {
 }
 
 #page-main .required__label {
-  color: var(--lightyear-red);
+  color: black;
 }
 
 #page-main .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  -o-border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
-     border-image: -webkit-gradient(linear, left top, right top, from(var(--lightyear-red)), to(var(--lightyear-red)));
-     border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  /* border-image: linear-gradient(to right, black, black); */
   border-image-slice: 1;
 }
 
@@ -566,7 +537,7 @@ body {
   -webkit-transition: 0.2s;
   transition: 0.2s;
   font-size: 1rem;
-  color: var(--lightyear-red);
+  color: black;
   font-weight: 700;
 }
 
@@ -583,7 +554,7 @@ body {
   height: clamp(100px, 50%, 200px);
   background-color: var(--lightyear-gray);
   border-radius: 0.2rem;
-  color: var(--lightyear-red);
+  color: black;
 }
 
 #page-main .toast > div {
@@ -612,69 +583,25 @@ body {
   width: 0%;
 }
 
-#page-main .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: -ms-grid;
-  display: grid;
-  background-color: #00000062;
-  visibility: hidden;
-  z-index: 100;
-}
-
-#page-main .modal > div {
-  place-self: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  background-color: var(--background-color);
-  padding: 20px;
-  width: clamp(160px, 80%, 800px);
-  height: clamp(80px, 80%, 450px);
-  border-radius: 0.2rem;
-}
-
-#page-main .modal > div > div {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  padding: 20px;
-}
-
-#page-main .modal > div > div:first-of-type > h1 {
-  font-size: 2rem;
-  padding: 1rem;
-}
-
-#page-main .modal > div > div:nth-of-type(2) {
-  -webkit-box-flex: 3;
-      -ms-flex: 3;
-          flex: 3;
-}
-
-#page-main .modal > div > div:last-of-type {
-  text-align: right;
-}
-
-#page-main .modal > div > div:last-of-type > button {
-  background-color: var(--lightyear-red);
-  border: none;
-  border-radius: 0.25rem;
-  color: var(--background-color);
-  padding: 1rem 2rem;
-  cursor: pointer;
-  font-weight: 800;
-}
-
 #page-main ol > li {
   font-size: 1.1rem;
+}
+
+#page-main #my-dropzone {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.25rem;
+  height: 200px;
+  display: -ms-grid;
+  display: grid;
+  place-content: center;
+  border: dashed 2px black;
+  cursor: pointer;
+}
+
+#page-main #my-dropzone > div {
+  color: black;
+  font-size: 1.25rem;
 }
 
 #page-main .loader {
@@ -724,7 +651,7 @@ body {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: var(--lightyear-red);
+  background-color: black;
   -webkit-transform-origin: 50%;
           transform-origin: 50%;
   -webkit-animation: bounce 500ms alternate infinite ease;
@@ -768,4 +695,11 @@ body {
     top: 0;
   }
 }
-/*# sourceMappingURL=emailValidator.css.map */
+
+@media only screen and (max-width: 700px) {
+  #page-main section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+/*# sourceMappingURL=periodicWriters.css.map */

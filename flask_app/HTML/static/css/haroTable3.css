@@ -14,7 +14,7 @@ body {
   scroll-behavior: smooth;
   outline: none;
   overflow-x: hidden;
-  font-family: 'Mulish';
+  font-family: 'Mulish', sans-serif;
   font-size: 11pt;
 }
 
