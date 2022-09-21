@@ -13,6 +13,7 @@ body {
   scroll-behavior: smooth;
   font-family: 'Mulish', sans-serif;
   font-size: 11pt;
+  overflow:hidden;
 }
 
 body::-webkit-scrollbar {
@@ -64,7 +65,7 @@ body::-webkit-scrollbar {
 
 #page-body .none-to-display-error {
   font-weight: bold;
-  width: 94rem;
+  width: 94%;
   text-align: center;
   text-justify: center;
   height: 5em;
@@ -85,10 +86,10 @@ body::-webkit-scrollbar {
   font-weight: bold;
   padding-top: 0.5em;
   margin-bottom: 2em;
-  margin-left: -19.6em;
+  margin-right: 6.2em;
   position:absolute;
   bottom: 0px;
-  left: 103.5em;
+  right: 0px;
 }
 
 #page-body #haro-table-body {
@@ -96,7 +97,7 @@ body::-webkit-scrollbar {
   -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
           box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   overflow: auto;
-  width: 100em;
+  width: 100%;
   border-radius: 8px;
 }
 
@@ -122,8 +123,8 @@ body::-webkit-scrollbar {
   display: -ms-grid;
   display: grid;
       grid-template-areas: '. Summary MediaOutlet Category DateReceived  Deadline expand-button';
-  -ms-grid-columns: 3em 41em 16em 16em 10em 10em 4em;
-      grid-template-columns: 3em 41em 16em 16em 10em 10em 4em;
+  -ms-grid-columns: 3% 41% 16% 16% 10% 10% 4%;
+      grid-template-columns: 3% 41% 16% 16% 10% 10% 4%;
 }
 
 #page-body .haro-row {
@@ -131,14 +132,14 @@ body::-webkit-scrollbar {
   display: -ms-grid;
   display: grid;
       grid-template-areas: 'save-button Summary MediaOutlet Category DateReceived  Deadline expand-button';
-  -ms-grid-columns: 3em 41em 16em 16em 10em 10em 4em;
-      grid-template-columns: 3em 41em 16em 16em 10em 10em 4em;
+  -ms-grid-columns: 3% 41% 16% 16% 10% 10% 4%;
+      grid-template-columns: 3% 41% 16% 16% 10% 10% 4%;
   -ms-grid-rows: 4em;
       grid-template-rows: 4em;
   border-bottom: solid 1px #A4A6B36B;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
+  width: 100%;
+  width: 100%;
 }
 
 #page-body .haro-row.expanded {
@@ -223,7 +224,8 @@ body::-webkit-scrollbar {
   /* ----------------- Modified ----------------- */
   margin-bottom: 1em;
   font-family: inherit;
-  padding: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
   display: -ms-grid;
   display: grid;
   padding-top: .5em;
@@ -239,6 +241,8 @@ body::-webkit-scrollbar {
 }
 
 #page-body .search-menu:not(.expanded) {
+  padding-right:1em;
+  padding-left:1em;
   -webkit-column-gap: 1em;
           column-gap: 1em;
       grid-template-areas: 'keywords-label     .'
@@ -246,13 +250,15 @@ body::-webkit-scrollbar {
 }
 
 #page-body .search-menu.expanded {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 100%;
       grid-template-areas: 'keywords-label    mediaOutlet-label category-label dateReceived-label date-checkbox search-collapse-button'
  'keywords  mediaOutlet       category       dateReceived    dateReceived    search-collapse-button';
-  -ms-grid-columns: 43em 16em 16em 10em 9em 4em;
-      grid-template-columns: 43em 16em 16em 10em 9em 4em;
+  -ms-grid-columns: 39% 19% 19% 11% 8% 4%;
+      grid-template-columns: 39% 19% 19% 11% 8% 4%;
+}
+
+#page-body .search-menu.expanded #keywords-label {
+  margin-left:1em;
 }
 
 #page-body .filter-btn.filter-btn {
@@ -275,6 +281,7 @@ body::-webkit-scrollbar {
       -ms-grid-row-align: center;
       align-self: center;
   padding-bottom: .2em;
+  margin-right: 1em;
 }
 
 #page-body .search-bar {
@@ -341,7 +348,8 @@ body::-webkit-scrollbar {
 }
 
 #page-body .search-menu.expanded #keywords {
-  width: 37.5em;
+  margin-left:14.5px;
+  width: 80%;
 }
 
 #page-body .search-menu:not(.expanded) #keywords {
@@ -354,19 +362,17 @@ body::-webkit-scrollbar {
 }
 
 #page-body #mediaOutlet, #page-body #category {
-  width: 12.5em;
+  width: 80%;
   padding-left: 2.5em;
 }
 
 #page-body #mediaOutlet {
   background: url("../img/Newspaper.svg") 0.4em 0.7em no-repeat;
-  margin-left: .5em;
   margin-right: 1em;
 }
 
 #page-body #mediaOutlet-label {
   position: relative;
-  left: .5em;
 }
 
 #page-body #category {
@@ -377,22 +383,23 @@ body::-webkit-scrollbar {
 #page-body #search-collapse-button {
   border: none;
   background-color: rgba(0, 0, 0, 0);
-  background: url("../img/leftarrow.svg") 2.7em 2.8em no-repeat;
+  background: url("../img/leftarrow.svg") 50% 60% no-repeat;
 }
 
 #page-body #search-collapse-button:hover {
-  background: url("../img/leftarrow_hover.svg") 2.7em 2.8em no-repeat;
+  background: url("../img/leftarrow_hover.svg") 50% 60% no-repeat;
 }
 
 #page-body #dateReceived {
-  width: 15em;
+  width: 80%;
   padding-left: 2.5em;
   background: url("../img/CalendarCheck.svg") 0.2em 0.7em no-repeat;
 }
 
 #page-body #date-checkbox {
-  position: relative;
-  left: -3.4em;
+  position: absolute;
+  right: 50%;
+  margin-right: -2.9em;
   top: .1em;
 }
 
@@ -412,7 +419,7 @@ body::-webkit-scrollbar {
   row-gap: .75em;
   -webkit-column-gap: .75em;
           column-gap: .75em;
-  width: 100em;
+  width: 100%;
   padding: 1em;
   padding-right: 3em;
   padding-left: 2em;

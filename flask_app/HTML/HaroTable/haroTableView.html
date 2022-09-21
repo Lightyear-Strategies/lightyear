@@ -107,6 +107,7 @@
 </div>
 
 <div id="page-body">
+  <div id="real-content">
     <h1>
       HARO Database
     </h1>
@@ -173,6 +174,10 @@
         <div id="haro-table-body"></div>
         <div id="haro-counter"></div>
         <div id="last-updated">Last updated on {{ date_updated }} at {{ time_updated }}</div>
+  </div>
+  <div id="bad-window-size" style="text-align: center;">
+    <h1 style="margin-top:5em; margin-bottom:5em">Sorry, this experience is not suited for mobile at this time.</h1>
+  </div>
 </div>
 
 <script src="../static/js/haroTable3.js"></script>
@@ -191,11 +196,41 @@
       let t_bot = t_rect.bottom;
 
       let table_height = c_top - t_bot;
-      console.log(table_height);
       document.getElementById('haro-table-body').style.height = table_height + 'px';
     }
 
+    function compute_table_width () {
+      let table = $('#haro-table-body');
+      return table.width();
+    }
+
+    var table_width = compute_table_width();
+
+    function resize_details () {
+      $('.details').each(function (index) {
+        $(this).width(table_width - 96);
+      });
+    }
+
+    function bad_window_checker () {
+      if(window.innerWidth < 1280) {
+        $('#real-content').hide();
+        $('#bad-window-size').show();
+      }
+      else {
+        $('#bad-window-size').hide();
+        $('#real-content').show();
+        resize_table();
+      }
+    }
+
+    bad_window_checker(); 
+
     $(window).on('resize', resize_table);
+    $(window).on('resize', function () {table_width = compute_table_width();});
+    $(window).on('resize', resize_details);
+    $(window).on('resize', bad_window_checker);
+
     var observer = new MutationObserver(function(mutations) {
       mutations.forEach(function(mutationRecord) {
           resize_table();
@@ -204,6 +239,8 @@
   
     var target = document.getElementById('loader');
     observer.observe(target, { attributes : true, attributeFilter : ['style'] });
+
+    $('#haro-table-body').on('click', resize_details);
     });
 </script>
 </html>
