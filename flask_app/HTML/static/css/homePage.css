@@ -307,19 +307,17 @@ body {
 }
 
 
-.main footer > div {
-  background-color: var(--lightyear-yellow);
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding-top: 5rem;
+
+main {
+  min-height: calc(100vh - 146.156px);
 }
 
-
-.main footer > div > h4 {
-  padding-top: 3rem;
-  color: lightgrey;
+.main footer > h4 {
+  display:block;
+  margin-top:0;
+  margin-bottom:0;
+  text-align: center;
+  color: var(--lightyear-gray);
 }
 
 @media screen and (max-width: 1900px) {
