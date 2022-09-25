@@ -18,6 +18,7 @@ client.json
 
 crunchbase/config/*
 crunchbase/crunch_test.ipynb
+*test.csv
 
 linkedinSupport/config/*
 linkedinSupport/df_checker.ipynb
