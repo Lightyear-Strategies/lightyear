@@ -27,6 +27,7 @@ const addListeners = () => {
                 const element = event.dataTransfer.items[i];
                 if (element.kind === 'file') {
                     let file = element.getAsFile();
+
                     //  If the following CSV or NOT
                     if (file.type === "text/csv"){
                         currentFile = file;
@@ -129,10 +130,9 @@ const load = () => {
 // Submitting information
 const submitClick = () => {
     this.checkInput()
-
     const email = document.querySelector("#email");
     // Change it to false
-    let success = true;
+    let success = false;
     
     if (currentFile == null) {
         toast("error", "Please drop a file for our program to process");

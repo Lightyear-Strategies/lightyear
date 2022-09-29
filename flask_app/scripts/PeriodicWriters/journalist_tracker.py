@@ -21,27 +21,26 @@ def receive_journalists():
     @param:    None
     @return:   Upload Journalists Page
     """
-    user_name, email, files = None, None, None
 
-    form = PeriodicWriters()
-    if form.validate_on_submit():
-        user_name = form.username.data
-        user_email = form.email.data
-        files = request.files.getlist(form.files.name)
-        timeframe = form.frequency.data
-        print(timeframe)
-        #print(timeframe)
+    if request.method == 'POST':
+        files = request.files
+        user_email = request.form.get('email')
+        timeframe = request.form.get('frequency')
 
-        journalists = []
+        #print(files)
         if files:
-            for file in files:
+
+            journalists = []
+            for filename in files:
+                uploaded_file = files.get(filename)
                 df = None
                 try:
-                    df = pd.read_csv(file)
+                    df = pd.read_csv(uploaded_file)
 
                 except Exception:
                     flash("Upload file in CSV Format")
                     print("Not CSV")
+                    #continue
                     return redirect(JOURNALIST_ROUTE)
 
 
@@ -67,8 +66,8 @@ def receive_journalists():
             #     df.to_sql(name='journalists', con=db.engine, index=False)
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
-                data = [[user_name, user_email, journalist, None] for journalist in journalists]
-                df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
+                data = [[user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
+                df = pd.DataFrame(data, columns=[ 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
 
             else:
@@ -77,14 +76,14 @@ def receive_journalists():
                     journalists_df = pd.read_sql_table(f'journalists{timeframe}', db.engine)
 
                     # There are entries with current client, we remove the entries
-                    if len(journalists_df[journalists_df['ClientName'] == user_name]) > 0:
+                    if len(journalists_df[journalists_df['ClientEmail'] == user_email]) > 0:
                         print("Deleting old entries")
-                        journalists_df = journalists_df[journalists_df['ClientName'] != user_name]
+                        journalists_df = journalists_df[journalists_df['ClientEmail'] != user_email]
 
                     # Add new entries
                     print("Adding new rows")
-                    data = [[user_name, user_email, journalist, None] for journalist in journalists]
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
+                    data = [[user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
+                    new_df = pd.DataFrame(data, columns=['ClientEmail', 'Journalist','Muckrack']) #['ClientName', 'ClientEmail', 'Journalist','Muckrack']
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
@@ -101,7 +100,7 @@ def receive_journalists():
         else:
             print('No files')
 
-    return render_template('periodicWriters.html', form=form, user_name=user_name, email=email, files=files)
+    return render_template('periodicWriters.html')
 
 @app.route('/unsubscribe_journalist/<token>')
 def unsubscribe_journalist(token):
