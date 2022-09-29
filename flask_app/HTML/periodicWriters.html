@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
     <link rel="stylesheet" href="static/css/periodicWriters.css">
@@ -22,23 +25,37 @@
 
     <script type="text/javascript">
 
+        let email_flashed = false;
+
+        function flash (to_flash) {
+            $('#title-text').before(
+                '<div class="flashed-message">' + to_flash + '</div>'
+            );
+            email_flashed = true;
+        }
         Dropzone.options.myDropzone = {
             // Prevents Dropzone from uploading dropped files immediately
+            url: '/journalist_tracker',
             autoProcessQueue: false,
             uploadMultiple: false,
+            maxFiles: 1,
             acceptedFiles: "text/csv",
             addRemoveLinks: true,
-            removedfile: function (file) {
-                var _ref;
-                return (_ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
-        },
+            thumbnailWidth: 360,
         init: function() {
             myDropzone = this; // closure
             // Dropzone uploads everything when the "Submit" button is clicked
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                myDropzone.processQueue();
+                if(document.getElementById('email').value == '') {
+                    if (!email_flashed) {
+                        flash('Please enter a valid email');
+                    }
+                }
+                else {
+                    myDropzone.processQueue();
+                }
             });
 
             myDropzone.on("sending", function(file, xhr, formData) {
@@ -46,23 +63,13 @@
                 // Adding data here
                 formData.append("email",document.getElementById('email').value);
                 formData.append("frequency", document.querySelector('input[name="freq_choice"]:checked').value);
-                formData.append("file",file);
 
-                // thisxhr = xhr
-                // xhr.onreadystatechange = () => {
-                //    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                //        window.location.href = "email_sent"
-                //    }
-                // }
-            });
-            myDropzone.on("success", function(file){
-                // gives an error with $ here
-                $(".dz-success-mark svg").css("background", "green");
-                $(".dz-error-mark").css("display", "none");
-            });
-            myDropzone.on("error", function(file) {
-                $(".dz-error-mark svg").css("background", "red");
-                $(".dz-success-mark").css("display", "none");
+                thisxhr = xhr
+                xhr.onreadystatechange = () => {
+                   if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                       window.location.href = "/journalist_subscribed"
+                   }
+                }
             });
         }
     };
@@ -128,7 +135,7 @@
 <div id="page-main">
     <section>
         <div>
-            <h1>Subscribe to Journalist Updates</h1>
+            <h1 id="title-text">Subscribe to Journalist Updates</h1>
             <hr style="border: 1px solid;">
             <h2>Guidelines:</h2>
             <div>
@@ -141,8 +148,8 @@
                 </ol>
             </div>
         </div>
-        <div style="padding-top: 0px;">
-            <div action="" class="form__group field">
+        <form action="/journalist_tracker" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
+            <div class="form__group field">
                 <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
                 <label for="email" class="form__label">Email</label>
                 <label class="required__label" id="email id"></label>
@@ -150,29 +157,28 @@
             <div>
                 <p>How frequently would you like to receive updates?</p>
                 <form>
-                    <input type="radio" name="freq_choice" value="Daily"> Daily
-                    <input type="radio" name="freq_choice" value="Weekly"> Weekly
-                    <input type="radio" name="freq_choice" value="Monthly"> Monthly
+                    <input type="radio" name="freq_choice" value="_day"> Daily
+                    <input type="radio" name="freq_choice" value="_week" checked="checked"> Weekly
+                    <input type="radio" name="freq_choice" value="_month"> Monthly
                 </form>
             </div>
-        </div>
     
         <div>
-            <form action="/journalist_tracker" class="dropzone" enctype="multipart/form-data"  id="my-dropzone" method="POST">
+            <div class="dropzone" id="myDropzone">
                 <div class="form-group" id="dropzone">
                     <div class="dz-message" data-dz-message>
-                        <h3>Drop files here or <span class="click-upload">Click</span> to upload</h3>
-                        <input name="file" type="file" multiple />
+                        <h3>Drop files here or <span class="click-upload">click</span> to upload</h3>
                     </div>        
                 </div>
-            </form>
+            </div>
         </div>
         
         <div>
-            <button id="submitBtn" onclick="submitClick()">
+            <button type="submit" id="submitBtn">
                     Submit
             </button>
         </div>
+        </form>
     </section>
 
 </div>
