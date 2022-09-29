@@ -45,7 +45,7 @@ def contact_us():
 
             report = emailReport.report("george@lightyearstrategies.com", recipients, subject, message)
             report.sendMessage()
-            return redirect('/contact_us')
+            return render_template('OnSuccess/EmailSent.html')
 
         except Exception:
             traceback.print_exc()
