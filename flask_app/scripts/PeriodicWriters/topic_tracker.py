@@ -5,6 +5,7 @@ from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
+from flask import request
 
 from itsdangerous import URLSafeSerializer, BadData
 import traceback
@@ -41,20 +42,15 @@ def receive_category():
     @param:    None
     @return:   Upload Journalists Page
     """
-    user_name, email = None, None
-    user_category, timeframe = None, None
+    if request.method == 'POST':
 
-    form = TopicTracker()
-    if form.validate_on_submit():
+        # TODO: put in actual username
+        user_name = 'georgebot'
+        user_email = request.form.get('email')
+        user_category = request.form.get('category')
+        timeframe = request.form.get('frequency')
 
-        # TODO: lower()
-        user_name = form.username.data
-        user_email = form.email.data
-        user_category = form.category.data
-        timeframe = form.frequency.data
-        #print(timeframe, user_category)
-
-        if timeframe == '_now':
+        if timeframe == '_once':
             gauth()
             str_date = str(datetime.now().date())
 
@@ -66,6 +62,7 @@ def receive_category():
                 file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
             )
             to_send.sendMessage()
+            return redirect('/email_sent')
 
 
         # only executed if there is no 'journalists' table
@@ -94,15 +91,14 @@ def receive_category():
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
-                print(f'{user_name} already subscribed on {user_category} category')
+                return render_template('topic_tracker.html', FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
 
             except Exception:
                 traceback.print_exc()
 
         return redirect(JOURNALIST_ROUTE)
 
-    return render_template('topic_tracker.html', form=form, user_name=user_name, email=email,
-                           user_category=user_category, timeframe=timeframe)
+    return render_template('topic_tracker.html')
 
 @app.route('/unsubscribe_topic/<token>')
 def unsubscribe_topic(token):

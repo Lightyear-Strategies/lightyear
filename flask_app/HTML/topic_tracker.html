@@ -75,42 +75,38 @@
 <div id="page-main">
     <section class="main">
         <div>
+            {{ FLASH|safe }}
             <h1>Subscribe to Topic Updates</h1>
             <hr style="border: 1px solid;">
         </div>
-        <div style="padding-top: 0px;">
-            <div action="" class="form__group field">
+        <form style="padding-top: 0px;" action="/topic_tracker" method="POST">
+            <div class="form__group field">
                 <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
                 <label for="email" class="form__label">Email</label>
                 <label class="required__label" id="email id"></label>
             </div>
             <div>
                 <p>Choose your category of interest:</p>
-                <form>
-                    <input type="radio" name="choice" value="AI"> AI
-                    <input type="radio" name="choice" value="Crypto"> Crypto
-                    <input type="radio" name="choice" value="NFT"> NFT
-                    <input type="radio" name="choice" value="Economics"> Economics
-                    <input type="radio" name="choice" value="Marketing"> Marketing
-                    <input type="radio" name="choice" value="Philosophy"> Philosophy
-                </form>
+                <input type="radio" name="category" value="AI" checked="checked"> AI
+                <input type="radio" name="category" value="Crypto"> Crypto
+                <input type="radio" name="category" value="NFT"> NFT
+                <input type="radio" name="category" value="Economics"> Economics
+                <input type="radio" name="category" value="Marketing"> Marketing
+                <input type="radio" name="category" value="Philosophy"> Philosophy
                 <hr style="color: black; background-color: black;">
             </div>
             <div>
                 <p>How frequently would you like to receive updates?</p>
-                <form>
-                    <input type="radio" name="choice" value="Now"> Instantly
-                    <input type="radio" name="choice" value="Daily"> Daily
-                    <input type="radio" name="choice" value="Weekly"> Weekly
-                </form>
+                <input type="radio" name="frequency" value="_once" checked="checked"> Just Once
+                <input type="radio" name="frequency" value="_day"> Daily
+                <input type="radio" name="frequency" value="_week"> Weekly
                 <hr style="color: black; background-color: black;">
             </div>
-        </div>
-        
-        <div>
-            <button type="submit" id="submitBtn">
-                    Submit
-            </button>
+            <div>
+                <button type="submit" id="submitBtn">
+                        Submit
+                </button>
+            </div>
         </div>
     </section>
     
