@@ -16,20 +16,21 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
     <link rel="stylesheet" href="static/css/periodicWriters.css">
     <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
+    <script src="static/js/periodicWriters.js" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Subscribe to Journalist Updates</title>
 
     <script type="text/javascript">
 
         Dropzone.options.myDropzone = {
-        // Prevents Dropzone from uploading dropped files immediately
-        autoProcessQueue: false,
-        uploadMultiple: false,
-        acceptedFiles: "text/csv",
-        addRemoveLinks: true,
-        removedfile: function (file) {
-            var _ref;
-            return (_ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;        
+            // Prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            acceptedFiles: "text/csv",
+            addRemoveLinks: true,
+            removedfile: function (file) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;
         },
         init: function() {
             myDropzone = this; // closure
@@ -39,19 +40,23 @@
                 e.stopPropagation();
                 myDropzone.processQueue();
             });
-            myDropzone.on("sending", function(file, xhr, formData) { 
-                formData.append(
-                    "email",
-                    document.getElementById('email').value
-                );  
-                thisxhr = xhr
-                xhr.onreadystatechange = () => {
-                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                        window.location.href = "email_sent"
-                    }
-                }
+
+            myDropzone.on("sending", function(file, xhr, formData) {
+
+                // Adding data here
+                formData.append("email",document.getElementById('email').value);
+                formData.append("frequency", document.querySelector('input[name="freq_choice"]:checked').value);
+                formData.append("file",file);
+
+                // thisxhr = xhr
+                // xhr.onreadystatechange = () => {
+                //    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                //        window.location.href = "email_sent"
+                //    }
+                // }
             });
-            myDropzone.on("success", function(file){   
+            myDropzone.on("success", function(file){
+                // gives an error with $ here
                 $(".dz-success-mark svg").css("background", "green");
                 $(".dz-error-mark").css("display", "none");
             });
@@ -83,7 +88,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="journalist_tracker">
+                    <a href="/journalist_tracker">
                         Journalist Tracker
                     </a>
                 </div>
@@ -93,12 +98,12 @@
                     </a>
                 </div>
                 <div>
-                    <a href="email_validator">
+                    <a href="/email_validator">
                         Email Verification
                     </a>
                 </div>
                 <div>
-                    <a href="contact_us">
+                    <a href="/contact_us">
                         Contact Us
                     </a>
                 </div>
@@ -145,9 +150,9 @@
             <div>
                 <p>How frequently would you like to receive updates?</p>
                 <form>
-                    <input type="radio" name="choice" value="Daily"> Daily
-                    <input type="radio" name="choice" value="Weekly"> Weekly
-                    <input type="radio" name="choice" value="Monthly"> Monthly
+                    <input type="radio" name="freq_choice" value="Daily"> Daily
+                    <input type="radio" name="freq_choice" value="Weekly"> Weekly
+                    <input type="radio" name="freq_choice" value="Monthly"> Monthly
                 </form>
             </div>
         </div>
@@ -157,6 +162,7 @@
                 <div class="form-group" id="dropzone">
                     <div class="dz-message" data-dz-message>
                         <h3>Drop files here or <span class="click-upload">Click</span> to upload</h3>
+                        <input name="file" type="file" multiple />
                     </div>        
                 </div>
             </form>
