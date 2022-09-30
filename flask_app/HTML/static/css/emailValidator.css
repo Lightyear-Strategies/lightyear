@@ -187,7 +187,6 @@ body {
 #page-main h1 {
   margin: 0px;
   color: black;
-  font-size: 1.5em;
 }
 
 #page-main h2 {
@@ -529,6 +528,16 @@ body {
           box-shadow: none;
 }
 
+.flashed-message {
+  display:block;
+  margin-bottom:1em;
+  padding-top:1em;
+  width:100%;
+  height:2em;
+  text-align: center;
+  background-color: var(--lightyear-red);
+}
+
 #page-main .toast {
   position: fixed;
   bottom: clamp(30px, 5%, 90px);
@@ -570,10 +579,11 @@ body {
   font-size: 1.1rem;
 }
 
-#page-main #my-dropzone {
+#page-main #myDropzone {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   border-radius: 0.25rem;
+  background-color: var(--background-color);
   height: 200px;
   display: -ms-grid;
   display: grid;
@@ -582,7 +592,27 @@ body {
   cursor: pointer;
 }
 
-#page-main #my-dropzone > div {
+.dz-preview.dz-file-preview {
+  width: 360px !important;
+}
+
+.dz-details {
+  padding-bottom: 0 !important;
+}
+
+.dropzone .dz-preview .dz-image {
+  width: 100%;
+}
+
+.dropzone .dz-preview .dz-progress {
+  display:none;
+}
+
+.dropzone .dz-preview .dz-details .dz-size {
+  display:none;
+}
+
+#page-main #myDropzone > div {
   color: black;
   font-size: 1.25rem;
 }

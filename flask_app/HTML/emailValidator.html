@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,46 +10,70 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> -->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
+    <link rel="stylesheet" href="static/css/periodicWriters.css">
+    <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
+    <script src="static/js/periodicWriters.js" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/emailValidator.css') }}">
-    <script src="{{ url_for('static',filename='js/emailValidator.js') }}" defer></script>
     <title>Email Verification</title>
+
     <script type="text/javascript">
 
+        let email_flashed = false;
+
+        function flash (to_flash) {
+            $('#title-text').before(
+                '<div class="flashed-message">' + to_flash + '</div>'
+            );
+            email_flashed = true;
+        }
         Dropzone.options.myDropzone = {
-        // Prevents Dropzone from uploading dropped files immediately
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 10,
-        maxFiles: 10,
+            // Prevents Dropzone from uploading dropped files immediately
+            url: '/email_validator',
+            autoProcessQueue: false,
+            uploadMultiple: false,
+            maxFiles: 1,
+            acceptedFiles: "text/csv",
+            addRemoveLinks: true,
+            thumbnailWidth: 360,
         init: function() {
             myDropzone = this; // closure
             // Dropzone uploads everything when the "Submit" button is clicked
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                myDropzone.processQueue();
+                if(document.getElementById('email').value == '') {
+                    if (!email_flashed) {
+                        flash('Please enter a valid email');
+                    }
+                }
+                else {
+                    myDropzone.processQueue();
+                }
             });
-            myDropzone.on("sending", function(file, xhr, formData) { 
-                formData.append(
-                    "email",
-                    document.getElementById('email').value
-                );  
+
+            myDropzone.on("sending", function(file, xhr, formData) {
+
+                // Adding data here
+                formData.append("email",document.getElementById('email').value);
+
                 thisxhr = xhr
                 xhr.onreadystatechange = () => {
-                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                        window.location.href = "/email_sent"
-                    }
+                   if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                       window.location.href = "/email_sent"
+                   }
                 }
             });
         }
     };
 
     </script>
-
 </head>
+
 
 <body>
 <div id="header">
@@ -69,7 +92,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="journalist_tracker">
+                    <a href="/journalist_tracker">
                         Journalist Tracker
                     </a>
                 </div>
@@ -79,12 +102,12 @@
                     </a>
                 </div>
                 <div>
-                    <a href="email_validator">
+                    <a href="/email_validator">
                         Email Verification
                     </a>
                 </div>
                 <div>
-                    <a href="contact_us">
+                    <a href="/contact_us">
                         Contact Us
                     </a>
                 </div>
@@ -106,56 +129,46 @@
         </header>
       </div> <!--End Header-->
 </div>
-    <!-- Instruction Modal -->
-    <div id="page-main">
-    <div>
-        <h1>Email Verification</h1>
-        <hr style="border: 1px solid;">
-        <h2>Guidelines:</h2>
+<div id="page-main">
+    <section>
         <div>
-            <ol>
-                <li>Enter the email address where you would like to receive the vetted CSV</li>
-                <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like verified</li>
-                <li>Select or drag and drop the CSV file</li>
-                <li>Press "Submit" button</li>
-            </ol>
-        </div>
-
-        <div action="" class="form__group field">
-            <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
-            <label for="email" class="form__label">Email</label>
-            <label class="required__label" id="email id"></label>
-        </div>
-    </div>
-
-    <div>
-        <form action="/email_validator" class="dropzone" enctype="multipart/form-data"  id="my-dropzone" method="POST">
-            <div class="form-group" id="dropzone">
-                <div class="dz-message" data-dz-message>
-                    <h2>Drop files here or <span class="click-upload">Click</span> to upload</h2>
-                </div>        
+            <h1 id="title-text">Email Verification</h1>
+            <hr style="border: 1px solid;">
+            <h2>Guidelines:</h2>
+            <div>
+                <ol>
+                    <li>Enter the email address where you would like to receive the vetted CSV</li>
+                    <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like verified</li>
+                    <li>Select or drag and drop the CSV file</li>
+                    <li>Press "Submit" button</li>
+                </ol>
             </div>
-        </form>
-    </div>
+        </div>
+        <form action="/email_validator" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
+            <div class="form__group field">
+                <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+                <label for="email" class="form__label">Email</label>
+                <label class="required__label" id="email id"></label>
+            </div>
     
-    <div>
-        <button type="submit" id="submitBtn">
-            Submit
-        </button>
-    </div>
-    </div>
+        <div>
+            <div class="dropzone" id="myDropzone">
+                <div class="form-group" id="dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <h3>Drop files here or <span class="click-upload">click</span> to upload</h3>
+                    </div>        
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <button type="submit" id="submitBtn">
+                    Submit
+            </button>
+        </div>
+        </form>
+    </section>
 
-    <!--
-    <script>
-        document.getElementById('form-group').Dropzone( {
-                url: '/email_validator',
-                width: 300,
-                height: 300,
-                progressBarWidth: '100%',
-                maxFileSize: '20MB',
-            })
-    </script>
-    -->
 </div>
 </body>
 </html>
