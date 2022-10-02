@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>HARO Database</title>
+    <title>HARO Table</title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -64,7 +64,7 @@
             <section class="flex-6" id="header-nav">
                 <div>
                     <a href="/query_db">
-                        Haro Table
+                        HARO Table
                     </a>
                 </div>
                 <div>
@@ -108,10 +108,12 @@
 
 <div id="page-body">
   <div id="real-content">
+     <div id="image-placement">
+          <img src="../static/img/chatting-haro.png">
+      </div>
     <h1>
-      HARO Database
+       <span id="highlight">HARO Table</span>
     </h1>
-    <hr style="border:1px solid;">
     <div class="menu-container">
       <div class="select-container">
         <div class="selected search-tab" id="all-btn" onclick="switchTable('all')">
@@ -173,13 +175,15 @@
 
         <div id="haro-table-body"></div>
         <div id="haro-counter"></div>
-        <div id="last-updated">Last updated on {{ date_updated }} at {{ time_updated }}</div>
+        <div id="last-updated"></div>
+        <a href="#"id="help-circle">?</a>
+
   </div>
   <div id="bad-window-size" style="text-align: center;">
     <h1 style="margin-top:5em; margin-bottom:5em">Sorry, this experience is not suited for mobile at this time.</h1>
   </div>
+    <div id="getDateUpdate">{{date_updated}}</div>
 </div>
-
 <script src="../static/js/haroTable3.js"></script>
 </div>
 
@@ -213,7 +217,7 @@
     }
 
     function bad_window_checker () {
-      if(window.innerWidth < 1280) {
+      if(window.innerWidth < 1280 || window.innerHeight <450) {
         $('#real-content').hide();
         $('#bad-window-size').show();
       }
@@ -242,5 +246,8 @@
 
     $('#haro-table-body').on('click', resize_details);
     });
+
+
+
 </script>
 </html>

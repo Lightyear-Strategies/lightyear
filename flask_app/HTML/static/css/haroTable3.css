@@ -21,7 +21,7 @@ body::-webkit-scrollbar {
 }
 
 #page-body {
-  padding: 5em;
+  padding: 2.5em 5em 5em 5em;
   background-color: #f7f8fc;
   overflow: hidden;
   height: 100%;
@@ -61,6 +61,12 @@ body::-webkit-scrollbar {
 #page-body h1 {
   font-size: 1.5em;
   margin: 0;
+  padding-bottom: 30px;
+}
+
+#highlight {
+  border-bottom: 10px solid transparent;
+  border-image: url(../img/YellowLine.png) 30 stretch;
 }
 
 #page-body .none-to-display-error {
@@ -77,13 +83,13 @@ body::-webkit-scrollbar {
   font-weight: bold;
   padding-top: 0.5em;
   margin-bottom: 2em;
-  margin-left: 1.7em;
+  margin-left: 1.25em;
   position: absolute;
   bottom: 0px;
 }
 
 #page-body #last-updated {
-  font-weight: bold;
+  color: var(--lightyear-gray);
   padding-top: 0.5em;
   margin-bottom: 2em;
   margin-right: 6.2em;
@@ -239,6 +245,17 @@ body::-webkit-scrollbar {
   border: 1px solid rgba(164, 166, 179, 0.5);
   -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+}
+
+#image-placement img {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  height: 18em;
+
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
 }
 
 #page-body .search-menu:not(.expanded) {
@@ -1334,6 +1351,26 @@ body::-webkit-scrollbar {
   100% {
     top: 0;
   }
+}
+
+#getDateUpdate {
+  display: none;
+}
+
+#help-circle {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 1px var(--lightyear-yellow) solid;
+  font-size: 40px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  background: var(--lightyear-yellow);
+  text-decoration: none;
 }
 
 /* ---------------------Header------------------------- */

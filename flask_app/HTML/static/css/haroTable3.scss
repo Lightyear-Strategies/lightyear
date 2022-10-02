@@ -55,6 +55,10 @@ body::-webkit-scrollbar{
         padding-top: 1em;
         font-size: 1.5em;
     }
+    #highlight{
+        border-bottom: 10px solid transparent;
+        border-image: url(../img/YellowLine.png) 30 stretch;
+    }
 
     .none-to-display-error{
         font-weight: bold;
@@ -1096,6 +1100,20 @@ body::-webkit-scrollbar{
         animation: bounce 500ms alternate infinite ease;
     }
 
+    #image-placement img {
+        position: fixed;
+        margin-right: -9%;
+        z-index: 1000;
+        top: 0;
+        right: 0;
+        height: 110%;
+        overflow: hidden;
+
+        -moz-transition: all 0.5s ease-out;
+        -o-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out;
+    }
+
     @keyframes bounce {
     0% {
         top: 30px;
@@ -1113,5 +1131,9 @@ body::-webkit-scrollbar{
     }
     }
 }
+    #getDateUpdate {
+         display:none;
+    }
+
 
 /* ---------------------Header------------------------- */ 
