@@ -1,119 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Font, Mulish-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="static/css/homePage.css">
-    <title>Lightyear Strategies</title>
-</head>
-<body>
 
-<div id="header">
-    <div id="header"> <!--Header-->
-        <header>
-          <div class="alignment-wrapper">
-            <section class="flex-1">
-                <a href="/home">
-                <img src="../static/img/logo.png" alt="" style="cursor: pointer;" >
-                </a>
-            </section>
-            <section class="flex-6" id="header-nav">
-                <div>
-                    <a href="/query_db">
-                        Haro Database
-                    </a>
-                </div>
-                <div>
-                    <a href="journalist_tracker">
-                        Journalist Tracker
-                    </a>
-                </div>
-                <div>
-                    <a href="/topic_tracker">
-                        Topic Tracker
-                    </a>
-                </div>
-                <div>
-                    <a href="email_validator">
-                        Email Verification
-                    </a>
-                </div>
-                <div>
-                    <a href="contact_us">
-                        Contact Us
-                    </a>
-                </div>
-                <div id="logout-svg">
-                    <a href="/logout">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
-      
-                        <defs>
-                        </defs>
-                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                            <path d="M 89.618 46.911 c 0.067 -0.162 0.105 -0.33 0.154 -0.497 c 0.043 -0.146 0.099 -0.285 0.129 -0.436 C 89.966 45.656 90 45.329 90 45.001 c 0 0 0 -0.001 0 -0.001 l 0 0 c 0 -0.328 -0.034 -0.656 -0.099 -0.979 c -0.029 -0.148 -0.085 -0.285 -0.127 -0.428 c -0.05 -0.169 -0.089 -0.341 -0.157 -0.505 c -0.07 -0.169 -0.166 -0.322 -0.253 -0.481 c -0.069 -0.127 -0.125 -0.258 -0.206 -0.38 c -0.184 -0.275 -0.392 -0.532 -0.625 -0.764 L 69.815 22.745 c -1.951 -1.952 -5.119 -1.952 -7.07 0 c -1.953 1.953 -1.953 5.119 0 7.071 L 72.929 40 h -43.35 c -2.761 0 -5 2.239 -5 5 c 0 2.762 2.239 5 5 5 h 43.35 L 62.745 60.185 c -1.953 1.952 -1.953 5.118 0 7.07 c 0.976 0.977 2.256 1.465 3.535 1.465 s 2.56 -0.488 3.535 -1.465 L 88.53 48.54 c 0.235 -0.234 0.445 -0.492 0.629 -0.769 c 0.077 -0.116 0.13 -0.241 0.196 -0.362 C 89.447 47.245 89.546 47.086 89.618 46.911 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                            <path d="M 85 90 H 5 c -2.761 0 -5 -2.238 -5 -5 V 5 c 0 -2.761 2.239 -5 5 -5 h 80 c 2.762 0 5 2.239 5 5 v 14.395 c 0 2.761 -2.238 5 -5 5 s -5 -2.239 -5 -5 V 10 H 10 v 70 h 70 v -9.395 c 0 -2.762 2.238 -5 5 -5 s 5 2.238 5 5 V 85 C 90 87.762 87.762 90 85 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                        </g>
-                        </svg>
-                    </a>
-                </div>
-            </section>
-          </div>
-        </header>
-      </div> <!--End Header-->
-</div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--Font, Mulish-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/homePage.css">
+        <title>Lightyear Strategies</title>
+    </head>
 
-<div class="main">
-    <main>
-        <div style="text-align:center">
-            <section class="cards-wrapper" style="justify-content:center">
-                <div class="card" onclick="window.location.href='/query_db'">
-                    <div class="card-spacing">
+    <header>
+        <div id="header">
+            <div id="header">
+                <!--Header-->
+                <header>
+                    <div class="alignment-wrapper">
+                        <section class="flex-1">
+                            <a href="/home">
+                                <img src="static/img/logo.png" alt="" style="cursor: pointer;">
+                            </a>
+                        </section>
+                        <section class="flex-6" id="header-nav">
+                            <div>
+                                <a href="/query_db">
+                                    HARO Table
+                                </a>
+                            </div>
+                            <div>
+                                <a href="journalist_tracker">
+                                    Journalist Tracker
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/topic_tracker">
+                                    Topic Tracker
+                                </a>
+                            </div>
+                            <div>
+                                <a href="email_validator">
+                                    Email Validator
+                                </a>
+                            </div>
+                            <div>
+                                <a href="contact_us">
+                                    Contact Us
+                                </a>
+                            </div>
+                            <div id="logout-svg">
+                                <a href="/logout">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        version="1.1" width="20" height="20" viewBox="0 0 256 256" xml:space="preserve">
 
+                                        <defs>
+                                        </defs>
+                                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;"
+                                            transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                            <path
+                                                d="M 89.618 46.911 c 0.067 -0.162 0.105 -0.33 0.154 -0.497 c 0.043 -0.146 0.099 -0.285 0.129 -0.436 C 89.966 45.656 90 45.329 90 45.001 c 0 0 0 -0.001 0 -0.001 l 0 0 c 0 -0.328 -0.034 -0.656 -0.099 -0.979 c -0.029 -0.148 -0.085 -0.285 -0.127 -0.428 c -0.05 -0.169 -0.089 -0.341 -0.157 -0.505 c -0.07 -0.169 -0.166 -0.322 -0.253 -0.481 c -0.069 -0.127 -0.125 -0.258 -0.206 -0.38 c -0.184 -0.275 -0.392 -0.532 -0.625 -0.764 L 69.815 22.745 c -1.951 -1.952 -5.119 -1.952 -7.07 0 c -1.953 1.953 -1.953 5.119 0 7.071 L 72.929 40 h -43.35 c -2.761 0 -5 2.239 -5 5 c 0 2.762 2.239 5 5 5 h 43.35 L 62.745 60.185 c -1.953 1.952 -1.953 5.118 0 7.07 c 0.976 0.977 2.256 1.465 3.535 1.465 s 2.56 -0.488 3.535 -1.465 L 88.53 48.54 c 0.235 -0.234 0.445 -0.492 0.629 -0.769 c 0.077 -0.116 0.13 -0.241 0.196 -0.362 C 89.447 47.245 89.546 47.086 89.618 46.911 z"
+                                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
+                                                transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path
+                                                d="M 85 90 H 5 c -2.761 0 -5 -2.238 -5 -5 V 5 c 0 -2.761 2.239 -5 5 -5 h 80 c 2.762 0 5 2.239 5 5 v 14.395 c 0 2.761 -2.238 5 -5 5 s -5 -2.239 -5 -5 V 10 H 10 v 70 h 70 v -9.395 c 0 -2.762 2.238 -5 5 -5 s 5 2.238 5 5 V 85 C 90 87.762 87.762 90 85 90 z"
+                                                style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;"
+                                                transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                        </g>
+                                    </svg>
+                                </a>
+                            </div>
+                        </section>
                     </div>
-                    <div class="card-content">
-                        <h1>HARO<br>Database</h1>
-                        <p> Explore thousands of HARO requests.</p>
-                    </div>
-                </div>
-                <div class="card" onclick="window.location.href='/journalist_tracker'">
-                    <div class="card-spacing">
-
-                    </div>
-                    <div class="card-content">
-                        <h1>Journalist<br>Tracker</h1>
-                        <p> See articles from your favorite journalists.</p>
-                    </div>
-                </div>
-                <div class="card" onclick="window.location.href='/topic_tracker'">
-                    <div class="card-spacing">
-                    </div>
-                    <div class="card-content">
-                        <h1>Topic<br>Tracker</h1>
-                        <p> Keep track of trending topics.</p>
-                    </div>
-                </div>
-
-                <div class="card" onclick="window.location.href='/email_validator'">
-                    <div class="card-spacing">
-                    </div>
-                    <div class="card-content">
-                        <h1>Email<br>Verification</h1>
-                        <p> Ensure your emails reach their target.</p>
-                    </div>
-                </div>
-            </section>
+                </header>
+            </div>
+            <!--End Header-->
         </div>
-    </main>
+    </header>
 
+    <body>  
+        <div id="real-content">
+            <div id="image-placement">
+                <img src="static/img/homePageImg.svg">
+            </div>
+                <div class="greeting">
+                    <h1 > Hello {{current_user.username}} 👋</h1>
+                    <h1>Here are our custom built <span id="highlight">tools for your PR needs:</span></h1>
+                </div>
 
-    <footer> 
-        <h4> &copy; 2022 LightYear Strategies</h4>
-    </footer>
-</div>
-</body>
+                <div class="main">
+                    <main>
+                        <a href="/query_db" class="card hover-state">
+                            <div class="overlay"></div>
+                                <h2> HARO Table</h2>
+                            <div class="circle">
+                                <img src="static/img/HARO.svg" onerror="this.onerror=null; this.src='static/img/HARO.svg'">
+                            </div>
+                            <p> Explore Journalist Requests Effortlessly </p>
+                        </a>
+
+                        <a href="journalist_tracker" class="card hover-state">
+                            <div class="overlay"></div>
+                                <h2>Journalist Tracker</h2>
+                            <div class="circle">
+                                <img src="static/img/Journalist.svg" onerror="this.onerror=null; this.src='static/img/Journalist.svg'">
+                            </div>
+                            <p> Subscribe to Your Favorite Journalists </p>
+                        </a>
+
+                        <a href="/topic_tracker" class="card hover-state">
+                            <div class="overlay"></div>
+                                <h2>Topic Tracker</h2>
+                            <div class="circle">
+                                <img src="static/img/TopicTracker.svg" onerror="this.onerror=null; this.src='static/img/TopicTracker.svg'">
+                            </div>
+                            <p>Stay Up to Date With Trending Topics</p>
+                        </a>
+
+                        <a href="email_validator" class="card hover-state">
+                            <div class="overlay"></div>
+                                <h2>Email Validator</h2>
+                            <div class="circle">
+                                <img src="static/img/Email.svg" onerror="this.onerror=null; this.src='static/img/Email.svg'">
+                            </div>
+                            <p>Ensure Your Emails Reach Their Target</p>
+                        </a>
+                    </main>
+                </div> 
+
+            <footer>
+                <h4> &copy; 2022 Lightyear Strategies</h4>
+            </footer>       
+        </div>
+
+        <div id="bad-window-size">
+            <h1>Sorry, this experience is not suited for mobile at this time.</h1>  
+        </div>
+
+    </body>
+
 </html>

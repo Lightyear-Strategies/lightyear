@@ -239,22 +239,33 @@ function appendDisplay() {
     updateHaroCounter()
 }
 
-function insertDetailsRow(id,table,datum){
+function insertDetailsRow(id, table, datum) {
+     
     table.classList.add('details-grid');
     let label = document.createElement('div');
-    let content = document.createElement('div');
+    let content;
+    if (id == 'Email') {
+        content = document.createElement('a');
+        content.href = 'mailto:' + datum[id];
+    }
+    else {
+        content = document.createElement('div');
+    }
     label.innerHTML = `${id}: `;
-    
+  
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
     table.appendChild(label)
     table.appendChild(content)
+
     if (id=='Journalist'){
         content.innerHTML = datum['Name']
     } else {
         content.innerHTML = datum[id];
     }
+
+
 }
 
 function insertEntry(id,datum, parent) {
