@@ -241,34 +241,68 @@ function appendDisplay() {
 
 }
 
+
+
 function insertDetailsRow(id, table, datum) {
      
     table.classList.add('details-grid');
     let label = document.createElement('div');
     let content;
     if (id == 'Email') {
-        content = document.createElement('a');
-        content.href = 'mailto:' + datum[id];
+        let email;
+        let btnCopy;
+        let tooltip;
+
+        content = document.createElement('span');
+
+        email = document.createElement('a');
+        email.href = 'mailto:' + datum[id];
+        email.innerHTML = datum[id];
+
+        btnCopy = document.createElement('a');
+        btnCopy.onclick = copyEmailToClipboard(datum[id]);
+        btnCopy.classList.add('copyButton');
+
+        tooltip = document.createElement('span');
+        tooltip.innerText = "Copy to clipboard";
+        tooltip.classList.add('tooltip-txt');
+
+
+        content.appendChild(email);
+        content.appendChild(btnCopy);
+        content.appendChild(tooltip);
+
     }
     else {
         content = document.createElement('div');
+
+        if (id=='Journalist'){
+            content.innerHTML = datum['Name']
+        }
+        else {
+            content.innerHTML = datum[id];
+        }
     }
     label.innerHTML = `${id}: `;
-  
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
     table.appendChild(label)
     table.appendChild(content)
-
-    if (id=='Journalist'){
-        content.innerHTML = datum['Name']
-    } else {
-        content.innerHTML = datum[id];
-    }
-
-
 }
+
+
+async function copyEmailToClipboard(copy) {
+    try {
+        await navigator.clipboard.writeText(copy);
+    }
+    catch (err) {
+        console.log(err)
+    }
+  
+  
+}
+
 
 function insertEntry(id,datum, parent) {
     

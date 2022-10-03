@@ -452,6 +452,48 @@ body::-webkit-scrollbar {
   font-weight: bold;
 }
 
+#page-body .copyButton {
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  width: 22.5px;
+  height: 22.5px;
+  background: url(../img/CopySimple.svg) no-repeat center;
+  background-size: 22.5px;
+  vertical-align: middle;
+}
+
+#page-body .copyButton:hover {
+  background: url(../img/CopySimpleDark.svg) no-repeat center;
+  background-size: 22.5px;
+}
+
+#page-body .copyButton:active {
+  background-size: 25px;
+}
+
+#page-body .tooltip-txt {
+  visibility: hidden;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  width: 143px;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 1.5px 0;
+  transition: 0s background-color;
+  background-color: #d55eed;
+
+  /* Position the tooltip */
+  z-index: 1;
+  position: relative;
+}
+
+#page-body .copyButton:hover ~ .tooltip-txt {
+  visibility: visible;
+}
+
 #page-body .hidden {
   display: none;
 }
@@ -561,15 +603,6 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar {
   display: none;
-}
-
-#header {
-  /* End Header */
-}
-
-#header #header {
-  /* Header */
-  /* hover underline */
 }
 
 #header #header html {
@@ -716,27 +749,27 @@ body::-webkit-scrollbar {
 }
 
 /* End Header */
-.load-screen {
-  /* Scrollbar */
-  /* General Elements */
-  /* Body styling */
-  /* Drop-zone */
-  /* Header */
-  /* Footer */
-  /* Up Button | To be replaced with SVG */
-  /* Submit Button */
-  /* Directions | Instructions */
-  /* .guidelines {
+/* .load-screen { */
+/* Scrollbar */
+/* General Elements */
+/* Body styling */
+/* Drop-zone */
+/* Header */
+/* Footer */
+/* Up Button | To be replaced with SVG */
+/* Submit Button */
+/* Directions | Instructions */
+/* .guidelines {
         border: 2px solid black;
         width: 640px;
         margin: 0;
     } */
-  /* Inputs */
-  /* reset input */
-  /* Toast */
-  /* Modal */
-  /* Loader */
-}
+/* Inputs */
+/* reset input */
+/* Toast */
+/* Modal */
+/* Loader */
+/* } */
 
 .load-screen body::-webkit-scrollbar {
   width: 0.5rem;
@@ -1363,11 +1396,13 @@ body::-webkit-scrollbar {
   bottom: 15px;
   width: 45px;
   height: 45px;
+  line-height: 45px;
   border-radius: 50%;
   border: 1px var(--lightyear-yellow) solid;
   font-size: 40px;
   font-weight: bold;
   color: rgb(0, 0, 0);
+  align-items: center;
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
