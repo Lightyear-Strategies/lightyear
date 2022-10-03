@@ -133,12 +133,21 @@
       </div> <!--End Header-->
 </div>
 <div id="page-main">
+    <div id="image-placement">
+        <img src="static/img/JournalistTracker.svg">
+    </div>
     <section>
         <div>
-            <h1 id="title-text">Subscribe to Journalist Updates</h1>
-            <hr style="border: 1px solid;">
-            <h2>Guidelines:</h2>
+            <!-- <h1 id="title-text">Subscribe to Journalist Updates</h1> -->
+            <h1>
+                <span class="highlight">Subscribe to Journalist Updates</span>
+            </h1>  
+
             <div>
+                <div>
+                <label class="form__field">Guidelines:</label>
+                </div>
+                
                 <ol>
                     <li>Enter the email address where you would like to receive updates</li>
                     <li>Create a CSV file with a column labeled "Journalists" containing the reporters you would like to receive updates on</li>
@@ -167,7 +176,7 @@
             <div class="dropzone" id="myDropzone">
                 <div class="form-group" id="dropzone">
                     <div class="dz-message" data-dz-message>
-                        <h3>Drop files here or <span class="click-upload">click</span> to upload</h3>
+                        <h3>Drop files here or <span class="highlight">click</span> to upload</h3>
                     </div>        
                 </div>
             </div>
@@ -182,5 +191,6 @@
     </section>
 
 </div>
+    <a href="#"id="help-circle">?</a>
 </body>
 </html>
