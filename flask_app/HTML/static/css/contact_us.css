@@ -8,7 +8,7 @@ body::-webkit-scrollbar-track {
 }
  
 body::-webkit-scrollbar-thumb {
-    background-color: var(--lightyear-red);
+    background-color: black;
     border-radius: 20px;
 }
 
@@ -40,25 +40,18 @@ body{
     height: 100%;
 }
 
-/* p {
-    color: black
-} */
-
 h1 {
     margin: 0px;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 h2 {
     margin: 0px;
 }
 
-/* input {
-    width: clamp(80px, 70%, 800px);
-    padding: auto;
-    margin: auto;
-    margin-top: 20px;
-} */
+hr {
+    color: var(--lightyear-yellow);
+}
 
 header{
     display:flex;
@@ -119,7 +112,7 @@ section > div > div > h2 {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    color: var(--lightyear-red);
+    color: black;
     padding: 2rem 0rem;
     border-radius: 0.75rem;
 }
@@ -147,7 +140,7 @@ header > div:last-child{
 }
 
 header > div:first-child {
-    color: var(--lightyear-red)
+    color: black
 }
 
 header > div:first-child > h1 {
@@ -208,12 +201,12 @@ footer > div:first-of-type > div > svg {
 
 .form__field {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 100%;
+    width: 60%;
     border: 0;
-    border-bottom: 2px solid var(--lightyear-red);
+    border-bottom: 2px solid black;
     outline: 0;
     font-size: 1.3rem;
-    color: var(--lightyear-red);
+    color: black;
     padding: 4px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -231,15 +224,15 @@ footer > div:first-of-type > div > svg {
 
 .message__field {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    width: 100%;
+    width: 60%;
     /* border: 2px;
     border-bottom: 2px solid black;
     outline: 2px; */
     border-width: 2px;
     border-radius: 20px;
-    border-color: var(--lightyear-red);
+    border-color: black;
     font-size: 1.3rem;
-    color: var(--lightyear-red);
+    color: black;
     margin-top: 45px;
     padding: 4px 0;
     background: transparent;
@@ -259,11 +252,11 @@ footer > div:first-of-type > div > svg {
 .form__label {
     position: absolute;
     top: 0;
-    left: 0%;
+    left: 20%;
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--lightyear-red);
+    color: black;
 }
 
 .form__label:after {
@@ -272,20 +265,20 @@ footer > div:first-of-type > div > svg {
     display: block;
     transition: 0.2s;
     font-size: 1rem;
-    color: var(--lightyear-red);
+    color: black;
     content: " *";
     display: inline;
 }
 
 .required__label {
-    color: var(--lightyear-red)
+    color: black;
 }
 
 .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, var(--lightyear-red), var(--lightyear-red));
+  border-image: linear-gradient(to right, black, black);
   border-image-slice: 1;
 }
 
@@ -295,29 +288,16 @@ footer > div:first-of-type > div > svg {
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: var(--lightyear-red);
+  color: black;
   font-weight: 700;
 }
 
 .message__field:focus {
-    padding-bottom: 6rem;
-    padding-left: 3%;
-    padding-right: 3%;
-    box-sizing: border-box;
+    padding-bottom: 6px;
     font-weight: 700;
     border-width: 5px;
     border-radius: 20px;
-    border-color: var(--lightyear-red)
-  }
-  
-  .message__field:focus ~ .form__label {
-    position: absolute;
-    top: 0;
-    display: block;
-    transition: 0.2s;
-    font-size: 1rem;
-    color: var(--lightyear-red);
-    font-weight: 700;
+    border-color: black
   }
 
 /* reset input */
@@ -337,7 +317,7 @@ footer > div:first-of-type > div > svg {
 
 input[type=checkbox] {
 	-webkit-appearance: none;
-    border: var(--lightyear-red) solid 2px;
+    border: black solid 2px;
     margin-right: 1.25rem;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
 	padding: 9px;
@@ -348,12 +328,12 @@ input[type=checkbox] {
 
 input[type=checkbox]:active, input[type=checkbox]:checked:active {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-    color: var(--lightyear-red);
+    color: black;
 }
 
 input[type=checkbox]:checked {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-    color: var(--lightyear-red);
+    color: black;
 }
 
 input[type=checkbox]:checked:after {
@@ -362,27 +342,29 @@ input[type=checkbox]:checked:after {
 	position: absolute;
 	top: 0px;
 	left: 3px;
-    color: var(--lightyear-red);
+    color: black;
     font-weight: 800;
 }
 
 /* Send Button */
 #sendBtn {
     width: 60%;
-    padding: 1rem;
-    background-color: var(--background-color);
-    color: var(--lightyear-red);
+    height: 80px;;
+    padding: 1rem rem;
+    background-color: var(--lightyear-yellow);
+    color: black;
     font-size: 2rem;
     border-radius: 0.25rem;
-    border: var(--lightyear-red) 2px solid;
+    border: var(--lightyear-yellow) 2px solid;
     cursor: pointer;
     font-weight: 600;
     transition: all ease-out 0.2s;
 }
 
 #sendBtn:hover {
-    color: var(--lightyear-blue);
-    border: var(--lightyear-blue) 2px solid;
+    background-color: black;
+    color: var(--lightyear-yellow);
+    border: var(--lightyear-yellow) 2px solid;
 }
 
 /* SVG */
@@ -395,7 +377,7 @@ input[type=checkbox]:checked:after {
 .svg > svg {
     flex: 1;
     cursor: pointer;
-    fill: var(--lightyear-red);
+    fill: black;
     transition: all ease-out 0.2s;
 }
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/homePage.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+    <script src="{{ url_for('static',filename='js/homePage.js') }}" defer></script>
+    <title>Home Page — Lightyear Strategies</title>
+</head>
+<body>
+    <header>
+        <section class="flex-1">
+            <img src="{{ url_for('static',filename='img/logo.png') }}" alt="" onclick="window.location.href='/home'">
+        </section>
+        <section class="flex-6">
+            <div>
+            </div>
+            <div>
+            </div>
+            <div>
+                <a href="/email_validator">
+                    Email Validator
+                </a>
+            </div>
+            <div>
+                <a href="/topic_tracker">
+                    Topic Tracker
+                </a>
+            </div>
+            <div>
+                <a href="/query_db">
+                    Haro Table
+                </a>
+            </div>
+            <div>
+                <a href="/logout">
+                    Sign Out
+                </a>
+            </div>
+        </section>
+        <span class="hamburger flex-1">
+            <svg id="hamIcon" viewBox="0 0 100 80" width="40" height="40">
+                <rect width="100" height="20"></rect>
+                <rect y="30" width="100" height="20"></rect>
+                <rect y="60" width="100" height="20"></rect>
+            </svg>
+            <svg id="closeIcon" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg>
+        </span>
+    </header>
+
+    <aside>
+        <div class="flex-6">
+            <div>
+                <a href="/email_validator">
+                    Email Validator
+                </a>
+            </div>
+            <div>
+                <a href="/topic_tracker">
+                    Topic Tracker
+                </a>
+            </div>
+            <div>
+                <a href="/query_db">
+                    Haro Table
+                </a>
+            </div>
+            <div>
+                <a href="/logout">
+                    Sign Out
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <section class="cards-wrapper">
+            <div class="card" onclick="window.location.href='/email_validator'">
+                <div class="card-spacing">
+
+                </div>
+                <div class="card-content">
+                    <h1> Email Validator</h1>
+                    <p> Quickly verify a CSV of reporter emails to increase the deliverability rate PR campaigns. Keeps mail out of the spam box.</p>
+                </div>
+            </div>
+            <div class="card" onclick="window.location.href='/topic_tracker'">
+                <div class="card-spacing">
+
+                </div>
+                <div class="card-content">
+                    <h1> Topic Tracker </h1>
+                    <p> Keep track of specific topics! Get a daily email that displays the title and subheading for articles released that day!</p>
+                    <!-- <p> Keep better track of journalists you already know! Get a daily email that displays the title and subheading for articles they released that day!</p> -->
+                </div>
+            </div>
+        </section>
+        <section class="cards-wrapper">
+            <div class="card" onclick="window.location.href='/query_db'">
+                <div class="card-spacing">
+                </div>
+                <div class="card-content">
+                    <h1> Haro Table </h1>
+                    <p>  Search any phrase and see a year's worth of reporter questions. Make better press releases and personalized pitches with titles that impress.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="window.location.href='/contact_us'">
+                <div class="card-spacing">
+                </div>
+                <div class="card-content">
+                    <h1> Contact Us</h1>
+                    <p> Feel free to reach out to us about any matter! </p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

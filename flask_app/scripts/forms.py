@@ -10,9 +10,9 @@ class EmailValidator(FlaskForm):
     """Constructor for the Email Verification Form"""
 
     email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    files = MultipleFileField('Select your files',
-                              validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
-                                                                      "Only CSV or XLSX files are allowed")])
+    # files = MultipleFileField('Select your files',
+    #                           validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
+    #                                                                   "Only CSV or XLSX files are allowed")])
     submit = SubmitField('Submit')
 
 
@@ -49,18 +49,18 @@ class SignUpForm(FlaskForm):
 
     def validate_username(self, username):
         if User.query.filter_by(username=username.data.lower()).first():
-            raise ValidationError('Username already in use.')
+            raise ValidationError('Username is already in use.')
 
     def validate_email(self, email):
         if User.query.filter_by(email=email.data.lower()).first():
-            raise ValidationError('Email already in exists.')
+            raise ValidationError('Email already exists.')
 
 
 class LoginForm(FlaskForm):
     """Constructor for the Login Page"""
     username_email = StringField('Email or Username', validators=[DataRequired(), Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
-    remember_me = BooleanField('Remember Me') # if remember then sessions?
+    remember_me = BooleanField('Remember Me')  # if remember then sessions?
     submit = SubmitField('Login')
 
     def validate_username_email(self,username_email):
@@ -82,7 +82,7 @@ class ContactUs(FlaskForm):
     submit = SubmitField('Send')
 
 
-class CategoricalWriters(FlaskForm):
+class TopicTracker(FlaskForm):
     """Constructor for the Categorical Writers  Subscription Form"""
 
     username = StringField('What is your full name?', validators=[DataRequired()])

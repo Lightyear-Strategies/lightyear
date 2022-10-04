@@ -23,3 +23,8 @@ pip3 freeze > requirements.txt
 sudo lsof -i :<PortNumber>
 sudo kill -9 <PID>
 
+https://www.plesk.com/blog/various/find-files-in-linux-via-command-line/
+sudo find / -name pg_config
+
+
+

@@ -65,6 +65,23 @@ ul {
     text-align: right;
 }
 
+ul > li > a {
+    padding: 0.5rem 2rem;
+    margin: 0.5rem 0rem;
+}
+
+ul > li:last-of-type > a {
+    padding: 0rem;
+}
+
+ul > li:last-of-type > a > span {
+    border: 2px solid var(--lightyear-red);
+    text-decoration: none;
+    text-align: center;
+    padding: 0.5rem 2rem;
+    border-radius: 1rem;
+}
+
 footer {
     width: 100%;
     display: flex;
@@ -451,12 +468,68 @@ img {
     cursor: pointer;
     font-size: 5rem;
     font-style: italic;
-    padding: 2.5rem 20rem;
+    padding: 2.5rem clamp(6rem, 15rem, 15rem);
+    width: 100%;
+    font-weight: 800;
+    transition: all ease-out 0.2s;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1400px) {
+.join3 > div > button {
+    color: var(--lightyear-red);
+    background-color: var(--background-color);
+    border: none;
+    cursor: pointer;
+    font-size: 3rem;
+    font-style: italic;
+    padding: 1.25rem clamp(0rem, 4rem, 4rem);
     width: 100%;
     font-weight: 800;
     transition: all ease-out 0.2s;
 }
 
+}
+
 @media only screen and (max-width: 600px) {
+.cards > div {
+    min-width: 300px;
+}
+}
+
+@media only screen and (max-width: 900px) {
+.about > div:first-of-type {
+    transform: rotate(0deg);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.product > div:first-of-type {
+    transform: rotate(0deg);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.invisible {
+    display: none;
+}
+}
+
+@media only screen and (max-width: 500px) {
+ul > li:last-of-type > a > span {
+    border: 2px solid var(--lightyear-red);
+    text-decoration: none;
+    text-align: center;
+    padding: 0.0875rem 2rem;
+    border-radius: 1rem;
+}
+
+.intro {
+    margin-bottom: 40rem;
+}
+
+.cards > div {
+    padding: 2rem 3rem;
+}
 
 }

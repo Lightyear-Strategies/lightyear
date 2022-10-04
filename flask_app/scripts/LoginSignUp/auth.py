@@ -22,20 +22,24 @@ def signup():
 
 def login():
     form = LoginForm()
+    #print('validate_on_submit',form.validate_on_submit())
     if form.validate_on_submit():
         if "@" in form.username_email.data:
             user = User.query.filter_by(email=form.username_email.data.lower()).first()
         else:
             user = User.query.filter_by(username=form.username_email.data.lower()).first()
 
-        print(request.form.get('remember_me'))
         remember = True if request.form.get('remember_me') else False
+        print('Remember Me: ', remember)
         if user and not user.check_password(form.password.data):
             flash('Invalid password.')
             return redirect(url_for('login'))
 
-        login_user(user,remember=remember)
-        return redirect(url_for('home'))
+        if login_user(user,remember=remember):
+            return redirect(url_for('home'))
+
+        else:
+            print('did not log in')
 
     return render_template('LoginSignUp/login.html', form=form)
 
@@ -48,4 +52,4 @@ def load_user(user_id):
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('welcome'))
+    return redirect(url_for('login'))

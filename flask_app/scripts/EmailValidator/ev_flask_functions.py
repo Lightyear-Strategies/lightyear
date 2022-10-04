@@ -4,7 +4,6 @@ from flask_login import login_required
 from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailValidator import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
-from flask_app.scripts.forms import EmailValidator
 from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import init_celery, app
 
@@ -21,40 +20,46 @@ def email_validator():
     @param:    None
     @return:   Email Verification Page
     """
-    email = None
-    files = None
-    form = EmailValidator()
-    if form.validate_on_submit():
+    if request.method == 'POST':  # form.validate_on_submit():
         filenames = []
-        email = form.email.data
+
+        files = request.files
+        email = request.form.get('email')
         #print(email)
-        files = request.files.getlist(form.files.name)
 
         if Config.ENVIRONMENT == 'server':
-            if not authCheck():
-                return redirect('/authorizeCheck')
+           if not authCheck():
+               return redirect('/authorizeCheck')
         elif Config.ENVIRONMENT == 'local':
-            localServiceBuilder()
+           localServiceBuilder()
 
         if files:
             for file in files:
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(Config.UPLOAD_DIR, filename))
+                filename = secure_filename(files.get(file).filename) #.filename
+                #print(filename)
+                #file.save(os.path.join(Config.UPLOAD_DIR, filename))
+                files.get(file).save(os.path.join(Config.UPLOAD_DIR, filename))
                 filenames.append(filename)
 
             for filename in filenames:
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
+
                 parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-            return render_template('OnSuccess/EmailSent.html')
+
+            # Not functional rn,
+            #return render_template('OnSuccess/EmailSent.html')
+
         else:
             print('No files')
 
-    return render_template('emailValidator.html', form=form, email=email, files=files)
+    return render_template('emailValidator.html')
+
 
 
 def emailVerify(path, recipients=None):
+    print('emailVerify')
     """
     Uses functions from ev_API.py to verify emails.
     Creates email with processed file and sends it.
@@ -72,6 +77,7 @@ def emailVerify(path, recipients=None):
 
 @celery.task(name='ev_flask_functions.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
+    print('parseSendEmail')
     """
     Celery handler
     @param:    path to file with emails
@@ -88,9 +94,9 @@ def parseSendEmail(path, recipients=None, filename=None):
 
 
 def file_remover(path):
+    print('file_remover')
     if os.path.exists(path):
         os.remove(path)
         print("The file has been deleted successfully")
     else:
         print("The file does not exist!")
-

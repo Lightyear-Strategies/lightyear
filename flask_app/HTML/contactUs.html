@@ -5,20 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/contact_us.css') }}">
-    <title> Contact Us </title>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+    <title> Contact Us — Lightyear Strategies</title>
 </head>
 <body>
     <header>
         <div>
-            <h2>LightYear</h2>
+            <h2>Lightyear</h2>
             <h1>Strategies</h1>
         </div>
         <div>
             <ul>
                 <li><a href="/home"> Home </a></li>
-                <li><a href="/email_validator"> Email Verification</a></li>
-                <li><a href="/writers"> Periodic Writers </a></li>
-                <li><a href="/haro_table"> Haros Table </a></li>
+                <li><a href="/email_validator"> Email Validator</a></li>
+                <li><a href="/topic_tracker"> Topic Tracker </a></li>
+                <li><a href="/query_db"> Haro Table </a></li>
                 <li><a href="/contact_us"> Contact Us </a></li>
             </ul>
         </div>
@@ -31,7 +32,7 @@
 
                 <p style="color: black; font-size: 1.1rem">Questions? Please email us with any inquiries or call us at (617) 990 - 4271. We would be happy to answer
                     your questions and set up a meeting.</p>
-                <hr style="color: #F04C23; border: 2px solid;">
+                <hr style="border: 2px solid;">
 
                 <div style="padding-top: 0px;">
                     <form method="POST" action="/contact_us">
@@ -114,7 +115,7 @@
     <footer>
         <div>
             <div>
-                <h2>LightYear</h2>               
+                <h2>Lightyear</h2>
                 <h1 style="color: #F04C23">Strategies </h1>
             </div>
             <!-- SVG Logo -->

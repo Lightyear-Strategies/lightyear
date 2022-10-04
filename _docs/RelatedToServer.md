@@ -1,12 +1,12 @@
-Connect to server via SSH:
+### Connect to server via SSH:
 https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-ssh-using-terminal
 
 1. Give permissions to the private key. Download it from the Amazon
     sudo chmod 400 /Users/rutkovskii/Desktop/lys/LightsailDefaultKey-ca-central-1.pem
-2. SSH using private key into <user>@<server's ip>
-    ssh -i /Users/rutkovskii/Desktop/lys/LightsailDefaultKey-ca-central-1.pem ubuntu@99.79.179.105
+2. SSH using private key into <user>@<server's-ip>
+    ssh -i <path-to-key> <user>@<server's-ip>
 
-Installing Python 3.8.10:
+### Installing Python 3.8.10:
 https://linuxize.com/post/how-to-install-python-3-8-on-ubuntu-18-04/
 
 1. Update the packages list and install the packages necessary to build Python:

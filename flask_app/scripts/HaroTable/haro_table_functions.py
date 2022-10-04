@@ -4,6 +4,8 @@ from flask import render_template, request
 from datetime import datetime, timedelta
 import pandas as pd
 
+from time import time
+
 import traceback
 import sys
 import logging
@@ -71,29 +73,29 @@ def show_haro_table():
     return render_template('HaroTable/haroTableView.html', title='LyS Haros Database')
 
 
-def adding_used_unused(option: str = None, id: str = None):
-    """
-    Changes value in "Used" column of certain haro by using id
-    Values can be "Used" or "None"
-    @param:    option and id in the table
-    @return:   string
-    """
-
-    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    query = db.session.query(Haros).filter(Haros.columns.index == int(id))
-    #print(query.all())
-
-    if option == "add":
-        query.update({Haros.columns.Used : "Used" })
-        db.session.commit()
-
-    elif option == "remove":
-        query.update({Haros.columns.Used: "None"})
-        db.session.commit()
-
-   # print(query.all())
-
-    return "OK"
+# def adding_used_unused(option: str = None, id: str = None):
+#     """
+#     Changes value in "Used" column of certain haro by using id
+#     Values can be "Used" or "None"
+#     @param:    option and id in the table
+#     @return:   string
+#     """
+#
+#     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+#     query = db.session.query(Haros).filter(Haros.columns.index == int(id))
+#     #print(query.all())
+#
+#     if option == "add":
+#         query.update({Haros.columns.Used : "Used" })
+#         db.session.commit()
+#
+#     elif option == "remove":
+#         query.update({Haros.columns.Used: "None"})
+#         db.session.commit()
+#
+#    # print(query.all())
+#
+#     return "OK"
 
 
 def serve_data(option=None):
@@ -102,13 +104,13 @@ def serve_data(option=None):
     @param:    None/option
     @return:   table entries
     """
+    start_t = time()
+
 
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     #print(Haros.columns.DateReceived.all_())
     query = db.session.query(Haros) #.all()
 
-    if option == "used":
-        query = query.filter(Haros.columns.Used == "Used")
 
     # fresh queries
     if option == "fresh":
@@ -116,54 +118,79 @@ def serve_data(option=None):
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
-    search = request.args.get('search[value]')
-    if search:
+    print('Arguments:',end=' ')
+    print(request.args)
+
+    keywords = request.args.get('keywords')
+    mediaOutlet = request.args.get('mediaOutlet')
+    category = request.args.get('journalist')
+    dateBefore = request.args.get('dateBefore')
+    dateAfter = request.args.get('dateAfter')
+    
+    if dateBefore:
+        print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
+
+    if dateAfter:
+        print(datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
+
+    if keywords:
         query = query.filter(db.or_(
-            Haros.columns.Category.like(f'%{search}%'),
-            Haros.columns.DateReceived.like(f'%{search}%'),
-            Haros.columns.Summary.like(f'%{search}%'),
-            Haros.columns.Email.like(f'%{search}%'),
-            Haros.columns.MediaOutlet.like(f'%{search}%'),
-            Haros.columns.Name.like(f'%{search}%'),
-            Haros.columns.Requirements.like(f'%{search}%')
+            Haros.columns.Query.like(f'%{keywords}%'),
+            Haros.columns.Summary.like(f'%{keywords}%'),
+            Haros.columns.Requirements.like(f'%{keywords}%')
         ))
+
+    if mediaOutlet:
+        query = query.filter(
+            Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
+        )
+
+    if category:
+        query = query.filter(
+            Haros.columns.MediaOutlet.like(f'%{category}%')
+        )
 
     total_filtered = query.count()
 
     # sorting
-    order = []
-    i = 0
-    while True:
-
-        col_index = request.args.get(f'order[{i}][column]')
-        if col_index is None:
-            break
-        col_name = request.args.get(f'columns[{col_index}][data]')
-        if col_name not in ['Category','MediaOutlet','DateReceived']:
-            col_name = 'TimeStamp'
-        if col_name == 'DateReceived':
-            col_name = 'TimeStamp'
-
-        # gets descending sorting
-        descending = request.args.get(f'order[{i}][dir]') == 'desc'
-
-        desired_col = getattr(Haros.columns,col_name)
-
-        #decending
-        if descending:
-            desired_col = desired_col.desc()
-        order.append(desired_col)
-
-        i += 1
-
-    # ordering
-    if order:
-        query = query.order_by(*order)
+    # order = []
+    # i = 0
+    # while True:
+    #
+    #     col_index = request.args.get(f'order[{i}][column]')
+    #     if col_index is None:
+    #         break
+    #     col_name = request.args.get(f'columns[{col_index}][data]')
+    #     if col_name not in ['Category','MediaOutlet','DateReceived']:
+    #         col_name = 'TimeStamp'
+    #     if col_name == 'DateReceived':
+    #         col_name = 'TimeStamp'
+    #
+    #     # gets descending sorting
+    #     descending = request.args.get(f'order[{i}][dir]') == 'desc'
+    #
+    #     desired_col = getattr(Haros.columns,col_name)
+    #
+    #     #decending
+    #     if descending:
+    #         desired_col = desired_col.desc()
+    #     order.append(desired_col)
+    #
+    #     i += 1
+    #
+    # # ordering
+    # if order:
+    #     query = query.order_by(*order)
 
     # pagination
     start = request.args.get('start', type=int)
     length = request.args.get('length', type=int)
     query = query.offset(start).limit(length)
+
+    end_t = time()
+    print(end_t - start_t)
 
     # response to be shown on HTML side
     return {

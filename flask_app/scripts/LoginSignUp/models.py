@@ -18,5 +18,5 @@ class User(UserMixin, db.Model):
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
 
-#with app.app_context():
-#    db.create_all()
+with app.app_context():
+   db.create_all()
