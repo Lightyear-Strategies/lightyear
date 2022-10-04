@@ -48,8 +48,6 @@ def email_validator():
 
                 parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
-            # Not functional rn,
-            #return render_template('OnSuccess/EmailSent.html')
 
         else:
             print('No files')

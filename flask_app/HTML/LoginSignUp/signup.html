@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Font, Mulish-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/signup.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Sign Up — Lightyear Strategies</title>
@@ -13,14 +17,14 @@
         <section>
             <div class="title">
                 <h1> Sign Up</h1>
-                <h2> Please Fill in the following information to create an account </h2>
+                <h2> Please fill in the following information to create an account </h2>
             </div>
             <hr> 
         </section>
         <section>
             <form method="POST" action="/signup">
                 {{ form.csrf_token }}
-                <h3> Do you have an account already? <a href="/" >Sign In!</a> </h3>
+                <h3> Already have an account? <a href="/" >Sign In!</a> </h3>
                 <div action="" class="form__group field">
                     {{ form.username(id='username', class="form__field", placeholder="username") }}
                     {{ form.username.label(for='username',class="form__label") }}

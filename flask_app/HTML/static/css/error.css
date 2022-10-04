@@ -1,13 +1,13 @@
 :root {
-    margin: none;
-    padding: none;
-    --lightyear-red: #F04C23;
-    --lightyear-yellow: #FCE300;
-    --lightyear-gray: #EFEFEF;
-    --lightyear-blue: #3452ff; 
-    --background-color: #FFFFFF;
-    font-family: 'Inter';
-    scroll-behavior: smooth;
+  --lightyear-red: #F04C23;
+  --lightyear-yellow: #FCE300;
+  --lightyear-gray: #b6b6b6;
+  --lightyear-blue: #3452ff;
+  --background-color: #F7F8FC;
+  --contrast-color: #000;
+  scroll-behavior: smooth;
+  font-family: 'Mulish', sans-serif;
+  font-size: 11pt;
 }
 
 html {
@@ -17,7 +17,8 @@ html {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    font-family: inherit;
     color: var(--lightyear-red);
     color: transparent;
     padding: 0;

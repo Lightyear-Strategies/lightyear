@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Font, Mulish-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-    <title> Sign In — Lightyear Strategies</title>
+    <title> Login</title>
 </head>
 <body>
     <section>
         <div class="login">
             <div>
-                <h1> Sign In </h1>
+                <h1> Login </h1>
                 <form method="POST" action="/">
                     {{ form.csrf_token }}
                     <!-- Copy and Paste the Text inputs -->
@@ -54,12 +58,8 @@
                     <br>
 {#                    onclick='location.href="{{ url_for('home') }}"' type="button" #}
                     <button  id="loginBtn">
-                    Sign In
+                    LOGIN
                     </button>
-                    <div class="checkBox" id="checkBox">
-                        <input type="checkbox" name="remember_me" id="remember_me">
-                        <label for="remember_me">Remember login for next time?</label>
-                    </div>
                 </form>
                 <br>
             </div>

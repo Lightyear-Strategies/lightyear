@@ -5,13 +5,14 @@ from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
+from flask import request
 
 from itsdangerous import URLSafeSerializer, BadData
 import traceback
 import pandas as pd
 from datetime import datetime
 
-JOURNALIST_ROUTE = '/writers'
+JOURNALIST_ROUTE = '/topic_tracker'
 
 csvname = {
                 "AI": "top50AI.pdf",
@@ -41,20 +42,15 @@ def receive_category():
     @param:    None
     @return:   Upload Journalists Page
     """
-    user_name, email = None, None
-    user_category, timeframe = None, None
+    if request.method == 'POST':
 
-    form = TopicTracker()
-    if form.validate_on_submit():
+        # TODO: put in actual username
+        user_name = 'georgebot'
+        user_email = request.form.get('email')
+        user_category = request.form.get('category')
+        timeframe = request.form.get('frequency')
 
-        # TODO: lower()
-        user_name = form.username.data
-        user_email = form.email.data
-        user_category = form.category.data
-        timeframe = form.frequency.data
-        #print(timeframe, user_category)
-
-        if timeframe == '_now':
+        if timeframe == '_once':
             gauth()
             str_date = str(datetime.now().date())
 
@@ -66,6 +62,7 @@ def receive_category():
                 file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
             )
             to_send.sendMessage()
+            return redirect('/email_sent')
 
 
         # only executed if there is no 'journalists' table
@@ -94,19 +91,18 @@ def receive_category():
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
-                print(f'{user_name} already subscribed on {user_category} category')
+                return render_template('topic_tracker.html', FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
 
             except Exception:
                 traceback.print_exc()
 
         return redirect(JOURNALIST_ROUTE)
 
-    return render_template('topic_tracker.html', form=form, user_name=user_name, email=email,
-                           user_category=user_category, timeframe=timeframe)
+    return render_template('topic_tracker.html')
 
-@app.route('/unsubscribe/<token>')
-def unsubscribe(token):
-    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+@app.route('/unsubscribe_topic/<token>')
+def unsubscribe_topic(token):
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
 
     try:
         email_sub_string = unsub.loads(token)
@@ -140,13 +136,13 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
     note: needs to be in flaskMain to access flask specific stuff
     """
     try:
-        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
         # TODO: fix this :)
         app.config['SERVER_NAME'] = '192.168.0.174:8000'
         with app.app_context():
-            url = url_for('unsubscribe', token=token, _external=True)
+            url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
 
         str_date = str(datetime.now().date())

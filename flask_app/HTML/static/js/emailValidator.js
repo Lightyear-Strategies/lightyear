@@ -78,21 +78,6 @@ const load = () => {
 }
 
 // Submitting information
-const submitClick = () => {
-//     const email = document.querySelector("#email");
-//     let success = true;
-    
-//     if (currentFile == null) {
-//         toast("error", "Please drop a file for our program to process");
-//         return;
-//     }
-
-    // Check if Email is valid
-//     if(success) {
-//         toast("info", "Successfully processed.");
-//     }
-}
-
 
 window.onscroll = () => {
     if (window.scrollY > 0)

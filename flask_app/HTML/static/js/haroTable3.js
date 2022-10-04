@@ -23,8 +23,13 @@ const search_bar_toggle_elements = [
 let haros_per_page = 100;
 let saved_iterator;
 let all_displayed;
+let initial_haro_load = false;
+let toDisplay;
+let requests = [];
+let request_count = 0;
 
-
+let terms = {};
+let terms_0 = {};
 /*
 if (localStorage.getItem('saved_haros_indicies') == undefined) saved_haros_indicies = new Set() 
 else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
@@ -52,25 +57,21 @@ initializeGridAreas(
 saved_haros_indicies = new Set()
 getSavedHaros()
 getMediaQueryData('/api/serveHaros');
-
-
+setInterval(submitSearch,100)
 $( document ).ready(function() {
     //binding enter to all the search bars
     document.getElementById('dateReceived').style['background-color'] = '#F7F8FC'
-    for (let id of search_menu_ids){
-        e = document.getElementById(id)
-        e.style['background-color'] = '#F7F8FC'
-        e.onkeydown = function(e){
-
-            if(e.key == 'Enter'){
-
-                submitSearch()
-            }
+    document.getElementById('dateReceived').onchange = () => {
+        if (document.getElementById('date-checkbox').checked) {
+            submitSearch();
         }
-
     }
 
+    for (let id of search_menu_ids){ 
+        document.getElementById(id).style['background-color'] = '#F7F8FC'
+    }
 
+   
     $('input[name="dateReceived"]').daterangepicker({
         timePicker: false,
         startDate: moment().startOf('hour'),
@@ -83,17 +84,21 @@ $( document ).ready(function() {
     $("#haro-table-body").scroll(function() {
         const htb = document.getElementById('haro-table-body')
         const row_height = (htb.childNodes)[0].offsetHeight;
-        
-        //console.log(`element height?: ${[0].height()*haros_per_page}`
-        if($("#haro-table-body").scrollTop() > 0.9*row_height*haros_per_page*(display_index-1)) {
+        var scroll_distance = $("#haro-table-body").scrollTop();
+
+        if(scroll_distance > 0.9*row_height*haros_per_page*(display_index-1)) {
             if (!all_displayed) appendDisplay()
         }
-        
-    });
 
+        updateHaroCounter()
+    });
 
 })
 
+function checkSearch() {
+    console.log('check search')
+    
+}
 
 function getDates() {
     strDates = document.getElementById('dateReceived').value
@@ -117,6 +122,9 @@ function submitSearch() {
         terms.dateBefore = dateRange[1];
     }
 
+    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
+    terms_0 = terms;
+
     let requestUrl = '/api/serveHaros'
     requestUrl = requestUrl + '?'
 
@@ -138,43 +146,67 @@ function submitSearch() {
 }
 
 function getMediaQueryData(requestUrl) {
+    request_count = request_count + 1;
+    const request_no = request_count;
+
     const request = $.ajax(
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
             if (status != 304) DATA = result.data;
             page_number = 1;
-            resetDisplay();
-            appendDisplay();
-            if (!init) {
-                initializeDropdownMenus();
-                init = true;
+            if (request_no == request_count) {
+                resetDisplay();
+                appendDisplay();
+                if (!init) {
+                    initializeDropdownMenus();
+                    init = true;
+                }
+                if (!initial_haro_load){
+                    endLoad();
+                    initial_haro_load = true;
+                }
             }
         }
       }
     )
+    requests.push(request)
 }
 
+function updateHaroCounter() {
+    const htb = document.getElementById('haro-table-body')
+    const row_height = (htb.childNodes)[0].offsetHeight;
+    var scroll_distance = $("#haro-table-body").scrollTop();
+    const len = toDisplay.length;
+    if (len <= 6) {
+        document.getElementById('haro-counter').innerHTML = `${len} / ${len} Requests viewed`
+    } else {
+        document.getElementById('haro-counter').innerHTML = `${Math.floor((scroll_distance)/row_height+htb.offsetHeight/row_height+.9)} / ${len} Requests viewed`
+    }
 
+}
 
 function resetDisplay() {
     all_displayed = false;
     display_index = 0;
     $('#haro-table-body > *').remove()
     
-
+    document.getElementById('table-head').classList.remove('hidden')
     document.getElementById('haro-table-body').classList.remove('underflown')
 }
 
 function appendDisplay() {
 
-    let toDisplay = [];
+    toDisplay = [];
     if (mode == 'saved') {
         for (let e of DATA) {
             if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
     } else toDisplay = DATA
-    console.log(toDisplay)
+    let summaries = [];
+    for (let e of toDisplay) {
+        summaries.push(e['Summary'])
+    }
     if (toDisplay.length == 0) {
         noHarosDisplay();
     }
@@ -204,26 +236,73 @@ function appendDisplay() {
             console.log(e); 
         }
     }
+    updateHaroCounter()
+    lastUpdated()
 
 }
 
-function insertDetailsRow(id,table,datum){
+
+
+function insertDetailsRow(id, table, datum) {
+     
     table.classList.add('details-grid');
     let label = document.createElement('div');
-    let content = document.createElement('div');
+    let content;
+    if (id == 'Email') {
+        let email;
+        let btnCopy;
+        let tooltip;
+
+        content = document.createElement('span');
+
+        email = document.createElement('a');
+        email.href = 'mailto:' + datum[id];
+        email.innerHTML = datum[id];
+
+        btnCopy = document.createElement('a');
+        btnCopy.onclick = copyEmailToClipboard(datum[id]);
+        btnCopy.classList.add('copyButton');
+
+        tooltip = document.createElement('span');
+        tooltip.innerText = "Copy to clipboard";
+        tooltip.classList.add('tooltip-txt');
+
+
+        content.appendChild(email);
+        content.appendChild(btnCopy);
+        content.appendChild(tooltip);
+
+    }
+    else {
+        content = document.createElement('div');
+
+        if (id=='Journalist'){
+            content.innerHTML = datum['Name']
+        }
+        else {
+            content.innerHTML = datum[id];
+        }
+    }
     label.innerHTML = `${id}: `;
-    
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
     table.appendChild(label)
     table.appendChild(content)
-    if (id=='Journalist'){
-        content.innerHTML = datum['Name']
-    } else {
-        content.innerHTML = datum[id];
-    }
 }
+
+
+async function copyEmailToClipboard(copy) {
+    try {
+        await navigator.clipboard.writeText(copy);
+    }
+    catch (err) {
+        console.log(err)
+    }
+  
+  
+}
+
 
 function insertEntry(id,datum, parent) {
     
@@ -277,6 +356,10 @@ function insertRow(datum) {
             }
             details.classList.add('details')
             row.expanded_previously = true;
+            details.onclick = function(e) {
+                e.stopPropagation();
+            }
+            row.classList.add('expanded')
         } else {
             details.classList.toggle('hidden')
             row.classList.toggle('expanded')  
@@ -296,9 +379,6 @@ function insertRow(datum) {
     let save_button = document.createElement('button')
     save_button.style['grid-area'] = 'save-button'
     save_button.classList.add('save-button')
-    if(datum.index == 0) {
-        console.log(saved_haros_indicies)
-    }
     if (saved_haros_indicies.has(datum.index)) {
         row.saved = true;
         save_button.classList.add('saved')
@@ -320,10 +400,9 @@ function insertRow(datum) {
     }
     row.onmouseleave = () => {
         
-        console.log('mouseout')
+
         if(!row.saved && mode == 'saved') {
             $( row ).remove()
-            console.log(document.getElementById('haro-table-body').childNodes.length)
             if (document.getElementById('haro-table-body').childNodes.length == 0) {
                 noHarosDisplay();
             }
@@ -341,6 +420,7 @@ function noHarosDisplay() {
     } else {
         err.innerHTML = 'Sorry! No Haros match your query :('
     }
+    document.getElementById('table-head').classList.add('hidden')
     document.getElementById('haro-table-body').appendChild(err)
 }
 
@@ -411,7 +491,6 @@ function switchTable(btnmode) {
             e.classList.toggle('selected')
         }
     }
-    console.log(mode)
 }
 
 
@@ -425,11 +504,14 @@ function saveSavedHaros() {
 }
 
 function getSavedHaros() {
-
-    const strArray = localStorage.getItem('saved_haros_indicies').split(' ')
-    console.log(strArray)
+    let strArray
+    try {
+        strArray = (localStorage.getItem('saved_haros_indicies')).split(' ')
+    } catch (e) {
+        strArray = [];
+    }
+    
     for (let istr of strArray) {
-        console.log(istr)
         if (istr != '') {
             saved_haros_indicies.add(Number(istr))
         }
@@ -444,9 +526,6 @@ function monthToNum(str) {
     return num[month.indexOf(str)]
 }
 
-function logSaved() {
-    console.log(saved_haros_indicies)
-}
 
 //Load screen? Idk
 let toastAppear = false;
@@ -483,21 +562,90 @@ const toast = (type, text) => {
     }, 1500);
 }
 
-window.onload = () => {
+function endLoad() {
     document.querySelector(".toast").style.visibility = "hidden";
     document.querySelector(".toast-loader").style.visibility = "hidden";
-    document.querySelector("body").style.overflowY = "hidden";
     load();
 }
 
-const load = () => {
+function load() {
     let loader = document.querySelector("#loader"); 
     setTimeout(() => {
         loader.style.transform = "translateY(-100%)"; 
-        document.querySelector("body").style.overflowY = "inherit";
     }, 1500);
 }
 
 function isOverflown(element) {
     return element.scrollHeight > element.clientHeight
   }
+
+
+  // Establish when the Haro Table was last updated 
+
+function time_ago(time) {
+
+  switch (typeof time) {
+    case 'number':
+      break;
+    case 'string':
+      time = +new Date(time);
+      break;
+    case 'object':
+      if (time.constructor === Date) time = time.getTime();
+      break;
+    default:
+      time = +new Date();
+  }
+  var time_formats = [
+    [60, 'seconds', 1], // 60
+    [120, '1 minute ago', '1 minute from now'], // 60*2
+    [3600, 'minutes', 60], // 60*60, 60
+    [7200, '1 hour ago', '1 hour from now'], // 60*60*2
+    [86400, 'hours', 3600], // 60*60*24, 60*60
+    [172800, 'Yesterday', 'Tomorrow'], // 60*60*24*2
+    [604800, 'days', 86400], // 60*60*24*7, 60*60*24
+    [1209600, 'Last week', 'Next week'], // 60*60*24*7*4*2
+    [2419200, 'weeks', 604800], // 60*60*24*7*4, 60*60*24*7
+    [4838400, 'Last month', 'Next month'], // 60*60*24*7*4*2
+    [29030400, 'months', 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
+    [58060800, 'Last year', 'Next year'], // 60*60*24*7*4*12*2
+    [2903040000, 'years', 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
+    [5806080000, 'Last century', 'Next century'], // 60*60*24*7*4*12*100*2
+    [58060800000, 'centuries', 2903040000] // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
+  ];
+  var seconds = (+new Date() - time) / 1000,
+    token = 'ago',
+    list_choice = 1;
+
+  if (seconds == 0) {
+    return 'Just now'
+  }
+  if (seconds < 0) {
+    seconds = Math.abs(seconds);
+    token = 'from now';
+    list_choice = 2;
+  }
+  var i = 0,
+    format;
+  while (format = time_formats[i++])
+    if (seconds < format[0]) {
+      if (typeof format[2] == 'string')
+        return format[list_choice];
+      else
+        return Math.floor(seconds / format[2]) + ' ' + format[1] + ' ' + token;
+    }
+  return time;
+}
+
+
+function lastUpdated() {
+    let lastUpdate = document.getElementById("getDateUpdate").innerText;
+    let update=time_ago(lastUpdate);
+    document.getElementById("last-updated").innerHTML = "Last updated "+update;
+}
+
+//refresh last updated every 5 minutes
+setInterval(function(){ 
+    lastUpdated()    
+}, 300000);
+

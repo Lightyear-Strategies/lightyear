@@ -1,15 +1,3 @@
-/* 
-    - Basic HTML
-    - Styling
-    - Functionality (Backend)
-    - Animation? 
-    - Media
-
-    - Sign up Page
-    - 404 Page
-*/
-
-/* Scrollbar */
 body::-webkit-scrollbar {
     width: 0.5rem;
 }
@@ -25,17 +13,15 @@ body::-webkit-scrollbar-thumb {
 
 /* General Styling */
 :root {
-    margin: none;
-    padding: none;
-    --lightyear-red: #F04C23;
-    --lightyear-yellow: #FCE300;
-    --lightyear-gray: #EFEFEF;
-    --lightyear-blue: #3452ff; 
-    --background-color: #FFFFFF;
-    font-family: 'Inter';
-    scroll-behavior: smooth;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    overflow-x: hidden;
+  --lightyear-red: #F04C23;
+  --lightyear-yellow: #FCE300;
+  --lightyear-gray: #b6b6b6;
+  --lightyear-blue: #3452ff;
+  --background-color: #F7F8FC;
+  --contrast-color: #000;
+  scroll-behavior: smooth;
+  font-family: 'Mulish', sans-serif;
+  font-size: 11pt;
 }
 
 html {
@@ -44,6 +30,7 @@ html {
 }
 
 body{
+    background-color: var(--background-color);
     display: flex;
     flex-wrap: wrap;
     margin: 0px;
@@ -60,7 +47,13 @@ hr {
 section {
     flex: 1;
     display: grid;
+    place-items: flex-start center;
     min-width: 500px;
+    min-height: 100vh;
+}
+
+section > div {
+    margin-top: 15vh;
 }
 
 section:last-of-type {
@@ -81,18 +74,12 @@ section > div > div > h2 {
 
 /* Log in */
 .login {
-    place-self: center;
     text-align: center;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     color: black;
-    padding: 4rem 2rem;
     border-radius: 0.75rem;
-}
-
-.login > div {
-    flex: 1;
 }
 
 .login > div:first-of-type > div {
@@ -103,21 +90,22 @@ section > div > div > h2 {
 .form__group {
     position: relative;
     padding: 15px 0 0;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 100%;
 }
 
 .form__field {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: inherit;
     width: 60%;
     border: 0;
     border-bottom: 2px solid black;
     outline: 0;
     font-size: 1.3rem;
     color: black;
-    padding: 7px 0;
+    padding: 5px 0;
     background: transparent;
     transition: border-color 0.2s;
+    margin-bottom: 2.5em;
 }
 
 .form__field::placeholder {
@@ -164,12 +152,43 @@ section > div > div > h2 {
 }
 
 .checkBox {
-    padding-top: 2rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 500;
+}
+
+.response-page {
+    font-family: inherit;
+    text-align: center;
+}
+
+.response-page h1 {
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.response-page a {
+    background-color: var(--lightyear-yellow);
+    color: black;
+    border: 2px solid;
+    border-color: var(--lightyear-yellow);
+    font-size: 2.25rem;
+    padding: 20px 40px;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    width: 60%;
+    cursor: pointer;
+    transition: ease-out 0.2s all;
+    margin-top: 4rem; 
+}
+
+.response-page a:hover {
+    color: var(--lightyear-yellow);
+    background-color: black;
+    border: var(--lightyear-yellow) 2px solid;
 }
 
 input[type=checkbox] {
@@ -205,16 +224,18 @@ input[type=checkbox]:checked:after {
 
 /* Login Button */
 #loginBtn {
-    width: 60%;
-    padding: 1rem 4rem;
     background-color: var(--lightyear-yellow);
     color: black;
-    font-size: 2rem;
+    border: 2px solid;
+    border-color: var(--lightyear-yellow);
+    font-size: 2.25rem;
+    padding: 20px 40px;
     border-radius: 0.25rem;
-    border: var(--lightyear-yellow) 2px solid;
-    cursor: pointer;
     font-weight: 600;
-    transition: all ease-out 0.2s;
+    width: 60%;
+    cursor: pointer;
+    transition: ease-out 0.2s all;
+    margin-top: 4rem;
 }
 
 #loginBtn:hover {
@@ -241,7 +262,6 @@ input[type=checkbox]:checked:after {
 }
 /*  Sign up */
 .signUp {
-    place-self: center;
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -253,7 +273,7 @@ input[type=checkbox]:checked:after {
 }
 
 .signUp > div:last-of-type {
-    margin-top: 2rem;
+    margin-top: -2rem;
     padding: 40px 20px;
 }
 
@@ -290,10 +310,13 @@ input[type=checkbox]:checked:after {
     border-color: var(--lightyear-yellow); */
 }
 
+.signUp > div > p {
+    height: 18.2rem;
+    margin-bottom: 0px;
+}
 /* Media Fitting */
 @media only screen and (max-width: 600px) {
     section{
-        padding-top: 4rem;
         padding-bottom: 4rem;
     }
 }

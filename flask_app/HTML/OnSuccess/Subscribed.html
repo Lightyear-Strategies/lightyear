@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Font, Mulish-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
     <title> Success </title>
 </head>
-<body>
-    <section>
-        <div class="login">
+<body style="display: block;">
+        <div class="response-page">
             <div>
-                <h1> You have subscribed. </h1>
+                <h1> Thank you for subscribing!</h1>
             </div>
             <a href="{{ url_for('home')}}"> To Go to Main Page </a>
         </div>
-    </section>
-
 </body>
 </html>

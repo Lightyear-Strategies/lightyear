@@ -18,6 +18,7 @@ client.json
 
 crunchbase/config/*
 crunchbase/crunch_test.ipynb
+*test.csv
 
 linkedinSupport/config/*
 linkedinSupport/df_checker.ipynb
@@ -29,6 +30,7 @@ haroListener/config/*
 haroListener/haro_jsons/*
 haroListener/localclient.json
 
+*.sqlite3
 flask_app/localclient.json
 flask_app/Database.sqlite3
 flask_app/configs/
