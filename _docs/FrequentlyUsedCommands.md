@@ -21,5 +21,5 @@ pip3 freeze > requirements.txt
 
 
 sudo lsof -i :<PortNumber>
-kill -9 <PID>
+sudo kill -9 <PID>
 

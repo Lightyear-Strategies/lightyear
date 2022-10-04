@@ -4,6 +4,19 @@ from flask import render_template, request
 from datetime import datetime, timedelta
 import pandas as pd
 
+import traceback
+import sys
+import logging
+from logging import StreamHandler, Formatter
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+handler = StreamHandler(stream=sys.stdout)
+handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
+logger.addHandler(handler)
+
+
 
 def removeDBdups():
     """
@@ -26,21 +39,26 @@ def addDBData(df: pd.DataFrame): #(file):
     """
     # checking for duplicates
     try:
-        whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
-        print(len(whole_db))
-        print(whole_db.columns)
-        res = pd.concat([df, whole_db])
-    except Exception as e:
-        res = df
-        print(e)
-    print(len(res))
-    res.drop_duplicates(subset=['Summary'], inplace=True)
-    print(len(res))
-    res.reset_index(drop=True, inplace=True)
+        try:
+            whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
+            logger.info(len(whole_db))
+            logger.info(whole_db.columns)
+            res = pd.concat([df, whole_db])
+        except Exception:
+            logger.info('\nSmall addDBData Problem:')
+            res = df
+            traceback.print_exc(file=sys.stdout)
+        logger.info(len(res))
+        res.drop_duplicates(subset=['Summary'], inplace=True)
+        logger.info(len(res))
+        res.reset_index(drop=True, inplace=True)
 
-    # Load data to database
-    print(res.columns)
-    res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+        # Load data to database
+        logger.info(res.columns)
+        res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+    except Exception:
+        logger.info('\nBig addDBData Problem:')
+        traceback.print_exc(file=sys.stdout)
 
 
 @login_required
@@ -75,7 +93,7 @@ def adding_used_unused(option: str = None, id: str = None):
 
    # print(query.all())
 
-    return "Ok"
+    return "OK"
 
 
 def serve_data(option=None):
