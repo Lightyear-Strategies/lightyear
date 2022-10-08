@@ -1,9 +1,10 @@
 const HARO_BODY = document.getElementById('haro-table-body')
-let defaultHPP = 30;
 var DATA;
+var FRESH_DATA;
+var ALL_DATA;
 let Categories = [];
 const expanded_previously = {};
-let mode = 'all'
+let mode = 'fresh'
 const searchMenu = document.getElementById('search-menu'); 
 const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
@@ -23,7 +24,6 @@ const search_bar_toggle_elements = [
 let haros_per_page = 100;
 let saved_iterator;
 let all_displayed;
-let initial_haro_load = false;
 let toDisplay;
 let requests = [];
 let request_count = 0;
@@ -56,7 +56,7 @@ initializeGridAreas(
 )
 saved_haros_indicies = new Set()
 getSavedHaros()
-getMediaQueryData('/api/serveHaros/fresh');
+initializeData();
 setInterval(submitSearch,100)
 $( document ).ready(function() {
     //binding enter to all the search bars
@@ -122,27 +122,58 @@ function submitSearch() {
         terms.dateBefore = dateRange[1];
     }
 
-    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
+    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) {
+        if (mode == 'fresh') DATA = FRESH_DATA;
+        else DATA = ALL_DATA;
+        return;
+    }
+
     terms_0 = terms;
 
-    let requestUrl = '/api/serveHaros'
-    requestUrl = requestUrl + '?'
+    let requestUrl = '?'
 
-    let allEmpty = true;
     for (let e in terms){
         if (terms[e]!=''){
-            allEmpty=false;
             requestUrl = `${requestUrl}${e}=${terms[e]}&`
         }
     }
     
-    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing &
+    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing & or make string empty
 
-    if (!allEmpty){
-        getMediaQueryData(requestUrl);
-    } else {
-        getMediaQueryData('/api/serveHaros/fresh')
-    }    
+    if (mode == 'fresh') getMediaQueryData('/api/serveHaros/fresh' + requestUrl)
+    else getMediaQueryData('api/serveHaros' + requestUrl)
+
+}
+
+function initializeData() {
+    $.ajax(
+        {
+            'url' : '/api/serveHaros/fresh',
+            success : (result, status, xhr) => {
+                if (status != 304) {
+                    FRESH_DATA = result.data;
+                    DATA = FRESH_DATA;
+                }
+                page_number = 1;
+                resetDisplay();
+                appendDisplay();
+                initializeDropdownMenus();
+                init = true;
+            }
+        }
+    )
+
+    $.ajax(
+        {
+            'url' : '/api/serveHaros',
+            success : (result, status, xhr) => {
+                if (status != 304) {
+                    ALL_DATA = result.data;
+                }
+            }
+        }
+    )
+
 }
 
 function getMediaQueryData(requestUrl) {
@@ -161,10 +192,6 @@ function getMediaQueryData(requestUrl) {
                 if (!init) {
                     initializeDropdownMenus();
                     init = true;
-                }
-                if (!initial_haro_load){
-                    endLoad();
-                    initial_haro_load = true;
                 }
             }
         }
@@ -482,13 +509,14 @@ function toggleDatePicker() {
 function switchTable(btnmode) {
 
     if (btnmode != mode) {
+        HARO_BODY.classList.remove(mode);
+        HARO_BODY.classList.add(btnmode);
+        document.getElementById(mode + '-btn').classList.remove('selected');
+        document.getElementById(btnmode + '-btn').classList.add('selected');
         mode = btnmode
-        document.getElementById('haro-table-body').classList.toggle('saved')
+        submitSearch();
         resetDisplay();
         appendDisplay();
-        for (let e of document.getElementsByClassName('search-tab')) {
-            e.classList.toggle('selected')
-        }
     }
 }
 
