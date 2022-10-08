@@ -56,7 +56,7 @@ initializeGridAreas(
 )
 saved_haros_indicies = new Set()
 getSavedHaros()
-getMediaQueryData('/api/serveHaros');
+getMediaQueryData('/api/serveHaros/fresh');
 setInterval(submitSearch,100)
 $( document ).ready(function() {
     //binding enter to all the search bars
@@ -141,7 +141,7 @@ function submitSearch() {
     if (!allEmpty){
         getMediaQueryData(requestUrl);
     } else {
-        getMediaQueryData('/api/serveHaros')
+        getMediaQueryData('/api/serveHaros/fresh')
     }    
 }
 
@@ -326,7 +326,6 @@ function insertEntry(id,datum, parent) {
 }
 
 function insertRow(datum) {
-    if (datum.Summary == '"Rotten Egg" Flatulence' || datum.Summary == 'Garlic Breath') return
     if (datum==undefined) throw 'datum undefined';
     let row = document.createElement('div')
     row.classList.add('haro-row')
@@ -527,53 +526,53 @@ function monthToNum(str) {
 }
 
 
-//Load screen? Idk
-let toastAppear = false;
-const toast = (type, text) => {
-    if (toastAppear == true) return;
+// //Load screen? Idk
+// let toastAppear = false;
+// const toast = (type, text) => {
+//     if (toastAppear == true) return;
 
-    const toast = document.querySelector(".toast");
-    const toastLoader = document.querySelector(".toast-loader");
-    const toastText = document.querySelector(".toast-content > h2");
+//     const toast = document.querySelector(".toast");
+//     const toastLoader = document.querySelector(".toast-loader");
+//     const toastText = document.querySelector(".toast-content > h2");
 
-    toast.style.visibility = "visible";
-    toastLoader.style.visibility = "visible";
-    toastText.innerHTML = text;
-    toastLoader.style.transition = "linear width 1.2s";
-    toastAppear = true;
+//     toast.style.visibility = "visible";
+//     toastLoader.style.visibility = "visible";
+//     toastText.innerHTML = text;
+//     toastLoader.style.transition = "linear width 1.2s";
+//     toastAppear = true;
 
-    if (type == "error") 
-        toastLoader.style.backgroundColor = "var(--lightyear-red)";
-    else if (type == "info") 
-        toastLoader.style.backgroundColor = "var(--lightyear-blue)";
-    else
-        toastLoader.style.backgroundColor = "var(--lightyear-yellow)"
+//     if (type == "error") 
+//         toastLoader.style.backgroundColor = "var(--lightyear-red)";
+//     else if (type == "info") 
+//         toastLoader.style.backgroundColor = "var(--lightyear-blue)";
+//     else
+//         toastLoader.style.backgroundColor = "var(--lightyear-yellow)"
 
-    setTimeout(() => {
-        toastLoader.classList.add("toast-loader-end");
-    }, 200);
+//     setTimeout(() => {
+//         toastLoader.classList.add("toast-loader-end");
+//     }, 200);
 
-    setTimeout(() => {
-        toast.style.visibility = "hidden";
-        toastLoader.style.visibility = "hidden";
-        toastLoader.style.transition = "none";
-        toastLoader.classList.remove("toast-loader-end")
-        toastAppear = false;
-    }, 1500);
-}
+//     setTimeout(() => {
+//         toast.style.visibility = "hidden";
+//         toastLoader.style.visibility = "hidden";
+//         toastLoader.style.transition = "none";
+//         toastLoader.classList.remove("toast-loader-end")
+//         toastAppear = false;
+//     }, 1500);
+// }
 
-function endLoad() {
-    document.querySelector(".toast").style.visibility = "hidden";
-    document.querySelector(".toast-loader").style.visibility = "hidden";
-    load();
-}
+// function endLoad() {
+//     document.querySelector(".toast").style.visibility = "hidden";
+//     document.querySelector(".toast-loader").style.visibility = "hidden";
+//     load();
+// }
 
-function load() {
-    let loader = document.querySelector("#loader"); 
-    setTimeout(() => {
-        loader.style.transform = "translateY(-100%)"; 
-    }, 1500);
-}
+// function load() {
+//     let loader = document.querySelector("#loader"); 
+//     setTimeout(() => {
+//         loader.style.transform = "translateY(-100%)"; 
+//     }, 1500);
+// }
 
 function isOverflown(element) {
     return element.scrollHeight > element.clientHeight

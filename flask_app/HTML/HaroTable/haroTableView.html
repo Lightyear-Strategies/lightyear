@@ -30,7 +30,7 @@
   <!--div class="sticky-wrapper"-->
 
 <!--load screen-->
-<div class="load-screen">
+<div class="load-screen" style="display:none">
       <section class="loader" id="loader">
         <div class="loading">
             <div class="ball"></div>
@@ -190,14 +190,17 @@
 </body>
 <script type="text/javascript">
   $(document).ready(function () {
-    function resize_table () {
-      let counter = document.getElementById('haro-counter');
-      let c_rect = counter.getBoundingClientRect();
-      let c_top = c_rect.top;
 
-      let table_head = document.getElementById('table-head');
-      let t_rect = table_head.getBoundingClientRect();
-      let t_bot = t_rect.bottom;
+    let table_head = document.getElementById('table-head');
+    let t_rect = table_head.getBoundingClientRect();
+    let t_bot = t_rect.bottom;
+
+    function resize_table () {
+      // let counter = document.getElementById('haro-counter');
+      // let c_rect = counter.getBoundingClientRect();
+      // let c_top = c_rect.top;
+      let c_top = window.innerHeight - 54.666666;
+
 
       let table_height = c_top - t_bot;
       document.getElementById('haro-table-body').style.height = table_height + 'px';
@@ -235,16 +238,9 @@
     $(window).on('resize', resize_details);
     $(window).on('resize', bad_window_checker);
 
-    var observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutationRecord) {
-          resize_table();
-        });    
-    });
-  
-    var target = document.getElementById('loader');
-    observer.observe(target, { attributes : true, attributeFilter : ['style'] });
 
     $('#haro-table-body').on('click', resize_details);
+    resize_table();
     });
 
 
