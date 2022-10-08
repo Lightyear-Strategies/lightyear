@@ -541,7 +541,7 @@ body::-webkit-scrollbar {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 13.25em;
+  width: 100%;
 }
 
 #page-body .search-tab.selected {
@@ -593,8 +593,12 @@ body::-webkit-scrollbar {
   opacity: 0.65;
 }
 
-#page-body #all-btn {
+#page-body #fresh-btn {
   border-radius: 8px 0px 0px 0px;
+}
+
+#page-body #all-btn {
+  border-radius: 0px 0px 0px 0px;
 }
 
 #page-body #saved-btn {

@@ -119,7 +119,7 @@ def serve_data(option=None):
 
     # fresh queries
     if option == "fresh":
-        freshmark = datetime.today().date() - timedelta(days=3)
+        freshmark = datetime.today().date() - timedelta(days=1)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter

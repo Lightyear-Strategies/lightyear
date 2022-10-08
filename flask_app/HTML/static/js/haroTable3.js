@@ -1,9 +1,10 @@
 const HARO_BODY = document.getElementById('haro-table-body')
-let defaultHPP = 30;
 var DATA;
+var FRESH_DATA;
+var ALL_DATA;
 let Categories = [];
 const expanded_previously = {};
-let mode = 'all'
+let mode = 'fresh'
 const searchMenu = document.getElementById('search-menu'); 
 const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
@@ -23,7 +24,6 @@ const search_bar_toggle_elements = [
 let haros_per_page = 100;
 let saved_iterator;
 let all_displayed;
-let initial_haro_load = false;
 let toDisplay;
 let requests = [];
 let request_count = 0;
@@ -56,7 +56,7 @@ initializeGridAreas(
 )
 saved_haros_indicies = new Set()
 getSavedHaros()
-getMediaQueryData('/api/serveHaros');
+initializeData();
 setInterval(submitSearch,100)
 $( document ).ready(function() {
     //binding enter to all the search bars
@@ -108,7 +108,7 @@ function getDates() {
     return [from + ' 00:00:00', to + ' 23:59:59']
 }
 
-function submitSearch() {
+function submitSearch(newmode = false) {
     dateRange = getDates()
     terms = {
         keywords: document.getElementById('keywords').value,
@@ -122,27 +122,62 @@ function submitSearch() {
         terms.dateBefore = dateRange[1];
     }
 
-    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
+    if (JSON.stringify(terms).length == 2) {
+        if (mode == 'fresh') DATA = FRESH_DATA;
+        else DATA = ALL_DATA;
+        return;
+    }
+
+    if (!newmode) {
+        if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
+    }
+
     terms_0 = terms;
 
-    let requestUrl = '/api/serveHaros'
-    requestUrl = requestUrl + '?'
+    let requestUrl = '?'
 
-    let allEmpty = true;
     for (let e in terms){
         if (terms[e]!=''){
-            allEmpty=false;
             requestUrl = `${requestUrl}${e}=${terms[e]}&`
         }
     }
     
-    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing &
+    requestUrl = requestUrl.substring(0,requestUrl.length-1); //to remove trailing & or make string empty
 
-    if (!allEmpty){
-        getMediaQueryData(requestUrl);
-    } else {
-        getMediaQueryData('/api/serveHaros')
-    }    
+    if (mode == 'fresh') getMediaQueryData('/api/serveHaros/fresh' + requestUrl)
+    else getMediaQueryData('api/serveHaros' + requestUrl)
+
+}
+
+function initializeData() {
+    $.ajax(
+        {
+            'url' : '/api/serveHaros/fresh',
+            success : (result, status, xhr) => {
+                if (status != 304) {
+                    FRESH_DATA = result.data;
+                    DATA = FRESH_DATA;
+                }
+                page_number = 1;
+                resetDisplay();
+                appendDisplay();
+                initializeDropdownMenus();
+                init = true;
+            }
+        }
+    )
+
+    $.ajax(
+        {
+            'url' : '/api/serveHaros',
+            success : (result, status, xhr) => {
+                if (status != 304) {
+                    ALL_DATA = result.data;
+                }
+            }
+        }
+    )
+
 }
 
 function getMediaQueryData(requestUrl) {
@@ -161,10 +196,6 @@ function getMediaQueryData(requestUrl) {
                 if (!init) {
                     initializeDropdownMenus();
                     init = true;
-                }
-                if (!initial_haro_load){
-                    endLoad();
-                    initial_haro_load = true;
                 }
             }
         }
@@ -326,7 +357,6 @@ function insertEntry(id,datum, parent) {
 }
 
 function insertRow(datum) {
-    if (datum.Summary == '"Rotten Egg" Flatulence' || datum.Summary == 'Garlic Breath') return
     if (datum==undefined) throw 'datum undefined';
     let row = document.createElement('div')
     row.classList.add('haro-row')
@@ -483,13 +513,14 @@ function toggleDatePicker() {
 function switchTable(btnmode) {
 
     if (btnmode != mode) {
+        HARO_BODY.classList.remove(mode);
+        HARO_BODY.classList.add(btnmode);
+        document.getElementById(mode + '-btn').classList.remove('selected');
+        document.getElementById(btnmode + '-btn').classList.add('selected');
         mode = btnmode
-        document.getElementById('haro-table-body').classList.toggle('saved')
+        submitSearch(true);
         resetDisplay();
         appendDisplay();
-        for (let e of document.getElementsByClassName('search-tab')) {
-            e.classList.toggle('selected')
-        }
     }
 }
 
@@ -527,53 +558,53 @@ function monthToNum(str) {
 }
 
 
-//Load screen? Idk
-let toastAppear = false;
-const toast = (type, text) => {
-    if (toastAppear == true) return;
+// //Load screen? Idk
+// let toastAppear = false;
+// const toast = (type, text) => {
+//     if (toastAppear == true) return;
 
-    const toast = document.querySelector(".toast");
-    const toastLoader = document.querySelector(".toast-loader");
-    const toastText = document.querySelector(".toast-content > h2");
+//     const toast = document.querySelector(".toast");
+//     const toastLoader = document.querySelector(".toast-loader");
+//     const toastText = document.querySelector(".toast-content > h2");
 
-    toast.style.visibility = "visible";
-    toastLoader.style.visibility = "visible";
-    toastText.innerHTML = text;
-    toastLoader.style.transition = "linear width 1.2s";
-    toastAppear = true;
+//     toast.style.visibility = "visible";
+//     toastLoader.style.visibility = "visible";
+//     toastText.innerHTML = text;
+//     toastLoader.style.transition = "linear width 1.2s";
+//     toastAppear = true;
 
-    if (type == "error") 
-        toastLoader.style.backgroundColor = "var(--lightyear-red)";
-    else if (type == "info") 
-        toastLoader.style.backgroundColor = "var(--lightyear-blue)";
-    else
-        toastLoader.style.backgroundColor = "var(--lightyear-yellow)"
+//     if (type == "error") 
+//         toastLoader.style.backgroundColor = "var(--lightyear-red)";
+//     else if (type == "info") 
+//         toastLoader.style.backgroundColor = "var(--lightyear-blue)";
+//     else
+//         toastLoader.style.backgroundColor = "var(--lightyear-yellow)"
 
-    setTimeout(() => {
-        toastLoader.classList.add("toast-loader-end");
-    }, 200);
+//     setTimeout(() => {
+//         toastLoader.classList.add("toast-loader-end");
+//     }, 200);
 
-    setTimeout(() => {
-        toast.style.visibility = "hidden";
-        toastLoader.style.visibility = "hidden";
-        toastLoader.style.transition = "none";
-        toastLoader.classList.remove("toast-loader-end")
-        toastAppear = false;
-    }, 1500);
-}
+//     setTimeout(() => {
+//         toast.style.visibility = "hidden";
+//         toastLoader.style.visibility = "hidden";
+//         toastLoader.style.transition = "none";
+//         toastLoader.classList.remove("toast-loader-end")
+//         toastAppear = false;
+//     }, 1500);
+// }
 
-function endLoad() {
-    document.querySelector(".toast").style.visibility = "hidden";
-    document.querySelector(".toast-loader").style.visibility = "hidden";
-    load();
-}
+// function endLoad() {
+//     document.querySelector(".toast").style.visibility = "hidden";
+//     document.querySelector(".toast-loader").style.visibility = "hidden";
+//     load();
+// }
 
-function load() {
-    let loader = document.querySelector("#loader"); 
-    setTimeout(() => {
-        loader.style.transform = "translateY(-100%)"; 
-    }, 1500);
-}
+// function load() {
+//     let loader = document.querySelector("#loader"); 
+//     setTimeout(() => {
+//         loader.style.transform = "translateY(-100%)"; 
+//     }, 1500);
+// }
 
 function isOverflown(element) {
     return element.scrollHeight > element.clientHeight
