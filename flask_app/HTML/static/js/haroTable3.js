@@ -108,7 +108,7 @@ function getDates() {
     return [from + ' 00:00:00', to + ' 23:59:59']
 }
 
-function submitSearch() {
+function submitSearch(newmode = false) {
     dateRange = getDates()
     terms = {
         keywords: document.getElementById('keywords').value,
@@ -122,10 +122,14 @@ function submitSearch() {
         terms.dateBefore = dateRange[1];
     }
 
-    if ((JSON.stringify(terms) == JSON.stringify(terms_0))) {
+    if (JSON.stringify(terms).length == 2) {
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
         return;
+    }
+
+    if (!newmode) {
+        if ((JSON.stringify(terms) == JSON.stringify(terms_0))) return;
     }
 
     terms_0 = terms;
@@ -514,7 +518,7 @@ function switchTable(btnmode) {
         document.getElementById(mode + '-btn').classList.remove('selected');
         document.getElementById(btnmode + '-btn').classList.add('selected');
         mode = btnmode
-        submitSearch();
+        submitSearch(true);
         resetDisplay();
         appendDisplay();
     }
