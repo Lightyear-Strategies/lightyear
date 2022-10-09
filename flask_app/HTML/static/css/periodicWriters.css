@@ -180,7 +180,7 @@ body {
   margin: 0px;
   color: black;
   font-size: 1.5em;
-  padding-bottom: 30px;
+  padding: 20px 0 30px 0;
 }
 
 #page-main h2 {
@@ -197,6 +197,10 @@ body {
   margin: 20px 0px;
   color: var(--lightyear-yellow);
   border: solid var(--background-color) 1px;
+}
+
+#shrinkTop {
+  margin-top: 1rem;
 }
 
 #page-main header {
@@ -433,6 +437,8 @@ body {
   width: 100%;
   border: 0;
   outline: 0;
+  padding: 0;
+  margin: 0;
   font-size: 1.3rem;
   color: black;
   padding: 7px 0;
@@ -640,6 +646,11 @@ body {
   animation: bounce 500ms alternate infinite ease;
 }
 
+#bad-window-size {
+  display: none;
+  text-align: center;
+}
+
 @-webkit-keyframes bounce {
   0% {
     top: 30px;
@@ -686,7 +697,7 @@ body {
 }
 /*# sourceMappingURL=periodicWriters.css.map */
 
-.highlight {
+#highlight {
   border-bottom: 10px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
@@ -733,4 +744,14 @@ input:-webkit-autofill:active {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  #real-content {
+    display: none;
+  }
+
+  #bad-window-size {
+    display: block;
+  }
 }
