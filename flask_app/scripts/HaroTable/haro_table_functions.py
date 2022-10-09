@@ -119,7 +119,9 @@ def serve_data(option=None):
 
     # fresh queries
     if option == "fresh":
-        freshmark = datetime.today().date() - timedelta(days=1)
+        db_path = os.path.join(current_app.root_path, '..', 'Database.sqlite3')
+        most_recent_update = datetime.fromtimestamp(os.path.getmtime(db_path))
+        freshmark = most_recent_update.date() - timedelta(days=1)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
