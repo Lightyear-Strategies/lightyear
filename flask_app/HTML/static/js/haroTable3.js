@@ -341,11 +341,16 @@ function insertEntry(id,datum, parent) {
     if (id == 'DateReceived') {
         entry.innerHTML = datum['DateReceived'].substring(5,7) + '/' + datum['DateReceived'].substring(8) + '/' + datum['DateReceived'].substring(0,4);
     } else if (id == 'Deadline') {
-        deadlineArr = datum['Deadline'].split(' ');
-
-        let dlday = deadlineArr[4];
-        if (dlday.length == 1) dlday = '0' + dlday;
-        entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday + ' ' + (deadlineArr[0].split(':'))[0] + deadlineArr[1];
+        try {
+            deadlineArr = datum['Deadline'].split(' ');
+            let dlday = deadlineArr[4];
+            if (dlday.length == 1) dlday = '0' + dlday;
+            entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday + ' ' + (deadlineArr[0].split(':'))[0] + deadlineArr[1];
+        }
+        catch (err) {
+            // catches poorly formatted due dates and throws them away
+            entry.innerHTML = '';
+        }
     } else {
         entry.innerHTML = datum[id];
     }
