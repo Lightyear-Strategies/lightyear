@@ -697,7 +697,7 @@ body {
 }
 /*# sourceMappingURL=periodicWriters.css.map */
 
-#highlight {
+.highlight {
   border-bottom: 10px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
