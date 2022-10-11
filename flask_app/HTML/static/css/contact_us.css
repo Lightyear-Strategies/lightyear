@@ -165,7 +165,8 @@ body {
 
 /* End Header */
 #page-main {
-  padding: 5em;
+  padding: 2.5em 0 5em 5em;
+  max-width: 500px;
   /* Body styling */
   /* Drop-zone */
   /* Header */
@@ -184,6 +185,7 @@ body {
   margin: 0px;
   color: black;
   font-size: 1.5em;
+  padding: 20px 0 30px 0;
 }
 
 #page-main h2 {
@@ -278,11 +280,6 @@ body {
   color: var(--background-color);
   padding: 20px 0px;
   margin-top: 20px;
-}
-
-#page-main span {
-  -webkit-text-decoration: underline 3px var(--lightyear-yellow);
-  text-decoration: underline 3px var(--lightyear-yellow);
 }
 
 #page-main body > div {
@@ -456,7 +453,6 @@ body {
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid black;
   outline: 0;
   font-size: 1.3rem;
   color: black;
@@ -717,7 +713,7 @@ body {
   font-family: inherit;
   width: 99.6%;
   height: 200px;
-  background-color: var(--background-color);
+  background-color: transparent;
   /* border: 2px;
     border-bottom: 2px solid black;
     outline: 2px; */
@@ -725,6 +721,7 @@ body {
   border-radius: 0.25rem;
   border-width: 2px;
   font-size: 1.3rem;
+  margin-top: 1rem;
   transition: border-color 0.2s;
 }
 
@@ -808,6 +805,10 @@ input[type="checkbox"]:checked:after {
   color: black;
   font-weight: 800;
 }
+.highlight {
+  border-bottom: 10px solid transparent;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+}
 
 /* Send Button */
 #sendBtn {
@@ -831,7 +832,7 @@ input[type="checkbox"]:checked:after {
 }
 
 /* SVG */
-.svg {
+/* .svg {
   margin: auto;
   display: flex;
   width: clamp(100px, 40%, 300px);
@@ -846,12 +847,65 @@ input[type="checkbox"]:checked:after {
 
 .svg > svg:hover {
   fill: var(--lightyear-blue);
+} */
+
+footer h4 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: var(--lightyear-gray);
+  text-align: center;
+  font-weight: 500;
+}
+
+#image-placement img {
+  position: absolute;
+  /* margin-right: -9%; */
+  z-index: -5;
+  top: 80px;
+  right: 20px;
+  margin-right: 10%;
+  height: 84%;
+  overflow: hidden;
+  min-height: 600px;
+
+  -moz-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+
+@media screen and (max-width: 1400px) {
+  #image-placement img {
+    opacity: 0.3;
+  }
+}
+
+#bad-window-size {
+  display: none;
+  text-align: center;
 }
 
 /* Media Fitting */
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 600px) {
   section {
     padding-top: 4rem;
     padding-bottom: 4rem;
+  }
+} */
+
+@media (max-height: 850px) {
+  footer {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  #real-content {
+    display: none;
+  }
+
+  #bad-window-size {
+    display: block;
   }
 }
