@@ -713,14 +713,6 @@ body {
   overflow: hidden;
   min-height: 600px;
 
-  /* position: absolute;
-  margin-right: 0;
-  z-index: -5;
-  top: 100px;
-  right: -10px;
-  max-height: 650px;
-  overflow-x: hidden; */
-
   -moz-transition: all 0.5s ease-out;
   -o-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
@@ -776,7 +768,7 @@ footer h4 {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
   #real-content {
     display: none;
   }
