@@ -43,6 +43,7 @@ body {
   width: 100%;
   margin-left: 2em;
   margin-right: 2.4em;
+  min-height: 58.66px;
 }
 
 #header #header .alignment-wrapper > section {
@@ -187,10 +188,11 @@ body {
   margin: 0px;
   color: black;
   font-weight: 500;
+  font-size: 1.3rem !important;
 }
 
 #page-main p {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
 }
 
 #page-main hr {
@@ -702,13 +704,21 @@ body {
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 #image-placement img {
-  position: absolute;
+  /* position: absolute;
   margin-right: 0;
   z-index: -5;
   top: 100px;
   right: 30px;
   min-height: 750px;
+  overflow: hidden; */
+
+  position: absolute;
+  z-index: -5;
+  top: 100px;
+  right: 30px;
+  height: 80%;
   overflow: hidden;
+  min-height: 650px;
 
   -moz-transition: all 0.5s ease-out;
   -o-transition: all 0.5s ease-out;
@@ -744,6 +754,26 @@ input:-webkit-autofill:active {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+}
+
+#nav-selected {
+  border-bottom: black solid 3.5px;
+}
+
+footer h4 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: var(--lightyear-gray);
+  text-align: center;
+  font-weight: 500;
+}
+
+@media (max-height: 800px) {
+  footer {
+    display: none;
+  }
 }
 
 @media (max-width: 500px) {

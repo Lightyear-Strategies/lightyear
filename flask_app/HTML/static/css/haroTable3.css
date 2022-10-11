@@ -637,6 +637,7 @@ body::-webkit-scrollbar {
   width: 100%;
   margin-left: 2em;
   margin-right: 2.4em;
+  min-height: 58.66px;
 }
 
 #header #header .alignment-wrapper > section {
@@ -1410,6 +1411,10 @@ body::-webkit-scrollbar {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+}
+
+#nav-selected {
+  border-bottom: black solid 3.5px;
 }
 
 /* ---------------------Header------------------------- */
