@@ -15,6 +15,9 @@
 <body>
     <section>
         <div class="login">
+        <div id="login-image">
+          <img src="../static/img/LadyOnBag.svg">
+        </div>
             <div>
                 <h1> Login </h1>
                 <form method="POST" action="/">
@@ -65,18 +68,26 @@
             </div>
         </div>
     </section>
-    <section>
+    <section id="wrapper">
         <div class="signUp">
-            <div>
+            <div id="signUp-image">
+                <img src="../static/img/signUp-pr1.svg">
+            </div>
+            <div class="onTop">
                 <h1>
-                    <span> First time</span>
-                    Here?
+                    <span id="highlight"> First time</span>
+                    here?
                 </h1>
                 <p>
-                   Create an account to access the most innovative tech stack in PR. As public relations professional with a background in software development, we are pushing tech to the forefront of the PR industry.
+                   As public relations professionals with roots in 
+                   software development, we felt boxed in by the 
+                   current PR tech offerings. It was upon us to push 
+                   the boundaries of PR productivity. <br><br>
+                   Create a free account to join our beta tech stack.
+
                 </p>
             </div>
-            <div>
+            <div class="onTop">
                 <button onclick='location.href="{{ url_for('signup') }}"' type="button">
                     Sign Up
                 </button>
