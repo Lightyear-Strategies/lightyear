@@ -15,7 +15,7 @@
     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
-    <link rel="stylesheet" href="static/css/periodicWriters.css">
+    <link rel="stylesheet" href="static/css/emailValidator.css">
     <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
     <script src="static/js/periodicWriters.js" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
@@ -102,7 +102,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="/email_validator">
+                    <a id="nav-selected" href="/email_validator">
                         Email Validator
                     </a>
                 </div>
@@ -129,46 +129,58 @@
         </header>
       </div> <!--End Header-->
 </div>
-<div id="page-main">
-    <section>
-        <div>
-            <h1 id="title-text">Email Verification</h1>
-            <hr style="border: 1px solid;">
-            <h2>Guidelines:</h2>
-            <div>
-                <ol>
-                    <li>Enter the email address where you would like to receive the vetted CSV</li>
-                    <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like verified</li>
-                    <li>Select or drag and drop the CSV file</li>
-                    <li>Press "Submit" button</li>
-                </ol>
-            </div>
+<div id="real-content">
+    <div id="page-main">
+         <div id="image-placement">
+                <img src="static/img/EmailValidator.svg">
         </div>
-        <form action="/email_validator" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
-            <div class="form__group field">
-                <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
-                <label for="email" class="form__label">Email</label>
-                <label class="required__label" id="email id"></label>
-            </div>
-    
-        <div>
-            <div class="dropzone" id="myDropzone">
-                <div class="form-group" id="dropzone">
-                    <div class="dz-message" data-dz-message>
-                        <h3>Drop files here or <span class="click-upload">click</span> to upload</h3>
-                    </div>        
+        <section>
+            <div>
+                <h1>
+                    <span class="highlight">Verify Email List</span>
+                </h1>
+                <h2>Guidelines</h2>
+                <div>
+                    <ol>
+                        <li>Enter the email address where you would like to receive the vetted CSV</li>
+                        <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like verified</li>
+                        <li>Select or drag and drop the CSV file</li>
+                        <li>Press "Submit" button</li>
+                    </ol>
                 </div>
             </div>
-        </div>
+            <form action="/email_validator" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
+                <div class="form__group field">
+                    <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+                    <label for="email" class="form__label">Email</label>
+                    <label class="required__label" id="email id"></label>
+                </div>
         
-        <div>
-            <button type="submit" id="submitBtn">
-                    Submit
-            </button>
-        </div>
-        </form>
-    </section>
-
+            <div>
+                <div class="dropzone" id="myDropzone">
+                    <div class="form-group" id="dropzone">
+                        <div class="dz-message" data-dz-message>
+                            <h3>Drop files here or <span class="highlight">click</span> to upload</h3>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <button type="submit" id="submitBtn">
+                        Submit
+                </button>
+            </div>
+            </form>
+        </section>
+    </div>
+    <a href="#" id="help-circle">?</a>
+    <footer>
+        <h4> &copy; 2022 Lightyear Strategies</h4>
+    </footer>  
 </div>
+    <div id="bad-window-size" style="text-align: center;">
+        <h1 style="margin-top:5em; margin-bottom:5em">Sorry, this experience is not suited for mobile at this time.</h1>
+    </div>
 </body>
 </html>

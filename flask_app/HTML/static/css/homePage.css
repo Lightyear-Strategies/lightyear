@@ -63,6 +63,7 @@ body {
   width: 100%;
   margin-left: 2em;
   margin-right: 2.4em;
+  min-height: 58.66px;
 }
 
 #header #header .alignment-wrapper > section {
@@ -195,11 +196,12 @@ body {
 
 #image-placement img {
   position: fixed;
-  margin-right: -9%;
+  /* margin-right: -9%; */
   z-index: -5;
   top: 0;
-  right: 0;
+  right: -80px;
   height: 110%;
+  min-height: 700px;
   overflow: hidden;
 
   -moz-transition: all 0.5s ease-out;

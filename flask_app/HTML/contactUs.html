@@ -44,7 +44,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="contact_us">
+                    <a id="nav-selected" href="contact_us">
                         Contact Us
                     </a>
                 </div>
@@ -66,13 +66,15 @@
         </header>
       </div> <!--End Header-->
 </div>
-
-    <div id="page-main">
+    <div id="real-content">
+        <div id="page-main">
+         <div id="image-placement">
+                <img src="static/img/ContactUs.svg">
+        </div>
             <div>
-                <h1> Contact Us </h1>
-
-                <hr style="border: 1px solid;">
-
+                <h1>
+                <span class="highlight">Contact Us</span>
+                </h1>
                 <div style="padding-top: 0px;">
                     <form method="POST" action="/contact_us">
                         {{ form.csrf_token }}
@@ -148,6 +150,13 @@
                 </div>
             </div>
         </div>
+    <footer>
+        <h4> &copy; 2022 Lightyear Strategies</h4>
+    </footer> 
+    </div>
+    <div id="bad-window-size" style="text-align: center;">
+        <h1 style="margin-top:5em; margin-bottom:5em">Sorry, this experience is not suited for mobile at this time.</h1>
+    </div>
 
 
 </body>
