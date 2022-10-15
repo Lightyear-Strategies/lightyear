@@ -6,8 +6,6 @@ load_dotenv()
 
 
 class Config:
-    #ENVIRONMENT = 'server'
-    ENVIRONMENT = 'local'
 
     SCRIPTS_DIR = os.path.abspath(os.path.dirname(__file__))
     FLASK_DIR = os.path.dirname(SCRIPTS_DIR)
@@ -21,6 +19,9 @@ class Config:
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
     EV_API_KEY = os.getenv('EV_API_KEY')
     DATABASE_URI = 'sqlite:///' + os.path.join(FLASK_DIR, 'Database.sqlite3')
+
+    with open(os.path.join(CONFIG_DIR, 'env.txt')) as e:
+        ENVIRONMENT = e.read().strip()
 
     if ENVIRONMENT == 'server':
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
