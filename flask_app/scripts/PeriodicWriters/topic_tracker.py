@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from flask_app.scripts.forms import TopicTracker
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -44,8 +44,7 @@ def receive_category():
     """
     if request.method == 'POST':
 
-        # TODO: put in actual username
-        user_name = 'georgebot'
+        user_name = current_user.username
         user_email = request.form.get('email')
         user_category = request.form.get('category')
         timeframe = request.form.get('frequency')
