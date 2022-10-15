@@ -19,20 +19,10 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
     <link rel="stylesheet" href="static/css/periodicWriters.css">
     <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
-    <script src="static/js/periodicWriters.js" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Journalist Tracker</title>
 
     <script type="text/javascript">
-
-        let email_flashed = false;
-
-        function flash (to_flash) {
-            $('#title-text').before(
-                '<div class="flashed-message">' + to_flash + '</div>'
-            );
-            email_flashed = true;
-        }
         Dropzone.options.myDropzone = {
             // Prevents Dropzone from uploading dropped files immediately
             url: '/journalist_tracker',
@@ -49,9 +39,6 @@
                 e.preventDefault();
                 e.stopPropagation();
                 if(document.getElementById('email').value == '') {
-                    if (!email_flashed) {
-                        flash('Please enter a valid email');
-                    }
                 }
                 else {
                     myDropzone.processQueue();
@@ -152,6 +139,7 @@
             <section>
                 <div>
                     <!-- <h1 id="title-text">Subscribe to Journalist Updates</h1> -->
+                    <!-- potentially add flashed messages here -->
                     <h1>
                         <span class="highlight">Subscribe to Journalist Updates</span>
                     </h1>

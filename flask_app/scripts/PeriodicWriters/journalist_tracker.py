@@ -39,7 +39,6 @@ def receive_journalists():
                     df = pd.read_csv(uploaded_file)
 
                 except Exception:
-                    flash("Upload file in CSV Format")
                     print("Not CSV")
                     #continue
                     return redirect(JOURNALIST_ROUTE)
@@ -53,7 +52,6 @@ def receive_journalists():
                     len_pos_names = len(pos_names)
                     while True:
                         if i == len_pos_names:
-                            flash("You do not have neither \"Journalist(s)\" nor \"journalist(s)\" in the CSV")
                             return redirect(JOURNALIST_ROUTE)
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
@@ -68,7 +66,7 @@ def receive_journalists():
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
-                df = pd.DataFrame(data, columns=[ 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
+                df = pd.DataFrame(data, columns=[ 'ClientName', 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
 
             else:
