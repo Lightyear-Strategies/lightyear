@@ -412,8 +412,10 @@ body {
   color: black;
   padding: 20px 40px;
   font-size: 1.4rem;
-  border-radius: 0.25rem;
-  border-color: var(--lightyear-yellow);
+  width: min-content;
+  border-radius: 8px;
+  border: var(--lightyear-yellow) 2px solid;
+  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.057);
   margin-bottom: 10%;
   cursor: pointer;
   font-weight: 800;
@@ -697,7 +699,6 @@ body {
     padding-bottom: 4rem;
   }
 }
-/*# sourceMappingURL=periodicWriters.css.map */
 
 .highlight {
   border-bottom: 10px solid transparent;

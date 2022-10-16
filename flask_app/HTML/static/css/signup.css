@@ -2,20 +2,6 @@
     Maybe add loader transition if need be.
 */
 
-/* Scrollbar */
-body::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-body::-webkit-scrollbar-track {
-  background-color: var(--lightyear-yellow);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: black;
-  border-radius: 20px;
-}
-
 /* General Styling */
 :root {
   --lightyear-red: #f04c23;
@@ -109,8 +95,9 @@ button {
   cursor: pointer;
   color: black;
   background-color: var(--lightyear-yellow);
-  border-radius: 0.5rem;
+  border-radius: 8px;
   transition: ease-out all 0.2s;
+  border: solid var(--lightyear-yellow) 2px;
   box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
 }
 

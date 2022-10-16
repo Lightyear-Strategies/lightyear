@@ -100,7 +100,7 @@ def receive_journalists():
         else:
             print('No files')
 
-    return render_template('periodicWriters.html')
+    return render_template('journalistTracker.html')
 
 @app.route('/unsubscribe_journalist/<token>')
 def unsubscribe_journalist(token):

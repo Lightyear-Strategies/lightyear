@@ -1,16 +1,3 @@
-body::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-body::-webkit-scrollbar-track {
-  background-color: var(--lightyear-yellow);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: var(--background-color);
-  border-radius: 20px;
-}
-
 /* General Styling */
 :root {
   --lightyear-red: #f04c23;
@@ -236,7 +223,7 @@ input[type="checkbox"]:checked:after {
   border-color: var(--lightyear-yellow);
   font-size: 2.25rem;
   padding: 20px 40px;
-  border-radius: 0.25rem;
+  border-radius: 8px;
   font-weight: 600;
   width: 60%;
   cursor: pointer;
@@ -250,23 +237,7 @@ input[type="checkbox"]:checked:after {
   background-color: black;
   border: var(--lightyear-yellow) 2px solid;
 }
-/* SVG */
-/* .svg {
-    margin: auto;
-    display: flex;
-    width: clamp(100px, 40%, 300px);
-}
 
-.svg > svg {
-    flex: 1;
-    cursor: pointer;
-    fill: black;
-    transition: all ease-out 0.2s;
-}
-
-.svg > svg:hover {
-    fill: var(--lightyear-yellow);
-} */
 /*  Sign up */
 .signUp {
   display: flex;
@@ -300,9 +271,9 @@ input[type="checkbox"]:checked:after {
   color: black;
   border: 2px solid;
   border-color: var(--lightyear-yellow);
+  border-radius: 8px;
   font-size: 2.25rem;
   padding: 20px 40px;
-  border-radius: 0.25rem;
   font-weight: 600;
   width: 60%;
   cursor: pointer;
