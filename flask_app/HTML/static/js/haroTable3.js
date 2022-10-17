@@ -122,7 +122,7 @@ function submitSearch(newmode = false) {
         terms.dateBefore = dateRange[1];
     }
 
-    if (JSON.stringify(terms).length == 2) {
+    if (JSON.stringify(terms).length == 77) {
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
         return;
