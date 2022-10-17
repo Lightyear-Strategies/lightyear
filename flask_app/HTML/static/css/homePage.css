@@ -222,7 +222,7 @@ main {
 }
 
 .hover-state {
-  --bg-color: #faee0e;
+  --bg-color: var(--lightyear-yellow);
   --bg-color-light: #ffffff;
   --text-color-hover: black;
   --box-shadow-color: rgba(252, 238, 178, 0.48);

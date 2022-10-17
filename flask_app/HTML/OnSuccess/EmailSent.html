@@ -8,15 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
-    <title> Success </title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/onSuccess.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/onSuccess.css"> -->
+
+    <title> Contact Us </title>
 </head>
 <body style="display: block;">
         <div class="response-page">
             <div>
-                <h1> Thank you for your response! </h1>
+                <h1> Thank you for reaching out! We will follow up with you shortly.</h1>
             </div>
-            <a href="{{ url_for('home')}}"> To Go to Main Page </a>
+            <div id="image-placement">
+                <img src="../static/img/Contacted.svg">
+            </div>
+            <a href="{{ url_for('home')}}"> Go to Home Page </a>
         </div>
 </body>
 </html>

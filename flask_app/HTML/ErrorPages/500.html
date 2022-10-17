@@ -9,23 +9,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <script src="{{ url_for('static',filename='js/error.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/error.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/ErrorPages.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/ErrorPages.css">  -->
+
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title> 500 Page</title>
 </head>
 <body>
-    <section>
-        <div>
-            <h1> 500 </h1>
-            <h1> Internal Server Error </h1>
-            <br> <br>
-            <div class="goBack">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path d="M10.477 0h-8.977l12.024 12-12.024 12h8.977l12.023-12z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path d="M10.477 0h-8.977l12.024 12-12.024 12h8.977l12.023-12z"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path d="M10.477 0h-8.977l12.024 12-12.024 12h8.977l12.023-12z"/></svg>
-                <span>Go Back</span>
+        <div class="response-page">
+            <div id="image-placement">
+                <img src="../static/img/500.svg">
             </div>
-       </div>
-    </section>
+            <a class="goBack"> Go Back </a>
+        </div>
 </body>
 </html>
