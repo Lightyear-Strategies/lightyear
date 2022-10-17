@@ -70,17 +70,11 @@ body {
   padding: 40px 20px;
 }
 
-/* .signUp > div > h1 > span {
-  color: var(--lightyear-yellow);
-  font-weight: 800;
-  text-decoration: underline var(--background-color) 0.5rem;
-} */
-
 #image-placement img {
   display: inline-block;
   position: relative;
   /* margin-right: -9%; */
-  width: 40vw;
+  width: 42.5vw;
   min-width: 400px;
   overflow: hidden;
   padding-bottom: 2em;
