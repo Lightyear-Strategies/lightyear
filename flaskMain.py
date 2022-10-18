@@ -37,7 +37,7 @@ app.errorhandler(500)(e_p.internal_error)
 
 @app.route('/email_sent')
 def email_sent():
-    return render_template('confirmation.html')
+    return render_template('OnSuccess/EmailSent.html')
 
 @app.route('/journalist_subscribed')
 def journalist_subscribed():
