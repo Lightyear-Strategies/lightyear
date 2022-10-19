@@ -153,8 +153,7 @@ class Muckrack:
         for time in range(len(time_tags)):
             try:
                 object = time_tags[time].get("title").strip()
-                #Turn Feb, 24, 2018 into date object
-                object = datetime.strptime(object, "%b %d, %Y")
+                object = datetime.strptime(object, "%B %d, %Y %I:%M %p")
                 time_stamps.append(object)
             except Exception as e:
                 logger.info('\nError: ' + str(e))
@@ -218,6 +217,6 @@ if __name__ == '__main__':
     muck.parse_HTML()
     #muck.read_HTML()
 
-    df = muck.show_df()
+    df = muck.get_dataframe()
 
 
