@@ -29,6 +29,7 @@ class Config:
                                  'nima@lightyearstrategies.com']
 
         CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'web_google_client.json')
+        SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'server_token.pickle')
 
         BROKER_TRANSPORT_OPTIONS = {"region": os.getenv('AWS_REGION')}
@@ -44,6 +45,7 @@ class Config:
 
     elif ENVIRONMENT == 'local':
         CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
+        SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'local_token.pickle')
         CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',

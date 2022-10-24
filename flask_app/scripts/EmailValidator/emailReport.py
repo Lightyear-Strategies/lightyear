@@ -5,7 +5,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
 import traceback
-from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder, serviceAccountBuilder
 
 
 class report():
@@ -21,8 +21,9 @@ class report():
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = serviceBuilder()
+        #self.service = serviceBuilder()
         #self.service = localServiceBuilder()
+        self.service = serviceAccountBuilder()
         self.body = self.createMessage()
 
     def sendMessage(self):
@@ -89,7 +90,7 @@ class report():
 
 
 if __name__ == "__main__":
-    gmail = report("aleksei@lightyearstrategies.com", "aleksei@lightyearstrategies.com",
-                   "this is the subject line", "This is the message body", "./test.csv",
+    gmail = report("george@lightyearstrategies.com", "chris@lightyearstrategies.com",
+                   "this is the subject line", "This is the message body", "limit_analysis.csv",
                    "me")
     gmail.sendMessage()
