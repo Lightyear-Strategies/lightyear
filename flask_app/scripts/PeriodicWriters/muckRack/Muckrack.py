@@ -64,7 +64,7 @@ class Muckrack:
     def parse_HTML(self):
         options = uc.ChromeOptions()
         options.arguments.extend(["--no-sandbox", "--disable-setuid-sandbox", "--headless"])
-        driver = uc.Chrome(options=options)
+        driver = uc.Chrome(options=options, driver_executable_path='/home/ubuntu/.local/bin/chromedriver', browser_executable_path='/usr/bin/google-chrome')
 
         with driver:
             for url in self.url_list:

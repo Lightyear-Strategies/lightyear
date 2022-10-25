@@ -70,12 +70,14 @@ class pdfReport:
                 pdf.set_font('Times', 'B', 12)
                 pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
                 media = row["Media"]
+                media = media.encode('latin-1', 'replace').decode('latin-1')
                 pdf.set_font('Times', '', 12)
                 pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
                 media = "Publication:"
                 pdf.set_font('Times', 'B', 12)
                 pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
                 media = row["Date"]+"\n"
+                media = media.encode('latin-1', 'replace').decode('latin-1')
                 pdf.set_font('Times', '', 12)
                 pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
                 media = "Headline:"
@@ -83,7 +85,11 @@ class pdfReport:
                 pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
                 text = row["Headline"] + "\n\n"
                 link = row["Link"]
-                text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                try:
+                    text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                except:
+                    text_final = ''
+
                 pdf.set_font('Times', '', 12)
                 pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
                 pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
