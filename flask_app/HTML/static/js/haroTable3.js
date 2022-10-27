@@ -10,6 +10,9 @@ const search_menu_ids = ['keywords','category','mediaOutlet']
 let init = false;
 let page = 1;
 let display_index = 0;
+// for haro loading
+let initialized = false;
+const loader_string = '<lottie-player src="../static/img/haro_loading.json" background="transparent" speed="1" style="width: 100px; height:100px; margin-left: calc(50% - 50px); margin-top: 100px;" loop autoplay></lottie-player>'
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -156,11 +159,13 @@ function initializeData() {
             success : (result, status, xhr) => {
                 if (status != 304) {
                     FRESH_DATA = result.data;
-                    DATA = FRESH_DATA;
+                    if (mode == 'fresh') {
+                        DATA = FRESH_DATA;
+                        resetDisplay();
+                        appendDisplay();
+                    }
                 }
                 page_number = 1;
-                resetDisplay();
-                appendDisplay();
                 initializeDropdownMenus();
                 init = true;
             }
@@ -172,7 +177,13 @@ function initializeData() {
             'url' : '/api/serveHaros',
             success : (result, status, xhr) => {
                 if (status != 304) {
+                    initialized = true;
                     ALL_DATA = result.data;
+                    if (mode != 'fresh') {
+                        hide_loader();
+                        DATA = ALL_DATA;
+                        appendDisplay();
+                    }
                 }
             }
         }
@@ -204,6 +215,14 @@ function getMediaQueryData(requestUrl) {
     requests.push(request)
 }
 
+function add_loader() {
+    HARO_BODY.innerHTML = loader_string;
+}
+
+function hide_loader() {
+    HARO_BODY.removeChild(document.querySelector('lottie-player'))
+}
+
 function updateHaroCounter() {
     const htb = document.getElementById('haro-table-body')
     const row_height = (htb.childNodes)[0].offsetHeight;
@@ -227,7 +246,6 @@ function resetDisplay() {
 }
 
 function appendDisplay() {
-
     toDisplay = [];
     if (mode == 'saved') {
         for (let e of DATA) {
@@ -525,7 +543,8 @@ function switchTable(btnmode) {
         mode = btnmode
         submitSearch(true);
         resetDisplay();
-        appendDisplay();
+        if (!initialized) add_loader();
+        if (initialized) appendDisplay();
     }
 }
 
