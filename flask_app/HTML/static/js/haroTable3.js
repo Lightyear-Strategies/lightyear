@@ -30,6 +30,7 @@ let all_displayed;
 let toDisplay;
 let requests = [];
 let request_count = 0;
+let popped = false;
 
 let terms = {};
 let terms_0 = {};
@@ -57,8 +58,10 @@ const downArrowSvg =`
 initializeGridAreas(
     document.getElementById('search-menu')
 )
-saved_haros_indicies = new Set()
-getSavedHaros()
+saved_haros_indicies = new Set();
+last_seen = ''; // summary of last seen haro
+getSavedHaros();
+get_last_seen();
 initializeData();
 setInterval(submitSearch,100)
 $( document ).ready(function() {
@@ -85,6 +88,7 @@ $( document ).ready(function() {
     });
     
     $("#haro-table-body").scroll(function() {
+        // TODO: make this counter work better
         const htb = document.getElementById('haro-table-body')
         const row_height = (htb.childNodes)[0].offsetHeight;
         var scroll_distance = $("#haro-table-body").scrollTop();
@@ -240,10 +244,28 @@ function hide_loader() {
     HARO_BODY.removeChild(document.querySelector('lottie-player'))
 }
 
+function show_confetti() {
+    let lot = document.createElement('lottie-player');
+    lot.setAttribute('src', '../static/img/confetti.json');
+    lot.setAttribute('background', 'transparent');
+    lot.setAttribute('speed', '1');
+    lot.setAttribute('autoplay', '');
+    lot.style.position = 'absolute';
+    lot.style.left = '0';
+    lot.style.top = '0';
+    lot.style.width = '100%';
+    lot.style.height = '100%';
+    lot.style.zIndex = '10000';
+    document.getElementById('page-body').appendChild(lot);
+}
+
 function pop_confetti() {
-    // TODO: add check for no haros/already popped
-    if (mode == 'fresh') {
-        console.log('pop confetti');
+    if (mode == 'fresh' && !popped) {
+        popped = true;
+        save_last_seen();
+        resetDisplay();
+        show_confetti();
+        noHarosDisplay();
     }
 }
 
@@ -275,7 +297,22 @@ function appendDisplay() {
         for (let e of DATA) {
             if (saved_haros_indicies.has(e.index)) toDisplay.push(e)
         }
-    } else toDisplay = DATA
+    } 
+    else if (mode == 'fresh') {
+        let is_past_due = false;
+        for (let e of DATA) {
+            // checks if past due using last_seen, adds if not
+            if (last_seen != '') {
+                if (e['Summary'] == last_seen) {
+                    is_past_due = true;
+                }
+            }
+            if (!is_past_due) toDisplay.push(e);
+        }
+    }
+    else {
+        toDisplay = DATA
+    }
     let summaries = [];
     for (let e of toDisplay) {
         summaries.push(e['Summary'])
@@ -493,8 +530,13 @@ function noHarosDisplay() {
     let err = document.createElement('div')
     err.classList.add('none-to-display-error')
     if (mode == 'saved') {
-        err.innerHTML = 'No saved queries at this time :)'
-    } else {
+        err.innerHTML = 'No saved entries match your query'
+    } 
+    else if (mode == 'fresh') {
+        popped = true;
+        err.innerHTML = 'You\'re all caught up :)';
+    }
+    else {
         err.innerHTML = 'Sorry! No Haros match your query :('
     }
     document.getElementById('table-head').classList.add('hidden')
@@ -581,6 +623,28 @@ function switchTable(btnmode) {
 }
 
 
+function get_last_seen() {
+    try {
+        let str_arr = (localStorage.getItem('last_seen')).split(':::::') // use ::::: to delimit
+        let last_seen_date = Number(str_arr[0]);
+        let last_seen_summary = str_arr[1];
+        if (Date.now() - last_seen_date < 86400000) {
+            // here if the last seen item is from less than 24 hours ago
+            // save to global variable for later use
+            last_seen = last_seen_summary;
+        }
+    }
+    catch (e) {
+        // fail quietly
+    }
+}
+
+function save_last_seen() {
+    let last_seen_date = Date.now().toString();
+    let last_seen_summary = toDisplay[0].Summary;
+    // use ::::: to delimit
+    localStorage.setItem('last_seen', last_seen_date + ":::::" + last_seen_summary)
+}
 
 function saveSavedHaros() {
     istr = ''
@@ -589,6 +653,8 @@ function saveSavedHaros() {
     }
     localStorage.setItem('saved_haros_indicies',istr)
 }
+
+
 
 function getSavedHaros() {
     let strArray
