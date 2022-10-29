@@ -27,32 +27,7 @@
     <link rel="stylesheet" href="../static/css/haroTable3.css">
   </head>
 <body id='body' onbeforeunload="saveSavedHaros()">
-<div class="dummy-em" style="background-color: red"></div>
-<div class="dummy-vw" style="background-color: blue"></div>
-  <!--div class="sticky-wrapper"-->
 
-<!--load screen-->
-<div class="load-screen" style="display:none">
-      <section class="loader" id="loader">
-        <div class="loading">
-            <div class="ball"></div>
-            <div class="ball delay-100"></div>
-            <div class="ball delay-200"></div>
-            <div class="ball delay-200"></div>
-        </div>
-    </section>
-
-    <section class="toast">
-        <div>
-            <div class="toast-loader"> </div>
-            <div class="toast-content">
-                <h2>
-                </h2>
-            </div>
-        </div>
-    </section>
-</div>
-<!--end load screen-->
 
 <div id="header">
     <div id="header"> <!--Header-->
@@ -185,7 +160,7 @@
         <a href="#"id="help-circle">?</a>
 
   </div>
-  <div id="bad-window-size" style="text-align: center;">
+  <div id="bad-window-size" style="display: none; text-align: center;">
     <h1 style="margin-top:5em; margin-bottom:5em">Sorry, this experience is not suited for mobile at this time.</h1>
   </div>
     <div id="getDateUpdate">{{date_updated}}</div>

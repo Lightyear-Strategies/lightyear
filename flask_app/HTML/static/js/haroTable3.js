@@ -153,21 +153,25 @@ function submitSearch(newmode = false) {
 }
 
 function initializeData() {
+    add_loader();
     $.ajax(
         {
             'url' : '/api/serveHaros/fresh',
             success : (result, status, xhr) => {
                 if (status != 304) {
                     FRESH_DATA = result.data;
+                    try {
+                        hide_loader();
+                    }
+                    catch (e) {
+                        // to hide the loader without throwing an error no matter if it exists or not
+                    }
                     if (mode == 'fresh') {
                         DATA = FRESH_DATA;
                         resetDisplay();
                         appendDisplay();
                     }
                 }
-                page_number = 1;
-                initializeDropdownMenus();
-                init = true;
             }
         }
     )
@@ -179,12 +183,21 @@ function initializeData() {
                 if (status != 304) {
                     initialized = true;
                     ALL_DATA = result.data;
-                    if (mode != 'fresh') {
+                    try {
                         hide_loader();
+                    }
+                    catch (e) {
+                        // to hide the loader without throwing an error no matter if it exists or not
+                    }
+                    if (mode != 'fresh') {
                         DATA = ALL_DATA;
+                        resetDisplay();
                         appendDisplay();
                     }
                 }
+                page_number = 1;
+                initializeDropdownMenus();
+                init = true;
             }
         }
     )
@@ -544,7 +557,15 @@ function switchTable(btnmode) {
         submitSearch(true);
         resetDisplay();
         if (!initialized) add_loader();
-        if (initialized) appendDisplay();
+        if (initialized || mode == 'fresh') {
+            try {
+                hide_loader();
+            }
+            catch (e) {
+                // to hide the loader without throwing an error no matter if it exists or not
+            }
+            appendDisplay();
+        }
     }
 }
 
