@@ -94,6 +94,10 @@ $( document ).ready(function() {
         }
 
         updateHaroCounter()
+
+        if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1) {
+            pop_confetti();
+        }
     });
 
 })
@@ -234,6 +238,13 @@ function add_loader() {
 
 function hide_loader() {
     HARO_BODY.removeChild(document.querySelector('lottie-player'))
+}
+
+function pop_confetti() {
+    // TODO: add check for no haros/already popped
+    if (mode == 'fresh') {
+        console.log('pop confetti');
+    }
 }
 
 function updateHaroCounter() {
