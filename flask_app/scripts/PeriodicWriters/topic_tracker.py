@@ -140,7 +140,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         token = unsub.dumps(token_string)
         # TODO: fix this :)
         #app.config['SERVER_NAME'] = 'dev.lystrategies.com'
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
 
