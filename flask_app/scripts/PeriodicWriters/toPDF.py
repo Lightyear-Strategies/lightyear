@@ -87,17 +87,17 @@ class pdfReport:
                 link = row["Link"]
                 try:
                     text_final = text.encode('latin-1', 'replace').decode('latin-1')
-                except:
+                except Exception as e:
                     text_final = ''
 
                 pdf.set_font('Times', '', 12)
                 pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
                 pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
 
-        # pdf.set_font('Times', '', 14)
-        # pdf.set_text_color(240,76,35)
-        # pdf.ln(20)
-        # pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
+        pdf.set_font('Times', '', 14)
+        pdf.set_text_color(240,76,35)
+        pdf.ln(20)
+        pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
         pdf.output(filename, 'F')
 
 
