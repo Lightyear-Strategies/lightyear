@@ -20,6 +20,8 @@ class Config:
     EV_API_KEY = os.getenv('EV_API_KEY')
     DATABASE_URI = 'sqlite:///' + os.path.join(FLASK_DIR, 'Database.sqlite3')
 
+    SERVER_NAME = os.getenv('SERVER_NAME')
+
     with open(os.path.join(CONFIG_DIR, 'env.txt')) as e:
         ENVIRONMENT = e.read().strip()
 
