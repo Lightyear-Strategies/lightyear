@@ -13,6 +13,14 @@ from datetime import datetime
 
 JOURNALIST_ROUTE = '/journalist_tracker'
 
+def gauth():
+    if Config.ENVIRONMENT == 'server':
+        if not authCheck():
+            return redirect('/authorizeCheck')
+    elif Config.ENVIRONMENT == 'local':
+        localServiceBuilder()
+
+
 @login_required
 def receive_journalists():
     """
@@ -106,7 +114,7 @@ def unsubscribe_journalist(token):
 
     try:
         email_sub_string = unsub.loads(token)
-        print(email_sub_string)
+        #print(email_sub_string)
     except BadData:
         print('unsubscribe failed')
         return render_template('ErrorPages/500.html')
@@ -143,22 +151,16 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         token = unsub.dumps(token_string)
 
         app.config['SERVER_NAME']=Config.SERVER_NAME
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_journalist', token=token, _external=True)
-            print(url)
+            #print(url)
         pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
-        # TODO: fix this :)
-        #filepath = 'flask_app/scripts/PeriodicWriters/reports/george@lightyearstrategies.com_journalist_report.pdf'
         filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
         pdf_maker_for_email.create_PDF(filename=filepath)
 
         str_date = str(datetime.now().date())
 
-        if Config.ENVIRONMENT == 'server':
-            if not authCheck():
-                return redirect('/authorizeCheck')
-        elif Config.ENVIRONMENT == 'local':
-            localServiceBuilder()
+        gauth()
 
         to_send = report(
             sender='george@lightyearstrategies.com',
