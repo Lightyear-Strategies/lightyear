@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
 from flask_login import login_required, current_user
-from flask_app.scripts.forms import PeriodicWriters
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -143,7 +142,6 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         token_string = f'{email} {subject}'
         token = unsub.dumps(token_string)
         # TODO: fix this :)
-        app.config['SERVER_NAME'] = '192.168.0.173:8000'
         with app.app_context():
             url = url_for('unsubscribe_journalist', token=token, _external=True)
             print(url)
@@ -171,5 +169,5 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         to_send.sendMessage()
 
     except Exception as e:
-        print(e)
+        traceback.print_exc()
         return render_template('ErrorPages/500.html')
