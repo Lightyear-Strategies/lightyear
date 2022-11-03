@@ -89,7 +89,8 @@ def receive_category():
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
-                return render_template('topic_tracker.html', FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
+                return render_template('topic_tracker.html',
+                                       FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
 
             except Exception:
                 traceback.print_exc()
@@ -98,7 +99,7 @@ def receive_category():
 
     return render_template('topic_tracker.html')
 
-@app.route('/unsubscribe_topic/<token>')
+@app.route('/unsubscribe_topic/<token>') # must have
 def unsubscribe_topic(token):
     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
 
@@ -157,5 +158,6 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
 
     except Exception as e:
         print('Frequency: ', frequency)
-        traceback.print_exc(e)
+        # TODO: Could create exception handling basedon frequency
+        traceback.print_exc()
         return render_template('ErrorPages/500.html')

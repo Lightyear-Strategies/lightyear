@@ -13,7 +13,7 @@ from flask_app.scripts.config import Config
 
 app.add_url_rule('/email_validator', view_func=ev_f_f.email_validator, methods=['GET','POST'])
 app.add_url_rule('/topic_tracker', view_func=t_t.receive_category, methods=['GET','POST'])
-app.add_url_rule('/unsubscribe_topic/<token>', view_func=t_t.unsubscribe_topic, methods=['GET','POST'], endpoint='unsubscribe_topic')
+# app.add_url_rule('/unsubscribe_topic/<token>', view_func=t_t.unsubscribe_topic, methods=['GET','POST'], endpoint='unsubscribe_topic')
 
 app.add_url_rule('/journalist_tracker', view_func=j_t.receive_journalists, methods=['GET','POST'])
 app.add_url_rule('/unsubscribe_journalist/<token>', view_func=j_t.unsubscribe_journalist, methods=['GET','POST'], endpoint='unsubscribe_journalist')
