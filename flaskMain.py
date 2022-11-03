@@ -59,6 +59,6 @@ if __name__ == '__main__':
     if Config.ENVIRONMENT == 'local':
         app.run(host='0.0.0.0', port=8000, debug=True, threaded=True)
     elif Config.ENVIRONMENT == 'server':
-        app.run(port=5000, debug=False, threaded=True)
+        app.run(port=8000, debug=False, threaded=True)
 
 
