@@ -93,11 +93,11 @@ class pdfReport:
                 except Exception as e:
                     continue
 
-                pdf.set_font('Times', '', 14)
-                pdf.set_text_color(240, 76, 35)
-                pdf.ln(20)
-                pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
-                pdf.output(filename, 'F')
+            pdf.set_font('Times', '', 14)
+            pdf.set_text_color(240, 76, 35)
+            pdf.ln(20)
+            pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
+            pdf.output(filename, 'F')
 
 if __name__ == "__main__":
     test = pdfReport(filename='muckrack_analysis.csv')
