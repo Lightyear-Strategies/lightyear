@@ -23,9 +23,9 @@ class PDF(FPDF):
 
 class pdfReport:
     def __init__(self, df=None, filename=None, list=None, unsub_link=None):
-        if(df is None and filename is None):
+        if (df is None and filename is None):
             raise Exception("Must provide either a dataframe or a filename")
-        elif(df is None):
+        elif (df is None):
             try:
                 self.df = pd.read_csv(filename)
             except:
@@ -40,7 +40,6 @@ class pdfReport:
         self.pdf.image('logo.png', x=10, y=10, w=26, h=8)
         self.pdf.set_font('Arial', 'B', 16)
         self.pdf.cell(w=0, h=10, txt='Muckrack Weekly Analysis', ln=1, align='C')
-
 
     def show_df(self):
         return self.df
@@ -81,10 +80,10 @@ class pdfReport:
                     text = row["Headline"] + "\n\n"
 
                     link = row["Link"]
-                    #text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                    # text_final = text.encode('latin-1', 'replace').decode('latin-1')
                     try:
                         text_final = text.encode('latin-1', 'replace').decode('latin-1')
-                    except Exception as e :
+                    except Exception as e:
                         text_final = ''
 
                     pdf.set_font('Times', '', 12)
@@ -93,13 +92,12 @@ class pdfReport:
 
                 except Exception as e:
                     continue
-                    
+
                 pdf.set_font('Times', '', 14)
-                pdf.set_text_color(240,76,35)
+                pdf.set_text_color(240, 76, 35)
                 pdf.ln(20)
                 pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
                 pdf.output(filename, 'F')
-
 
 
 if __name__ == "__main__":
