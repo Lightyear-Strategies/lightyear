@@ -98,7 +98,7 @@ def receive_category():
 
     return render_template('topic_tracker.html')
 
-# @app.route('/unsubscribe_topic/<token>')
+@app.route('/unsubscribe_topic/<token>')
 def unsubscribe_topic(token):
     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
 
