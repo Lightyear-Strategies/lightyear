@@ -156,5 +156,6 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         to_send.sendMessage()
 
     except Exception as e:
+        print('Frequency: ', frequency)
         traceback.print_exc(e)
         return render_template('ErrorPages/500.html')
