@@ -139,6 +139,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
 
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
         with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)

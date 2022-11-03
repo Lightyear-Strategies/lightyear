@@ -38,7 +38,6 @@ def add_configs(app,where):
     app.register_blueprint(g_oauth)
 
     app.secret_key = Config.FLASK_SECRET_KEY
-    app.config['SERVER_NAME']=Config.SERVER_NAME
     app.config['UPLOAD_FOLDER'] = Config.UPLOAD_DIR
 
     app.config['SQLALCHEMY_DATABASE_URI'] = Config.DATABASE_URI
