@@ -99,7 +99,6 @@ class pdfReport:
                 pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
                 pdf.output(filename, 'F')
 
-
 if __name__ == "__main__":
     test = pdfReport(filename='muckrack_analysis.csv')
     test.create_PDF(filename='muckrack_analysis.pdf')
