@@ -1,6 +1,5 @@
 from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
-from flask_app.scripts.forms import TopicTracker
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
@@ -138,8 +137,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
-        # TODO: fix this :)
-        #app.config['SERVER_NAME'] = 'dev.lystrategies.com'
+
         with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
@@ -158,5 +156,5 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         to_send.sendMessage()
 
     except Exception as e:
-        print(e)
+        traceback.print_exc(e)
         return render_template('ErrorPages/500.html')
