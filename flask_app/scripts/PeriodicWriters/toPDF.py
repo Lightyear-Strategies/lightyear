@@ -58,46 +58,39 @@ class pdfReport:
             pdf.cell(w=0, h=10, txt=name, ln=1, align='C')
 
             for index, row in name_df.iterrows():
-                #pass
-            # for i in range(len(df)):
-            #     if(df["Name"][i] == name):
-                    #READ IT:
-                    #ADD LATER WHEN IMPLEMENTING PERSONALIZATION:
-                    #To if statement above: "and name in list_of_authors"
-
-
-                media = "Media:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = row["Media"]
-                media = media.encode('latin-1', 'replace').decode('latin-1')
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = "Publication:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = row["Date"]+"\n"
-                media = media.encode('latin-1', 'replace').decode('latin-1')
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                media = "Headline:"
-                pdf.set_font('Times', 'B', 12)
-                pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
-                text = row["Headline"] + "\n\n"
-                link = row["Link"]
                 try:
-                    text_final = text.encode('latin-1', 'replace').decode('latin-1')
+                    media = "Media:"
+                    pdf.set_font('Times', 'B', 12)
+                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                    media = row["Media"]
+                    media = media.encode('latin-1', 'ignore').decode('latin-1')
+                    pdf.set_font('Times', '', 12)
+                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                    
+                    
+                    media = "Publication:"
+                    pdf.set_font('Times', 'B', 12)
+                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                    media = row["Date"]+"\n"
+                    media = media.encode('latin-1', 'ignore').decode('latin-1')
+                    pdf.set_font('Times', '', 12)
+                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                    
+                    media = "Headline:"
+                    pdf.set_font('Times', 'B', 12)
+                    pdf.cell(w=0, h=5, txt=media, ln=1, align='L')
+                    text = row["Headline"] + "\n\n"
+                    media = text.encode('latin-1', 'ignore').decode('latin-1')
+                    link = row["Link"]
+                    link = link.encode('latin-1', 'ignore').decode('latin-1')
+
+                    text_final = text.encode('latin-1', 'ignore').decode('latin-1')
+                    pdf.set_font('Times', '', 12)
+                    pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
+                    pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
                 except:
-                    text_final = ''
+                    continue
 
-                pdf.set_font('Times', '', 12)
-                pdf.cell(w=0, h=5, txt=text_final, ln=1, align='L', link=link)
-                pdf.cell(w=0, h=5, txt="\n", ln=1, align='L')
-
-        # pdf.set_font('Times', '', 14)
-        # pdf.set_text_color(240,76,35)
-        # pdf.ln(20)
-        # pdf.cell(w=0, h=5, txt='Click here to unsubscribe.', align='C', link=self.unsub_url)
         pdf.output(filename, 'F')
 
 
