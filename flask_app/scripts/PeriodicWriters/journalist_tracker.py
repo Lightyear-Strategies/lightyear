@@ -58,22 +58,11 @@ def receive_journalists():
                     print('all goood')
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
 
-                    # i = 0
-                    # len_pos_names = len(pos_names)
-                    # print(len_pos_names)
-                    # print(pos_names[0])
+
                     for i in range(0,len(pos_names)):
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
-                    # while True:
-                    #     # if i == len_pos_names:
-                    #     #     print('Is it what is happening?')
-                    #     #     return redirect(JOURNALIST_ROUTE)
-                    #     if pos_names[i] in df.columns:
-                    #         journalists.extend(df[pos_names[i]].tolist())
-                    #         break
-                    #     i += 1
 
             # only executed if there is no 'journalists' table
             # if not db.inspect(db.engine.connect()).has_table('journalists'):
@@ -86,6 +75,7 @@ def receive_journalists():
                 data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
                 df = pd.DataFrame(data, columns=[ 'ClientName', 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
+                print("Added data to the new table")
 
             else:
                 try:
