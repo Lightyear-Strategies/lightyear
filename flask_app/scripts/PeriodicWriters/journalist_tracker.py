@@ -60,9 +60,9 @@ def receive_journalists():
                     i = 0
                     len_pos_names = len(pos_names)
                     while True:
-                        if i == len_pos_names:
-                            print('Is it what is happening?')
-                            return redirect(JOURNALIST_ROUTE)
+                        # if i == len_pos_names:
+                        #     print('Is it what is happening?')
+                        #     return redirect(JOURNALIST_ROUTE)
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
