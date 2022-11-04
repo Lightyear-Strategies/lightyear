@@ -61,6 +61,7 @@ def receive_journalists():
                     i = 0
                     len_pos_names = len(pos_names)
                     print(len_pos_names)
+                    print(pos_names[0])
                     while True:
                         # if i == len_pos_names:
                         #     print('Is it what is happening?')
