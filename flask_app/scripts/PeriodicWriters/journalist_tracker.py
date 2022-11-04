@@ -35,6 +35,8 @@ def receive_journalists():
         timeframe = request.form.get('frequency')
         user_name = current_user.username
 
+        print(user_email)
+
         #print(files)
         if files:
 
@@ -53,7 +55,7 @@ def receive_journalists():
 
                 finally:
                     """For Future: should use re to check for 'ournalist' string """
-
+                    print('all goood')
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
                     i = 0
                     len_pos_names = len(pos_names)
@@ -72,6 +74,7 @@ def receive_journalists():
             #     df.to_sql(name='journalists', con=db.engine, index=False)
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
+                print('Creating new table')
                 data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
                 df = pd.DataFrame(data, columns=[ 'ClientName', 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
