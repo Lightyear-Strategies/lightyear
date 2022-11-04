@@ -57,8 +57,10 @@ def receive_journalists():
                     """For Future: should use re to check for 'ournalist' string """
                     print('all goood')
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
+
                     i = 0
                     len_pos_names = len(pos_names)
+                    print(len_pos_names)
                     while True:
                         # if i == len_pos_names:
                         #     print('Is it what is happening?')
