@@ -70,14 +70,16 @@ def show_haro_table():
     @param:    None
     @return:   Haros table
     """
-    updated = get_last_updated()
+    updated = str(get_last_updated())
     return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0]+" "+updated.split()[1][:8])
     # return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0], time_updated=updated.split()[1][:8])
 
 
 def get_last_updated():
-    db_path = os.path.join(current_app.root_path, '..', 'Database.sqlite3')
-    return str(datetime.fromtimestamp(os.path.getmtime(db_path)))
+    """returns a datetime of the most recently updated haro"""
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine);
+    most_recent_date_received = db.session.query(Haros.columns.DateReceived).first()[0]
+    return datetime.fromisoformat(most_recent_date_received)
 
 # def adding_used_unused(option: str = None, id: str = None):
 #     """
@@ -119,8 +121,7 @@ def serve_data(option=None):
 
     # fresh queries
     if option == "fresh":
-        db_path = os.path.join(current_app.root_path, '..', 'Database.sqlite3')
-        most_recent_update = datetime.fromtimestamp(os.path.getmtime(db_path))
+        most_recent_update = get_last_updated()
         freshmark = most_recent_update.date() - timedelta(days=1)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
