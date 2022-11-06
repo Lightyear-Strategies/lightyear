@@ -149,7 +149,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         gauth()
 
         to_send = report(
-            sender='george@lightyearstrategies.com',
+            sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=user_email,
             subject=f'{user_category} Journalist Report {str_date}',
             text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\nClick on the url to unsubscribe: {url}\n\n',
