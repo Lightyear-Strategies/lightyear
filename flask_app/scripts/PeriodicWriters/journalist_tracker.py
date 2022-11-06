@@ -60,15 +60,13 @@ def receive_journalists():
 
                     print(df.columns)
                     for i in range(0,len(pos_names)):
-                        print('Yes')
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
-                            print('Yup')
                             break
 
                         if i+1 == len(pos_names):
                             print('we are here')
-                            return 'No appropriate column'
+                            return render_template('ErrorPages/500.html')
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
