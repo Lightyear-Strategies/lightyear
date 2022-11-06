@@ -67,8 +67,8 @@ def receive_journalists():
                             break
 
                         if i+1 == len(pos_names):
+                            print('we are here')
                             return 'No appropriate column'
-                    print(journalists)
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
