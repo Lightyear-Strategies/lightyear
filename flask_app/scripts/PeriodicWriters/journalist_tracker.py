@@ -65,6 +65,9 @@ def receive_journalists():
                             journalists.extend(df[pos_names[i]].tolist())
                             print('Yup')
                             break
+
+                        if i+1 == len(pos_names):
+                            return 'No appropriate column'
                     print(journalists)
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
