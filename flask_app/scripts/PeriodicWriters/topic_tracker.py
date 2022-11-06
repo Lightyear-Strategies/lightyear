@@ -53,7 +53,7 @@ def receive_category():
             str_date = str(datetime.now().date())
 
             to_send = report(
-                sender='george@lightyearstrategies.com',
+                sender=Config.SENDER_EMAIL_NAME,
                 to=user_email,
                 subject=f'{user_category} Journalist Report {str_date}',
                 text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',

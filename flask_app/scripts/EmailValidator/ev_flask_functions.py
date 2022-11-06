@@ -68,7 +68,7 @@ def emailVerify(path, recipients=None):
     email = ev_API.emailValidation(filename=path)
     email.validation(save=True)
     subject_line = os.path.basename(path)
-    report = emailReport.report("george@lightyearstrategies.com", recipients,
+    report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
                                 "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
     report.sendMessage()
 

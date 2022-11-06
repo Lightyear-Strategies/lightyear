@@ -22,6 +22,8 @@ class Config:
 
     SERVER_NAME = os.getenv('SERVER_NAME')
 
+    SENDER_EMAIL_NAME = '"George Lightyear" <george@lightyearstrategies.com>'
+
     with open(os.path.join(CONFIG_DIR, 'env.txt')) as e:
         ENVIRONMENT = e.read().strip()
 

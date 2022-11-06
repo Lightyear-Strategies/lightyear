@@ -45,7 +45,7 @@ def contact_us():
             elif Config.ENVIRONMENT == 'local':
                 localServiceBuilder()
 
-            report = emailReport.report("george@lightyearstrategies.com", recipients, subject, message)
+            report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients, subject, message)
             report.sendMessage()
             return render_template('OnSuccess/EmailSent.html')
 
