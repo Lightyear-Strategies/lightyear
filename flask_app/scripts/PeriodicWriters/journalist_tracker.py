@@ -43,6 +43,7 @@ def receive_journalists():
             journalists = []
             for filename in files:
                 uploaded_file = files.get(filename)
+                print(uploaded_file)
                 df = None
                 try:
                     df = pd.read_csv(uploaded_file)
