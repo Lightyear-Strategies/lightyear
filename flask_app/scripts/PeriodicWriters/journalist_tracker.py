@@ -55,25 +55,18 @@ def receive_journalists():
 
                 finally:
                     """For Future: should use re to check for 'ournalist' string """
-                    print('all goood')
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
-
 
                     for i in range(0,len(pos_names)):
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
 
-            # only executed if there is no 'journalists' table
-            # if not db.inspect(db.engine.connect()).has_table('journalists'):
-            #     data = [[user_name, user_email, journalist, None] for journalist in journalists]
-            #     df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
-            #     df.to_sql(name='journalists', con=db.engine, index=False)
-
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
-                data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
-                df = pd.DataFrame(data, columns=[ 'ClientName', 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
+                data = [[user_name, user_email, journalist, None] for journalist in journalists]
+                print(data)
+                df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
                 print("Added data to the new table")
 
@@ -90,6 +83,7 @@ def receive_journalists():
                     # Add new entries
                     print("Adding new rows")
                     data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
+                    print(data)
                     new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack']) #['ClientName', 'ClientEmail', 'Journalist','Muckrack']
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
@@ -151,7 +145,7 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         token_string = f'{email} {subject}'
         token = unsub.dumps(token_string)
 
-        app.config['SERVER_NAME']=Config.SERVER_NAME
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
         with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_journalist', token=token, _external=True)
             #print(url)
