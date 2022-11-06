@@ -47,10 +47,10 @@ def receive_journalists():
                 df = None
                 try:
                     df = pd.read_csv(uploaded_file)
+                    print(df.columns)
 
                 except Exception:
                     print("Not CSV")
-                    #continue
                     return redirect(JOURNALIST_ROUTE)
 
 
@@ -58,15 +58,14 @@ def receive_journalists():
                     """For Future: should use re to check for 'ournalist' string """
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
 
-                    print(df.columns)
                     for i in range(0,len(pos_names)):
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
 
                         if i+1 == len(pos_names):
-                            print('we are here')
-                            return render_template('ErrorPages/500.html')
+                            print('No "Journalists" column')
+
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
