@@ -43,11 +43,10 @@ def receive_journalists():
             journalists = []
             for filename in files:
                 uploaded_file = files.get(filename)
-                print(uploaded_file)
+
                 df = None
                 try:
                     df = pd.read_csv(uploaded_file)
-                    print(df)
 
                 except Exception:
                     print("Not CSV")
@@ -60,6 +59,7 @@ def receive_journalists():
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
 
                     for i in range(0,len(pos_names)):
+                        print('Yes')
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             print('Yup')
