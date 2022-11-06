@@ -163,7 +163,7 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         gauth()
 
         to_send = report(
-            sender='george@lightyearstrategies.com',
+            sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=email,
             subject=f'{subject} Journalist Report {str_date}',
             text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
@@ -171,6 +171,6 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         )
         to_send.sendMessage()
 
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
         return render_template('ErrorPages/500.html')
