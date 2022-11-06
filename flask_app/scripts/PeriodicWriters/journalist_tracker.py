@@ -58,6 +58,7 @@ def receive_journalists():
                     """For Future: should use re to check for 'ournalist' string """
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
 
+                    print(df.columns)
                     for i in range(0,len(pos_names)):
                         print('Yes')
                         if pos_names[i] in df.columns:
