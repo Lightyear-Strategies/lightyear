@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, send_from_directory
+from flask import render_template, redirect, url_for, send_file
 from flask_login import login_required, current_user
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -7,7 +7,7 @@ from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask import request
 
 from itsdangerous import URLSafeSerializer, BadData
-import traceback
+import traceback, os
 import pandas as pd
 from datetime import datetime
 
@@ -62,7 +62,8 @@ def receive_category():
             # )
             # to_send.sendMessage()
 
-                return send_from_directory(Config.REPORTS_DIR,csvname[user_category])
+                return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
+                                 attachment_filename=csvname[user_category])
 
             except Exception:
                 traceback.print_exc()
