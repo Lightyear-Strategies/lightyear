@@ -63,6 +63,7 @@ def receive_category():
             # to_send.sendMessage()
 
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
+                                 mimetype='application/pdf',
                                  attachment_filename=csvname[user_category])
 
             except Exception:
