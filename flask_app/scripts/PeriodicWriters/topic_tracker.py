@@ -49,6 +49,7 @@ def receive_category():
         timeframe = request.form.get('frequency')
 
         if timeframe == '_once':
+            try:
             #gauth()
             # str_date = str(datetime.now().date())
             #
@@ -61,7 +62,10 @@ def receive_category():
             # )
             # to_send.sendMessage()
 
-            return send_from_directory('flask_app/scripts/PeriodicWriters/reports/',csvname[user_category])
+                return send_from_directory('flask_app/scripts/PeriodicWriters/reports/',csvname[user_category])
+
+            except Exception:
+                traceback.print_exc()
 
             # return redirect('/email_sent')
 
