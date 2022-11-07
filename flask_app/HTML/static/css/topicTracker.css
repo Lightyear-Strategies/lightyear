@@ -346,10 +346,10 @@ body {
 #page-main #submitBtn {
   background-color: var(--lightyear-yellow);
   color: black;
-  padding: 20px 40px;
+  padding: 20px;
   font-size: 1.4rem;
   border-radius: 0.25rem;
-  width: min-content;
+  width: 100%;
   border-radius: 8px;
   border: var(--lightyear-yellow) 2px solid;
   box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.057);
@@ -357,7 +357,6 @@ body {
   cursor: pointer;
   font-weight: 800;
   display: block;
-  margin: auto;
   margin-top: 2rem;
 }
 
@@ -375,14 +374,15 @@ body {
 
 #page-main .form__field {
   font-family: inherit;
-  width: 100%;
+  width: 98%;
+  height: 1.7em;
   border: 0;
-  padding: 0;
-  margin: 0;
   outline: 0;
   font-size: 1.3rem;
+  border-radius: 0.4rem;
   color: black;
-  background: transparent;
+  padding: 7px 7px;
+  background: rgba(128, 128, 128, 0.053);
   -webkit-transition: border-color 0.2s;
   transition: border-color 0.2s;
 }
@@ -506,6 +506,9 @@ body {
 #bad-window-size {
   display: none;
   text-align: center;
+  font-size: 1em;
+  margin: 0;
+  padding: 5em;
 }
 #help-circle {
   position: fixed;
@@ -523,6 +526,7 @@ body {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+  z-index: 10;
 }
 
 #image-placement img {
@@ -553,7 +557,7 @@ footer h4 {
   font-weight: 500;
 }
 
-@media (max-height: 500px) {
+@media (max-height: 600px) {
   footer {
     display: none;
   }
@@ -574,7 +578,7 @@ footer h4 {
 /*# sourceMappingURL=journalistTracker.css.map */
 
 @media (max-width: 800px) {
-  #real-content {
+  #page-main {
     display: none;
   }
 

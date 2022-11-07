@@ -256,7 +256,7 @@ body {
 }
 
 #page-main div > div {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
 }
 
 /* #page-main footer {
@@ -410,9 +410,9 @@ body {
 #page-main #submitBtn {
   background-color: var(--lightyear-yellow);
   color: black;
-  padding: 20px 40px;
+  padding: 20px;
   font-size: 1.4rem;
-  width: min-content;
+  width: 97.3%;
   border-radius: 8px;
   border: var(--lightyear-yellow) 2px solid;
   box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.057);
@@ -420,7 +420,6 @@ body {
   cursor: pointer;
   font-weight: 800;
   display: block;
-  margin: auto;
 }
 
 #page-main #submitBtn:hover {
@@ -433,22 +432,20 @@ body {
   position: relative;
   padding: 35px 0 0;
   margin-top: 0;
-  width: 425px;
+  width: 98%;
 }
 
 #page-main .form__field {
   font-family: inherit;
-  width: 100%;
+  width: 98%;
+  height: 1.7em;
   border: 0;
   outline: 0;
-  padding: 0;
-  margin: 0;
   font-size: 1.3rem;
+  border-radius: 0.4rem;
   color: black;
-  padding: 7px 0;
-  background: transparent;
-  -webkit-transition: border-color 0.2s;
-  transition: border-color 0.2s;
+  padding: 7px 7px;
+  background: rgba(128, 128, 128, 0.053);
 }
 
 #page-main .form__field::-webkit-input-placeholder {
@@ -480,7 +477,6 @@ body {
   position: absolute;
   top: 0;
   display: block;
-  -webkit-transition: 0.2s;
   transition: 0.2s;
   font-size: 1.3rem;
   color: black;
@@ -561,14 +557,14 @@ body {
 
 #page-main #myDropzone {
   margin: 2rem 1.6rem 2rem 0rem;
-  border-radius: 0.25rem;
-  background-color: transparent;
+  border-radius: 0.4rem;
+  background: rgba(128, 128, 128, 0.053);
   height: 200px;
   display: -ms-grid;
   display: grid;
   place-content: center;
-  border: dashed 2px black;
-  overflow-y:scroll;
+  border: 2px dashed rgb(137, 137, 137);
+  overflow-y: scroll;
   cursor: pointer;
 }
 
@@ -586,19 +582,19 @@ body {
 }
 
 .dropzone .dz-details .dz-filename span {
-  font:inherit;
+  font: inherit;
 }
 
 .dropzone .dz-preview .dz-remove {
-  font:inherit;
-  color:var(--lightyear-gray);
+  font: inherit;
+  color: var(--lightyear-gray);
 }
 
 .dropzone .dz-preview .dz-progress {
   display: none;
 }
 .dropzone .dz-preview .dz-error-message span {
-  font:inherit;
+  font: inherit;
 }
 .dropzone .dz-preview .dz-success-mark {
   display: none;
@@ -670,6 +666,20 @@ body {
 #bad-window-size {
   display: none;
   text-align: center;
+  font-size: 1em;
+  margin: 0;
+  padding: 5em;
+}
+
+#clearOut {
+  font-family: inherit;
+  width: 98%;
+  height: 1.7em;
+  border: 0;
+  outline: 0;
+  border-radius: 0.4rem;
+  color: black;
+  padding: 7px 7px;
 }
 
 @-webkit-keyframes bounce {
@@ -718,7 +728,7 @@ body {
 }
 
 .highlight {
-  border-bottom: 10px solid transparent;
+  border-bottom: 8px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 #image-placement img {
@@ -772,6 +782,7 @@ input:-webkit-autofill:active {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+  z-index: 10;
 }
 
 #nav-selected {
@@ -788,14 +799,14 @@ footer h4 {
   font-weight: 500;
 }
 
-@media (max-height: 800px) {
+@media (max-height: 900px) {
   footer {
     display: none;
   }
 }
 
-@media (max-width: 500px) {
-  #real-content {
+@media (max-width: 800px) {
+  #page-main {
     display: none;
   }
 
