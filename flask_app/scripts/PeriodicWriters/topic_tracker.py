@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, send_from_directory
 from flask_login import login_required, current_user
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -49,18 +49,21 @@ def receive_category():
         timeframe = request.form.get('frequency')
 
         if timeframe == '_once':
-            gauth()
-            str_date = str(datetime.now().date())
+            #gauth()
+            # str_date = str(datetime.now().date())
+            #
+            # to_send = report(
+            #     sender=Config.SENDER_EMAIL_NAME,
+            #     to=user_email,
+            #     subject=f'{user_category} Journalist Report {str_date}',
+            #     text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
+            #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
+            # )
+            # to_send.sendMessage()
 
-            to_send = report(
-                sender=Config.SENDER_EMAIL_NAME,
-                to=user_email,
-                subject=f'{user_category} Journalist Report {str_date}',
-                text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
-                file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
-            )
-            to_send.sendMessage()
-            return redirect('/email_sent')
+            return send_from_directory('flask_app/scripts/PeriodicWriters/reports/',csvname[user_category])
+
+            # return redirect('/email_sent')
 
 
         # only executed if there is no 'journalists' table
