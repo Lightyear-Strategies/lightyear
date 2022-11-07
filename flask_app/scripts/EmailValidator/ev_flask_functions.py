@@ -69,14 +69,14 @@ def emailVerify(path, recipients=None):
     email.validation(save=True)
     subject_line = os.path.basename(path)
 
-    return send_file(path,
-                     mimetype='text/csv',
-                     attachment_filename=subject_line,
-                     as_attachment=True)
+    # return send_file(path,
+    #                  mimetype='text/csv',
+    #                  attachment_filename=subject_line,
+    #                  as_attachment=True)
 
-    # report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
-    #                             "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
-    # report.sendMessage()
+    report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
+                                "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
+    report.sendMessage()
 
 
 @celery.task(name='ev_flask_functions.parseSendEmail')
