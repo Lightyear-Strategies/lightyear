@@ -50,18 +50,18 @@ def receive_category():
 
         if timeframe == '_once':
             try:
-            #gauth()
-            # str_date = str(datetime.now().date())
-            #
-            # to_send = report(
-            #     sender=Config.SENDER_EMAIL_NAME,
-            #     to=user_email,
-            #     subject=f'{user_category} Journalist Report {str_date}',
-            #     text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
-            #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
-            # )
-            # to_send.sendMessage()
-                print(os.path.join(Config.REPORTS_DIR,csvname[user_category]))
+                #gauth()
+                # str_date = str(datetime.now().date())
+                #
+                # to_send = report(
+                #     sender=Config.SENDER_EMAIL_NAME,
+                #     to=user_email,
+                #     subject=f'{user_category} Journalist Report {str_date}',
+                #     text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
+                #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
+                # )
+                # to_send.sendMessage()
+                #print(os.path.join(Config.REPORTS_DIR,csvname[user_category]))
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
                                  mimetype='application/pdf',
                                  attachment_filename=csvname[user_category],
