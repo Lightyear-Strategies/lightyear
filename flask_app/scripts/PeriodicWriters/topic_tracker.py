@@ -62,7 +62,7 @@ def receive_category():
             # )
             # to_send.sendMessage()
 
-                return send_from_directory('flask_app/scripts/PeriodicWriters/reports/',csvname[user_category])
+                return send_from_directory(Config.REPORTS_DIR,csvname[user_category])
 
             except Exception:
                 traceback.print_exc()
