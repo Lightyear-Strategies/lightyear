@@ -221,6 +221,8 @@ function getMediaQueryData(requestUrl) {
     request_count = request_count + 1;
     const request_no = request_count;
 
+    resetDisplay();
+    add_loader();
     const request = $.ajax(
       {
         'url' : requestUrl,
@@ -228,6 +230,12 @@ function getMediaQueryData(requestUrl) {
             if (status != 304) DATA = result.data;
             page_number = 1;
             if (request_no == request_count) {
+                try {
+                    hide_loader();
+                }
+                catch (e) {
+
+                }
                 resetDisplay();
                 appendDisplay();
                 if (!init) {
