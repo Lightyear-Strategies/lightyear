@@ -219,6 +219,7 @@ main {
   max-width: 1200px;
   margin: 0 10px 0 60px;
   padding-bottom: 20px;
+  padding-top: 10px;
 }
 
 .hover-state {
@@ -229,7 +230,7 @@ main {
 }
 
 .card {
-  min-height: 381px;
+  height: 381px;
   background: rgb(255, 255, 255);
   border-radius: 8px;
   overflow: hidden;
@@ -324,6 +325,8 @@ main {
 .circle img {
   z-index: 10000;
   transform: translateZ(0);
+  width: 140px;
+  padding-top: 3px;
 }
 
 .overlay {
@@ -340,7 +343,6 @@ main {
 
 .greeting {
   margin: 0;
-  padding: 0;
   left: 40px;
   height: 125px;
 }
@@ -354,6 +356,9 @@ main {
 #bad-window-size {
   display: none;
   text-align: center;
+  font-size: 1em;
+  margin: 0;
+  padding: 5em;
 }
 
 #bad-window-size h1 {
@@ -388,9 +393,12 @@ footer h4 {
   }
 }
 
-@media (max-width: 1000px) or (max-height: 650px) {
+@media (max-width: 1000px) {
   #real-content {
     display: none;
+  }
+  body {
+    height: 0;
   }
 
   #bad-window-size {

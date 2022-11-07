@@ -30,44 +30,24 @@ body {
   margin-top: 3em;
 }
 
-.response-page a {
+.response-page .goBack {
   background-color: var(--lightyear-yellow);
   color: black;
-  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
-  border-color: var(--lightyear-yellow);
+  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.057);
   border-radius: 8px;
   font-size: 1.4rem;
   padding: 20px 40px;
   font-weight: 600;
-  width: 60%;
-  cursor: pointer;
+  width: 200px;
   transition: ease-out 0.2s all;
-  margin-top: 4rem;
-  text-decoration: none;
+  margin: 1rem 0 3rem 0;
+  cursor: pointer;
   border: solid var(--lightyear-yellow) 2px;
 }
 
-.response-page a:hover {
+.response-page .goBack:hover {
   color: var(--lightyear-yellow);
   background-color: black;
-  text-decoration: none;
-  border: solid var(--lightyear-yellow) 2px;
-}
-
-.signUp {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  color: var(--background-color);
-}
-
-.signUp > div {
-  flex: 1;
-}
-
-.signUp > div:last-of-type {
-  margin-top: -2rem;
-  padding: 40px 20px;
 }
 
 #image-placement img {
@@ -78,22 +58,12 @@ body {
   min-width: 400px;
   overflow: hidden;
   padding-bottom: 2em;
+  z-index: -2;
 }
 
-.signUp > div > p {
-  height: 18.2rem;
-  margin-bottom: 0px;
-}
 /* Media Fitting */
 @media only screen and (max-width: 600px) {
   section {
     padding-bottom: 4rem;
-  }
-}
-
-@media (max-height: 500px) {
-  #login-image,
-  #signUp-image {
-    display: none;
   }
 }

@@ -15,17 +15,18 @@
 <body>
     <section>
         <div class="login">
-        <div id="login-image">
-          <img src="../static/img/LadyOnBag.svg">
-        </div>
+            <div id="login-image">
+                <img src="../static/img/LadyOnBag.svg">
+            </div>
+                <img id="future"></img>
+
             <div>
-                <h1> Login </h1>
+                <h1> Sign In</h1>
                 <form method="POST" action="/">
                     {{ form.csrf_token }}
                     <!-- Copy and Paste the Text inputs -->
                     <div action="" class="form__group field">
-                        {{ form.username_email(id='username_email', class="form__field", placeholder="username_email") }}
-                        {{ form.username_email.label(for='username_email',class="form__label") }}
+                        {{ form.username_email(id='username_email', class="form__field", placeholder="Email or Username") }}
                         {% if form.username_email.errors %}
                             <ul class="errors">
                                 {% for error in form.username_email.errors %}
@@ -35,9 +36,7 @@
                         {% endif %}
                     </div>
                     <div action="" class="form__group field">
-                        {{ form.password(id='password', class="form__field", placeholder="password") }}
-                        {{ form.password.label(for='password',class="form__label") }}
-
+                        {{ form.password(id='password', class="form__field", placeholder="Password") }}
                         <!-- For showing Password related errors during form.validate_on_submit -->
                         {% if form.password.errors %}
                             <ul class="errors">
@@ -61,38 +60,13 @@
                     <br>
 {#                    onclick='location.href="{{ url_for('home') }}"' type="button" #}
                     <button  id="loginBtn">
-                    Sign In
+                    Login
                     </button>
+                    <h3>First time here? <a id="highlight" href="/signup" >Sign Up</a> </h3>
                 </form>
                 <br>
             </div>
         </div>
     </section>
-    <section id="wrapper">
-        <div class="signUp">
-            <div id="signUp-image">
-                <img src="../static/img/signUp-pr1.svg">
-            </div>
-            <div class="onTop">
-                <h1>
-                    <span id="highlight"> First time</span>
-                    here?
-                </h1>
-                <p>
-                   As public relations professionals with roots in 
-                   software development, we felt boxed in by the 
-                   current PR tech offerings. It was upon us to push 
-                   the boundaries of PR productivity. <br><br>
-                   Create a free account to join our beta tech stack.
-
-                </p>
-            </div>
-            <div class="onTop">
-                <button onclick='location.href="{{ url_for('signup') }}"' type="button">
-                    Sign Up
-                </button>
-            </div>
-        </div>
-    </section>   
 </body>
 </html>

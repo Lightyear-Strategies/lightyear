@@ -1,7 +1,3 @@
-/*
-    Maybe add loader transition if need be.
-*/
-
 /* General Styling */
 :root {
   --lightyear-red: #f04c23;
@@ -16,127 +12,86 @@
 }
 
 html {
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
 }
 
 body {
   background-color: var(--background-color);
+  display: flex;
+  flex-wrap: wrap;
   margin: 0px;
-  color: black;
-  padding: 0px;
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
 }
 
-h1 {
-  margin: 0px;
-  margin-top: 3rem;
-  font-size: 4rem;
-  font-weight: 800;
-  text-align: center;
-  margin-bottom: 80px;
+hr {
+  width: 80%;
+  border-top: black 2px solid;
+  margin: auto;
 }
 
-h2 {
-  font-size: 1.5rem;
+section {
+  flex: 1;
+  display: grid;
+  place-items: flex-start center;
+  width: auto;
+  min-height: 100vh;
 }
 
-main {
-  text-align: center;
+section > div {
+  margin-top: 15vh;
 }
 
-h3 {
-  padding: 0px;
-  margin: 0px;
-  font-size: 1.5rem;
-}
-
-/* span {
-  -webkit-text-stroke: 2px black;
-  color: white;
-  text-decoration: underline 2px black;
+/* section:last-of-type {
+  background-color: black;
 } */
 
-.title {
-  width: 80%;
-  margin: auto;
+section > div {
+  width: clamp(300px, 80%, 600px);
 }
 
-main > section {
-  width: clamp(200px, 60%, 1000px);
-  min-width: 200px;
-  margin: auto;
+section > div > div > h1 {
+  font-size: 4rem;
 }
 
-main > section:first-of-type {
-  text-align: left;
+section > div > div > h2 {
+  font-size: 2rem;
 }
 
-main > section:last-of-type {
+/* Log in */
+.signUp {
+  text-align: center;
   display: flex;
   flex-direction: column;
-}
-
-main > section:last-of-type > div {
-  flex: 1;
-  margin: 2rem 0rem;
-}
-
-button {
-  width: 60%;
-  min-width: 200px;
-  font-weight: 800;
-  flex: 1;
-  padding: 1rem 4rem;
-  font-size: 3rem;
-  margin: 3rem auto;
-  border: none;
-  cursor: pointer;
+  flex-wrap: wrap;
   color: black;
-  background-color: var(--lightyear-yellow);
-  border-radius: 8px;
-  transition: ease-out all 0.2s;
-  border: solid var(--lightyear-yellow) 2px;
-  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
+  border-radius: 0.75rem;
 }
 
-button:hover {
-  background-color: black;
-  -webkit-text-stroke: black 2px;
-  color: var(--lightyear-yellow);
-  border: solid var(--lightyear-yellow) 2px;
+.signUp > div:first-of-type > div {
+  margin-bottom: 4rem;
 }
 
-/* Login input | Redo it maybe? */
+/* Login input */
 .form__group {
   position: relative;
-  padding: 15px 0 0;
-  margin-top: 10px;
+  padding: 8px 0 0;
   width: 100%;
 }
 
 .form__field {
   font-family: inherit;
-  width: 60%;
+  width: 58%;
+  height: 1.7em;
   border: 0;
-  border-bottom: 2px solid black;
   outline: 0;
   font-size: 1.3rem;
+  border-radius: 8px;
   color: black;
-  padding: 7px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-}
-
-.form__field::placeholder {
-  color: transparent;
-}
-
-.form__field:placeholder-shown ~ .form__label {
-  font-size: 1.3rem;
-  cursor: text;
-  top: 20px;
+  padding: 10px 7px;
+  margin-bottom: 1.2em;
+  background: rgba(128, 128, 128, 0.116);
 }
 
 .form__label {
@@ -149,27 +104,115 @@ button:hover {
   color: black;
 }
 
-.form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, black, black);
-  border-image-slice: 1;
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
 }
 
-.form__field:focus ~ .form__label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: black;
-  font-weight: 700;
+.checkBox {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
+
+.response-page {
+  font-family: inherit;
+  text-align: center;
+}
+
+.response-page h1 {
+  margin-top: 5em;
+  margin-bottom: 5em;
+}
+
+.response-page a {
+  background-color: var(--lightyear-yellow);
+  color: black;
+  border: 2px solid;
+  border-color: var(--lightyear-yellow);
+  font-size: 2.25rem;
+  padding: 20px 40px;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  width: 60%;
+  cursor: pointer;
+  transition: ease-out 0.2s all;
+  margin-top: 4rem;
+}
+
+.response-page a:hover {
+  color: var(--lightyear-yellow);
+  background-color: black;
+  border: var(--lightyear-yellow) 2px solid;
+}
+
+.signUpBtn {
+  background-color: var(--lightyear-yellow);
+  color: black;
+  border: 2px solid;
+  border-color: var(--lightyear-yellow);
+  font-size: 2.25rem;
+  padding: 15px 40px;
+  border-radius: 8px;
+  font-weight: 600;
+  width: 60%;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: ease-out 0.2s all;
+  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
+}
+
+.signUpBtn:hover {
+  color: var(--lightyear-yellow);
+  background-color: black;
+  border: var(--lightyear-yellow) 2px solid;
+}
+
+/*  Sign up */
+
+/* .signUp > div > h1 > span {
+  color: var(--lightyear-yellow);
+  font-weight: 800;
+  text-decoration: underline var(--background-color) 0.5rem;
+} */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.errors {
+  position: relative;
+  margin-top: -15px;
+  padding-right: 40px;
+  color: red;
+}
+
+a {
+  text-decoration: none;
+  color: purple;
+  padding-bottom: 3px;
+}
+a:hover {
+  color: var(--lightyear-yellow);
+}
+
 #highlight {
-  border-bottom: 10px solid transparent;
+  border-bottom: 8px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
+
+.signUp > div > p {
+  height: 18.2rem;
+  margin-bottom: 0px;
+}
+
 #kite img {
   position: absolute;
   /* margin-right: -9%; */
@@ -200,13 +243,14 @@ button:hover {
   transition: all 0.5s ease-out;
 }
 
-/* @media screen and (max-width: 1000px) {
+@media screen and (max-width: 1300px) {
+  #girl img,
   #kite img {
     opacity: 0.3;
   }
-} */
+}
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1100px) {
   #girl img {
     visibility: hidden;
   }
@@ -218,7 +262,7 @@ button:hover {
   }
 }
 
-@media screen and (max-height: 700px) {
+@media screen and (max-height: 800px) {
   #kite {
     display: none;
   }
@@ -228,20 +272,4 @@ button:hover {
 .form__field:required,
 .form__field:invalid {
   box-shadow: none;
-}
-
-/* Media Fitting | Mostly Font size  */
-@media only screen and (max-width: 600px) {
-  h1 {
-    font-size: 3rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-  }
-
-  button {
-    font-size: 2rem;
-    padding: 1.25rem 0rem;
-  }
 }

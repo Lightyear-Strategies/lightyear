@@ -413,7 +413,7 @@ body {
   padding: 20px 40px;
   font-size: 1.4rem;
   border-radius: 0.25rem;
-  width: min-content;
+  width: 97%;
   border-radius: 8px;
   border: var(--lightyear-yellow) 2px solid;
   box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.057);
@@ -421,7 +421,6 @@ body {
   cursor: pointer;
   font-weight: 800;
   display: block;
-  margin: auto;
 }
 
 #page-main #submitBtn:hover {
@@ -434,20 +433,20 @@ body {
   position: relative;
   padding: 35px 0 0;
   margin-top: 0;
-  width: 425px;
+  width: 97.3%;
 }
 
 #page-main .form__field {
   font-family: inherit;
-  width: 100%;
+  width: 98%;
+  height: 1.7em;
   border: 0;
   outline: 0;
-  padding: 0;
-  margin: 0;
   font-size: 1.3rem;
+  border-radius: 0.4rem;
   color: black;
-  padding: 7px 0;
-  background: transparent;
+  padding: 7px 7px;
+  background: rgba(128, 128, 128, 0.053);
   -webkit-transition: border-color 0.2s;
   transition: border-color 0.2s;
 }
@@ -562,13 +561,13 @@ body {
 
 #page-main #myDropzone {
   margin: 1.6rem 1.6rem 2rem 0rem;
-  border-radius: 0.25rem;
-  background-color: transparent;
+  border-radius: 0.4rem;
+  background: rgba(128, 128, 128, 0.053);
   height: 200px;
   display: -ms-grid;
   display: grid;
   place-content: center;
-  border: dashed 2px black;
+  border: 2px dashed rgb(137, 137, 137);
   cursor: pointer;
 }
 
@@ -654,6 +653,9 @@ body {
 #bad-window-size {
   display: none;
   text-align: center;
+  font-size: 1em;
+  margin: 0;
+  padding: 5em;
 }
 
 @-webkit-keyframes bounce {
@@ -703,7 +705,7 @@ body {
 /*# sourceMappingURL=journalistTracker.css.map */
 
 .highlight {
-  border-bottom: 10px solid transparent;
+  border-bottom: 8px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 #image-placement img {
@@ -750,6 +752,7 @@ input:-webkit-autofill:active {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+  z-index: 10;
 }
 footer h4 {
   position: absolute;
@@ -765,7 +768,7 @@ footer h4 {
   border-bottom: black solid 3.5px;
 }
 
-@media (max-height: 710px) {
+@media (max-height: 820px) {
   footer {
     display: none;
   }

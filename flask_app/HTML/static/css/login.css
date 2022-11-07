@@ -35,7 +35,7 @@ section {
   flex: 1;
   display: grid;
   place-items: flex-start center;
-  min-width: 570px;
+  width: auto;
   min-height: 100vh;
 }
 
@@ -76,33 +76,22 @@ section > div > div > h2 {
 /* Login input */
 .form__group {
   position: relative;
-  padding: 15px 0 0;
-  margin-top: 5px;
+  padding: 8px 0 0;
   width: 100%;
 }
 
 .form__field {
   font-family: inherit;
-  width: 60%;
+  width: 58%;
+  height: 1.7em;
   border: 0;
-  border-bottom: 2px solid black;
   outline: 0;
   font-size: 1.3rem;
+  border-radius: 8px;
   color: black;
-  padding: 5px 0;
-  background: transparent;
-  transition: border-color 0.2s;
-  margin-bottom: 2.5em;
-}
-
-.form__field::placeholder {
-  color: transparent;
-}
-
-.form__field:placeholder-shown ~ .form__label {
-  font-size: 1.3rem;
-  cursor: text;
-  top: 20px;
+  padding: 10px 7px;
+  margin-bottom: 1.2em;
+  background: rgba(128, 128, 128, 0.116);
 }
 
 .form__label {
@@ -113,24 +102,6 @@ section > div > div > h2 {
   transition: 0.2s;
   font-size: 1rem;
   color: black;
-}
-
-.form__field:focus {
-  padding-bottom: 6px;
-  font-weight: 700;
-  border-width: 3px;
-  border-image: linear-gradient(to right, black, black);
-  border-image-slice: 1;
-}
-
-.form__field:focus ~ .form__label {
-  position: absolute;
-  top: 0;
-  display: block;
-  transition: 0.2s;
-  font-size: 1rem;
-  color: black;
-  font-weight: 700;
 }
 
 /* reset input */
@@ -179,42 +150,6 @@ section > div > div > h2 {
   border: var(--lightyear-yellow) 2px solid;
 }
 
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  border: black solid 2px;
-  margin-right: 1.25rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
-    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
-  padding: 9px;
-  border-radius: 3px;
-  display: inline-block;
-  position: relative;
-}
-
-input[type="checkbox"]:active,
-input[type="checkbox"]:checked:active {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
-    inset 0px 1px 3px rgba(0, 0, 0, 0.1);
-  color: black;
-}
-
-input[type="checkbox"]:checked {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
-    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
-    inset 15px 10px -12px rgba(255, 255, 255, 0.1);
-  color: black;
-}
-
-input[type="checkbox"]:checked:after {
-  content: "\2714";
-  font-size: 14px;
-  position: absolute;
-  top: 0px;
-  left: 3px;
-  color: black;
-  font-weight: 800;
-}
-
 /* Login Button */
 #loginBtn {
   background-color: var(--lightyear-yellow);
@@ -222,13 +157,12 @@ input[type="checkbox"]:checked:after {
   border: 2px solid;
   border-color: var(--lightyear-yellow);
   font-size: 2.25rem;
-  padding: 20px 40px;
+  padding: 15px 40px;
   border-radius: 8px;
   font-weight: 600;
   width: 60%;
   cursor: pointer;
   transition: ease-out 0.2s all;
-  margin-top: 4rem;
   box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
 }
 
@@ -239,105 +173,77 @@ input[type="checkbox"]:checked:after {
 }
 
 /*  Sign up */
-.signUp {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  color: var(--background-color);
-}
 
-.signUp > div {
-  flex: 1;
-}
-
-.signUp > div:last-of-type {
-  margin-top: -2rem;
-  padding: 40px 20px;
-}
-
-/* .signUp > div > h1 > span {
-  color: var(--lightyear-yellow);
-  font-weight: 800;
-  text-decoration: underline var(--background-color) 0.5rem;
-} */
-
-.signUp > div > p {
-  font-size: 1.75rem;
-  text-align: left;
-}
-
-.signUp > div > button {
-  background-color: var(--lightyear-yellow);
-  color: black;
-  border: 2px solid;
-  border-color: var(--lightyear-yellow);
-  border-radius: 8px;
-  font-size: 2.25rem;
-  padding: 20px 40px;
-  font-weight: 600;
-  width: 60%;
-  cursor: pointer;
-  transition: ease-out 0.2s all;
-  box-shadow: -2px -1px 13px 4px rgba(0, 0, 0, 0.104);
-}
-
-.signUp > div > button:hover {
-  color: var(--lightyear-yellow);
-  background-color: black;
-  /* border-radius: 0.25rem;
-    border: 2px;
-    border-color: var(--lightyear-yellow); */
-}
-#wrapper {
-  position: relative;
-  height: inherit;
-  background-color: black;
-  overflow-x: scroll;
-}
 #login-image img {
   position: absolute;
   /* margin-right: -9%; */
   z-index: -5;
-  bottom: 0px;
-  left: -80px;
+  bottom: 20px;
+  left: -20px;
   height: 45%;
   overflow: hidden;
-  min-height: 380px;
+  min-height: 300px;
 
   -moz-transition: all 0.5s ease-out;
   -o-transition: all 0.5s ease-out;
   transition: all 0.5s ease-out;
 }
 
-#signUp-image img {
-  position: absolute;
-  /* margin-right: -9%; */
-  z-index: 1;
-  bottom: 0px;
-  /* float: right; */
-  right: 0px;
-  height: 45%;
-  overflow: hidden;
-  min-height: 380px;
-
-  -moz-transition: all 0.5s ease-out;
-  -o-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
-}
-
-@media screen and (max-height: 850px) {
-  #login-image img,
-  #signUp-image img {
+@media screen and (max-width: 1000px) {
+  #login-image img {
     opacity: 0.3;
   }
 }
 
-.onTop {
-  z-index: 3;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#future {
+  position: absolute;
+  z-index: -3;
+  right: 80px;
+  top: 80px;
+  min-width: 200px;
+  min-height: 100px;
+  height: 20%;
+  content: url("../img/Future.png");
+  animation: replaceStatic 0.15s forwards 4s;
+}
+
+@keyframes replaceStatic {
+  to {
+    content: url("../img/finalFuture.png");
+  }
+}
+
+@keyframes replacePic {
+  to {
+    background-image: url(../img/finalFuture.png);
+  }
+}
+
+.errors {
+  position: relative;
+  margin-top: -15px;
+  padding-right: 40px;
+  color: red;
+}
+
+a {
+  text-decoration: none;
+  color: purple;
+  padding-bottom: 3px;
+}
+a:hover {
+  color: var(--lightyear-yellow);
 }
 
 #highlight {
-  border-bottom: 10px solid transparent;
+  border-bottom: 8px solid transparent;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 
@@ -346,15 +252,20 @@ input[type="checkbox"]:checked:after {
   margin-bottom: 0px;
 }
 /* Media Fitting */
-@media only screen and (max-width: 600px) {
-  section {
-    padding-bottom: 4rem;
+@media only screen and (max-width: 900px) {
+  #future {
+    display: none;
   }
 }
 
-@media (max-height: 500px) {
-  #login-image,
-  #signUp-image {
+@media only screen and (max-width: 600px) {
+  #login-image {
+    display: none;
+  }
+}
+
+@media (max-height: 700px) {
+  #login-image {
     display: none;
   }
 }
