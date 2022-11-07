@@ -61,7 +61,7 @@ def receive_category():
             #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
             # )
             # to_send.sendMessage()
-
+                print(os.path.join(Config.REPORTS_DIR,csvname[user_category]))
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
                                  mimetype='application/pdf',
                                  attachment_filename=csvname[user_category],
