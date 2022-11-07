@@ -271,9 +271,9 @@ function pop_confetti() {
     if (mode == 'fresh' && !popped) {
         popped = true;
         save_last_seen();
-        resetDisplay();
         show_confetti();
-        noHarosDisplay();
+        resetDisplay();
+        setTimeout(noHarosDisplay, 500);
     }
 }
 
