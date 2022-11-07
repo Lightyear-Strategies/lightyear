@@ -12,7 +12,7 @@ let page = 1;
 let display_index = 0;
 // for haro loading
 let initialized = false;
-const loader_string = '<lottie-player src="../static/img/haro_loading.json" background="transparent" speed="1" style="width: 100px; height:100px; margin-left: calc(50% - 50px); margin-top: 100px;" loop autoplay></lottie-player>'
+const loader_string = '<lottie-player id="loader-lottie" src="../static/img/haro_loading.json" background="transparent" speed="1" loop autoplay></lottie-player>'
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -136,6 +136,11 @@ function submitSearch(newmode = false) {
     if (JSON.stringify(terms).length == 77) {
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
+        if ((JSON.stringify(terms) != JSON.stringify(terms_0)) && (JSON.stringify(terms_0) != '{}')) {
+            resetDisplay();
+            appendDisplay();
+            terms_0 = terms;
+        }
         return;
     }
 
@@ -216,6 +221,8 @@ function getMediaQueryData(requestUrl) {
     request_count = request_count + 1;
     const request_no = request_count;
 
+    resetDisplay();
+    add_loader();
     const request = $.ajax(
       {
         'url' : requestUrl,
@@ -223,6 +230,12 @@ function getMediaQueryData(requestUrl) {
             if (status != 304) DATA = result.data;
             page_number = 1;
             if (request_no == request_count) {
+                try {
+                    hide_loader();
+                }
+                catch (e) {
+
+                }
                 resetDisplay();
                 appendDisplay();
                 if (!init) {
@@ -241,21 +254,16 @@ function add_loader() {
 }
 
 function hide_loader() {
-    HARO_BODY.removeChild(document.querySelector('lottie-player'))
+    HARO_BODY.removeChild(document.querySelector('#loader-lottie'))
 }
 
 function show_confetti() {
     let lot = document.createElement('lottie-player');
+    lot.setAttribute('id', 'confetti-lottie')
     lot.setAttribute('src', '../static/img/confetti.json');
     lot.setAttribute('background', 'transparent');
     lot.setAttribute('speed', '1');
     lot.setAttribute('autoplay', '');
-    lot.style.position = 'absolute';
-    lot.style.left = '0';
-    lot.style.top = '0';
-    lot.style.width = '100%';
-    lot.style.height = '100%';
-    lot.style.zIndex = '10000';
     document.getElementById('page-body').appendChild(lot);
 }
 
@@ -263,9 +271,9 @@ function pop_confetti() {
     if (mode == 'fresh' && !popped) {
         popped = true;
         save_last_seen();
-        resetDisplay();
         show_confetti();
-        noHarosDisplay();
+        resetDisplay();
+        setTimeout(noHarosDisplay, 500);
     }
 }
 
@@ -533,11 +541,15 @@ function noHarosDisplay() {
         err.innerHTML = 'No saved entries match your query'
     } 
     else if (mode == 'fresh') {
-        popped = true;
-        err.innerHTML = 'You\'re all caught up :)';
+        if (popped = true) {
+            err.innerHTML = 'You\'re all caught up :)';
+        }
+        else {
+            err.innerHTML = 'Sorry! No entries match your query'
+        }
     }
     else {
-        err.innerHTML = 'Sorry! No Haros match your query :('
+        err.innerHTML = 'Sorry! No entries match your query'
     }
     document.getElementById('table-head').classList.add('hidden')
     document.getElementById('haro-table-body').appendChild(err)
@@ -642,6 +654,7 @@ function get_last_seen() {
 function save_last_seen() {
     let last_seen_date = Date.now().toString();
     let last_seen_summary = toDisplay[0].Summary;
+    last_seen = last_seen_summary;
     // use ::::: to delimit
     localStorage.setItem('last_seen', last_seen_date + ":::::" + last_seen_summary)
 }
