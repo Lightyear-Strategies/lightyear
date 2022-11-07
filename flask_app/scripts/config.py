@@ -14,7 +14,7 @@ class Config:
     HTML_DIR = os.path.join(FLASK_DIR, 'HTML')
     STATIC_DIR = os.path.join(HTML_DIR, 'static')
     UPLOAD_DIR = os.path.join(FLASK_DIR,'uploadFolder')
-    REPORTS_DIR = os.path.join(SCRIPTS_DIR,'/PeriodicWriters/reports/')
+    REPORTS_DIR = os.path.join(FLASK_DIR,'/scripts/PeriodicWriters/reports/')
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
