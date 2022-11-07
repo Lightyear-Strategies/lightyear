@@ -136,6 +136,11 @@ function submitSearch(newmode = false) {
     if (JSON.stringify(terms).length == 77) {
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
+        if ((JSON.stringify(terms) != JSON.stringify(terms_0)) && (JSON.stringify(terms_0) != '{}')) {
+            resetDisplay();
+            appendDisplay();
+            terms_0 = terms;
+        }
         return;
     }
 
