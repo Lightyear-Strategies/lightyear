@@ -20,7 +20,7 @@ db = SQLAlchemy()
 def init_celery(app):
     celery = Celery(
         app.import_name,
-        backend=Config.DATABASE_URI, # app.config['CELERY_BACKEND'],
+        backend='db+'+Config.DATABASE_URI, # app.config['CELERY_BACKEND'],
         broker=app.config['CELERY_BROKER_URL']
     )
     celery.conf.update(app.config)
