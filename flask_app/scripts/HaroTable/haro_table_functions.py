@@ -44,7 +44,8 @@ def addDBData(df: pd.DataFrame):  # (file):
             whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
             logger.info(len(whole_db))
             logger.info(whole_db.columns)
-            res = pd.concat([df, whole_db])
+            whole_db.sort_index(inplace=True, ascending= True)
+            res = pd.concat([whole_db, df])
         except Exception:
             logger.info('\nSmall addDBData Problem:')
             res = df
@@ -53,11 +54,12 @@ def addDBData(df: pd.DataFrame):  # (file):
         res.drop_duplicates(subset=['Summary'], inplace=True)
         logger.info(len(res))
         res.reset_index(drop=True, inplace=True)
+        res.sort_index(inplace=True, ascending=False)
 
         # Load data to database
         logger.info(res.columns)
         res.to_sql(name='haros', con=db.engine,
-                   index=True, if_exists='replace')
+                   index=False, if_exists='replace')
     except Exception:
         logger.info('\nBig addDBData Problem:')
         traceback.print_exc(file=sys.stdout)
@@ -78,7 +80,7 @@ def show_haro_table():
 def get_last_updated():
     """returns a datetime of the most recently updated haro"""
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine);
-    most_recent_date_received = db.session.query(Haros.columns.DateReceived).first()[0]
+    most_recent_date_received = db.session.query(Haros.columns.DateReceived).all()[-1][0]
     return datetime.fromisoformat(most_recent_date_received)
 
 # def adding_used_unused(option: str = None, id: str = None):
@@ -204,8 +206,9 @@ def serve_data(option=None):
     print(end_t - start_t)
 
     # response to be shown on HTML side
+    iter_query = list(query)
     return {
-        'data': [dict(haro) for haro in query],
+        'data': [dict(iter_query[i]) for i in range(len(iter_query) - 1, -1, -1)],
         'recordsFiltered': total_filtered,
         'recordsTotal': query.count(),
         'draw': request.args.get('draw', type=int),
