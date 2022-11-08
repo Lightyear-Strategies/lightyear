@@ -53,6 +53,7 @@ def email_validator():
             #     return response
 
             print('Sending File')
+            print(final_path)
             return send_file(final_path,
                              mimetype=mimetype,
                              attachment_filename=attachment_filename,
