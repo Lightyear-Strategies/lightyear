@@ -34,13 +34,13 @@ def email_validator():
            localServiceBuilder()
 
         if files:
-            print(files)
-            for file in files:
-                print(file)
-            filename = secure_filename(files.get(files[0]).filename) #.filename
+            #print(files)
+            #for file in files:
+            #    print(file)
+            filename = secure_filename(files.get('file').filename) #.filename
             #file.save(os.path.join(Config.UPLOAD_DIR, filename))
             orig_path = os.path.join(Config.UPLOAD_DIR, filename)
-            files.get(files[0]).save(orig_path)
+            files.get('file').save(orig_path)
             filenames.append(filename)
 
             # Celery

@@ -64,6 +64,7 @@
                 thisxhr = xhr
                 xhr.onreadystatechange = () => {
                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                       console.log('Hey')
                        // window.location.href = "/email_sent"
                    }
                 }
