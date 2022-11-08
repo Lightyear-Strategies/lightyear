@@ -17,20 +17,11 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
     <link rel="stylesheet" href="static/css/emailValidator.css">
     <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
-    <script src="static/js/journalistTracker.js" defer></script>
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Email Validator</title>
 
     <script type="text/javascript">
 
-        let email_flashed = false;
-
-        function flash (to_flash) {
-            $('#title-text').before(
-                '<div class="flashed-message">' + to_flash + '</div>'
-            );
-            email_flashed = true;
-        }
         Dropzone.options.myDropzone = {
             // Prevents Dropzone from uploading dropped files immediately
             url: '/email_validator',
@@ -46,27 +37,22 @@
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if(document.getElementById('email').value == '') {
-                    if (!email_flashed) {
-                        flash('Please enter a valid email');
-                    }
-                }
-                else {
-                    myDropzone.processQueue();
-                }
+                myDropzone.processQueue();
             });
 
             myDropzone.on("sending", function(file, xhr, formData) {
 
-                // Adding data here
-                formData.append("email",document.getElementById('email').value);
-
                 thisxhr = xhr
+                thisxhr.responseType = 'blob';
                 xhr.onreadystatechange = () => {
-                   if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                       console.log('Hey')
-                       // window.location.href = "/email_sent"
-                   }
+                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                        console.log(thisxhr)
+                        var blob = xhr.response;
+                        var a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(blob);
+                        a.download = 'validated_emails.csv';
+                        a.dispatchEvent(new MouseEvent('click'));
+                    }
                 }
             });
         }
@@ -143,20 +129,13 @@
                 <h2>Guidelines</h2>
                 <div>
                     <ol>
-                        <li>Enter the email address where you would like to receive the vetted CSV</li>
-                        <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like verified</li>
+                        <li>Create a CSV file with a column labeled "Emails" containing the emails that you would like to verify</li>
                         <li>Select or drag and drop the CSV file</li>
                         <li>Press "Submit" button</li>
                     </ol>
                 </div>
             </div>
             <form action="/email_validator" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
-                <div class="form__group field">
-                    <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
-                    <label for="email" class="form__label">Email</label>
-                    <label class="required__label" id="email id"></label>
-                </div>
-        
             <div>
                 <div class="dropzone" id="myDropzone">
                     <div class="form-group" id="dropzone">

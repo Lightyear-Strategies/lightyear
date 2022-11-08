@@ -24,7 +24,6 @@ def email_validator():
         filenames = []
 
         files = request.files
-        email = request.form.get('email')
         #print(email)
 
         if Config.ENVIRONMENT == 'server':
@@ -45,7 +44,7 @@ def email_validator():
             # delay is from celery, test and see whether it would give an error
             # parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
-            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, email, filename)
+            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, filename)
             # remove the file after sending it
             @app.after_request
             def delete(response):
@@ -66,7 +65,7 @@ def email_validator():
 
 
 
-def emailVerify(path, recipients=None):
+def emailVerify(path):
     print('emailVerify')
     """
     Uses functions from ev_API.py to verify emails.
@@ -87,7 +86,7 @@ def emailVerify(path, recipients=None):
 
 
 # @celery.task(name='ev_flask_functions.parseSendEmail')
-def parseSendEmail(path, recipients=None, filename=None):
+def parseSendEmail(path, filename=None):
     print('parseSendEmail')
     # """
     # Celery handler
@@ -98,7 +97,7 @@ def parseSendEmail(path, recipients=None, filename=None):
     # """
 
     with app.app_context():
-        return emailVerify(path, recipients)
+        return emailVerify(path)
 
 
 def file_remover(path):
