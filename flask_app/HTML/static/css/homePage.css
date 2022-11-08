@@ -215,7 +215,7 @@ main {
   align-items: center;
   flex-wrap: wrap;
   height: 48vh;
-  font-family: "Open Sans";
+  font-family: inherit;
   max-width: 1200px;
   margin: 0 10px 0 60px;
   padding-bottom: 20px;
@@ -230,6 +230,7 @@ main {
 }
 
 .card {
+  font: inherit;
   height: 381px;
   background: rgb(255, 255, 255);
   border-radius: 8px;
