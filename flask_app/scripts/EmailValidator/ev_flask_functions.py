@@ -34,30 +34,28 @@ def email_validator():
            localServiceBuilder()
 
         if files:
-            for file in files:
-                filename = secure_filename(files.get(file).filename) #.filename
-                #print(filename)
-                #file.save(os.path.join(Config.UPLOAD_DIR, filename))
-                orig_path = os.path.join(Config.UPLOAD_DIR, filename)
-                files.get(file).save(orig_path)
-                filenames.append(filename)
+            filename = secure_filename(files.get(files[0]).filename) #.filename
+            #file.save(os.path.join(Config.UPLOAD_DIR, filename))
+            orig_path = os.path.join(Config.UPLOAD_DIR, filename)
+            files.get(files[0]).save(orig_path)
+            filenames.append(filename)
 
-                # Celery
-                # parse,remove file, send updated file
-                # delay is from celery, test and see whether it would give an error
-                # parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
+            # Celery
+            # parse,remove file, send updated file
+            # delay is from celery, test and see whether it would give an error
+            # parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
-                final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, email, filename)
-                # remove the file after sending it
-                @app.after_request
-                def delete(response):
-                    file_remover(orig_path)
-                    return response
+            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, email, filename)
+            # remove the file after sending it
+            @app.after_request
+            def delete(response):
+                file_remover(orig_path)
+                return response
 
-                return send_file(final_path,
-                                 mimetype=mimetype,
-                                 attachment_filename=attachment_filename,
-                                 as_attachment=as_attachment)
+            return send_file(final_path,
+                             mimetype=mimetype,
+                             attachment_filename=attachment_filename,
+                             as_attachment=as_attachment)
 
         else:
             print('No files')
