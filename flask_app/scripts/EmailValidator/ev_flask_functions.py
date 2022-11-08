@@ -34,9 +34,6 @@ def email_validator():
            localServiceBuilder()
 
         if files:
-            #print(files)
-            #for file in files:
-            #    print(file)
             filename = secure_filename(files.get('file').filename) #.filename
             #file.save(os.path.join(Config.UPLOAD_DIR, filename))
             orig_path = os.path.join(Config.UPLOAD_DIR, filename)
@@ -55,6 +52,7 @@ def email_validator():
                 file_remover(orig_path)
                 return response
 
+            print('Sending File')
             return send_file(final_path,
                              mimetype=mimetype,
                              attachment_filename=attachment_filename,
@@ -103,7 +101,7 @@ def parseSendEmail(path, recipients=None, filename=None):
 
 
 def file_remover(path):
-    print('file_remover')
+    #print('file_remover')
     if os.path.exists(path):
         os.remove(path)
         print("The file has been deleted successfully")
