@@ -49,7 +49,7 @@ def email_validator():
             # remove the file after sending it
             @app.after_request
             def delete(response):
-                #file_remover(final_path.split(".")[0]+"_final.csv")
+                file_remover(final_path.split(".")[0]+"_final.csv")
                 return response
 
             print('Sending File')
