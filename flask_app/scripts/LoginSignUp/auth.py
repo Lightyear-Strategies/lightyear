@@ -23,6 +23,10 @@ def signup():
 def login():
     form = LoginForm()
     #print('validate_on_submit',form.validate_on_submit())
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
     if form.validate_on_submit():
         if "@" in form.username_email.data:
             user = User.query.filter_by(email=form.username_email.data.lower()).first()

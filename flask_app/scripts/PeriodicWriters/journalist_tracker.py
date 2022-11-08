@@ -1,6 +1,5 @@
 from flask import render_template, request, redirect, flash, url_for
 from flask_login import login_required, current_user
-from flask_app.scripts.forms import PeriodicWriters
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -13,6 +12,14 @@ import pandas as pd
 from datetime import datetime
 
 JOURNALIST_ROUTE = '/journalist_tracker'
+
+def gauth():
+    if Config.ENVIRONMENT == 'server':
+        if not authCheck():
+            return redirect('/authorizeCheck')
+    elif Config.ENVIRONMENT == 'local':
+        localServiceBuilder()
+
 
 @login_required
 def receive_journalists():
@@ -28,46 +35,45 @@ def receive_journalists():
         timeframe = request.form.get('frequency')
         user_name = current_user.username
 
+        print(user_email)
+
         #print(files)
         if files:
 
             journalists = []
             for filename in files:
                 uploaded_file = files.get(filename)
+
                 df = None
                 try:
                     df = pd.read_csv(uploaded_file)
+                    print(df.columns)
 
                 except Exception:
                     print("Not CSV")
-                    #continue
                     return redirect(JOURNALIST_ROUTE)
 
 
                 finally:
                     """For Future: should use re to check for 'ournalist' string """
-
                     pos_names = ["Journalists","Journalist","Journalist(s)","journalists", "journalist", "journalist(s)"]
-                    i = 0
-                    len_pos_names = len(pos_names)
-                    while True:
-                        if i == len_pos_names:
-                            return redirect(JOURNALIST_ROUTE)
+
+                    for i in range(0,len(pos_names)):
                         if pos_names[i] in df.columns:
                             journalists.extend(df[pos_names[i]].tolist())
                             break
-                        i += 1
 
-            # only executed if there is no 'journalists' table
-            # if not db.inspect(db.engine.connect()).has_table('journalists'):
-            #     data = [[user_name, user_email, journalist, None] for journalist in journalists]
-            #     df = pd.DataFrame(data, columns = ['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
-            #     df.to_sql(name='journalists', con=db.engine, index=False)
+                        if i+1 == len(pos_names):
+                            print('No "Journalists" column')
+
 
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
-                data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
-                df = pd.DataFrame(data, columns=[ 'ClientName', 'ClientEmail', 'Journalist', 'Muckrack']) # ['ClientName', 'ClientEmail', 'Journalist', 'Muckrack']
+                print('Creating new table')
+                data = [[user_name, user_email, journalist, None] for journalist in journalists]
+                print(data)
+                df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
+                print("Added data to the new table")
 
             else:
                 try:
@@ -82,6 +88,7 @@ def receive_journalists():
                     # Add new entries
                     print("Adding new rows")
                     data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
+                    print(data)
                     new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack']) #['ClientName', 'ClientEmail', 'Journalist','Muckrack']
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
@@ -107,7 +114,7 @@ def unsubscribe_journalist(token):
 
     try:
         email_sub_string = unsub.loads(token)
-        print(email_sub_string)
+        #print(email_sub_string)
     except BadData:
         print('unsubscribe failed')
         return render_template('ErrorPages/500.html')
@@ -142,27 +149,21 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
         token_string = f'{email} {subject}'
         token = unsub.dumps(token_string)
-        # TODO: fix this :)
-        app.config['SERVER_NAME'] = '192.168.0.173:8000'
-        with app.app_context():
+
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
+        with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_journalist', token=token, _external=True)
-            print(url)
+            #print(url)
         pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
-        # TODO: fix this :)
-        #filepath = 'flask_app/scripts/PeriodicWriters/reports/george@lightyearstrategies.com_journalist_report.pdf'
         filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
         pdf_maker_for_email.create_PDF(filename=filepath)
 
         str_date = str(datetime.now().date())
 
-        if Config.ENVIRONMENT == 'server':
-            if not authCheck():
-                return redirect('/authorizeCheck')
-        elif Config.ENVIRONMENT == 'local':
-            localServiceBuilder()
+        gauth()
 
         to_send = report(
-            sender='george@lightyearstrategies.com',
+            sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=email,
             subject=f'{subject} Journalist Report {str_date}',
             text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
@@ -170,6 +171,6 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         )
         to_send.sendMessage()
 
-    except Exception as e:
-        print(e)
+    except Exception:
+        traceback.print_exc()
         return render_template('ErrorPages/500.html')

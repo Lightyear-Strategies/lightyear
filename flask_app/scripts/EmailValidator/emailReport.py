@@ -90,7 +90,8 @@ class report():
 
 
 if __name__ == "__main__":
-    gmail = report("george@lightyearstrategies.com", "chris@lightyearstrategies.com",
+    from flask_app.scripts.config import Config
+    gmail = report(Config.SENDER_EMAIL_NAME, "chris@lightyearstrategies.com",
                    "this is the subject line", "This is the message body", "limit_analysis.csv",
                    "me")
     gmail.sendMessage()

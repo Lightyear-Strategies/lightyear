@@ -34,7 +34,7 @@ class report():
         try:
             try:
                 print(self.service.users())
-            except:
+            except Exception:
                 print('An error occurred here')
             message = self.service.users().messages().send(userId=self.user_id,
                                                            body=self.body).execute()
