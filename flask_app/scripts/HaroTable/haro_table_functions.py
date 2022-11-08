@@ -1,9 +1,9 @@
 from flask_login import login_required
 from flask_app.scripts.create_flask_app import db
-from flask import render_template, request
+from flask import render_template, request, current_app
 from datetime import datetime, timedelta
 import pandas as pd
-
+import os
 from time import time
 
 import traceback
@@ -19,7 +19,6 @@ handler.setFormatter(Formatter(fmt='[%(asctime)s: %(levelname)s] %(message)s'))
 logger.addHandler(handler)
 
 
-
 def removeDBdups():
     """
     removes duplicates from SQLite DB, does not need to be run often, as the addDBData function now checks for duplicates
@@ -33,7 +32,7 @@ def removeDBdups():
     print(new_db)
 
 
-def addDBData(df: pd.DataFrame): #(file):
+def addDBData(df: pd.DataFrame):  # (file):
     """
     Adds data to SQLite DB and checks for duplicates
     @param:    csv file with parsed haros
@@ -45,7 +44,8 @@ def addDBData(df: pd.DataFrame): #(file):
             whole_db = pd.read_sql_table('haros', db.engine, index_col='index')
             logger.info(len(whole_db))
             logger.info(whole_db.columns)
-            res = pd.concat([df, whole_db])
+            whole_db.sort_index(inplace=True, ascending= True)
+            res = pd.concat([whole_db, df])
         except Exception:
             logger.info('\nSmall addDBData Problem:')
             res = df
@@ -54,10 +54,12 @@ def addDBData(df: pd.DataFrame): #(file):
         res.drop_duplicates(subset=['Summary'], inplace=True)
         logger.info(len(res))
         res.reset_index(drop=True, inplace=True)
+        res.sort_index(inplace=True, ascending=False)
 
         # Load data to database
         logger.info(res.columns)
-        res.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
+        res.to_sql(name='haros', con=db.engine,
+                   index=True, if_exists='replace')
     except Exception:
         logger.info('\nBig addDBData Problem:')
         traceback.print_exc(file=sys.stdout)
@@ -70,8 +72,16 @@ def show_haro_table():
     @param:    None
     @return:   Haros table
     """
-    return render_template('HaroTable/haroTableView.html', title='LyS Haros Database')
+    updated = str(get_last_updated())
+    return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0]+" "+updated.split()[1][:8])
+    # return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0], time_updated=updated.split()[1][:8])
 
+
+def get_last_updated():
+    """returns a datetime of the most recently updated haro"""
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
+    most_recent_date_received = db.session.query(Haros.columns.DateReceived).first()[0]
+    return datetime.fromisoformat(most_recent_date_received)
 
 # def adding_used_unused(option: str = None, id: str = None):
 #     """
@@ -106,34 +116,38 @@ def serve_data(option=None):
     """
     start_t = time()
 
-
-    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    #print(Haros.columns.DateReceived.all_())
-    query = db.session.query(Haros) #.all()
-
+    Haros = db.Table('haros', db.metadata, autoload=True,
+                     autoload_with=db.engine)
+    # print(Haros.columns.DateReceived.all_())
+    query = db.session.query(Haros)  # .all()
 
     # fresh queries
     if option == "fresh":
-        freshmark = datetime.today().date() - timedelta(days=3)
+        most_recent_update = get_last_updated()
+        freshmark = most_recent_update.date() - timedelta(days=1)
         query = query.filter(Haros.columns.DateReceived >= freshmark)
 
     # search filter
-    print('Arguments:',end=' ')
+    print('Arguments:', end=' ')
     print(request.args)
 
     keywords = request.args.get('keywords')
     mediaOutlet = request.args.get('mediaOutlet')
-    category = request.args.get('journalist')
+    category = request.args.get('category')
     dateBefore = request.args.get('dateBefore')
     dateAfter = request.args.get('dateAfter')
-    
+
     if dateBefore:
-        print(datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
-        query = query.filter(Haros.columns.DateReceived <= datetime.strptime(dateBefore, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(db.or_(
+            Haros.columns.DateReceived <= datetime.strptime(
+                dateBefore, '%m/%d/%Y %H:%M:%S')
+        ))
 
     if dateAfter:
-        print(datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
-        query = query.filter(Haros.columns.DateReceived >= datetime.strptime(dateAfter, '%m/%d/%Y %H:%M:%S'))
+        query = query.filter(db.or_(
+            Haros.columns.DateReceived >= datetime.strptime(
+                dateAfter, '%m/%d/%Y %H:%M:%S')
+        ))
 
     if keywords:
         query = query.filter(db.or_(
@@ -143,17 +157,16 @@ def serve_data(option=None):
         ))
 
     if mediaOutlet:
-        query = query.filter(
+        query = query.filter(db.or_(
             Haros.columns.MediaOutlet.like(f'%{mediaOutlet}%')
-        )
+        ))
 
     if category:
         query = query.filter(
-            Haros.columns.MediaOutlet.like(f'%{category}%')
+            Haros.columns.Category.like(f'%{category}%')
         )
 
     total_filtered = query.count()
-
     # sorting
     # order = []
     # i = 0

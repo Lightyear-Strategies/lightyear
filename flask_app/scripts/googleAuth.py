@@ -5,6 +5,7 @@ from flask_app.scripts.config import Config
 from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
+from google.oauth2 import service_account
 
 
 # This variable specifies the name of a file that contains the OAuth 2.0
@@ -20,6 +21,18 @@ API_VERSION = 'v1'
 
 #extending flask app functionality
 g_oauth = Blueprint('g_oauth', __name__)
+
+
+def serviceAccountBuilder():
+    SERVICE_FILE = Config.SERVICE_FILE
+    credentials = service_account.Credentials.from_service_account_file(
+        filename=SERVICE_FILE,
+        scopes=["https://mail.google.com/"],
+        subject = 'george@lightyearstrategies.com'
+    )
+    service = build("gmail", "v1", credentials=credentials)
+
+    return service
 
 
 def localServiceBuilder():

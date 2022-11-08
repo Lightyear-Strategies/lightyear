@@ -3,6 +3,7 @@ from flask_app.scripts.LoginSignUp.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_app.scripts.forms import  SignUpForm, LoginForm
 from flask import render_template,flash,redirect, url_for, request
+#Import report
 
 
 def signup():
@@ -15,6 +16,11 @@ def signup():
 
         db.session.add(user)
         db.session.commit()
+        #rules = {'{username}': user.username}
+        #with open('flask_app/scripts/EmailValidator/emailTemplates/welcome.html', 'r') as f:
+        #    html = f.read()
+        #r = report("george@lys.com", user.email, "Welcome to LYS", HTML, rules=rules)
+        #r.sendMessage()
         return redirect(url_for('login'))
 
     return render_template('LoginSignUp/signup.html', form=form)
@@ -23,6 +29,10 @@ def signup():
 def login():
     form = LoginForm()
     #print('validate_on_submit',form.validate_on_submit())
+
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+
     if form.validate_on_submit():
         if "@" in form.username_email.data:
             user = User.query.filter_by(email=form.username_email.data.lower()).first()

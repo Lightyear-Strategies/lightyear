@@ -4,25 +4,33 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.audio import MIMEAudio
 from email.mime.base import MIMEBase
+from email.message import EmailMessage
+from email.utils import make_msgid
+from email.mime.application import MIMEApplication
 import traceback
-from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder
+from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder, serviceAccountBuilder
 
 
 class report():
-    def __init__(self, sender, to, subject, text, file=None, user_id=None):
+    def __init__(self, sender, to, subject, text, file=None, user_id=None,
+                 rules=None):
         self.sender = sender
         self.to = to
         print(self.to)
         self.subject = subject
         self.text = text
         self.file = file
+        self.rules = rules
         if user_id is None:
             self.user_id = 'me'
         else:
             self.user_id = user_id
         self.scopes = ['https://mail.google.com/']
-        self.service = serviceBuilder()
+        #self.service = serviceBuilder()
         #self.service = localServiceBuilder()
+        if self.rules:
+            self.replacePlaceholders()
+        self.service = serviceAccountBuilder()
         self.body = self.createMessage()
 
     def sendMessage(self):
@@ -40,6 +48,16 @@ class report():
             print('An error occurred #2: {}'.format(e))
             return None
 
+   #Going through the dictionary of rules and replacing placeholders within HTML
+   #with the arbitrary values
+    def replacePlaceholders(self):
+        text = self.text
+        rules = self.rules
+        for key, value in rules.items():
+            text = text.replace(key, value)
+        self.text = text
+
+
     def createMessage(self):
         message = MIMEMultipart()
         if isinstance(self.to,str):
@@ -50,7 +68,7 @@ class report():
         message['from'] = self.sender
         message['subject'] = self.subject
 
-        msg = MIMEText(self.text)
+        msg = MIMEText(self.text, 'html')
         message.attach(msg)
 
         if self.file:
@@ -64,7 +82,7 @@ class report():
 
             if main_type == 'text':
                 with open(self.file, 'rb') as f:
-                    msg = MIMEText(f.read().decode('utf-8'), _subtype=sub_type)
+                    msg = MIMEText(f.read().decode('utf-8'), _subtype="html")
 
             elif main_type == 'image':
                 with open(self.file, 'rb') as f:
@@ -87,9 +105,57 @@ class report():
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
         return {'raw': raw_message.decode('utf-8')}
 
-
 if __name__ == "__main__":
-    gmail = report("aleksei@lightyearstrategies.com", "aleksei@lightyearstrategies.com",
-                   "this is the subject line", "This is the message body", "./test.csv",
-                   "me")
+    #from flask_app.scripts.config import Config
+    #gmail = report(Config.SENDER_EMAIL_NAME, "chris@lightyearstrategies.com",
+    #               "this is the subject line", "This is the message body", "limit_analysis.csv",
+    #               "me")
+    #open .html file in assets folder
+    # with open('assets/welcome.html', 'r') as f:
+    #     html = f.read()
+    # with open('assets/tracker.html', 'r') as f:
+    #     html = f.read()
+
+    with open("assets/topic_report.html", 'r') as f:
+        html = f.read()
+
+    # TRACKER PLACEHOLDERS
+    # rules = {
+    #     '{username}': 'Codrin',
+    #     '{chosen_frequency}': 'week',
+    #     'URL_TO_UNSUBSCRIBE': 'https://www.google.com'
+    # }
+
+    #WELCOME PLACEHOLDERS
+    # rules = {
+    #     '{username}': 'Codrin'
+    # }
+
+    #TOPIC SUB PLACEHOLDERS
+    # rules = {
+    #     '{username}': 'Codrin',
+    #     '{topic}': 'AI',
+    #     '{chosen_frequency}': 'week',
+    #     'URL_TO_UNSUBSCRIBE': 'https://www.google.com'
+    # }
+
+    #TRACKER REPORT PLACEHOLDERS
+    # rules = {
+    #     '{username}': 'Codrin',
+    #     "{chosen_frequency}": "weekly",
+    #     'URL_TO_UNSUBSCRIBE': 'https://www.google.com',
+    # }
+
+    #TOPIC REPORT PLACEHOLDERS
+    rules = {
+        '{username}': 'Codrin',
+        "{chosen_frequency}": "weekly",
+        "{topic}": "AI",
+        'URL_TO_UNSUBSCRIBE': 'https://www.google.com',
+    }
+
+
+    gmail = report("george@lightyearstrategies.com", "codrin@lightyearstrategies.com",
+                   "this is the subject line", html,
+                   user_id="me", rules=rules)
     gmail.sendMessage()

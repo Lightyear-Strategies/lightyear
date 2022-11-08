@@ -1,0 +1,384 @@
+
+body::-webkit-scrollbar {
+    display: none;
+}
+ 
+:root {
+    margin: none;
+    padding: none;
+    --lightyear-red: #F04C23;
+    --lightyear-yellow: #FCE300;
+    --lightyear-gray: #EFEFEF;
+    --lightyear-blue: #3452ff; 
+    --background-color: #ffffff;
+    --contrast-color: #000;
+    font-family: 'Inter';
+    scroll-behavior: smooth;
+    outline: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: var(--contrast-color);
+    padding: 0;
+    display: grid;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+#header{
+    #header { /* Header */
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+    
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            text-align: right;
+            width: 100%;
+            font-weight: 700;
+            background-color: var(--lightyear-yellow);
+            color: var(--contrast-color);
+        }
+    
+        .alignment-wrapper{
+            display: flex;
+            flex-wrap: wrap;
+            text-align: right;
+            width: 100%;
+            margin-left: 2em;
+            margin-right: 2.4em;
+        }
+        .alignment-wrapper > section {
+            padding-top: .5rem;
+            padding-bottom: .5rem;
+        }
+    
+        .alignment-wrapper > section:first-of-type {
+            display: flex;   
+            justify-content: flex-start;
+        }
+    
+        header > section:last-of-type {
+            display: block;
+            flex-wrap: wrap;
+            text-align: right;
+            justify-content: flex-end;
+        }
+    
+    
+    
+        a {
+            text-decoration: none;
+            color: black;
+        }
+    
+        .flex-6 > div:hover::after{
+            background-color: var(--contrast-color);
+            right: 0px;
+        }
+    
+        .flex-1{
+            flex:1;
+        }
+    
+        .flex-6{
+            padding-top: .75em;
+            flex:6;
+        }
+        .flex-6 > * {
+            width: fit-content;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            position: relative;
+            overflow: hidden;
+    
+            width: fit-content;
+            text-align: center;
+        }
+        .flex-6 > *:not(#logout-svg) {
+            
+            margin-right: 2rem;
+            margin-top: .5em;
+            overflow: visible
+        }
+    
+        #logout-svg{
+            padding-top: .65em;
+    
+        }
+        /* hover underline */
+        .flex-6 > *::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            bottom: 0;
+            left: 0;
+            background-color: black;
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        .flex-6 > *:not(#logout-svg)::after {
+            height: 3px;
+            bottom: -.25em;
+        }
+        #logout-svg::after{
+            height: 3px;
+        }
+        .flex-6 > *:hover::after{
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .flex-6 > *::after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: black;
+        }
+        
+    } /* End Header */
+}
+
+
+.main{
+
+    svg:nth-of-type(2) {
+        display: none;
+    }
+    
+    img {
+        min-height: 50px;
+    }
+    
+    .flex-1{
+        flex:1;
+    }
+    
+    .flex-6{
+        flex:6;
+    }
+    
+    main {
+        margin-top: 3rem;
+    }
+    
+    .cards-wrapper{
+        display: flex;
+        width: clamp(300px, 90%, 1500px);
+        min-width: 300px;
+        margin: auto;
+        flex-wrap: wrap;
+    }
+    
+    .card {
+        flex: 1;
+        min-width: 350px;
+        display: flex;
+        flex-direction: column;
+        padding: 0px clamp(0rem, 4rem, 4rem);
+        margin: 1rem 5rem;
+        border-radius: 0.25rem;
+        background-color: var(--lightyear-yellow);
+        overflow: hidden;
+        position: relative;
+        transition: all ease-out 0.125s;
+        border: solid 1px var(--lightyear-yellow);
+    }
+    
+    .card > div {
+        flex: 1;
+        z-index: 5;
+        min-height: 300px;
+        cursor: pointer;
+    }
+    
+    .card > div > h1 {
+        font-size: 2.75rem;
+        margin: 0px;
+        margin-bottom: 2vh;
+        padding: 0px;
+        color: var(--contrast-color);
+    }
+    
+    .empty {
+        visibility: hidden;
+    }
+    
+    .card > div > p {
+        font-size: 1.125rem;
+    }
+    
+    .card:hover {
+        border: solid 1px var(--lightyear-yellow);
+        color: var(--background-color);
+    }
+    
+    .card::after {
+        content: "Check it out";
+        text-align: center;
+        z-index: 1;
+        position: absolute;
+        padding: 18rem 0.25rem;
+        bottom: -70%;
+        display: grid;
+        place-items: center;
+        left: 0;
+        width: 100%;
+        background-color: var(--background-color);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        color: var(--contrast-color);
+        font-size: 4rem;
+        font-weight: bold;
+        transition: all ease-out 0.25s;
+        cursor: pointer;
+    }
+    
+    .card:hover::after {
+        bottom: 0px;
+        z-index: 10;
+    }
+    
+    .padding {
+        transform: rotate(180deg);
+        display: block;
+    }
+    
+    footer > svg {
+        transform: translateY(1rem);
+    }
+    
+    footer > div {
+        background-color: var(--lightyear-yellow);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding-top: 10rem;
+    }
+    
+    footer > div > h2 {
+        font-size: 3rem;
+    }
+    
+    footer > div > div {
+        padding: 3rem 0rem;
+    }
+    
+    footer > div > div > input {
+        padding: 2rem 5rem;
+        width: 25vw;
+        font-size: 1.25rem;
+        border-radius: 1rem;
+    }
+    
+    footer > div > div > button {
+        cursor: pointer;
+        background-color: var(--contrast-color);
+        padding: 2rem 1rem;
+        color: var(--background-color);
+        border-radius: 1rem;
+        font-size: 1.25rem;
+        border: solid 1px var(--lightyear-yellow);
+        transition: all ease-out 0.25s;
+        font-weight: 600;
+    }
+    
+    footer > div > div > button:hover {
+        border: solid 1px var(--contrast-color);
+        background-color: var(--lightyear-yellow);
+        color: var(--contrast-color);
+    }
+    
+    
+    footer > div > h4 {
+        padding-top: 3rem;
+        color: lightgrey;
+    }
+    
+    @media screen and (max-width: 1900px) {
+        .hamburger {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+    
+        header > section:last-of-type {
+            display: none;
+        }
+    }
+    
+    @media only screen and (max-width: 900px) {
+    
+        .card {
+            margin: 0px;
+            margin-top: 2rem;
+            padding: 0rem 1rem;
+        }
+    
+        .card > div > h1 {
+            font-size: 2.25rem;
+        }
+    
+        .footerWrapper {
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .footerWrapper > section {
+            margin: auto;
+            width: 90%;
+        }
+    
+        .footerLeft {
+            color: var(--background-color);
+            padding-bottom: 3rem;
+            font-size: 1rem;
+        }
+    
+        .footerLeft > hr {
+            width: 100%;
+            border-top: solid 2px var(--background-color);
+        }
+    
+        .footerRight > section > div:first-of-type > input {
+            flex: 1;
+            width: 45%;
+            height: 50%;
+        }
+        
+    }
+    
+    @media only screen and (max-width: 550px) {
+    
+        .cards-wrapper {
+            width: 80%;
+        }
+        
+    }
+    
+    @media only screen and (max-width: 400px) {
+    
+        .cards-wrapper {
+            width: 90%;
+        }
+    
+    }
+    
+}

@@ -1,14 +1,14 @@
 import os
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, send_file, g
 from flask_login import login_required
 from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailValidator import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.config import Config
-from flask_app.scripts.create_flask_app import init_celery, app
+from flask_app.scripts.create_flask_app import app#, init_celery,
 
 
-celery = init_celery(app)
+#celery = init_celery(app)
 
 @login_required
 def email_validator():
@@ -24,7 +24,6 @@ def email_validator():
         filenames = []
 
         files = request.files
-        email = request.form.get('email')
         #print(email)
 
         if Config.ENVIRONMENT == 'server':
@@ -34,22 +33,30 @@ def email_validator():
            localServiceBuilder()
 
         if files:
-            for file in files:
-                filename = secure_filename(files.get(file).filename) #.filename
-                #print(filename)
-                #file.save(os.path.join(Config.UPLOAD_DIR, filename))
-                files.get(file).save(os.path.join(Config.UPLOAD_DIR, filename))
-                filenames.append(filename)
+            filename = secure_filename(files.get('file').filename) #.filename
+            #file.save(os.path.join(Config.UPLOAD_DIR, filename))
+            orig_path = os.path.join(Config.UPLOAD_DIR, filename)
+            files.get('file').save(orig_path)
+            filenames.append(filename)
 
-            for filename in filenames:
-                # Celery
-                # parse,remove file, send updated file
-                # delay is from celery, test and see whether it would give an error
+            # Celery
+            # parse,remove file, send updated file
+            # delay is from celery, test and see whether it would give an error
+            # parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
-                parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
+            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, filename)
+            # remove the file after sending it
+            @app.after_request
+            def delete(response):
+                file_remover(final_path.split(".")[0]+"_final.csv")
+                return response
 
-            # Not functional rn,
-            #return render_template('OnSuccess/EmailSent.html')
+            print('Sending File')
+            print(final_path.split(".")[0]+"_final.csv")
+            return send_file(final_path.split(".")[0]+"_final.csv",
+                             mimetype=mimetype,
+                             attachment_filename=attachment_filename,
+                             as_attachment=as_attachment)
 
         else:
             print('No files')
@@ -58,7 +65,7 @@ def email_validator():
 
 
 
-def emailVerify(path, recipients=None):
+def emailVerify(path):
     print('emailVerify')
     """
     Uses functions from ev_API.py to verify emails.
@@ -70,31 +77,31 @@ def emailVerify(path, recipients=None):
     email = ev_API.emailValidation(filename=path)
     email.validation(save=True)
     subject_line = os.path.basename(path)
-    report = emailReport.report("george@lightyearstrategies.com", recipients,
-                                "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
-    report.sendMessage()
+
+    return path,'text/csv', subject_line,True # path, mimetype, attachment_filename, as_attachment)
+
+    # report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
+    #                             "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
+    # report.sendMessage()
 
 
-@celery.task(name='ev_flask_functions.parseSendEmail')
-def parseSendEmail(path, recipients=None, filename=None):
+# @celery.task(name='ev_flask_functions.parseSendEmail')
+def parseSendEmail(path, filename=None):
     print('parseSendEmail')
-    """
-    Celery handler
-    @param:    path to file with emails
-    @param:    recipients of processed file
-    @param:    filename
-    @return:   None
-    """
+    # """
+    # Celery handler
+    # @param:    path to file with emails
+    # @param:    recipients of processed file
+    # @param:    filename
+    # @return:   None
+    # """
 
     with app.app_context():
-        emailVerify(path, recipients)
-
-        # remove the file after sending it
-        file_remover(os.path.join(Config.UPLOAD_DIR, filename))
+        return emailVerify(path)
 
 
 def file_remover(path):
-    print('file_remover')
+    #print('file_remover')
     if os.path.exists(path):
         os.remove(path)
         print("The file has been deleted successfully")

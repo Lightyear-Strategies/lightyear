@@ -13,7 +13,7 @@ def contact_us():
     Sends files to Celery via SQS broken for background email verification.
     Redirects to authentication if bot is not logged in
     @param:    None
-    @return:   Email Verification Page
+    @return:   config page
     """
     name = None
     email = None
@@ -38,14 +38,16 @@ def contact_us():
             '''
 
             if Config.ENVIRONMENT == 'server':
+                print('in server config environment')
                 if not authCheck():
+                    print('trying to get authcheck')
                     return redirect('/authorizeCheck')
             elif Config.ENVIRONMENT == 'local':
                 localServiceBuilder()
 
-            report = emailReport.report("george@lightyearstrategies.com", recipients, subject, message)
+            report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients, subject, message)
             report.sendMessage()
-            return redirect('/contact_us')
+            return render_template('OnSuccess/EmailSent.html')
 
         except Exception:
             traceback.print_exc()

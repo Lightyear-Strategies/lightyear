@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalists.css') }}"> -->
+    <link rel="stylesheet" href="styles/css/topicTracker.css">
+    <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
+    <script src="Lib/topicTracker.js" defer></script>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+    <title>Subscribe to Topic Updates</title>
+</head>
+
+
+<body>
+    <!-- Preloader -->
+    <section class="loader" id="loader">
+        <div class="loading">
+            <div class="ball"></div>
+            <div class="ball delay-100"></div>
+            <div class="ball delay-200"></div>
+            <div class="ball delay-200"></div>
+        </div>
+    </section>
+    <header>
+        <div>
+            <h2>Lightyear</h2>
+            <h1>Strategies</h1>
+        </div>
+        <div>
+            <ul>
+                <li><a href="/home"> Home </a></li>
+                <li><a href="/email_validator"> Email Validator </a></li>
+                <li><a href="/writers"> Periodic Writers </a></li>
+                <li><a href="/haro_table"> Haro Table </a></li>
+                <li><a href="/contact_us"> Contact Us </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <!-- Toasts-->
+    <section class="toast">
+        <div>
+            <div class="toast-loader"> </div>
+            <div class="toast-content">
+                <h2>
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="main">
+        <div>
+            <h1>Subscribe to Topic Updates</h1>
+            <hr style="border: 1px solid;">
+        </div>
+        <div style="padding-top: 0px;">
+            <div action="" class="form__group field">
+                <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+                <label for="email" class="form__label">Email</label>
+                <label class="required__label" id="email id"></label>
+            </div>
+            <div>
+                <p>Choose category of your interest:</p>
+                <form>
+                    <input type="radio" name="choice" value="AI"> AI
+                    <input type="radio" name="choice" value="Crypto"> Crypto
+                    <input type="radio" name="choice" value="NFT"> NFT
+                    <input type="radio" name="choice" value="Economics"> Economics
+                    <input type="radio" name="choice" value="Marketing"> Marketing
+                    <input type="radio" name="choice" value="Philosophy"> Philosophy
+                </form>
+                <hr style="color: black; background-color: black;">
+            </div>
+            <div>
+                <p>How frequently do you want to receive updates?</p>
+                <form>
+                    <input type="radio" name="choice" value="Now"> Now
+                    <input type="radio" name="choice" value="Daily"> Daily
+                    <input type="radio" name="choice" value="Weekly"> Weekly
+                </form>
+                <hr style="color: black; background-color: black;">
+            </div>
+        </div>
+        
+        <div>
+            <button id="submitBtn"
+                    onclick="submitClick()">
+                    Submit
+            </button>
+        </div>
+    </section>
+    
+    <section id="upBtn">
+        <p>^</p>
+    </section>
+</body>
+</html>

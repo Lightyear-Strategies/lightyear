@@ -1,17 +1,17 @@
-from flask import render_template, redirect, url_for
-from flask_login import login_required
-from flask_app.scripts.forms import TopicTracker
+from flask import render_template, redirect, url_for, send_file
+from flask_login import login_required, current_user
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
+from flask import request
 
 from itsdangerous import URLSafeSerializer, BadData
-import traceback
+import traceback, os
 import pandas as pd
 from datetime import datetime
 
-JOURNALIST_ROUTE = '/writers'
+JOURNALIST_ROUTE = '/topic_tracker'
 
 csvname = {
                 "AI": "top50AI.pdf",
@@ -41,31 +41,36 @@ def receive_category():
     @param:    None
     @return:   Upload Journalists Page
     """
-    user_name, email = None, None
-    user_category, timeframe = None, None
+    if request.method == 'POST':
 
-    form = TopicTracker()
-    if form.validate_on_submit():
+        user_name = current_user.username
+        user_email = request.form.get('email')
+        user_category = request.form.get('category')
+        timeframe = request.form.get('frequency')
 
-        # TODO: lower()
-        user_name = form.username.data
-        user_email = form.email.data
-        user_category = form.category.data
-        timeframe = form.frequency.data
-        #print(timeframe, user_category)
+        if timeframe == '_once':
+            try:
+                #gauth()
+                # str_date = str(datetime.now().date())
+                #
+                # to_send = report(
+                #     sender=Config.SENDER_EMAIL_NAME,
+                #     to=user_email,
+                #     subject=f'{user_category} Journalist Report {str_date}',
+                #     text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
+                #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
+                # )
+                # to_send.sendMessage()
+                #print(os.path.join(Config.REPORTS_DIR,csvname[user_category]))
+                return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
+                                 mimetype='application/pdf',
+                                 attachment_filename=csvname[user_category],
+                                 as_attachment=True)
 
-        if timeframe == '_now':
-            gauth()
-            str_date = str(datetime.now().date())
+            except Exception:
+                traceback.print_exc()
 
-            to_send = report(
-                sender='george@lightyearstrategies.com',
-                to=user_email,
-                subject=f'{user_category} Journalist Report {str_date}',
-                text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
-                file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
-            )
-            to_send.sendMessage()
+            # return redirect('/email_sent')
 
 
         # only executed if there is no 'journalists' table
@@ -94,19 +99,19 @@ def receive_category():
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
-                print(f'{user_name} already subscribed on {user_category} category')
+                return render_template('topic_tracker.html',
+                                       FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
 
             except Exception:
                 traceback.print_exc()
 
         return redirect(JOURNALIST_ROUTE)
 
-    return render_template('topic_tracker.html', form=form, user_name=user_name, email=email,
-                           user_category=user_category, timeframe=timeframe)
+    return render_template('topic_tracker.html')
 
-@app.route('/unsubscribe/<token>')
-def unsubscribe(token):
-    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+@app.route('/unsubscribe_topic/<token>') # must have
+def unsubscribe_topic(token):
+    unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
 
     try:
         email_sub_string = unsub.loads(token)
@@ -140,13 +145,13 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
     note: needs to be in flaskMain to access flask specific stuff
     """
     try:
-        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe')
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
-        # TODO: fix this :)
-        app.config['SERVER_NAME'] = '192.168.0.174:8000'
-        with app.app_context():
-            url = url_for('unsubscribe', token=token, _external=True)
+
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
+        with app.app_context(), app.test_request_context():
+            url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
 
         str_date = str(datetime.now().date())
@@ -154,7 +159,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         gauth()
 
         to_send = report(
-            sender='george@lightyearstrategies.com',
+            sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=user_email,
             subject=f'{user_category} Journalist Report {str_date}',
             text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\nClick on the url to unsubscribe: {url}\n\n',
@@ -163,5 +168,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         to_send.sendMessage()
 
     except Exception as e:
-        print(e)
+        print('Frequency: ', frequency)
+        # TODO: Could create exception handling basedon frequency
+        traceback.print_exc()
         return render_template('ErrorPages/500.html')

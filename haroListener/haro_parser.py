@@ -27,6 +27,7 @@ class Haro:
         self.subject = None
         self.message = None
         self.df = pd.DataFrame()
+        self.website_df = pd.read_csv("website.csv")
 
         if self.json_string is not None:
             self.__main_checks()
@@ -77,6 +78,15 @@ class Haro:
 
     def set_json_string(self, json_string):
         self.json_string = json_string
+
+    def outlet_check(self, outlet):
+        df = self.website_df
+        df = df[df['Outlets'] == outlet]
+        if len(df) > 0:
+            return df['totalClicks'].values[0]
+        else:
+            return 0
+
 
     def parse(self):
         try:
@@ -151,6 +161,7 @@ class Haro:
         row_dict["Category"] = message.split("Category:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["Email"] = message.split("Email:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["MediaOutlet"] = message.split("Media Outlet:")[-1].split("\n")[0].replace("\r", "").strip()
+        row_dict["MonthlyTraffic"] = self.website_lookup(row_dict["MediaOutlet"])
         row_dict["Deadline"] = message.split("Deadline:")[-1].split("\n")[0].replace("\r", "").strip()
         row_dict["Query"] = message.split("Query:")[-1].split("Requirements:")[0].replace("\r", "").replace("\n", "").strip()
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()

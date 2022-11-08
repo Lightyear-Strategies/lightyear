@@ -1,10 +1,13 @@
-:root{
-    font-family: 'Inter';
-    --lysRed: #F04C23;
-    --lysYellow: #FCE300;
-    --lysGray: #dedede;
-    --lysBlue: #3452ff; 
-    --background-color: #efefef;
+:root {
+  --lightyear-red: #F04C23;
+  --lightyear-yellow: #FCE300;
+  --lightyear-gray: #b6b6b6;
+  --lightyear-blue: #3452ff;
+  --background-color: #F7F8FC;
+  --contrast-color: #000;
+  scroll-behavior: smooth;
+  font-family: 'Mulish', sans-serif;
+  font-size: 11pt;
 }
 
 .message{
@@ -25,8 +28,8 @@
 .return-btn{
     font-weight: bold;
     width: fit-content;
-    background-color: var(--lysGray);
-    color: var(--lysBlue);
+    background-color: var(--background-color);
+    color: var(--lightyear-blue);
     padding: .5em;
     border-radius: .75em;
     text-decoration: none;

@@ -1,7 +1,7 @@
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
 from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as mr
-from flask_app.scripts.PeriodicWriters.journalist_upload_functions import send_pdf_report
+from flask_app.scripts.PeriodicWriters.journalist_tracker import send_pdf_report
 
 import sys
 import pandas as pd
@@ -12,7 +12,8 @@ def links(journalists_db : pd.DataFrame, timeframe : str):
     gm_ob = gm.google_muckrack(links_needed, 'Journalist')
     new_df = gm_ob.get_dataframe()
     journalists_db[journalists_db['Muckrack'].isnull()] = new_df
-    journalists_db.to_sql(f'journalists{timeframe}', db.engine, index=False, if_exists='replace')
+    with app.app_context():
+        journalists_db.to_sql(f'journalists{timeframe}', db.engine, index=False, if_exists='replace')
 
 
 if __name__ == "__main__":

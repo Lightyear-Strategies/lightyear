@@ -4,72 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Font, Mulish-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/signup.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Sign Up — Lightyear Strategies</title>
 </head>
 <body>
-    <main>
-        <section>
-            <div class="title">
-                <h1> Sign Up</h1>
-                <h2> Please Fill in the following information to create an account </h2>
+     <section>
+        <div class="signUp">
+            <div id="kite">
+                <img src="../static/img/kite.svg">
             </div>
-            <hr> 
-        </section>
-        <section>
-            <form method="POST" action="/signup">
-                {{ form.csrf_token }}
-                <h3> Do you have an account already? <a href="/" >Sign In!</a> </h3>
-                <div action="" class="form__group field">
-                    {{ form.username(id='username', class="form__field", placeholder="username") }}
-                    {{ form.username.label(for='username',class="form__label") }}
-                    {% if form.username.errors %}
-                        <ul class="errors">
-                            {% for error in form.username.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
+            <div id="girl">
+                <img src="../static/img/girl.svg">
+            </div>
+
+            <div>
+                    <h1>Sign Up </h1>
+                    <form method="POST" action="/signup">
+                        {{ form.csrf_token }}
+                        <div action="" class="form__group field">
+                            {{ form.username(id='username', class="form__field", placeholder="Username") }}
+                            {% if form.username.errors %}
+                                <ul class="errors">
+                                    {% for error in form.username.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <div action="" class="form__group field">
+                            {{ form.email(id='email', class="form__field", placeholder="Email") }}
+                            {% if form.email.errors %}
+                                <ul class="errors">
+                                    {% for error in form.email.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <div action="" class="form__group field">
+                            {{ form.password1(id='password', class="form__field", placeholder="Password") }}
+                            {% if form.password1.errors %}
+                                <ul class="errors">
+                                    {% for error in form.password1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <div action="" class="form__group field">
+                            {{ form.password2(id='confirmPassword', class="form__field", placeholder="Confirm Password") }}
+                            {% if form.password2.errors %}
+                                <ul class="errors">
+                                    {% for error in form.password2.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                    </div>
+                    <button class="signUpBtn">
+                        Sign Up
+                    </button>
+                         <h3>Already have an account? <a id="highlight" href="/" >Sign In</a> </h3>
+                    </form>
                 </div>
-                <div action="" class="form__group field">
-                    {{ form.email(id='email', class="form__field", placeholder="email") }}
-                    {{ form.email.label(for='email',class="form__label") }}
-                    {% if form.email.errors %}
-                        <ul class="errors">
-                            {% for error in form.email.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-                <div action="" class="form__group field">
-                    {{ form.password1(id='password', class="form__field", placeholder="password") }}
-                    {{ form.password1.label(for='password',class="form__label") }}
-                    {% if form.password1.errors %}
-                        <ul class="errors">
-                            {% for error in form.password1.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-                <div action="" class="form__group field">
-                    {{ form.password2(id='confirmPassword', class="form__field", placeholder="confirmPassword") }}
-                    {{ form.password2.label(for='confirmPassword',class="form__label") }}
-                    {% if form.password2.errors %}
-                        <ul class="errors">
-                            {% for error in form.password2.errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-               </div>
-               <button>
-                   Sign Up
-               </button>
-            </form>
-        </section>
-    </main>
+            </div>
+     </section>
+
+
 </body>
 </html>

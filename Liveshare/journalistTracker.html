@@ -1,0 +1,157 @@
+<!-- Same as journalists.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
+    <link rel="stylesheet" href="styles/css/journalistTracker.css">
+    <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
+    <script src="Lib/journalistTracker.js" defer></script>
+    <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+    <title>Subscribe to Journalist Updates</title>
+
+    <script type="text/javascript">
+
+        Dropzone.options.myDropzone = {
+        // Prevents Dropzone from uploading dropped files immediately
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxFiles: 10,
+        acceptedFiles: "text/csv",
+        addRemoveLinks: true,
+        removedfile: function (file) {
+            var _ref;
+            return (_ref = file.previewElement) != null ? ref.parentNode.removeChild(file.previewElement) : void 0;        
+        },
+        init: function() {
+            myDropzone = this; // closure
+            // Dropzone uploads everything when the "Submit" button is clicked
+            document.getElementById('submitBtn').addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+            myDropzone.on("sending", function(file, xhr, formData) { 
+                formData.append(
+                    "email",
+                    document.getElementById('email').value
+                );  
+                thisxhr = xhr
+                xhr.onreadystatechange = () => {
+                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
+                        window.location.href = "email_sent"
+                    }
+                }
+            });
+            myDropzone.on("success", function(file){   
+                $(".dz-success-mark svg").css("background", "green");
+                $(".dz-error-mark").css("display", "none");
+            });
+            myDropzone.on("error", function(file) {
+                $(".dz-error-mark svg").css("background", "red");
+                $(".dz-success-mark").css("display", "none");
+            });
+        }
+    };
+
+    </script>
+</head>
+
+
+<body>
+    <!-- Preloader -->
+    <section class="loader" id="loader">
+        <div class="loading">
+            <div class="ball"></div>
+            <div class="ball delay-100"></div>
+            <div class="ball delay-200"></div>
+            <div class="ball delay-200"></div>
+        </div>
+    </section>
+    <header>
+        <div>
+            <h2>Lightyear</h2>
+            <h1>Strategies</h1>
+        </div>
+        <div>
+            <ul>
+                <li><a href="/home"> Home </a></li>
+                <li><a href="/email_validator"> Email Validator </a></li>
+                <li><a href="/writers"> Periodic Writers </a></li>
+                <li><a href="/haro_table"> Haro Table </a></li>
+                <li><a href="/contact_us"> Contact Us </a></li>
+
+            </ul>
+        </div>
+    </header>
+
+    <!-- Toasts-->
+    <section class="toast">
+        <div>
+            <div class="toast-loader"> </div>
+            <div class="toast-content">
+                <h2>
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div>
+            <h1>Subscribe to Journalist Updates</h1>
+            <hr style="border: 1px solid;">
+            <h2>Guidelines:</h2>
+            <div>
+                <ol>
+                    <li>Enter the email address where you want to recieve the file(s)</li>
+                    <li>Create a .csv file with a column labeled "Journalists" containing the Reporters you would like to recieve updates on</li>
+                    <li>Select the file(s)</li>
+                    <li>Press "Submit" button</li>
+                </ol>
+            </div>
+        </div>
+        <div style="padding-top: 0px;">
+            <div action="" class="form__group field">
+                <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
+                <label for="email" class="form__label">Email</label>
+                <label class="required__label" id="email id"></label>
+            </div>
+            <div>
+                <p>How frequently do you want to receive updates?</p>
+                <form>
+                    <input type="radio" name="choice" value="Daily"> Daily
+                    <input type="radio" name="choice" value="Weekly"> Weekly
+                    <input type="radio" name="choice" value="Monthly"> Monthly
+                </form>
+            </div>
+        </div>
+    
+        <div>
+            <form action="/journalist_tracker" class="dropzone" enctype="multipart/form-data"  id="my-dropzone" method="POST">
+                <div class="form-group" id="dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <h3>Drop files here or <span class="click-upload">Click</span> to upload</h3>
+                    </div>        
+                </div>
+            </form>
+        </div>
+        
+        <div>
+            <button id="submitBtn" onclick="submitClick()">
+                    Submit
+            </button>
+        </div>
+    </section>
+
+    <section id="upBtn">
+        <p>^</p>
+    </section>
+</body>
+</html>

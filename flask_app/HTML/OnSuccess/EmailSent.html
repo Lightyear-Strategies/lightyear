@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
-    <title> Success </title>
-</head>
-<body>
-    <section>
-        <div class="login">
-            <div>
-                <h1> You should receive email shortly. </h1>
-            </div>
-            <a href="{{ url_for('home')}}"> To Go to Main Page </a>
-        </div>
-    </section>
+    <!--Font, Mulish-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/onSuccess.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/onSuccess.css"> -->
 
+    <title> Contact Us </title>
+</head>
+<body style="display: block;">
+        <div class="response-page">
+            <div>
+                <h1> Thank you for reaching out! We will follow up with you shortly.</h1>
+            </div>
+            <div id="image-placement">
+                <img src="{{ url_for('static',filename='img/Contacted.svg') }}">
+            </div>
+            <a class="goHome" href="{{ url_for('home')}}"> Go to Home Page </a>
+        </div>
 </body>
 </html>
