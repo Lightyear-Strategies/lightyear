@@ -167,9 +167,8 @@ section > div > div > h2 {
 }
 
 #loginBtn:hover {
-  color: var(--lightyear-yellow);
-  background-color: black;
-  border: var(--lightyear-yellow) 2px solid;
+  background-color: #ead303;
+  border: #ead303 2px solid;
 }
 
 /*  Sign up */

@@ -43,11 +43,12 @@ body {
   margin: 1rem 0 3rem 0;
   cursor: pointer;
   border: solid var(--lightyear-yellow) 2px;
+  text-decoration: none;
 }
 
 .response-page .goHome:hover {
-  color: var(--lightyear-yellow);
-  background-color: black;
+  background-color: #ead303;
+  border: #ead303 2px solid;
 }
 .signUp {
   display: flex;

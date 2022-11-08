@@ -40,16 +40,16 @@ else saved_haros_indicies = localStorage.getItem('saved_haros_indicies')
 */
 
 //gotta do it like this because idk how to configure browser files
-const rightArrowSvg = `<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+const rightArrowSvg = `<svg width="9" height="13" viewBox="0 0 9 13" class="arrow-hover" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M0.996094 12L7.99609 6.5L0.996094 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `
-const leftArrowSvg =`<svg width="9" height="13" viewBox="0 0 9 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+const leftArrowSvg =`<svg width="9" height="13" viewBox="0 0 9 13" class="arrow-hover" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8 1L1 6.5L8 12" stroke="#888A96" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `
 const downArrowSvg =`
-<svg width="13" height="9" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="13" height="9" viewBox="0 0 13 9" class="arrow-hover" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M1.12634 1L6.61271 8L12.0991 1" stroke="#252733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `
@@ -282,6 +282,7 @@ function updateHaroCounter() {
     const row_height = (htb.childNodes)[0].offsetHeight;
     var scroll_distance = $("#haro-table-body").scrollTop();
     const len = toDisplay.length;
+    
     if (len <= 6) {
         document.getElementById('haro-counter').innerHTML = `${len} / ${len} Requests viewed`
     } else {
@@ -671,6 +672,7 @@ function saveSavedHaros() {
 
 function getSavedHaros() {
     let strArray
+    
     try {
         strArray = (localStorage.getItem('saved_haros_indicies')).split(' ')
     } catch (e) {
