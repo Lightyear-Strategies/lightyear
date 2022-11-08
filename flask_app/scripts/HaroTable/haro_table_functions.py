@@ -59,7 +59,7 @@ def addDBData(df: pd.DataFrame):  # (file):
         # Load data to database
         logger.info(res.columns)
         res.to_sql(name='haros', con=db.engine,
-                   index=False, if_exists='replace')
+                   index=True, if_exists='replace')
     except Exception:
         logger.info('\nBig addDBData Problem:')
         traceback.print_exc(file=sys.stdout)
@@ -79,7 +79,7 @@ def show_haro_table():
 
 def get_last_updated():
     """returns a datetime of the most recently updated haro"""
-    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine);
+    Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
     most_recent_date_received = db.session.query(Haros.columns.DateReceived).first()[0]
     return datetime.fromisoformat(most_recent_date_received)
 
@@ -206,9 +206,8 @@ def serve_data(option=None):
     print(end_t - start_t)
 
     # response to be shown on HTML side
-    iter_query = list(query)
     return {
-        'data': [dict(iter_query[i]) for i in range(len(iter_query) - 1, -1, -1)],
+        'data': [dict(haro) for haro in query],
         'recordsFiltered': total_filtered,
         'recordsTotal': query.count(),
         'draw': request.args.get('draw', type=int),
