@@ -54,7 +54,7 @@ def email_validator():
 
             print('Sending File')
             print(final_path)
-            return send_file(final_path.split(".")[0]+"final.csv",
+            return send_file(final_path,
                              mimetype=mimetype,
                              attachment_filename=attachment_filename,
                              as_attachment=as_attachment)
