@@ -424,9 +424,8 @@ body {
 }
 
 #page-main #submitBtn:hover {
-  background-color: black;
-  color: var(--lightyear-yellow);
-  border: var(--lightyear-yellow) 2px solid;
+  background-color: #ead303;
+  border: #ead303 2px solid;
 }
 
 #page-main .form__group {

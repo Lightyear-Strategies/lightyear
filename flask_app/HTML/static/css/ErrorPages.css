@@ -46,8 +46,8 @@ body {
 }
 
 .response-page .goBack:hover {
-  color: var(--lightyear-yellow);
-  background-color: black;
+  background-color: #ead303;
+  border: #ead303 2px solid;
 }
 
 #image-placement img {

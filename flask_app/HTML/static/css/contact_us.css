@@ -196,6 +196,11 @@ body {
 #page-main p {
   font-size: 1.25rem;
 }
+.errors {
+  position: relative;
+  padding-right: 40px;
+  color: red;
+}
 
 #page-main hr {
   margin: 20px 0px;
