@@ -1,5 +1,5 @@
 import os
-from kombu.utils.url import quote    # To work with AWS SQS
+#from kombu.utils.url import quote    # To work with AWS SQS
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -37,27 +37,27 @@ class Config:
         SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'server_token.pickle')
 
-        BROKER_TRANSPORT_OPTIONS = {"region": os.getenv('AWS_REGION')}
-        CELERY_BROKER_URL = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}' \
-                                '@sqs.{REGION}.amazonaws.com/{ACCOUNT}/{SERVICE_NAME}' \
-            .format(
-            AWS_ACCESS_KEY_ID=quote(os.getenv('AWS_ACCESS_KEY_ID'), safe=''),
-            AWS_SECRET_ACCESS_KEY=quote(os.getenv('AWS_SECRET_ACCESS_KEY'), safe=''),
-            REGION=os.getenv('AWS_REGION'),
-            ACCOUNT=os.getenv('AWS_ACCOUNT'),
-            SERVICE_NAME=os.getenv('AWS_ACCOUNT')
-        )
+        # BROKER_TRANSPORT_OPTIONS = {"region": os.getenv('AWS_REGION')}
+        # CELERY_BROKER_URL = 'sqs://{AWS_ACCESS_KEY_ID}:{AWS_SECRET_ACCESS_KEY}' \
+        #                         '@sqs.{REGION}.amazonaws.com/{ACCOUNT}/{SERVICE_NAME}' \
+        #     .format(
+        #     AWS_ACCESS_KEY_ID=quote(os.getenv('AWS_ACCESS_KEY_ID'), safe=''),
+        #     AWS_SECRET_ACCESS_KEY=quote(os.getenv('AWS_SECRET_ACCESS_KEY'), safe=''),
+        #     REGION=os.getenv('AWS_REGION'),
+        #     ACCOUNT=os.getenv('AWS_ACCOUNT'),
+        #     SERVICE_NAME=os.getenv('AWS_ACCOUNT')
+        # )
 
     elif ENVIRONMENT == 'local':
         CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
         SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'local_token.pickle')
-        CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+        #CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
                                  'aleksei@lightyearstrategies.com']
 
     else:
-        raise Exception("No proper Enviroment is set")
+        raise Exception("No proper Enviroment is found")
 
 
 

@@ -5,10 +5,10 @@ from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailValidator import ev_API, emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.config import Config
-from flask_app.scripts.create_flask_app import init_celery, app
+from flask_app.scripts.create_flask_app import app#, init_celery,
 
 
-celery = init_celery(app)
+#celery = init_celery(app)
 
 @login_required
 def email_validator():
@@ -45,9 +45,8 @@ def email_validator():
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
-
-                result = parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-                print(result.get())
+                parseSendEmail(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
+                #parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
         else:
             print('No files')
@@ -69,17 +68,17 @@ def emailVerify(path, recipients=None):
     email.validation(save=True)
     subject_line = os.path.basename(path)
 
-    # return send_file(path,
-    #                  mimetype='text/csv',
-    #                  attachment_filename=subject_line,
-    #                  as_attachment=True)
+    return send_file(path,
+                     mimetype='text/csv',
+                     attachment_filename=subject_line,
+                     as_attachment=True)
 
-    report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
-                                "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
-    report.sendMessage()
+    # report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
+    #                             "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
+    # report.sendMessage()
 
 
-@celery.task(name='ev_flask_functions.parseSendEmail')
+# @celery.task(name='ev_flask_functions.parseSendEmail')
 def parseSendEmail(path, recipients=None, filename=None):
     print('parseSendEmail')
     """
@@ -95,8 +94,6 @@ def parseSendEmail(path, recipients=None, filename=None):
 
         # remove the file after sending it
         file_remover(os.path.join(Config.UPLOAD_DIR, filename))
-
-        return 'Done with Celery Task'
 
 
 def file_remover(path):
