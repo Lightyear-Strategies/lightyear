@@ -46,8 +46,8 @@ def email_validator():
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
 
-                parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-
+                result = parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
+                print(result.get())
 
         else:
             print('No files')
@@ -95,6 +95,8 @@ def parseSendEmail(path, recipients=None, filename=None):
 
         # remove the file after sending it
         file_remover(os.path.join(Config.UPLOAD_DIR, filename))
+
+        return 'Done with Celery Task'
 
 
 def file_remover(path):
