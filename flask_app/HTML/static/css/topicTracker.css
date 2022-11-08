@@ -500,7 +500,9 @@ body {
   width: 100%;
   height: 2em;
   text-align: center;
-  background-color: var(--lightyear-red);
+  border: solid;
+  border-radius: 10px;
+  border-color: var(--lightyear-red)
 }
 
 #bad-window-size {
