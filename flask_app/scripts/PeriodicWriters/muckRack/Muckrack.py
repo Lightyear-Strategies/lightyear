@@ -64,7 +64,8 @@ class Muckrack:
     def parse_HTML(self):
         options = uc.ChromeOptions()
         options.arguments.extend(["--no-sandbox", "--disable-setuid-sandbox", "--headless"])
-        driver = uc.Chrome(options=options, driver_executable_path='/home/ubuntu/.local/bin/chromedriver', browser_executable_path='/usr/bin/google-chrome')
+        driver = uc.Chrome(options=options, driver_executable_path='/home/ubuntu/.local/bin/chromedriver',
+                           browser_executable_path='/usr/bin/google-chrome')
 
         with driver:
             for url in self.url_list:
@@ -164,6 +165,14 @@ class Muckrack:
         for link in range(len(link_tags)):
              links.append(link_tags[link].find_all("a")[0].get("href"))
 
+        #get data-description from <a class=facebook js-share-button>
+        coverage_tags = soup.find_all("a", {"class": "facebook js-share-button"})
+        for coverage_tag in range(len(coverage_tags)):
+            coverage.append(coverage_tags[coverage_tag].get("data-description"))
+
+
+
+
 
         ###### ASSEMBLING DATA INTO DATAFRAME ######
         df = pd.DataFrame({})
@@ -171,6 +180,7 @@ class Muckrack:
         final_time = []
         final_media = []
         final_links = []
+        final_coverage = []
         for time in range(len(time_stamps)):
             #if time is within the last 7 days
             if time_stamps[time] > datetime.now() - timedelta(days=self.timeframe):
@@ -178,6 +188,7 @@ class Muckrack:
                 final_time.append(time_stamps[time].strftime("%Y-%m-%d"))
                 final_media.append(medias[time])
                 final_links.append(links[time])
+                final_coverage.append(coverage[time])
             else:
                 break
 
@@ -186,7 +197,8 @@ class Muckrack:
                                      "Headline": final_headers,
                                      "Date": final_time,
                                      "Media": final_media,
-                                     "Link": final_links}))
+                                     "Link": final_links,
+                                     "Coverage": final_coverage}))
 
         #if df is empty
         if(len(df)==0):
