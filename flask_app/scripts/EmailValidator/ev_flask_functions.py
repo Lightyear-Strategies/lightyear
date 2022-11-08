@@ -38,10 +38,10 @@ def email_validator():
                 filename = secure_filename(files.get(file).filename) #.filename
                 #print(filename)
                 #file.save(os.path.join(Config.UPLOAD_DIR, filename))
-                files.get(file).save(os.path.join(Config.UPLOAD_DIR, filename))
+                delete_path = os.path.join(Config.UPLOAD_DIR, filename)
+                files.get(file).save(delete_path)
                 filenames.append(filename)
 
-            for filename in filenames:
                 # Celery
                 # parse,remove file, send updated file
                 # delay is from celery, test and see whether it would give an error
@@ -49,12 +49,10 @@ def email_validator():
 
                 path, mimetype, attachment_filename, as_attachment = \
                     parseSendEmail(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
-                g.filename = filename
                 # remove the file after sending it
                 @app.after_request
                 def delete(response):
-                    filename = g.get('filename')
-                    file_remover(os.path.join(Config.UPLOAD_DIR, filename))
+                    file_remover(delete_path)
                     return response
 
                 return send_file(path,
