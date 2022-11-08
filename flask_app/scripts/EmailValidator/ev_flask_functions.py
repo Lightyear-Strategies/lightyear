@@ -47,10 +47,10 @@ def email_validator():
 
             final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, email, filename)
             # remove the file after sending it
-            @app.after_request
-            def delete(response):
-                file_remover(orig_path)
-                return response
+            # @app.after_request
+            # def delete(response):
+            #     file_remover(orig_path)
+            #     return response
 
             print('Sending File')
             return send_file(final_path,
