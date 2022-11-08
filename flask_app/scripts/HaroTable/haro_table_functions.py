@@ -59,7 +59,7 @@ def addDBData(df: pd.DataFrame):  # (file):
         # Load data to database
         logger.info(res.columns)
         res.to_sql(name='haros', con=db.engine,
-                   index=False, if_exists='replace')
+                   index=True, if_exists='replace')
     except Exception:
         logger.info('\nBig addDBData Problem:')
         traceback.print_exc(file=sys.stdout)
@@ -206,9 +206,8 @@ def serve_data(option=None):
     print(end_t - start_t)
 
     # response to be shown on HTML side
-    iter_query = list(query)
     return {
-        'data': [dict(iter_query[i]) for i in range(len(iter_query) - 1, -1, -1)],
+        'data': [dict(haro) for haro in query],
         'recordsFiltered': total_filtered,
         'recordsTotal': query.count(),
         'draw': request.args.get('draw', type=int),
