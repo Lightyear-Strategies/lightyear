@@ -35,6 +35,8 @@ def email_validator():
 
         if files:
             print(files)
+            for file in files:
+                print(file)
             filename = secure_filename(files.get(files[0]).filename) #.filename
             #file.save(os.path.join(Config.UPLOAD_DIR, filename))
             orig_path = os.path.join(Config.UPLOAD_DIR, filename)
