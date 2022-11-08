@@ -132,7 +132,7 @@ class emailValidation:
             print(f"The {filename} has been deleted successfully")
         else:
             print(f"The {filename} does not exist!")
-        self.df.to_csv(path_or_buf=filename, index=False)
+        self.df.to_csv(path_or_buf=filename.split(".")[0]+"final.csv", index=False)
 
     def remove_duplicates(self, csv_file, save=False):
         df = pd.read_csv(csv_file)
