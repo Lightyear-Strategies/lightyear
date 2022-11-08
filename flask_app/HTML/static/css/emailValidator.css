@@ -451,6 +451,27 @@ body {
   transition: border-color 0.2s;
 }
 
+#loading-overlay {
+  position:absolute;
+  left:4em;
+  top:calc(218.16px + 3.25em + 58.66px);
+  width: 51.5%;
+  height: 200px;
+  pointer-events: none;
+  background: rgba(233, 233, 233, 0.445);
+  z-index: 10;
+}
+
+#loading-circle {
+  position:absolute;
+  width: 75px;
+  height: 75px;
+  left: calc(50% - 37.5px);
+  top: calc(50% - 37.5px);
+  pointer-events: none;
+  z-index: 20;
+}
+
 #page-main .form__field::-webkit-input-placeholder {
   font-size: 1.3rem;
   color: var(--lightyear-gray);

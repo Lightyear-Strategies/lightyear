@@ -15,12 +15,28 @@
     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/css/journalistTracker.css') }}"> -->
+    <!--lottie-->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@1.5.7/dist/lottie-player.js"></script>
     <link rel="stylesheet" href="static/css/emailValidator.css">
     <!-- <script src="{{ url_for('static',filename='Lib/journalists.js') }}" defer></script> -->
     <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
     <title>Email Validator</title>
 
     <script type="text/javascript">
+
+        function make_overlay () {
+            let overlay = document.createElement('div');
+            overlay.setAttribute('id', 'loading-overlay');
+            $('#myDropzone')[0].appendChild(overlay);
+            let lot = document.createElement('lottie-player')
+            lot.setAttribute('id', 'loading-circle');
+            lot.setAttribute('src', '../static/img/haro_loading.json');
+            lot.setAttribute('background', 'transparent');
+            lot.setAttribute('speed', '1');
+            lot.setAttribute('loop', '');
+            lot.setAttribute('autoplay', '');
+            overlay.appendChild(lot);
+        }
 
         Dropzone.options.myDropzone = {
             // Prevents Dropzone from uploading dropped files immediately
@@ -35,8 +51,10 @@
             myDropzone = this; // closure
             // Dropzone uploads everything when the "Submit" button is clicked
             document.getElementById('submitBtn').addEventListener("click", function(e) {
+
                 e.preventDefault();
                 e.stopPropagation();
+                make_overlay();
                 myDropzone.processQueue();
             });
 
@@ -46,7 +64,7 @@
                 thisxhr.responseType = 'blob';
                 xhr.onreadystatechange = () => {
                     if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                        console.log(thisxhr)
+                        $('#myDropzone')[0].removeChild($('#loading-overlay')[0]);
                         var blob = xhr.response;
                         var a = document.createElement('a');
                         a.href = window.URL.createObjectURL(blob);
