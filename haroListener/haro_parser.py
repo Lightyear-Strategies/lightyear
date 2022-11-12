@@ -27,7 +27,7 @@ class Haro:
         self.subject = None
         self.message = None
         self.df = pd.DataFrame()
-        self.website_df = pd.read_csv("website.csv")
+        self.website_df = pd.read_csv("fullwebsite.csv")
 
         if self.json_string is not None:
             self.__main_checks()
