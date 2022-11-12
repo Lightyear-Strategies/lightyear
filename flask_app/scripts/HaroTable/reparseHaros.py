@@ -2,6 +2,7 @@
 
 import pandas as pd
 from flask_app.scripts.create_flask_app import db, app
+from flask_app.scripts.HaroTable.haro_table_functions import addDBData
 from haroListener.haro_listener import HaroListener
 
 lis = HaroListener("george@lightyearstrategies.com")
@@ -16,13 +17,8 @@ df_list = list(map(df_get,haros_list))
 big_df = pd.concat(df_list)
 
 big_df.columns = big_df.columns.str.replace(' ', '')
-big_df.drop_duplicates(subset=['Summary'], inplace=True)
-big_df.reset_index(drop=True,inplace=True)
-
 with app.app_context():
-    big_df.to_sql(name='haros', con=db.engine, index=True, if_exists='replace')
-
-#addDBData(big_df)
+    addDBData(big_df)
 
 
 """
