@@ -28,7 +28,7 @@ class Haro:
         self.message = None
         self.df = pd.DataFrame()
         self.website_df = pd.read_csv("fullwebsite.csv")
-
+        self.website_dict = {row['Outlets'] : row['totalClicks'] for _, row in self.website_df.iterrows()}
         if self.json_string is not None:
             self.__main_checks()
 
@@ -175,6 +175,11 @@ class Haro:
         muckrack = mc.google_muckrack(df, "Name")
         result = muckrack.get_dataframe()
 
+    def website_lookup(self, outlet):
+        if outlet not in self.website_dict.keys():
+            return 0
+        else:
+            return self.website_dict[outlet]
 
 if __name__ == "__main__":
     test = Haro()
