@@ -107,7 +107,6 @@ $( document ).ready(function() {
 })
 
 function checkSearch() {
-    console.log('check search')
     
 }
 
@@ -132,7 +131,6 @@ function submitSearch(newmode = false) {
         terms.dateAfter = dateRange[0];
         terms.dateBefore = dateRange[1];
     }
-
     if (JSON.stringify(terms).length == 77) {
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
@@ -206,7 +204,7 @@ function initializeData() {
                         DATA = ALL_DATA;
                         resetDisplay();
                         appendDisplay();
-                    }
+                   }
                 }
                 page_number = 1;
                 initializeDropdownMenus();
@@ -218,35 +216,31 @@ function initializeData() {
 }
 
 function getMediaQueryData(requestUrl) {
-    request_count = request_count + 1;
-    const request_no = request_count;
 
     resetDisplay();
     add_loader();
-    const request = $.ajax(
+    $.ajax(
       {
         'url' : requestUrl,
         success : (result, status, xhr) => {
+            if (status != 304 && (result.keywords != terms.keywords)) return;
             if (status != 304) DATA = result.data;
             page_number = 1;
-            if (request_no == request_count) {
-                try {
-                    hide_loader();
-                }
-                catch (e) {
+            try {
+                hide_loader();
+            }
+            catch (e) {
 
-                }
-                resetDisplay();
-                appendDisplay();
-                if (!init) {
-                    initializeDropdownMenus();
-                    init = true;
-                }
+            }
+            resetDisplay();
+            appendDisplay();
+            if (!init) {
+                initializeDropdownMenus();
+                init = true;
             }
         }
       }
     )
-    requests.push(request)
 }
 
 function add_loader() {
@@ -352,7 +346,6 @@ function appendDisplay() {
 
         } catch (e) {
             i = i - 1; 
-            console.log(e); 
         }
     }
     updateHaroCounter()
@@ -416,7 +409,6 @@ async function copyEmailToClipboard(copy) {
         await navigator.clipboard.writeText(copy);
     }
     catch (err) {
-        console.log(err)
     }
   
   
