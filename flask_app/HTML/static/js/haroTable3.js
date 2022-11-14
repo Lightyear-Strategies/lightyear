@@ -68,9 +68,7 @@ $( document ).ready(function() {
     //binding enter to all the search bars
     document.getElementById('dateReceived').style['background-color'] = '#F7F8FC'
     document.getElementById('dateReceived').onchange = () => {
-        if (document.getElementById('date-checkbox').checked) {
-            submitSearch();
-        }
+        submitSearch()
     }
 
     for (let id of search_menu_ids){ 
@@ -78,14 +76,22 @@ $( document ).ready(function() {
     }
 
    
+    // date range picker stuff
     $('input[name="dateReceived"]').daterangepicker({
         timePicker: false,
-        startDate: moment().startOf('hour'),
-        endDate: moment().startOf('hour').add(32, 'hour'),
+        autoUpdateInput: false,
         locale: {
-          format: 'MM/DD/YYYY'
+          cancelLabel: 'Clear',
         }
     });
+    $('input[name="dateReceived"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+    });
+  
+    $('input[name="dateReceived"]').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+
     
     $("#haro-table-body").scroll(function() {
         // TODO: make this counter work better
@@ -112,6 +118,7 @@ function checkSearch() {
 
 function getDates() {
     strDates = document.getElementById('dateReceived').value
+    if (strDates == '') return ['', '']
 
     let  from  = strDates.substring(0,10)
     let to = strDates.substring(13)
@@ -119,19 +126,17 @@ function getDates() {
 }
 
 function submitSearch(newmode = false) {
+
     dateRange = getDates()
     terms = {
         keywords: document.getElementById('keywords').value,
         category: document.getElementById('category').value,
         mediaOutlet: document.getElementById('mediaOutlet').value,
-        dateAfter: '',
-        dateBefore: '',
+        dateAfter: dateRange[0],
+        dateBefore: dateRange[1],
     }
-    if (document.getElementById('date-checkbox').checked) {
-        terms.dateAfter = dateRange[0];
-        terms.dateBefore = dateRange[1];
-    }
-    if (JSON.stringify(terms).length == 77) {
+    if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
+        // if empty search
         if (mode == 'fresh') DATA = FRESH_DATA;
         else DATA = ALL_DATA;
         if ((JSON.stringify(terms) != JSON.stringify(terms_0)) && (JSON.stringify(terms_0) != '{}')) {
