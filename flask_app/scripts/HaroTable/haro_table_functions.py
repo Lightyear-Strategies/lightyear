@@ -210,6 +210,6 @@ def serve_data(option=None):
         'data': [dict(haro) for haro in query],
         'recordsFiltered': total_filtered,
         'recordsTotal': query.count(),
-        'keywords': keywords,
+        'keywords': keywords if keywords is not None else '',
         'draw': request.args.get('draw', type=int),
     }
