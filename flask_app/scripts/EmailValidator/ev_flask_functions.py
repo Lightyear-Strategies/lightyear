@@ -26,11 +26,11 @@ def email_validator():
         files = request.files
         #print(email)
 
-        if Config.ENVIRONMENT == 'server':
-           if not authCheck():
-               return redirect('/authorizeCheck')
-        elif Config.ENVIRONMENT == 'local':
-           localServiceBuilder()
+        # if Config.ENVIRONMENT == 'server':
+        #    if not authCheck():
+        #        return redirect('/authorizeCheck')
+        # elif Config.ENVIRONMENT == 'local':
+        #    localServiceBuilder()
 
         if files:
             filename = secure_filename(files.get('file').filename) #.filename
@@ -51,8 +51,8 @@ def email_validator():
                 file_remover(final_path.split(".")[0]+"_final.csv")
                 return response
 
-            print('Sending File')
-            print(final_path.split(".")[0]+"_final.csv")
+            # print('Sending File')
+            # print(final_path.split(".")[0]+"_final.csv")
             return send_file(final_path.split(".")[0]+"_final.csv",
                              mimetype=mimetype,
                              attachment_filename=attachment_filename,

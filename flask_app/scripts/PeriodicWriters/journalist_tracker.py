@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, flash, url_for
+from flask import render_template, request, redirect, url_for, session
 from flask_login import login_required, current_user
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
@@ -13,12 +13,12 @@ from datetime import datetime
 
 JOURNALIST_ROUTE = '/journalist_tracker'
 
-def gauth():
-    if Config.ENVIRONMENT == 'server':
-        if not authCheck():
-            return redirect('/authorizeCheck')
-    elif Config.ENVIRONMENT == 'local':
-        localServiceBuilder()
+# def gauth():
+#     if Config.ENVIRONMENT == 'server':
+#         if not authCheck():
+#             return redirect('/authorizeCheck')
+#     elif Config.ENVIRONMENT == 'local':
+#         localServiceBuilder()
 
 
 @login_required
@@ -31,11 +31,11 @@ def receive_journalists():
 
     if request.method == 'POST':
         files = request.files
-        user_email = request.form.get('email')
+        user_email = session['email'] #request.form.get('email')
         timeframe = request.form.get('frequency')
-        user_name = current_user.username
+        user_name = session['name'] # current_user.username
 
-        print(user_email)
+        #print(user_email)
 
         #print(files)
         if files:
@@ -87,9 +87,8 @@ def receive_journalists():
 
                     # Add new entries
                     print("Adding new rows")
-                    data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
-                    print(data)
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack']) #['ClientName', 'ClientEmail', 'Journalist','Muckrack']
+                    data = [[user_name, user_email, journalist, None] for journalist in journalists]
+                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
@@ -160,7 +159,7 @@ def send_pdf_report(df_for_email, email, subject, clientname):
 
         str_date = str(datetime.now().date())
 
-        gauth()
+        # gauth()
 
         to_send = report(
             sender='"George Lightyear" <george@lightyearstrategies.com>',

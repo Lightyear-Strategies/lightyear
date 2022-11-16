@@ -27,10 +27,10 @@
                     <form method="POST" action="/signup">
                         {{ form.csrf_token }}
                         <div action="" class="form__group field">
-                            {{ form.username(id='username', class="form__field", placeholder="Username") }}
-                            {% if form.username.errors %}
+                            {{ form.name(id='name', class="form__field", placeholder="Name") }}
+                            {% if form.name.errors %}
                                 <ul class="errors">
-                                    {% for error in form.username.errors %}
+                                    {% for error in form.name.errors %}
                                         {{ error }}
                                     {% endfor %}
                                 </ul>

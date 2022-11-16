@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
 from flask_app.scripts.EmailValidator import  emailReport
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.forms import ContactUs
@@ -23,8 +23,8 @@ def contact_us():
     form = ContactUs()
     if form.validate_on_submit():
         try:
-            name = form.name.data
-            email = form.email.data
+            name = session['name'] #form.name.data
+            email = session['email'] #form.email.data
             subject = 'Contact Us: ' + form.subject.data
             recipients = Config.CONTACT_US_RECIPIENTS
             #print(request.form.get('send_copy'))
@@ -37,13 +37,13 @@ def contact_us():
             \n{form.message.data}
             '''
 
-            if Config.ENVIRONMENT == 'server':
-                print('in server config environment')
-                if not authCheck():
-                    print('trying to get authcheck')
-                    return redirect('/authorizeCheck')
-            elif Config.ENVIRONMENT == 'local':
-                localServiceBuilder()
+            # if Config.ENVIRONMENT == 'server':
+            #     print('in server config environment')
+            #     if not authCheck():
+            #         print('trying to get authcheck')
+            #         return redirect('/authorizeCheck')
+            # elif Config.ENVIRONMENT == 'local':
+            #     localServiceBuilder()
 
             report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients, subject, message)
             report.sendMessage()

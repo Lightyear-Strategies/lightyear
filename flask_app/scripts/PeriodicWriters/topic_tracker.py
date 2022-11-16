@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, send_file
+from flask import render_template, redirect, url_for, send_file, session
 from flask_login import login_required, current_user
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
@@ -26,12 +26,12 @@ csvname = {
 class UserAlreadySubscribed(Exception):
     pass
 
-def gauth():
-    if Config.ENVIRONMENT == 'server':
-        if not authCheck():
-            return redirect('/authorizeCheck')
-    elif Config.ENVIRONMENT == 'local':
-        localServiceBuilder()
+# def gauth():
+#     if Config.ENVIRONMENT == 'server':
+#         if not authCheck():
+#             return redirect('/authorizeCheck')
+#     elif Config.ENVIRONMENT == 'local':
+#         localServiceBuilder()
 
 
 @login_required
@@ -43,10 +43,13 @@ def receive_category():
     """
     if request.method == 'POST':
 
-        user_name = current_user.username
-        user_email = request.form.get('email')
+        user_name = session['name']# current_user.username
+        user_email = session['email'] # request.form.get('email')
         user_category = request.form.get('category')
         timeframe = request.form.get('frequency')
+
+        print(user_email)
+        print(user_name)
 
         if timeframe == '_once':
             try:
@@ -156,7 +159,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
 
         str_date = str(datetime.now().date())
 
-        gauth()
+        # gauth()
 
         to_send = report(
             sender='"George Lightyear" <george@lightyearstrategies.com>',
