@@ -1,6 +1,5 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, session
 from flask_app.scripts.EmailValidator import  emailReport
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.forms import ContactUs
 from flask_app.scripts.config import Config
 import traceback
@@ -36,14 +35,6 @@ def contact_us():
             message = f'''\nFrom: {name} — {email}
             \n{form.message.data}
             '''
-
-            # if Config.ENVIRONMENT == 'server':
-            #     print('in server config environment')
-            #     if not authCheck():
-            #         print('trying to get authcheck')
-            #         return redirect('/authorizeCheck')
-            # elif Config.ENVIRONMENT == 'local':
-            #     localServiceBuilder()
 
             report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients, subject, message)
             report.sendMessage()

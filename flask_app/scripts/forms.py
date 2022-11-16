@@ -6,29 +6,29 @@ from wtforms.validators import DataRequired, Email, InputRequired, EqualTo, Vali
 from flask_app.scripts.LoginSignUp.models import User
 
 
-class EmailValidator(FlaskForm):
-    """Constructor for the Email Verification Form"""
-
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    # files = MultipleFileField('Select your files',
-    #                           validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
-    #                                                                   "Only CSV or XLSX files are allowed")])
-    submit = SubmitField('Submit')
-
-
-class PeriodicWriters(FlaskForm):
-    """Constructor for the Journalist Subscription Form"""
-
-    username = StringField('What is your full name?', validators=[DataRequired()])
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    frequency = RadioField('How frequently do you want to receive updates?',
-                            validators=[InputRequired()],
-                            choices=[('_day', 'daily'), ('_week', 'weekly')])
-
-    files = MultipleFileField('Select your files',
-                              validators=[DataRequired(),
-                                          FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
-    submit = SubmitField('Submit')
+# class EmailValidator(FlaskForm):
+#     """Constructor for the Email Verification Form"""
+#
+#     email = StringField('What is your email?', validators=[DataRequired(), Email()])
+#     # files = MultipleFileField('Select your files',
+#     #                           validators=[DataRequired(), FileAllowed(["csv", "xlsx"],
+#     #                                                                   "Only CSV or XLSX files are allowed")])
+#     submit = SubmitField('Submit')
+#
+#
+# class PeriodicWriters(FlaskForm):
+#     """Constructor for the Journalist Subscription Form"""
+#
+#     username = StringField('What is your full name?', validators=[DataRequired()])
+#     email = StringField('What is your email?', validators=[DataRequired(), Email()])
+#     frequency = RadioField('How frequently do you want to receive updates?',
+#                             validators=[InputRequired()],
+#                             choices=[('_day', 'daily'), ('_week', 'weekly')])
+#
+#     files = MultipleFileField('Select your files',
+#                               validators=[DataRequired(),
+#                                           FileAllowed(["csv", "xlsx"], "Only CSV or XLSX files are allowed")])
+#     submit = SubmitField('Submit')
 
 
 class SignUpForm(FlaskForm):
@@ -82,21 +82,21 @@ class ContactUs(FlaskForm):
     submit = SubmitField('Send')
 
 
-class TopicTracker(FlaskForm):
-    """Constructor for the Categorical Writers  Subscription Form"""
-
-    username = StringField('What is your full name?', validators=[DataRequired()])
-    email = StringField('What is your email?', validators=[DataRequired(), Email()])
-    category = RadioField('Choose category of your interest:',
-                            validators=[InputRequired()],
-                            choices=[("AI","AI"), ("Crypto","Crypto"),("NFT","NFT"),
-                                     ("Economics","Economics"), ("Marketing","Marketing"), ("Philosophy","Philosophy")])
-
-    frequency = RadioField('How frequently do you want to receive updates?',
-                            validators=[InputRequired()],
-                            choices=[('_now','now'), ('_day', 'daily'), ('_week', 'weekly')])
-
-    submit = SubmitField('Submit')
+# class TopicTracker(FlaskForm):
+#     """Constructor for the Categorical Writers  Subscription Form"""
+#
+#     username = StringField('What is your full name?', validators=[DataRequired()])
+#     email = StringField('What is your email?', validators=[DataRequired(), Email()])
+#     category = RadioField('Choose category of your interest:',
+#                             validators=[InputRequired()],
+#                             choices=[("AI","AI"), ("Crypto","Crypto"),("NFT","NFT"),
+#                                      ("Economics","Economics"), ("Marketing","Marketing"), ("Philosophy","Philosophy")])
+#
+#     frequency = RadioField('How frequently do you want to receive updates?',
+#                             validators=[InputRequired()],
+#                             choices=[('_now','now'), ('_day', 'daily'), ('_week', 'weekly')])
+#
+#     submit = SubmitField('Submit')
 
 
 

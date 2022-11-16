@@ -1,9 +1,8 @@
 from flask import render_template, redirect, url_for, send_file, session
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask import request
 
 from itsdangerous import URLSafeSerializer, BadData
@@ -26,13 +25,6 @@ csvname = {
 class UserAlreadySubscribed(Exception):
     pass
 
-# def gauth():
-#     if Config.ENVIRONMENT == 'server':
-#         if not authCheck():
-#             return redirect('/authorizeCheck')
-#     elif Config.ENVIRONMENT == 'local':
-#         localServiceBuilder()
-
 
 @login_required
 def receive_category():
@@ -48,23 +40,9 @@ def receive_category():
         user_category = request.form.get('category')
         timeframe = request.form.get('frequency')
 
-        print(user_email)
-        print(user_name)
 
         if timeframe == '_once':
             try:
-                #gauth()
-                # str_date = str(datetime.now().date())
-                #
-                # to_send = report(
-                #     sender=Config.SENDER_EMAIL_NAME,
-                #     to=user_email,
-                #     subject=f'{user_category} Journalist Report {str_date}',
-                #     text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\n\n',
-                #     file= f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
-                # )
-                # to_send.sendMessage()
-                #print(os.path.join(Config.REPORTS_DIR,csvname[user_category]))
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
                                  mimetype='application/pdf',
                                  attachment_filename=csvname[user_category],
@@ -72,8 +50,6 @@ def receive_category():
 
             except Exception:
                 traceback.print_exc()
-
-            # return redirect('/email_sent')
 
 
         # only executed if there is no 'journalists' table
@@ -158,8 +134,6 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
             #print(url)
 
         str_date = str(datetime.now().date())
-
-        # gauth()
 
         to_send = report(
             sender='"George Lightyear" <george@lightyearstrategies.com>',

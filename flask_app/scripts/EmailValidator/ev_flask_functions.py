@@ -3,7 +3,6 @@ from flask import render_template, request, send_file
 from flask_login import login_required
 from werkzeug.utils import secure_filename
 from flask_app.scripts.EmailValidator import ev_API
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.config import Config
 from flask_app.scripts.create_flask_app import app
 
@@ -18,17 +17,10 @@ def email_validator():
     @param:    None
     @return:   Email Verification Page
     """
-    if request.method == 'POST':  # form.validate_on_submit():
+    if request.method == 'POST':
         filenames = []
 
         files = request.files
-        #print(email)
-
-        # if Config.ENVIRONMENT == 'server':
-        #    if not authCheck():
-        #        return redirect('/authorizeCheck')
-        # elif Config.ENVIRONMENT == 'local':
-        #    localServiceBuilder()
 
         if files:
             filename = secure_filename(files.get('file').filename)

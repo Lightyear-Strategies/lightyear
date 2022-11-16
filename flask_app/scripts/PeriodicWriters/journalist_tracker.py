@@ -1,10 +1,9 @@
 from flask import render_template, request, redirect, url_for, session
-from flask_login import login_required, current_user
+from flask_login import login_required
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.config import Config
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 
 from itsdangerous import URLSafeSerializer, BadData
 import traceback
@@ -12,13 +11,6 @@ import pandas as pd
 from datetime import datetime
 
 JOURNALIST_ROUTE = '/journalist_tracker'
-
-# def gauth():
-#     if Config.ENVIRONMENT == 'server':
-#         if not authCheck():
-#             return redirect('/authorizeCheck')
-#     elif Config.ENVIRONMENT == 'local':
-#         localServiceBuilder()
 
 
 @login_required
@@ -35,9 +27,6 @@ def receive_journalists():
         timeframe = request.form.get('frequency')
         user_name = session['name'] # current_user.username
 
-        #print(user_email)
-
-        #print(files)
         if files:
 
             journalists = []
@@ -158,8 +147,6 @@ def send_pdf_report(df_for_email, email, subject, clientname):
         pdf_maker_for_email.create_PDF(filename=filepath)
 
         str_date = str(datetime.now().date())
-
-        # gauth()
 
         to_send = report(
             sender='"George Lightyear" <george@lightyearstrategies.com>',
