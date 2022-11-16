@@ -504,6 +504,10 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+#page-body .transparent-text {
+  color: rgba(0, 0, 0, 0)
+}
+
 #page-body button {
   border: none;
   background-color: rgba(0, 0, 0, 0);
