@@ -295,7 +295,8 @@ function resetDisplay() {
     display_index = 0;
     $('#haro-table-body > *').remove()
     
-    document.getElementById('table-head').classList.remove('hidden')
+    document.getElementById('table-head').classList.remove('transparent-text')
+    document.getElementById('haro-counter').classList.remove('transparent-text')
     document.getElementById('haro-table-body').classList.remove('underflown')
 }
 
@@ -549,7 +550,8 @@ function noHarosDisplay() {
     else {
         err.innerHTML = 'Sorry! No entries match your query'
     }
-    document.getElementById('table-head').classList.add('hidden')
+    document.getElementById('table-head').classList.add('transparent-text')
+    document.getElementById('haro-counter').classList.add('transparent-text')
     document.getElementById('haro-table-body').appendChild(err)
 }
 
