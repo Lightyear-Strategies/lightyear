@@ -165,7 +165,7 @@ def send_pdf_report(df_for_email, email, subject, clientname):
             sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=email,
             subject=f'{subject} Journalist Report {str_date}',
-            text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
+            text=f'Hi {clientname.capitalize()},\n\nHere is your {subject.lower()} report.\n\n\n',
             file=filepath
         )
         to_send.sendMessage()

@@ -23,7 +23,7 @@ def contact_us():
     form = ContactUs()
     if form.validate_on_submit():
         try:
-            name = session['name'] #form.name.data
+            name = session['name'].capitalize() #form.name.data
             email = session['email'] #form.email.data
             subject = 'Contact Us: ' + form.subject.data
             recipients = Config.CONTACT_US_RECIPIENTS

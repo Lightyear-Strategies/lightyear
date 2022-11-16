@@ -1,14 +1,12 @@
 import os
-from flask import render_template, request, redirect, send_file, g
+from flask import render_template, request, send_file
 from flask_login import login_required
 from werkzeug.utils import secure_filename
-from flask_app.scripts.EmailValidator import ev_API, emailReport
+from flask_app.scripts.EmailValidator import ev_API
 from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 from flask_app.scripts.config import Config
-from flask_app.scripts.create_flask_app import app#, init_celery,
+from flask_app.scripts.create_flask_app import app
 
-
-#celery = init_celery(app)
 
 @login_required
 def email_validator():
@@ -33,16 +31,10 @@ def email_validator():
         #    localServiceBuilder()
 
         if files:
-            filename = secure_filename(files.get('file').filename) #.filename
-            #file.save(os.path.join(Config.UPLOAD_DIR, filename))
+            filename = secure_filename(files.get('file').filename)
             orig_path = os.path.join(Config.UPLOAD_DIR, filename)
             files.get('file').save(orig_path)
             filenames.append(filename)
-
-            # Celery
-            # parse,remove file, send updated file
-            # delay is from celery, test and see whether it would give an error
-            # parseSendEmail.delay(os.path.join(Config.UPLOAD_DIR, filename), email, filename)
 
             final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, filename)
             # remove the file after sending it
@@ -78,23 +70,12 @@ def emailVerify(path):
     email.validation(save=True)
     subject_line = os.path.basename(path)
 
-    return path,'text/csv', subject_line,True # path, mimetype, attachment_filename, as_attachment)
-
-    # report = emailReport.report(Config.SENDER_EMAIL_NAME, recipients,
-    #                             "Verified Emails in '%s' file" % subject_line, "Here is your file", path,"me")
-    # report.sendMessage()
+    return path, 'text/csv', subject_line, True # path, mimetype, attachment_filename, as_attachment)
 
 
-# @celery.task(name='ev_flask_functions.parseSendEmail')
-def parseSendEmail(path, filename=None):
+
+def parseSendEmail(path):
     print('parseSendEmail')
-    # """
-    # Celery handler
-    # @param:    path to file with emails
-    # @param:    recipients of processed file
-    # @param:    filename
-    # @return:   None
-    # """
 
     with app.app_context():
         return emailVerify(path)

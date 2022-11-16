@@ -165,7 +165,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
             sender='"George Lightyear" <george@lightyearstrategies.com>',
             to=user_email,
             subject=f'{user_category} Journalist Report {str_date}',
-            text=f'Hi {user_name},\n\nHere is your {user_category} report.\n\nClick on the url to unsubscribe: {url}\n\n',
+            text=f'Hi {user_name.capitalize()},\n\nHere is your {user_category} report.\n\nClick on the url to unsubscribe: {url}\n\n',
             file=f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
         )
         to_send.sendMessage()
