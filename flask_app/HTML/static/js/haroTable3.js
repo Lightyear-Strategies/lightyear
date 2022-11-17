@@ -544,6 +544,9 @@ function noHarosDisplay() {
         if (popped == true) {
             img_path = '../static/img/CaughtUp.svg'
         }
+        else if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
+            img_path = '../static/img/CaughtUp.svg'
+        }
         else {
             img_path = '../static/img/NoMatch.svg'
         }

@@ -70,11 +70,11 @@ body::-webkit-scrollbar {
 }
 
 #page-body .none-to-display-error {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   position: relative;
-  left: calc(50% - 100px);
-  top: calc(50% - 100px);
+  left: calc(50% - 150px);
+  top: calc(50% - 150px);
   text-align: center;
   text-justify: center;
   vertical-align: middle;
