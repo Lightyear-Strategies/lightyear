@@ -534,22 +534,24 @@ function insertRow(datum) {
 }
 
 function noHarosDisplay() {
-    let err = document.createElement('div')
+    let err = document.createElement('img')
+    let img_path = '';
     err.classList.add('none-to-display-error')
     if (mode == 'saved') {
-        err.innerHTML = 'No saved entries match your query'
+        img_path = '../static/img/NoMatch.svg'
     } 
     else if (mode == 'fresh') {
-        if (popped = true) {
-            err.innerHTML = 'You\'re all caught up :)';
+        if (popped == true) {
+            img_path = '../static/img/CaughtUp.svg'
         }
         else {
-            err.innerHTML = 'Sorry! No entries match your query'
+            img_path = '../static/img/NoMatch.svg'
         }
     }
     else {
-        err.innerHTML = 'Sorry! No entries match your query'
+        img_path = '../static/img/NoMatch.svg'
     }
+    err.setAttribute('src', img_path)
     document.getElementById('table-head').classList.add('transparent-text')
     document.getElementById('haro-counter').classList.add('transparent-text')
     document.getElementById('haro-table-body').appendChild(err)

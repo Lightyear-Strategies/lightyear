@@ -70,14 +70,14 @@ body::-webkit-scrollbar {
 }
 
 #page-body .none-to-display-error {
-  font-weight: bold;
-  width: 94%;
+  height: 200px;
+  width: 200px;
+  position: relative;
+  left: calc(50% - 100px);
+  top: calc(50% - 100px);
   text-align: center;
   text-justify: center;
   vertical-align: middle;
-  height: 5em;
-  padding-top: 2em;
-  font-size: 2em;
 }
 
 #page-body #haro-counter {
