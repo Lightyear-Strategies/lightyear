@@ -443,7 +443,8 @@ body::-webkit-scrollbar {
     "Journalist-label Journalist"
     "Email-label Email"
     "Query-label Query"
-    "Requirements-label Requirements";
+    "Requirements-label Requirements"
+    "MonthlyTraffic-label MonthlyTraffic";
   row-gap: 0.75em;
   -webkit-column-gap: 0.75em;
   column-gap: 0.75em;

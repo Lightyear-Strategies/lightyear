@@ -397,11 +397,26 @@ function insertDetailsRow(id, table, datum) {
         if (id=='Journalist'){
             content.innerHTML = datum['Name']
         }
+        else if (id == 'MonthlyTraffic') {
+            try {
+                let traffic = Number(datum[id]);
+                if (traffic == 0) {
+                    content.innerHTML = 'N/A'
+                }
+                else {
+                    content.innerHTML = traffic.toLocaleString();
+                }
+            }
+            catch (e) {
+                content.innerHTML = 'N/A';
+            }
+        }
         else {
             content.innerHTML = datum[id];
         }
     }
     label.innerHTML = `${id}: `;
+    if (id == 'MonthlyTraffic') label.innerHTML = 'Monthly Website Clicks: '
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
@@ -472,7 +487,7 @@ function insertRow(datum) {
         if (!row.expanded_previously) {
             details = document.createElement('div');
             row.appendChild(details)
-            for (let id of ['Journalist','Email','Query','Requirements']){
+            for (let id of ['Journalist','Email','Query','Requirements', 'MonthlyTraffic']){
                 insertDetailsRow(id,details,datum)
             }
             details.classList.add('details')
