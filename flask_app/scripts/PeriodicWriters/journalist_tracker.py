@@ -115,8 +115,8 @@ def unsubscribe_journalist(token):
     elif subject == 'Weekly':
         timeframe = '_week'
     else:
-        return render_template('ErrorPages/500.html')
         print('Error occured with subject')
+        return render_template('ErrorPages/500.html')
 
     # TODO: redo replacing of table
     jour_df_tf = pd.read_sql_table(f'journalists{timeframe}', con=db.engine)

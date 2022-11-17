@@ -3,7 +3,6 @@ from flask_app.scripts.LoginSignUp.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_app.scripts.forms import  SignUpForm, LoginForm
 from flask import render_template, flash, redirect, url_for, request, session
-#Import report
 
 
 def signup():
@@ -36,6 +35,11 @@ def login():
         user = None
         if "@" in form.email.data:
             user = User.query.filter_by(email=form.email.data.lower()).first()
+
+            session['email'] = user.email
+            session['name'] = user.name
+            #print(session['name'])
+
         # else:
         #    user = User.query.filter_by(username=form.username_email.data.lower()).first()
 
