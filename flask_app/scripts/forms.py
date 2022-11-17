@@ -74,8 +74,8 @@ class LoginForm(FlaskForm):
 
 class ContactUs(FlaskForm):
     """Constructor for the Contact Us Page"""
-    name = StringField('Full Name', validators=[DataRequired(), Length(1, 64)])
-    email = StringField('Email', validators=[DataRequired(),Email(), Length(1, 64)])
+    # name = StringField('Full Name', validators=[DataRequired(), Length(1, 64)])
+    # email = StringField('Email', validators=[DataRequired(),Email(), Length(1, 64)])
     subject = StringField('Subject of Inquiry', validators=[DataRequired(), Length(1, 64)])
     message = TextAreaField('Message')
     send_copy = BooleanField('Send me a copy of my message')

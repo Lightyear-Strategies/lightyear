@@ -44,5 +44,4 @@ def contact_us():
             traceback.print_exc()
             return render_template('ErrorPages/500.html')
 
-    return render_template('contactUs.html', form=form, name=name, email=email,
-                           message=message, subject=subject, copy=copy)
+    return render_template('contactUs.html', form=form, message=message, subject=subject, copy=copy)
