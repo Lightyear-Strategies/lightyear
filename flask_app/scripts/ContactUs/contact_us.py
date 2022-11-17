@@ -29,7 +29,7 @@ def contact_us():
             #print(request.form.get('send_copy'))
             copy = True if request.form.get('send_copy') else False
 
-            print(email)
+            # print(email)
 
             if copy:
                 recipients.append(email)
