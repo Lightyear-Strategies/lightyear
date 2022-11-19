@@ -1,18 +1,8 @@
+// global vars
 const HARO_BODY = document.getElementById('haro-table-body')
 var DATA;
 var FRESH_DATA;
 var ALL_DATA;
-let Categories = [];
-const expanded_previously = {};
-let mode = 'fresh'
-const searchMenu = document.getElementById('search-menu'); 
-const search_menu_ids = ['keywords','category','mediaOutlet']
-let init = false;
-let page = 1;
-let display_index = 0;
-// for haro loading
-let initialized = false;
-const loader_string = '<lottie-player id="loader-lottie" src="../static/img/haro_loading.json" background="transparent" speed="1" loop autoplay></lottie-player>'
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -24,14 +14,22 @@ const search_bar_toggle_elements = [
     document.getElementById('dateReceived'),
     document.getElementById('date-checkbox')
 ]
+const search_menu_ids = ['keywords','category','mediaOutlet']
+// for haro counting
+const row_height = 59.66;
+var expanded_set = new Set();
+// for haro loading
+const loader_string = '<lottie-player id="loader-lottie" src="../static/img/haro_loading.json" background="transparent" speed="1" loop autoplay></lottie-player>'
+let mode = 'fresh'
+let init = false;
+let display_index = 0;
+let initialized = false;
 let haros_per_page = 100;
-let saved_iterator;
 let all_displayed;
 let toDisplay;
-let requests = [];
-let request_count = 0;
+// for confetti pop
 let popped = false;
-
+// for haro searching
 let terms = {};
 let terms_0 = {};
 /*
@@ -94,9 +92,6 @@ $( document ).ready(function() {
 
     
     $("#haro-table-body").scroll(function() {
-        // TODO: make this counter work better
-        const htb = document.getElementById('haro-table-body')
-        const row_height = (htb.childNodes)[0].offsetHeight;
         var scroll_distance = $("#haro-table-body").scrollTop();
 
         if(scroll_distance > 0.9*row_height*haros_per_page*(display_index-1)) {
@@ -106,7 +101,9 @@ $( document ).ready(function() {
         updateHaroCounter()
 
         if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1) {
-            pop_confetti();
+            if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
+                pop_confetti();
+            }
         }
     });
 
@@ -277,22 +274,28 @@ function pop_confetti() {
 }
 
 function updateHaroCounter() {
-    const htb = document.getElementById('haro-table-body')
-    const row_height = (htb.childNodes)[0].offsetHeight;
-    var scroll_distance = $("#haro-table-body").scrollTop();
-    const len = toDisplay.length;
-    
-    if (len <= 6) {
-        document.getElementById('haro-counter').innerHTML = `${len} / ${len} Requests viewed`
-    } else {
-        document.getElementById('haro-counter').innerHTML = `${Math.floor((scroll_distance)/row_height+htb.offsetHeight/row_height+.9)} / ${len} Requests viewed`
+    function get_details () {
+        const len = toDisplay.length;
+        const viewed_in_port = HARO_BODY.offsetHeight / row_height;
+        const viewed_before = HARO_BODY.scrollTop / row_height;
+        let height_behind = 0; // to subtract
+        for (let d of expanded_set) {
+            let offset_details_from_table_top = d.offsetTop - HARO_BODY.offsetTop;
+            if (HARO_BODY.scrollTop + HARO_BODY.offsetHeight >= offset_details_from_table_top) {
+                console.log('subtracting ' + d.offsetHeight)
+                height_behind = height_behind + d.offsetHeight;
+            }
+        }
+        const extra_rows_counted = height_behind / row_height;
+        document.getElementById('haro-counter').innerHTML = `${Math.floor(viewed_in_port + viewed_before - extra_rows_counted)} / ${len} Requests viewed`
     }
-
+    setTimeout(get_details, 100)
 }
 
 function resetDisplay() {
     all_displayed = false;
     display_index = 0;
+    expanded_set.clear()
     $('#haro-table-body > *').remove()
     
     document.getElementById('table-head').classList.remove('transparent-text')
@@ -503,10 +506,13 @@ function insertRow(datum) {
         if (row.expanded) {
             row.expanded = false;
             expand_button.innerHTML = rightArrowSvg
+            expanded_set.delete(details)
         } else {
             row.expanded = true
             expand_button.innerHTML = downArrowSvg
+            expanded_set.add(details)
         }
+        updateHaroCounter()
     }
 
     //for coloring backgrounds
