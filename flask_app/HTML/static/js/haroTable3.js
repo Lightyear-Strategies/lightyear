@@ -282,7 +282,6 @@ function updateHaroCounter() {
         for (let d of expanded_set) {
             let offset_details_from_table_top = d.offsetTop - HARO_BODY.offsetTop;
             if (HARO_BODY.scrollTop + HARO_BODY.offsetHeight >= offset_details_from_table_top) {
-                console.log('subtracting ' + d.offsetHeight)
                 height_behind = height_behind + d.offsetHeight;
             }
         }
