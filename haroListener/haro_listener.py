@@ -160,7 +160,7 @@ class HaroListener():
                     if dic['name'] == "Subject":
                         if "[HARO]" in dic['value'] and from_datetime <= datetime.date.fromtimestamp(int(message['internalDate']) // 1000):
                             found = True
-                            haro_obj = Haro([message])
+                            haro_obj = Haro([message], parse_all=True)
                             to_ret.append(haro_obj)
             if not found:
                 service.close()
