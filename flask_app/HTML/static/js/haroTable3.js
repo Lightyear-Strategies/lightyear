@@ -91,6 +91,10 @@ $( document ).ready(function() {
     });
 
     
+    // detect whether we already hit the bottom
+    var hit_bottom = false;
+    var more = 20;
+
     $("#haro-table-body").scroll(function() {
         var scroll_distance = $("#haro-table-body").scrollTop();
 
@@ -101,11 +105,33 @@ $( document ).ready(function() {
         updateHaroCounter()
 
         if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1) {
-            if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
-                pop_confetti();
-            }
+            $('#haro-table-body').on('mousewheel', function(e) {
+                var scroll_distance = e.originalEvent.wheelDelta;
+                if (scroll_distance > 0) {
+                    // reset if user scrolls up
+                    hit_bottom = false;
+                }
+                var at_bottom = Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1;
+                var empty_search = terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '';
+                if (scroll_distance <= -10 && at_bottom && empty_search && hit_bottom) {
+                    // attempt at animation
+                    // $('.haro-row').last().css({
+                    //     'margin-bottom' : more + 'px'
+                    // });
+                    // more += 20;
+                    // setTimeout(function () {
+                    //     $('.haro-row').last().css({
+                    //         'margin-bottom' : '0'
+                    //     });
+                    //     more = 0;
+                    // }, 500)
+                    pop_confetti();
+                }
+            })
+            hit_bottom = true;
         }
     });
+
 
 })
 
@@ -269,7 +295,6 @@ function pop_confetti() {
         save_last_seen();
         show_confetti();
         resetDisplay();
-        setTimeout(noHarosDisplay, 500);
     }
 }
 
@@ -565,6 +590,7 @@ function noHarosDisplay() {
             img_path = '../static/img/CaughtUp.svg'
         }
         else if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
+            popped = true;
             img_path = '../static/img/CaughtUp.svg'
         }
         else {
