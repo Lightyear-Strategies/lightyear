@@ -21,7 +21,8 @@ Haro class
 
 
 class Haro:
-    def __init__(self, json_string=None):
+    def __init__(self, json_string=None, parse_all = False):
+        self.parse_all = parse_all
         self.json_string = json_string
         self.date = None
         self.subject = None
@@ -167,7 +168,9 @@ class Haro:
         row_dict["Requirements"] = message.split("Requirements:")[-1].replace("\r", "").replace("\n", "").strip()
         row_dict["DateReceived"] = self.received
         row_dict["Used"] = "None"
-        row_dict["TimeStamp"] = datetime.fromisoformat(self.received).timestamp()
+        row_dict["TimeStamp"] = datetime.now().timestamp()
+        if self.parse_all:
+            row_dict["TimeStamp"] = datetime.fromisoformat(self.received).timestamp()
         self.df = self.df.append(row_dict, ignore_index=True)
 
     def parse_MC(self):

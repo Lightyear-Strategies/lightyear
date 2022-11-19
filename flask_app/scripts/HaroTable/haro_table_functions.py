@@ -80,8 +80,8 @@ def show_haro_table():
 def get_last_updated():
     """returns a datetime of the most recently updated haro"""
     Haros = db.Table('haros', db.metadata, autoload=True, autoload_with=db.engine)
-    most_recent_date_received = db.session.query(Haros.columns.DateReceived).first()[0]
-    return datetime.fromisoformat(most_recent_date_received)
+    most_recent_date_received = db.session.query(Haros.columns.TimeStamp).first()[0]
+    return datetime.fromtimestamp(most_recent_date_received)
 
 # def adding_used_unused(option: str = None, id: str = None):
 #     """
