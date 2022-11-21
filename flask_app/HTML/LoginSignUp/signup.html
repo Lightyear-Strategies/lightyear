@@ -26,15 +26,27 @@
                     <h1>Sign Up </h1>
                     <form method="POST" action="/signup">
                         {{ form.csrf_token }}
-                        <div action="" class="form__group field">
-                            {{ form.name(id='name', class="form__field", placeholder="Name") }}
-                            {% if form.name.errors %}
-                                <ul class="errors">
-                                    {% for error in form.name.errors %}
-                                        {{ error }}
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
+                        <div id="name-container">
+                            <div action="" class="  form__group field ">
+                                {{ form.name(id='name', class="form__field nameFormat", placeholder=" First Name") }}
+                                {% if form.name.errors %}
+                                    <ul class="errors">
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        <div action="" class="  form__group field">
+                                {{ form.name(class="form__field nameFormat", placeholder=" Last Name") }}
+                                {% if form.name.errors %}
+                                    <ul class="errors">
+                                        {% for error in form.name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>                           
                         </div>
                         <div action="" class="form__group field">
                             {{ form.email(id='email', class="form__field", placeholder="Email") }}
