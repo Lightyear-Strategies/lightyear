@@ -49,7 +49,7 @@ body {
   text-align: right;
   width: 100%;
   font-weight: 700;
-  background-color: var(--lightyear-yellow);
+  background-color: transparent;
   color: var(--contrast-color);
 }
 
@@ -96,8 +96,14 @@ body {
 }
 
 #header #header .flex-6 > div:hover::after {
-  background-color: var(--contrast-color);
-  right: 0px;
+  /* background-color: var(--lightyear-yellow);
+  right: 0px; */
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+  right: 0;
 }
 
 #header #header .flex-1 {
@@ -123,6 +129,7 @@ body {
   position: relative;
   overflow: hidden;
   width: fit-content;
+
   text-align: center;
 }
 
@@ -133,7 +140,8 @@ body {
 }
 
 #header #header #logout-svg {
-  padding-top: 0.65em;
+  padding-top: 1em;
+  padding-bottom: 0.3em;
 }
 
 #header #header .flex-6 > *::after {
@@ -144,7 +152,12 @@ body {
   transform: scaleX(0);
   bottom: 0;
   left: 0;
-  background-color: black;
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+
   -webkit-transform-origin: bottom right;
   transform-origin: bottom right;
   -webkit-transition: -webkit-transform 0.25s ease-out;
@@ -155,7 +168,7 @@ body {
 
 #header #header .flex-6 > *:not(#logout-svg)::after {
   height: 3px;
-  bottom: -0.25em;
+  bottom: -0.5em;
 }
 
 #header #header #logout-svg::after {
@@ -176,7 +189,7 @@ body {
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: black;
+  background-color: transparent;
 }
 
 @media only screen and (max-width: 550px) {
@@ -231,7 +244,7 @@ main {
 
 .card {
   font: inherit;
-  height: 381px;
+  height: 370px;
   background: rgb(255, 255, 255);
   border-radius: 8px;
   overflow: hidden;
@@ -369,6 +382,7 @@ main {
 
 #highlight {
   border-bottom: 10px solid transparent;
+  border-top: 0;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 
