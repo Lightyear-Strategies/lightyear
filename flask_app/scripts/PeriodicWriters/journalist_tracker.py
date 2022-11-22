@@ -16,14 +16,6 @@ from datetime import datetime
 JOURNALIST_ROUTE = '/journalist_tracker'
 
 
-def freq2timeframe(frequency):
-    if frequency == 'Daily':
-        return '_day'
-    elif frequency == 'Monthly':
-        return '_month'
-    elif frequency == 'Weekly':
-        return '_week'
-
 def timeframe2freq(timeframe):
     if timeframe == '_day':
         return 'Daily'
@@ -198,30 +190,6 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
     sends the weekly pdf report
     note: needs to be in flaskMain to access flask specific stuff
     """
-    # try:
-    #     unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
-    #     token_string = f'{email} {frequency}'
-    #     token = unsub.dumps(token_string)
-    #
-    #     app.config['SERVER_NAME'] = Config.SERVER_NAME
-    #     with app.app_context(), app.test_request_context():
-    #         url = url_for('unsubscribe_journalist', token=token, _external=True)
-    #         #print(url)
-    #     pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
-    #     filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
-    #     pdf_maker_for_email.create_PDF(filename=filepath)
-    #
-    #     str_date = str(datetime.now().date())
-    #
-    #     to_send = report(
-    #         sender='"George Lightyear" <george@lightyearstrategies.com>',
-    #         to=email,
-    #         subject=f'{frequency} Journalist Report {str_date}',
-    #         text=f'Hi {clientname.capitalize()},\n\nHere is your {frequency.lower()} report.\n\n\n',
-    #         file=filepath
-    #     )
-    #     to_send.sendMessage()
-
     try:
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
         token_string = f'{email} {frequency}'
@@ -241,9 +209,7 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
         with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'tracker_report.html'), 'r') as f:
             html = f.read()
 
-        timeframe = freq2timeframe(frequency)
-
-        rules = create_rules(clientname, timeframe, url)
+        rules = create_rules(clientname, frequency, url)
 
         gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
                         email,

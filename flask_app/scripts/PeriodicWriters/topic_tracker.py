@@ -34,12 +34,6 @@ def timeframe2freq(timeframe):
     elif timeframe == '_week':
         return 'Weekly'
 
-def freq2timeframe(frequency):
-    if frequency == 'Daily':
-        return '_day'
-    elif frequency == 'Weekly':
-        return '_week'
-
 
 def email_html_topic(user_name,user_email,timeframe,user_category):
     try:
@@ -212,10 +206,8 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
         with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'topic_report.html'), 'r') as f:
             html = f.read()
 
-        timeframe = freq2timeframe(frequency)
 
-        # TOPIC REPORT PLACEHOLDERS
-        rules = create_rules_topic(user_name, user_category, timeframe, url)
+        rules = create_rules_topic(user_name, user_category, frequency, url)
 
         gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
                         user_email,

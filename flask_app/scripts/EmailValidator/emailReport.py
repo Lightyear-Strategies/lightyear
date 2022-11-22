@@ -99,7 +99,7 @@ class report():
 
             filename = os.path.basename(self.file)
             msg.add_header('Content-Disposition', 'attachment',
-                           filename=filename)
+                           filename='Check.pdf')
             message.attach(msg)
 
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
