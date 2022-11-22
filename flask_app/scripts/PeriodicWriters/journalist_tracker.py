@@ -35,7 +35,7 @@ def timeframe2freq(timeframe):
 
 def create_rules(user_name,timeframe,url):
     return {
-            '{username}': user_name,
+            '{username}': user_name.capitalize(),
             '{chosen_frequency}': timeframe.replace('_', ''),
             'URL_TO_UNSUBSCRIBE': url
         }

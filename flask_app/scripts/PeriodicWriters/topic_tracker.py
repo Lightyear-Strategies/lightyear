@@ -77,7 +77,7 @@ def email_html_topic(user_name,user_email,timeframe,user_category):
 
 def create_rules_topic(user_name,user_category,timeframe,url):
     return {
-        '{username}': user_name,
+        '{username}': user_name.capitalize(),
         '{topic}': user_category,
         '{chosen_frequency}': timeframe.replace('_', ''),
         'URL_TO_UNSUBSCRIBE': url
@@ -226,7 +226,7 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
                         rules=rules)
         gmail.sendMessage()
 
-    except Exception as e:
+    except Exception:
         print('Frequency: ', frequency)
         # TODO: Could create exception handling based on frequency
         traceback.print_exc()
