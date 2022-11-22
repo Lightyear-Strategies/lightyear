@@ -44,12 +44,10 @@ def create_rules_topic(user_name,user_category,frequency,url):
     }
 
 
-def email_html_topic(user_name,user_email,timeframe,user_category):
+def email_html_topic(user_name,user_email,frequency,user_category):
     try:
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
         # TODO: check if time frame is the same as in
-
-        frequency = timeframe2freq(timeframe)
 
         token_string = f'{user_email} {frequency} {user_category}'
         token = unsub.dumps(token_string)
@@ -110,7 +108,7 @@ def receive_category():
             df = pd.DataFrame([data], columns=['ClientName', 'ClientEmail', 'Category'])
             df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False)
 
-            email_html_topic(user_name, user_email, timeframe, user_category)
+            email_html_topic(user_name, user_email, timeframe2freq(timeframe), user_category)
 
         else:
             try:
@@ -129,7 +127,7 @@ def receive_category():
                 journalists_df = pd.concat([users_df,df], ignore_index=True)
                 journalists_df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-                email_html_topic(user_name,user_email,frequency,user_category)
+                email_html_topic(user_name,user_email,timeframe2freq(timeframe),user_category)
 
                 return render_template('OnSuccess/Subscribed.html')
 
