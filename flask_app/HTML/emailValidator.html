@@ -27,7 +27,7 @@
         function make_overlay () {
             let overlay = document.createElement('div');
             overlay.setAttribute('id', 'loading-overlay');
-            $('#myDropzone')[0].appendChild(overlay);
+            document.getElementById('dropzone-holder').appendChild(overlay);
             let lot = document.createElement('lottie-player')
             lot.setAttribute('id', 'loading-circle');
             lot.setAttribute('src', '../static/img/haro_loading.json');
@@ -54,6 +54,7 @@
 
                 e.preventDefault();
                 e.stopPropagation();
+                $('#submitBtn').hide();
                 make_overlay();
                 myDropzone.processQueue();
             });
@@ -64,7 +65,8 @@
                 thisxhr.responseType = 'blob';
                 xhr.onreadystatechange = () => {
                     if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                        $('#myDropzone')[0].removeChild($('#loading-overlay')[0]);
+                        $('#dropzone-holder')[0].removeChild($('#loading-overlay')[0]);
+                        $('#submitBtn').show();
                         var blob = xhr.response;
                         var a = document.createElement('a');
                         a.href = window.URL.createObjectURL(blob);
@@ -155,7 +157,7 @@
                 </div>
             </div>
             <form action="/email_validator" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
-            <div>
+            <div id="dropzone-holder">
                 <div class="dropzone" id="myDropzone">
                     <div class="form-group" id="dropzone">
                         <div class="dz-message" data-dz-message>
