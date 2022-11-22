@@ -4,7 +4,6 @@ from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 # from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.EmailValidator.emailReport import report
-from flask_app.scripts.LoginSignUp.models import User
 
 from flask_app.scripts.config import Config
 

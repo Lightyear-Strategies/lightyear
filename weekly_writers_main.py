@@ -70,4 +70,6 @@ if __name__ == "__main__":
                 continue
 
             clientname = df.ClientName.iloc[0]
+            print('client')
             send_pdf_report(df_for_email, email, subject, clientname)
+            print('hui')
