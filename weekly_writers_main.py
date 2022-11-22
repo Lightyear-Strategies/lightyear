@@ -51,7 +51,8 @@ if __name__ == "__main__":
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
 
-        except
+        except Exception:
+            traceback.print_exc()
 
         print(grouped_by_name)
 
