@@ -28,7 +28,7 @@ def email_validator():
             files.get('file').save(orig_path)
             filenames.append(filename)
 
-            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path, filename)
+            final_path, mimetype, attachment_filename, as_attachment = parseSendEmail(orig_path)
             # remove the file after sending it
             @app.after_request
             def delete(response):

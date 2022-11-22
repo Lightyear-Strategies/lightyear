@@ -38,17 +38,12 @@
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if(document.getElementById('email').value == '') {
-                }
-                else {
-                    myDropzone.processQueue();
-                }
+                myDropzone.processQueue();
             });
 
             myDropzone.on("sending", function(file, xhr, formData) {
 
                 // Adding data here
-                formData.append("email",document.getElementById('email').value);
                 formData.append("frequency", document.querySelector('input[name="freq_choice"]:checked').value);
 
                 thisxhr = xhr
