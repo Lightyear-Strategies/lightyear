@@ -42,7 +42,7 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
-        print(parser.df)
+        print(parser.get_dataframe())
         try:
             grouped_by_name = parser.df.groupby('Name')
 
@@ -50,6 +50,8 @@ if __name__ == "__main__":
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
+
+        except
 
         print(grouped_by_name)
 
