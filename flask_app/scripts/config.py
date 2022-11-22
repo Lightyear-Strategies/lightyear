@@ -15,6 +15,7 @@ class Config:
     STATIC_DIR = os.path.join(HTML_DIR, 'static')
     UPLOAD_DIR = os.path.join(FLASK_DIR,'uploadFolder')
     REPORTS_DIR = os.path.join(FLASK_DIR,'scripts/PeriodicWriters/reports/')
+    EMAIL_ASSETS_DIR = os.path.join(SCRIPTS_DIR,'EmailValidator/assets/')
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')

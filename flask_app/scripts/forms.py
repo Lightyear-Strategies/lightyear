@@ -47,21 +47,30 @@ class SignUpForm(FlaskForm):
                                                                 EqualTo('password1',message="Passwords must match!")])
     submit = SubmitField('Register')
 
-    def validate_username(self, username):
-        if User.query.filter_by(username=username.data.lower()).first():
-            raise ValidationError('Username is already in use.')
+    # def validate_username(self, username):
+    #     if User.query.filter_by(username=username.data.lower()).first():
+    #         raise ValidationError('Username is already in use.')
 
     def validate_email(self, email):
-        if User.query.filter_by(email=email.data.lower()).first():
+        if User.query.filter_by(email=email.data.lower().strip()).first():
             raise ValidationError('Email already exists.')
 
 
 class LoginForm(FlaskForm):
     """Constructor for the Login Page"""
-    email = StringField('Email', validators=[DataRequired(), Email(), Length(1, 64)])
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64)])
     password = PasswordField('Password', validators=[DataRequired(),Length(2, 72)])
     remember_me = BooleanField('Remember Me')  # if remember then sessions?
     submit = SubmitField('Login')
+
+    def validate_email(self, email):
+        email = email.data.lower().strip()
+        if "@" in email:
+            if not User.query.filter_by(email=email).first():
+                raise ValidationError('This email is not registered.')
+        else:
+            raise ValidationError('Please provide a valid email address.')
+
 
     # def validate_username_email(self,username_email):
     #     if "@" in username_email.data:

@@ -155,7 +155,7 @@ if __name__ == "__main__":
     }
 
 
-    gmail = report("george@lightyearstrategies.com", "codrin@lightyearstrategies.com",
+    gmail = report('"George Lightyear" <george@lightyearstrategies.com>', "codrin@lightyearstrategies.com",
                    "this is the subject line", html,
                    user_id="me", rules=rules)
     gmail.sendMessage()
