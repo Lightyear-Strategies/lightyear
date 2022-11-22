@@ -632,6 +632,13 @@ body {
 .dropzone .dz-preview .dz-remove {
   font: inherit;
   color: var(--lightyear-gray);
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.dz-max-files-reached {
+  pointer-events: none;
+  cursor:default
 }
 
 .dropzone .dz-preview .dz-progress {
