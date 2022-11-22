@@ -42,7 +42,6 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
-        print('?')
         try:
             grouped_by_name = parser.df.groupby('Name')
         except KeyError:
@@ -57,6 +56,7 @@ if __name__ == "__main__":
             for jour_name in df.Journalist:
                 try:
                     if grouped_by_name == None:
+                        print('sss')
                         raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
                 except KeyError:
