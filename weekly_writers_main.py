@@ -50,6 +50,9 @@ if __name__ == "__main__":
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
+
+        print(grouped_by_name)
+
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
