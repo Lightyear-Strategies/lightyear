@@ -3,7 +3,7 @@ from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
 from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as mr
 from flask_app.scripts.PeriodicWriters.journalist_tracker import send_pdf_report
 
-import sys
+import sys, traceback
 import pandas as pd
 
 
@@ -42,6 +42,7 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
+        print('?')
         try:
             grouped_by_name = parser.df.groupby('Name')
         except KeyError:
@@ -61,6 +62,8 @@ if __name__ == "__main__":
                 except KeyError:
                     # no info for this journalist in particular
                     # TODO: add way to tell the user that no updates for this journalist are out for this week
+                    traceback.print_exc()
+                    print('Zhopa')
                     continue
             try:
                 df_for_email = pd.concat(df_list_to_concat)
