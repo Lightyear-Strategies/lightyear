@@ -118,7 +118,7 @@ def receive_journalists():
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
                 data = [[user_name, user_email, journalist, None] for journalist in journalists]
-                print(data)
+                # print(data)
                 df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
                 print("Added data to the new table")
@@ -243,7 +243,8 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
 
         timeframe = freq2timeframe(frequency)
 
-        user = User.query.filter_by(email=email).first()
+        with app.app_context(), app.test_request_context():
+            user = User.query.filter_by(email=email).first()
 
         # TRACKER REPORT PLACEHOLDERS
         rules = create_rules(user.name, timeframe,url)
