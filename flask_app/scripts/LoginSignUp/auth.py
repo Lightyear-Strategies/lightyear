@@ -30,7 +30,7 @@ def signup():
 
         gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
                        user.email,
-                       f"Welcome to Our PR Tech, {user.name}!",
+                       f"Welcome to Our PR Tech, {user.name.capitalize()}!",
                        html,
                        user_id="me",
                        rules=rules)

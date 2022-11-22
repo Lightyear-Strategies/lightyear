@@ -41,6 +41,40 @@ def freq2timeframe(frequency):
         return '_week'
 
 
+def email_html_topic(user_name,user_email,timeframe,user_category):
+    try:
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
+        # TODO: check if time frame is the same as in
+
+        frequency = timeframe2freq(timeframe)
+
+        token_string = f'{user_email} {frequency} {user_category}'
+        token = unsub.dumps(token_string)
+
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
+        with app.app_context(), app.test_request_context():
+            url = url_for('unsubscribe_topic', token=token, _external=True)
+
+        # open .html file in assets folder
+        with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'topic_sub.html'), 'r') as f:
+            html = f.read()
+
+        # TOPIC SUB PLACEHOLDERS
+        rules = create_rules_topic(user_name, user_category, timeframe, url)
+
+        gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
+                       user_email,
+                       f"You Successfully Subscribed to {user_category} Updates!",
+                       html,
+                       user_id="me",
+                       rules=rules)
+
+        gmail.sendMessage()
+
+    except Exception:
+        traceback.print_exc()
+
+
 def create_rules_topic(user_name,user_category,timeframe,url):
     return {
         '{username}': user_name,
@@ -81,6 +115,8 @@ def receive_category():
             df = pd.DataFrame([data], columns=['ClientName', 'ClientEmail', 'Category'])
             df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False)
 
+            email_html_topic(user_name, user_email, timeframe, user_category)
+
         else:
             try:
 
@@ -98,6 +134,8 @@ def receive_category():
                 journalists_df = pd.concat([users_df,df], ignore_index=True)
                 journalists_df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
 
+                email_html_topic(user_name,user_email,timeframe,user_category)
+
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
@@ -106,38 +144,6 @@ def receive_category():
 
             except Exception:
                 traceback.print_exc()
-
-        try:
-            unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
-            # TODO: check if time frame is the same as in
-
-            frequency = timeframe2freq(timeframe)
-
-            token_string = f'{user_email} {frequency} {user_category}'
-            token = unsub.dumps(token_string)
-
-            app.config['SERVER_NAME'] = Config.SERVER_NAME
-            with app.app_context(), app.test_request_context():
-                url = url_for('unsubscribe_topic', token=token, _external=True)
-
-            # open .html file in assets folder
-            with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'topic_sub.html'), 'r') as f:
-                html = f.read()
-
-            # TOPIC SUB PLACEHOLDERS
-            rules = create_rules_topic(user_name, user_category, timeframe, url)
-
-            gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
-                           user_email,
-                           f"You Successfully Subscribed to {user_category} Updates!",
-                           html,
-                           user_id="me",
-                           rules=rules)
-
-            gmail.sendMessage()
-
-        except Exception:
-            traceback.print_exc()
 
         return redirect(JOURNALIST_ROUTE)
 

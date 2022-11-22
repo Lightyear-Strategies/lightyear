@@ -41,6 +41,37 @@ def create_rules(user_name,timeframe,url):
         }
 
 
+def email_html_tracker(user_name,user_email,timeframe):
+    try:
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
+        frequency = timeframe2freq(timeframe)
+        token_string = f'{user_email} {frequency}'
+        token = unsub.dumps(token_string)
+
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
+        with app.app_context(), app.test_request_context():
+            url = url_for('unsubscribe_topic', token=token, _external=True)
+
+        # open .html file in assets folder
+        with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'tracker_confirm.html'), 'r') as f:
+            html = f.read()
+
+        # TRACKER REPORT PLACEHOLDERS
+        rules = create_rules(user_name, timeframe, url)
+
+        gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
+                       user_email,
+                       "You Successfully Subscribed to Journalist Updates!",
+                       html,
+                       user_id="me",
+                       rules=rules)
+
+        gmail.sendMessage()
+
+    except Exception:
+        traceback.print_exc()
+
+
 @login_required
 def receive_journalists():
     """
@@ -92,6 +123,8 @@ def receive_journalists():
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
                 print("Added data to the new table")
 
+                email_html_tracker(user_name, user_email, timeframe)
+
             else:
                 try:
                     # TODO: For Future: Not so efficient to drop all old entries and then append the new ones
@@ -109,6 +142,8 @@ def receive_journalists():
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
+                    email_html_tracker(user_name,user_email,timeframe)
+
                     return render_template('OnSuccess/Subscribed.html')
                 except Exception:
                     traceback.print_exc()
@@ -118,35 +153,7 @@ def receive_journalists():
                     #print("Dropping the Journalists Table")
                     #jour_table.drop(db.engine)
 
-            try:
-                unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
-                frequency = timeframe2freq(timeframe)
-                token_string = f'{user_email} {frequency}'
-                token = unsub.dumps(token_string)
 
-                app.config['SERVER_NAME'] = Config.SERVER_NAME
-                with app.app_context(), app.test_request_context():
-                    url = url_for('unsubscribe_topic', token=token, _external=True)
-
-
-            # open .html file in assets folder
-                with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'tracker_confirm.html'), 'r') as f:
-                    html = f.read()
-
-                # TRACKER REPORT PLACEHOLDERS
-                rules = create_rules(user_name,timeframe,url)
-
-                gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
-                               user_email,
-                               "You Successfully Subscribed to Journalist Updates!",
-                               html,
-                               user_id="me",
-                               rules=rules)
-
-                gmail.sendMessage()
-
-            except Exception:
-                traceback.print_exc()
 
             return redirect(JOURNALIST_ROUTE)
         else:
