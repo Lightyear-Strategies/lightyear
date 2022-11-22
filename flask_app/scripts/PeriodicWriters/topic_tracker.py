@@ -35,6 +35,15 @@ def timeframe2freq(timeframe):
         return 'Weekly'
 
 
+def create_rules_topic(user_name,user_category,frequency,url):
+    return {
+        '{username}': user_name.capitalize(),
+        '{topic}': user_category,
+        '{chosen_frequency}': frequency.lower(),
+        'URL_TO_UNSUBSCRIBE': url
+    }
+
+
 def email_html_topic(user_name,user_email,timeframe,user_category):
     try:
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_topic')
@@ -54,7 +63,7 @@ def email_html_topic(user_name,user_email,timeframe,user_category):
             html = f.read()
 
         # TOPIC SUB PLACEHOLDERS
-        rules = create_rules_topic(user_name, user_category, timeframe, url)
+        rules = create_rules_topic(user_name, user_category, frequency, url)
 
         gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
                        user_email,
@@ -68,14 +77,6 @@ def email_html_topic(user_name,user_email,timeframe,user_category):
     except Exception:
         traceback.print_exc()
 
-
-def create_rules_topic(user_name,user_category,timeframe,url):
-    return {
-        '{username}': user_name.capitalize(),
-        '{topic}': user_category,
-        '{chosen_frequency}': timeframe.replace('_', ''),
-        'URL_TO_UNSUBSCRIBE': url
-    }
 
 @login_required
 def receive_category():
@@ -128,7 +129,7 @@ def receive_category():
                 journalists_df = pd.concat([users_df,df], ignore_index=True)
                 journalists_df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-                email_html_topic(user_name,user_email,timeframe,user_category)
+                email_html_topic(user_name,user_email,frequency,user_category)
 
                 return render_template('OnSuccess/Subscribed.html')
 
@@ -188,24 +189,9 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
             url = url_for('unsubscribe_topic', token=token, _external=True)
             #print(url)
 
-        # str_date = str(datetime.now().date())
-
-        # to_send = report(
-        #     sender='"George Lightyear" <george@lightyearstrategies.com>',
-        #     to=user_email,
-        #     subject=f'{user_category} Journalist Report {str_date}',
-        #     text=f'Hi {user_name.capitalize()},\n\nHere is your {user_category} report.\n\nClick on the url to unsubscribe: {url}\n\n',
-        #     file=f'flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category]
-        # )
-        # to_send.sendMessage()
-
-
-
-
         # open .html file in assets folder
         with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'topic_report.html'), 'r') as f:
             html = f.read()
-
 
         rules = create_rules_topic(user_name, user_category, frequency, url)
 
@@ -215,7 +201,8 @@ def send_pdf_report(user_name, user_email, frequency, user_category):
                         html,
                         file='flask_app/scripts/PeriodicWriters/reports/' + csvname[user_category],
                         user_id="me",
-                        rules=rules)
+                        rules=rules,
+                        new_filename=f"{frequency} {user_category} Report.pdf")
         gmail.sendMessage()
 
     except Exception:

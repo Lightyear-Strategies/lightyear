@@ -12,14 +12,14 @@ from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder, se
 
 
 class report():
-    def __init__(self, sender, to, subject, text, file=None, user_id=None,
-                 rules=None):
+    def __init__(self, sender, to, subject, text, file=None, user_id=None, rules=None, new_filename=None):
         self.sender = sender
         self.to = to
         print(self.to)
         self.subject = subject
         self.text = text
         self.file = file
+        self.new_filename = new_filename
         self.rules = rules
         if user_id is None:
             self.user_id = 'me'
@@ -97,9 +97,13 @@ class report():
                     msg = MIMEBase(main_type, sub_type)
                     msg.set_payload(f.read())
 
-            filename = os.path.basename(self.file)
+            if self.new_filename:
+                filename = self.new_filename
+            else:
+                filename = os.path.basename(self.file)
+
             msg.add_header('Content-Disposition', 'attachment',
-                           filename='Check.pdf')
+                           filename=filename)
             message.attach(msg)
 
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))

@@ -25,10 +25,10 @@ def timeframe2freq(timeframe):
         return 'Weekly'
 
 
-def create_rules(user_name,timeframe,url):
+def create_rules(user_name,frequency,url):
     return {
             '{username}': user_name.capitalize(),
-            '{chosen_frequency}': timeframe.replace('_', ''),
+            '{chosen_frequency}': frequency.lower(),
             'URL_TO_UNSUBSCRIBE': url
         }
 
@@ -115,7 +115,7 @@ def receive_journalists():
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
                 print("Added data to the new table")
 
-                email_html_tracker(user_name, user_email, timeframe)
+                email_html_tracker(user_name, user_email, timeframe2freq(timeframe))
 
             else:
                 try:
@@ -134,7 +134,7 @@ def receive_journalists():
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-                    email_html_tracker(user_name,user_email,timeframe)
+                    email_html_tracker(user_name,user_email,timeframe2freq(timeframe))
 
                     return render_template('OnSuccess/Subscribed.html')
                 except Exception:
@@ -217,7 +217,8 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
                         html,
                         file=filepath,
                         user_id="me",
-                        rules=rules)
+                        rules=rules,
+                        new_filename=f"{frequency} Journalist Report.pdf")
         gmail.sendMessage()
 
     except Exception:
