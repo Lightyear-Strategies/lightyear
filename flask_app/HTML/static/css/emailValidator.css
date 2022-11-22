@@ -473,10 +473,9 @@ body {
 }
 
 #loading-overlay {
-  position: absolute;
-  left: 4em;
-  top: calc(218.16px + 3.25em + 58.66px);
-  width: 51.5%;
+  position:relative;
+  top: -230px;
+  width: calc(100% - 1.2em);
   height: 200px;
   pointer-events: none;
   background: rgba(233, 233, 233, 0.445);
@@ -484,7 +483,7 @@ body {
 }
 
 #loading-circle {
-  position: absolute;
+  position:absolute;
   width: 75px;
   height: 75px;
   left: calc(50% - 37.5px);
@@ -615,6 +614,7 @@ body {
 
 .dz-preview.dz-file-preview {
   width: 360px !important;
+  margin-bottom: 2em;
 }
 
 .dz-details {
@@ -625,7 +625,22 @@ body {
   width: 100%;
 }
 
+.dropzone .dz-details .dz-filename span {
+  font: inherit;
+}
+
+.dropzone .dz-preview .dz-remove {
+  font: inherit;
+  color: var(--lightyear-gray);
+}
+
 .dropzone .dz-preview .dz-progress {
+  display: none;
+}
+.dropzone .dz-preview .dz-error-message span {
+  font: inherit;
+}
+.dropzone .dz-preview .dz-success-mark {
   display: none;
 }
 

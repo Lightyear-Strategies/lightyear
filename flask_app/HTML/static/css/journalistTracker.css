@@ -319,7 +319,7 @@ body {
   height: 0.1px;
   overflow: hidden;
   position: absolute;
-  z-index: -1;
+  z-index: 1;
 }
 
 #page-main header > div {
@@ -499,6 +499,26 @@ body {
   box-shadow: none;
 }
 
+#loading-overlay {
+  position:relative;
+  top: -230px;
+  width: calc(100% - 1.2em);
+  height: 200px;
+  pointer-events: none;
+  background: rgba(233, 233, 233, 0.445);
+  z-index: 10;
+}
+
+#loading-circle {
+  position:absolute;
+  width: 75px;
+  height: 75px;
+  left: calc(50% - 37.5px);
+  top: calc(50% - 37.5px);
+  pointer-events: none;
+  z-index: 20;
+}
+
 .flashed-message {
   display: block;
   margin-bottom: 1em;
@@ -559,7 +579,6 @@ body {
   display: grid;
   place-content: center;
   border: 2px dashed rgb(137, 137, 137);
-  overflow-y: scroll;
   cursor: pointer;
 }
 
@@ -605,7 +624,6 @@ body {
 }
 
 #page-main .loader {
-  z-index: 101;
   position: fixed;
   width: 100%;
   height: 100%;
