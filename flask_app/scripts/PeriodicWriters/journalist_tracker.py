@@ -246,10 +246,10 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
         with app.app_context(), app.test_request_context():
             print(email)
             user = User.query.filter_by(email=email).first()
-            print(user)
+            print(user.name)
 
-        # TRACKER REPORT PLACEHOLDERS
-        rules = create_rules(user.name, timeframe,url)
+            # TRACKER REPORT PLACEHOLDERS
+            rules = create_rules(user.name, timeframe,url)
 
         gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
                         email,
