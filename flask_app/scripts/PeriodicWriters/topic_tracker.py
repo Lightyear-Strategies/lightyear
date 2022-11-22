@@ -152,6 +152,7 @@ def unsubscribe_topic(token):
         email_sub_string = unsub.loads(token)
         #print(email_sub_string)
     except BadData:
+        traceback.print_exc()
         print('unsubscribe failed')
         return render_template('ErrorPages/500.html')
 
