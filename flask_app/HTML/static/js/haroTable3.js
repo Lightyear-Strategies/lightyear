@@ -93,7 +93,6 @@ $( document ).ready(function() {
     
     // detect whether we already hit the bottom
     var hit_bottom = false;
-    var more = 20;
 
     $("#haro-table-body").scroll(function() {
         var scroll_distance = $("#haro-table-body").scrollTop();
@@ -103,15 +102,16 @@ $( document ).ready(function() {
         }
 
         updateHaroCounter()
+        console.log(hit_bottom)
 
-        if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1) {
+        if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 3) {
             $('#haro-table-body').on('mousewheel', function(e) {
                 var scroll_distance = e.originalEvent.wheelDelta;
                 if (scroll_distance > 0) {
                     // reset if user scrolls up
                     hit_bottom = false;
                 }
-                var at_bottom = Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1;
+                var at_bottom = Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 3;
                 var empty_search = terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '';
                 if (scroll_distance <= -10 && at_bottom && empty_search && hit_bottom) {
                     // attempt at animation
