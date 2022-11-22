@@ -12,8 +12,8 @@ def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         user = User()
-        user.name = form.name.data.lower()
-        user.email = form.email.data.lower()
+        user.name = form.name.data.lower().strip()
+        user.email = form.email.data.lower().strip()
         user.set_password(form.password1.data)
 
         session['email'] = user.email
@@ -52,7 +52,7 @@ def login():
     if form.validate_on_submit():
         user = None
         if "@" in form.email.data:
-            user = User.query.filter_by(email=form.email.data.lower()).first()
+            user = User.query.filter_by(email=form.email.data.lower().strip()).first()
 
             session['email'] = user.email
             session['name'] = user.name
