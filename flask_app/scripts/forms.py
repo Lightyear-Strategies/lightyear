@@ -65,7 +65,8 @@ class LoginForm(FlaskForm):
 
     def validate_email(self, email):
         if "@" in email.data:
-            print(email.data)
+            print(len(email.data))
+            print(len(email.data.lower().strip()))
             if not User.query.filter_by(email=email.data.lower().strip()).first():
                 raise ValidationError('This email is not registered.')
 
