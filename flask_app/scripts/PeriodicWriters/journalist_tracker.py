@@ -244,7 +244,9 @@ def send_pdf_report(df_for_email, email, frequency, clientname):
         timeframe = freq2timeframe(frequency)
 
         with app.app_context(), app.test_request_context():
+            print(email)
             user = User.query.filter_by(email=email).first()
+            print(user)
 
         # TRACKER REPORT PLACEHOLDERS
         rules = create_rules(user.name, timeframe,url)
