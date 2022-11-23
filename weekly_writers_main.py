@@ -42,9 +42,8 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
-        print(parser.get_dataframe())
         try:
-            grouped_by_name = parser.df.groupby('Name')
+            grouped_by_name = parser.df.groupby('Name') # .get_dataframe()
 
         except KeyError:
             # no articles for anything
@@ -53,8 +52,6 @@ if __name__ == "__main__":
 
         except Exception:
             traceback.print_exc()
-
-        print(grouped_by_name)
 
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
