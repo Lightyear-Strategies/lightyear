@@ -7,6 +7,7 @@ from email.mime.base import MIMEBase
 from email.message import EmailMessage
 from email.utils import make_msgid
 from email.mime.application import MIMEApplication
+import email.encoders
 import traceback
 from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder, serviceAccountBuilder
 
@@ -104,6 +105,7 @@ class report():
 
             msg.add_header('Content-Disposition', 'attachment',
                            filename=filename)
+            email.encoders.encode_base64(msg)
             message.attach(msg)
 
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
