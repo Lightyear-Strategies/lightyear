@@ -3,7 +3,7 @@ from flask_app.scripts.PeriodicWriters.muckRack import google_muckrack as gm
 from flask_app.scripts.PeriodicWriters.muckRack import Muckrack as mr
 from flask_app.scripts.PeriodicWriters.journalist_tracker import send_pdf_report
 
-import sys, traceback
+import sys
 import pandas as pd
 
 
@@ -43,16 +43,11 @@ if __name__ == "__main__":
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         try:
-            grouped_by_name = parser.df.groupby('Name') # .get_dataframe()
-
+            grouped_by_name = parser.df.groupby('Name')
         except KeyError:
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
-
-        except Exception:
-            traceback.print_exc()
-
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
@@ -61,14 +56,11 @@ if __name__ == "__main__":
             for jour_name in df.Journalist:
                 try:
                     if grouped_by_name == None:
-                        print('sss')
                         raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
                 except KeyError:
                     # no info for this journalist in particular
                     # TODO: add way to tell the user that no updates for this journalist are out for this week
-                    traceback.print_exc()
-                    print('Zhopa')
                     continue
             try:
                 df_for_email = pd.concat(df_list_to_concat)
@@ -78,6 +70,4 @@ if __name__ == "__main__":
                 continue
 
             clientname = df.ClientName.iloc[0]
-            print('client')
             send_pdf_report(df_for_email, email, subject, clientname)
-            print('hui')
