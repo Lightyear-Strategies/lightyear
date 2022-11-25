@@ -82,7 +82,7 @@ section > div > div > h2 {
 
 .form__field {
   font-family: inherit;
-  width: 58%;
+  width: 65%;
   height: 1.7em;
   border: 0;
   outline: 0;
@@ -156,10 +156,10 @@ section > div > div > h2 {
   border: 2px solid;
   border-color: var(--lightyear-yellow);
   font-size: 2.25rem;
-  padding: 15px 40px;
+  padding: 11px 40px;
   border-radius: 8px;
   font-weight: 600;
-  width: 60%;
+  width: 67%;
   margin-top: 20px;
   cursor: pointer;
   transition: ease-out 0.2s all;
@@ -204,6 +204,7 @@ a:hover {
 
 #highlight {
   border-bottom: 8px solid transparent;
+  border-top: 0;
   border-image: url(../img/YellowLine.png) 30 stretch;
 }
 
@@ -271,4 +272,14 @@ a:hover {
 .form__field:required,
 .form__field:invalid {
   box-shadow: none;
+}
+
+#name-container {
+  display: flex;
+  width: 70%;
+  margin: auto;
+  gap: 5px;
+}
+.nameFormat {
+  width: 86%;
 }

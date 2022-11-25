@@ -29,7 +29,7 @@ body {
   text-align: right;
   width: 100%;
   font-weight: 700;
-  background-color: var(--lightyear-yellow);
+  background-color: transparent;
   color: var(--contrast-color);
 }
 
@@ -76,8 +76,14 @@ body {
 }
 
 #header #header .flex-6 > div:hover::after {
-  background-color: var(--contrast-color);
-  right: 0px;
+  /* background-color: var(--lightyear-yellow);
+  right: 0px; */
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+  right: 0;
 }
 
 #header #header .flex-1 {
@@ -103,6 +109,7 @@ body {
   position: relative;
   overflow: hidden;
   width: fit-content;
+
   text-align: center;
 }
 
@@ -113,7 +120,8 @@ body {
 }
 
 #header #header #logout-svg {
-  padding-top: 0.65em;
+  padding-top: 1em;
+  padding-bottom: 0.3em;
 }
 
 #header #header .flex-6 > *::after {
@@ -124,18 +132,24 @@ body {
   transform: scaleX(0);
   bottom: 0;
   left: 0;
-  background-color: black;
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+
   -webkit-transform-origin: bottom right;
   transform-origin: bottom right;
   -webkit-transition: -webkit-transform 0.25s ease-out;
   transition: -webkit-transform 0.25s ease-out;
   transition: transform 0.25s ease-out;
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+  z-index: -1;
 }
 
 #header #header .flex-6 > *:not(#logout-svg)::after {
   height: 3px;
-  bottom: -0.25em;
+  bottom: -0.5em;
 }
 
 #header #header #logout-svg::after {
@@ -156,7 +170,15 @@ body {
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: black;
+  background-color: transparent;
+}
+
+#nav-selected {
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: var(--background-color);
+  z-index: 5;
 }
 
 /* End Header */
@@ -451,10 +473,9 @@ body {
 }
 
 #loading-overlay {
-  position:absolute;
-  left:4em;
-  top:calc(218.16px + 3.25em + 58.66px);
-  width: 51.5%;
+  position:relative;
+  top: -230px;
+  width: calc(100% - 1.2em);
   height: 200px;
   pointer-events: none;
   background: rgba(233, 233, 233, 0.445);
@@ -593,6 +614,7 @@ body {
 
 .dz-preview.dz-file-preview {
   width: 360px !important;
+  margin-bottom: 2em;
 }
 
 .dz-details {
@@ -603,7 +625,29 @@ body {
   width: 100%;
 }
 
+.dropzone .dz-details .dz-filename span {
+  font: inherit;
+}
+
+.dropzone .dz-preview .dz-remove {
+  font: inherit;
+  color: var(--lightyear-gray);
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.dz-max-files-reached {
+  pointer-events: none;
+  cursor:default
+}
+
 .dropzone .dz-preview .dz-progress {
+  display: none;
+}
+.dropzone .dz-preview .dz-error-message span {
+  font: inherit;
+}
+.dropzone .dz-preview .dz-success-mark {
   display: none;
 }
 
@@ -782,10 +826,6 @@ footer h4 {
   color: var(--lightyear-gray);
   text-align: center;
   font-weight: 500;
-}
-
-#nav-selected {
-  border-bottom: black solid 3.5px;
 }
 
 @media (max-height: 820px) {

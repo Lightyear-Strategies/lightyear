@@ -1,24 +1,66 @@
-from flask import render_template, request, redirect, flash, url_for
-from flask_login import login_required, current_user
+from flask import render_template, request, redirect, url_for, session
+from flask_login import login_required
 from flask_app.scripts.create_flask_app import db, app
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
-from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
+# from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
+from flask_app.scripts.EmailValidator.emailReport import report
+
 from flask_app.scripts.config import Config
-from flask_app.scripts.googleAuth import authCheck, localServiceBuilder
 
 from itsdangerous import URLSafeSerializer, BadData
-import traceback
+import traceback, os
 import pandas as pd
 from datetime import datetime
 
 JOURNALIST_ROUTE = '/journalist_tracker'
 
-def gauth():
-    if Config.ENVIRONMENT == 'server':
-        if not authCheck():
-            return redirect('/authorizeCheck')
-    elif Config.ENVIRONMENT == 'local':
-        localServiceBuilder()
+
+def timeframe2freq(timeframe):
+    if timeframe == '_day':
+        return 'Daily'
+    elif timeframe == '_month':
+        return 'Monthly'
+    elif timeframe == '_week':
+        return 'Weekly'
+
+
+def create_rules(user_name,frequency,url):
+    return {
+            '{username}': user_name.capitalize(),
+            '{chosen_frequency}': frequency.lower(),
+            'URL_TO_UNSUBSCRIBE': url
+        }
+
+
+def email_html_tracker(user_name,user_email,timeframe):
+    try:
+        unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
+        frequency = timeframe2freq(timeframe)
+        token_string = f'{user_email} {frequency}'
+        token = unsub.dumps(token_string)
+
+        app.config['SERVER_NAME'] = Config.SERVER_NAME
+        with app.app_context(), app.test_request_context():
+            url = url_for('unsubscribe_topic', token=token, _external=True)
+
+        # open .html file in assets folder
+        with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'tracker_confirm.html'), 'r') as f:
+            html = f.read()
+
+        # TRACKER REPORT PLACEHOLDERS
+        rules = create_rules(user_name, timeframe, url)
+
+        gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
+                       user_email,
+                       "You Successfully Subscribed to Journalist Updates!",
+                       html,
+                       user_id="me",
+                       rules=rules)
+
+        gmail.sendMessage()
+
+    except Exception:
+        traceback.print_exc()
 
 
 @login_required
@@ -31,13 +73,10 @@ def receive_journalists():
 
     if request.method == 'POST':
         files = request.files
-        user_email = request.form.get('email')
+        user_email = session['email'] #request.form.get('email')
         timeframe = request.form.get('frequency')
-        user_name = current_user.username
+        user_name = session['name'] # current_user.username
 
-        print(user_email)
-
-        #print(files)
         if files:
 
             journalists = []
@@ -70,10 +109,12 @@ def receive_journalists():
             if not db.inspect(db.engine.connect()).has_table(f'journalists{timeframe}'):
                 print('Creating new table')
                 data = [[user_name, user_email, journalist, None] for journalist in journalists]
-                print(data)
+                # print(data)
                 df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist', 'Muckrack'])
                 df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False)
                 print("Added data to the new table")
+
+                email_html_tracker(user_name, user_email, timeframe2freq(timeframe))
 
             else:
                 try:
@@ -87,11 +128,12 @@ def receive_journalists():
 
                     # Add new entries
                     print("Adding new rows")
-                    data = [[user_name, user_email, journalist, None] for journalist in journalists] # [user_name, user_email, journalist, None]
-                    print(data)
-                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack']) #['ClientName', 'ClientEmail', 'Journalist','Muckrack']
+                    data = [[user_name, user_email, journalist, None] for journalist in journalists]
+                    new_df = pd.DataFrame(data, columns=['ClientName', 'ClientEmail', 'Journalist','Muckrack'])
                     journalists_df = pd.concat([journalists_df,new_df], ignore_index=True)
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
+
+                    email_html_tracker(user_name,user_email,timeframe2freq(timeframe))
 
                     return render_template('OnSuccess/Subscribed.html')
                 except Exception:
@@ -101,6 +143,8 @@ def receive_journalists():
                     #jour_table = db.Table('journalists', db.metadata, autoload=True, autoload_with=db.engine)
                     #print("Dropping the Journalists Table")
                     #jour_table.drop(db.engine)
+
+
 
             return redirect(JOURNALIST_ROUTE)
         else:
@@ -119,16 +163,16 @@ def unsubscribe_journalist(token):
         print('unsubscribe failed')
         return render_template('ErrorPages/500.html')
 
-    email, subject = email_sub_string.split()[0], email_sub_string.split()[1]
-    if subject == 'Daily':
+    email, frequency = email_sub_string.split()[0], email_sub_string.split()[1]
+    if frequency == 'Daily':
         timeframe = '_day'
-    elif subject == 'Monthly':
+    elif frequency == 'Monthly':
         timeframe = '_month'
-    elif subject == 'Weekly':
+    elif frequency == 'Weekly':
         timeframe = '_week'
     else:
-        return render_template('ErrorPages/500.html')
         print('Error occured with subject')
+        return render_template('ErrorPages/500.html')
 
     # TODO: redo replacing of table
     jour_df_tf = pd.read_sql_table(f'journalists{timeframe}', con=db.engine)
@@ -140,37 +184,41 @@ def unsubscribe_journalist(token):
     return render_template('OnSuccess/Unsubscribed.html')
 
 
-def send_pdf_report(df_for_email, email, subject, clientname):
+def send_pdf_report(df_for_email, email, frequency, clientname):
     """
     sends the weekly pdf report
     note: needs to be in flaskMain to access flask specific stuff
     """
     try:
         unsub = URLSafeSerializer(app.secret_key, salt='unsubscribe_journalist')
-        token_string = f'{email} {subject}'
+        token_string = f'{email} {frequency}'
         token = unsub.dumps(token_string)
 
         app.config['SERVER_NAME'] = Config.SERVER_NAME
         with app.app_context(), app.test_request_context():
             url = url_for('unsubscribe_journalist', token=token, _external=True)
-            #print(url)
+
         pdf_maker_for_email = pdfReport(df_for_email, unsub_link=url)
         filepath = f'weeklyWriters/reports/{email}_journalist_report.pdf'
         pdf_maker_for_email.create_PDF(filename=filepath)
 
-        str_date = str(datetime.now().date())
+        # str_date = str(datetime.now().date())
 
-        gauth()
+        # open .html file in assets folder
+        with open(os.path.join(Config.EMAIL_ASSETS_DIR, 'tracker_report.html'), 'r') as f:
+            html = f.read()
 
-        to_send = report(
-            sender='"George Lightyear" <george@lightyearstrategies.com>',
-            to=email,
-            subject=f'{subject} Journalist Report {str_date}',
-            text=f'Hi {clientname},\n\nHere is your {subject.lower()} report.\n\n\n',
-            file=filepath
-        )
-        to_send.sendMessage()
+        rules = create_rules(clientname, frequency, url)
+
+        gmail = report('"George Lightyear" <george@lightyearstrategies.com>',
+                        email,
+                        f"Your {frequency} Journalist Report is Here!",
+                        html,
+                        file=filepath,
+                        user_id="me",
+                        rules=rules,
+                        new_filename=f"{frequency} Journalist Report.pdf")
+        gmail.sendMessage()
 
     except Exception:
         traceback.print_exc()
-        return render_template('ErrorPages/500.html')

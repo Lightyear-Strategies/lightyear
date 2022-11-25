@@ -12,5 +12,5 @@ with app.app_context():
     print(db.engine.table_names())
 
 with app.app_context():
-    jour_table = db.Table('journalists_week', db.metadata, autoload=True, autoload_with=db.engine)
+    jour_table = db.Table('journalists_day', db.metadata, autoload=True, autoload_with=db.engine)
     jour_table.drop(db.engine)

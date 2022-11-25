@@ -7,19 +7,20 @@ from email.mime.base import MIMEBase
 from email.message import EmailMessage
 from email.utils import make_msgid
 from email.mime.application import MIMEApplication
+import email.encoders
 import traceback
 from flask_app.scripts.googleAuth import serviceBuilder, localServiceBuilder, serviceAccountBuilder
 
 
 class report():
-    def __init__(self, sender, to, subject, text, file=None, user_id=None,
-                 rules=None):
+    def __init__(self, sender, to, subject, text, file=None, user_id=None, rules=None, new_filename=None):
         self.sender = sender
         self.to = to
         print(self.to)
         self.subject = subject
         self.text = text
         self.file = file
+        self.new_filename = new_filename
         self.rules = rules
         if user_id is None:
             self.user_id = 'me'
@@ -97,9 +98,14 @@ class report():
                     msg = MIMEBase(main_type, sub_type)
                     msg.set_payload(f.read())
 
-            filename = os.path.basename(self.file)
+            if self.new_filename:
+                filename = self.new_filename
+            else:
+                filename = os.path.basename(self.file)
+
             msg.add_header('Content-Disposition', 'attachment',
                            filename=filename)
+            email.encoders.encode_base64(msg)
             message.attach(msg)
 
         raw_message = base64.urlsafe_b64encode(message.as_string().encode('utf-8'))
@@ -155,7 +161,7 @@ if __name__ == "__main__":
     }
 
 
-    gmail = report("george@lightyearstrategies.com", "codrin@lightyearstrategies.com",
+    gmail = report('"George Lightyear" <george@lightyearstrategies.com>', "codrin@lightyearstrategies.com",
                    "this is the subject line", html,
                    user_id="me", rules=rules)
     gmail.sendMessage()

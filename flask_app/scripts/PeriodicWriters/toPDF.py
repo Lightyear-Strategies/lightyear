@@ -1,3 +1,5 @@
+from fileinput import filename
+from venv import create
 import pandas as pd
 from fpdf import FPDF
 import datetime
@@ -13,6 +15,7 @@ import re
 # — Pull the list of authors and parse them from the global list of publications
 
 class PDF(FPDF):
+
     def rounded_rect(self, x, y, w, h, r, style = '', corners = '1234'):
 
         k = self.k
@@ -87,6 +90,7 @@ class pdfReport:
 
     def remove_urls(self, text):
         return re.sub(r"http\S+", "", text)
+        # return text
 
     def remove_linebreaks(self, text):
         text = text.replace("\n", " ")
@@ -95,15 +99,14 @@ class pdfReport:
 
 
 
-    def create_PDF(self, filename=None):
+    def make_PDF(self, filename=None, fileDimentions=(210, 297)):
         df = self.df
-
-        pdf = PDF()
+        pdf = PDF(format=fileDimentions)
         pdf.add_page()
         pdf.set_fill_color(246, 246, 246)
         pdf.set_margins(left=25, top=0)
         pdf.add_font('Trebuchet', '', 'assets/Trebuchet MS.ttf', uni=True)
-        pdf.add_font('Trebuchet', 'B', 'assets/Trebuchet MS Bold.ttf', uni=True)
+        pdf.add_font('Trebuchet', 'B', 'assets/Trebuchet MS Italic.ttf', uni=True)
         pdf.set_auto_page_break(auto=True, margin=0)
 
         #group df by name
@@ -117,7 +120,6 @@ class pdfReport:
             pdf.cell(w=0, h=5, txt=name, new_x="LMARGIN", new_y="NEXT", align='L')
             name_df = name_df.drop_duplicates(subset="Headline", keep="first")
             pdf.ln(5)
-
 
             for index, row in name_df.iterrows():
                 pdf.set_text_color(0, 0, 0)
@@ -184,10 +186,19 @@ class pdfReport:
                 pdf.cell(w=0, h=4, txt='', new_x="LMARGIN", new_y="NEXT", align='L', fill=True)
                 pdf.ln(5)
             pdf.ln(10)
+
+        return pdf, pdf.page_no()
+
+
+    def createOnePagePdf(self, num_pages=1, filename=None):
+        pdf, _ = self.make_PDF(fileDimentions=(210, 297 * num_pages))
         pdf.output(filename)
 
+    def create_PDF(self, filename):
+        _, num_pages = self.make_PDF()
+        self.createOnePagePdf(num_pages=num_pages, filename=filename)
 
 
 if __name__ == "__main__":
     test = pdfReport(filename='test.csv')
-    test.create_PDF(filename='test.pdf')
+    test.create_PDF('test.pdf')

@@ -17,6 +17,8 @@ df_list = list(map(df_get,haros_list))
 big_df = pd.concat(df_list)
 
 big_df.columns = big_df.columns.str.replace(' ', '')
+big_df.sort_values('TimeStamp', inplace=True, ascending=True)
+big_df.reset_index(inplace=True, drop=True)
 with app.app_context():
     addDBData(big_df)
 

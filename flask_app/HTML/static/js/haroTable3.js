@@ -1,18 +1,8 @@
+// global vars
 const HARO_BODY = document.getElementById('haro-table-body')
 var DATA;
 var FRESH_DATA;
 var ALL_DATA;
-let Categories = [];
-const expanded_previously = {};
-let mode = 'fresh'
-const searchMenu = document.getElementById('search-menu'); 
-const search_menu_ids = ['keywords','category','mediaOutlet']
-let init = false;
-let page = 1;
-let display_index = 0;
-// for haro loading
-let initialized = false;
-const loader_string = '<lottie-player id="loader-lottie" src="../static/img/haro_loading.json" background="transparent" speed="1" loop autoplay></lottie-player>'
 const search_bar_toggle_elements = [
     document.getElementById('filter-btn'),
     document.getElementById('mediaOutlet-label'),
@@ -24,14 +14,22 @@ const search_bar_toggle_elements = [
     document.getElementById('dateReceived'),
     document.getElementById('date-checkbox')
 ]
+const search_menu_ids = ['keywords','category','mediaOutlet']
+// for haro counting
+const row_height = 59.66;
+var expanded_set = new Set();
+// for haro loading
+const loader_string = '<lottie-player id="loader-lottie" src="../static/img/haro_loading.json" background="transparent" speed="1" loop autoplay></lottie-player>'
+let mode = 'fresh'
+let init = false;
+let display_index = 0;
+let initialized = false;
 let haros_per_page = 100;
-let saved_iterator;
 let all_displayed;
 let toDisplay;
-let requests = [];
-let request_count = 0;
+// for confetti pop
 let popped = false;
-
+// for haro searching
 let terms = {};
 let terms_0 = {};
 /*
@@ -93,10 +91,10 @@ $( document ).ready(function() {
     });
 
     
+    // detect whether we already hit the bottom
+    var hit_bottom = false;
+
     $("#haro-table-body").scroll(function() {
-        // TODO: make this counter work better
-        const htb = document.getElementById('haro-table-body')
-        const row_height = (htb.childNodes)[0].offsetHeight;
         var scroll_distance = $("#haro-table-body").scrollTop();
 
         if(scroll_distance > 0.9*row_height*haros_per_page*(display_index-1)) {
@@ -104,11 +102,36 @@ $( document ).ready(function() {
         }
 
         updateHaroCounter()
+        console.log(hit_bottom)
 
-        if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 1) {
-            pop_confetti();
+        if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 3) {
+            $('#haro-table-body').on('mousewheel', function(e) {
+                var scroll_distance = e.originalEvent.wheelDelta;
+                if (scroll_distance > 0) {
+                    // reset if user scrolls up
+                    hit_bottom = false;
+                }
+                var at_bottom = Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 3;
+                var empty_search = terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '';
+                if (scroll_distance <= -10 && at_bottom && empty_search && hit_bottom) {
+                    // attempt at animation
+                    // $('.haro-row').last().css({
+                    //     'margin-bottom' : more + 'px'
+                    // });
+                    // more += 20;
+                    // setTimeout(function () {
+                    //     $('.haro-row').last().css({
+                    //         'margin-bottom' : '0'
+                    //     });
+                    //     more = 0;
+                    // }, 500)
+                    pop_confetti();
+                }
+            })
+            hit_bottom = true;
         }
     });
+
 
 })
 
@@ -272,30 +295,35 @@ function pop_confetti() {
         save_last_seen();
         show_confetti();
         resetDisplay();
-        setTimeout(noHarosDisplay, 500);
     }
 }
 
 function updateHaroCounter() {
-    const htb = document.getElementById('haro-table-body')
-    const row_height = (htb.childNodes)[0].offsetHeight;
-    var scroll_distance = $("#haro-table-body").scrollTop();
-    const len = toDisplay.length;
-    
-    if (len <= 6) {
-        document.getElementById('haro-counter').innerHTML = `${len} / ${len} Requests viewed`
-    } else {
-        document.getElementById('haro-counter').innerHTML = `${Math.floor((scroll_distance)/row_height+htb.offsetHeight/row_height+.9)} / ${len} Requests viewed`
+    function get_details () {
+        const len = toDisplay.length;
+        const viewed_in_port = HARO_BODY.offsetHeight / row_height;
+        const viewed_before = HARO_BODY.scrollTop / row_height;
+        let height_behind = 0; // to subtract
+        for (let d of expanded_set) {
+            let offset_details_from_table_top = d.offsetTop - HARO_BODY.offsetTop;
+            if (HARO_BODY.scrollTop + HARO_BODY.offsetHeight >= offset_details_from_table_top) {
+                height_behind = height_behind + d.offsetHeight;
+            }
+        }
+        const extra_rows_counted = height_behind / row_height;
+        document.getElementById('haro-counter').innerHTML = `${Math.floor(viewed_in_port + viewed_before - extra_rows_counted)} / ${len} Requests viewed`
     }
-
+    setTimeout(get_details, 100)
 }
 
 function resetDisplay() {
     all_displayed = false;
     display_index = 0;
+    expanded_set.clear()
     $('#haro-table-body > *').remove()
     
-    document.getElementById('table-head').classList.remove('hidden')
+    document.getElementById('table-head').classList.remove('transparent-text')
+    document.getElementById('haro-counter').classList.remove('transparent-text')
     document.getElementById('haro-table-body').classList.remove('underflown')
 }
 
@@ -396,11 +424,26 @@ function insertDetailsRow(id, table, datum) {
         if (id=='Journalist'){
             content.innerHTML = datum['Name']
         }
+        else if (id == 'MonthlyTraffic') {
+            try {
+                let traffic = Number(datum[id]);
+                if (traffic == 0) {
+                    content.innerHTML = 'N/A'
+                }
+                else {
+                    content.innerHTML = traffic.toLocaleString();
+                }
+            }
+            catch (e) {
+                content.innerHTML = 'N/A';
+            }
+        }
         else {
             content.innerHTML = datum[id];
         }
     }
     label.innerHTML = `${id}: `;
+    if (id == 'MonthlyTraffic') label.innerHTML = 'Monthly Website Clicks: '
     label.style['grid-area'] = `${id}-label`
     content.style['grid-area'] = id;
     label.classList.add('details-label');
@@ -471,7 +514,7 @@ function insertRow(datum) {
         if (!row.expanded_previously) {
             details = document.createElement('div');
             row.appendChild(details)
-            for (let id of ['Journalist','Email','Query','Requirements']){
+            for (let id of ['Journalist','Email','Query','Requirements', 'MonthlyTraffic']){
                 insertDetailsRow(id,details,datum)
             }
             details.classList.add('details')
@@ -487,10 +530,13 @@ function insertRow(datum) {
         if (row.expanded) {
             row.expanded = false;
             expand_button.innerHTML = rightArrowSvg
+            expanded_set.delete(details)
         } else {
             row.expanded = true
             expand_button.innerHTML = downArrowSvg
+            expanded_set.add(details)
         }
+        updateHaroCounter()
     }
 
     //for coloring backgrounds
@@ -533,23 +579,30 @@ function insertRow(datum) {
 }
 
 function noHarosDisplay() {
-    let err = document.createElement('div')
+    let err = document.createElement('img')
+    let img_path = '';
     err.classList.add('none-to-display-error')
     if (mode == 'saved') {
-        err.innerHTML = 'No saved entries match your query'
+        img_path = '../static/img/NoMatch.svg'
     } 
     else if (mode == 'fresh') {
-        if (popped = true) {
-            err.innerHTML = 'You\'re all caught up :)';
+        if (popped == true) {
+            img_path = '../static/img/CaughtUp.svg'
+        }
+        else if (terms.keywords == '' && terms.category == '' && terms.mediaOutlet == '' && terms.dateAfter == '' && terms.dateBefore == '') {
+            popped = true;
+            img_path = '../static/img/CaughtUp.svg'
         }
         else {
-            err.innerHTML = 'Sorry! No entries match your query'
+            img_path = '../static/img/NoMatch.svg'
         }
     }
     else {
-        err.innerHTML = 'Sorry! No entries match your query'
+        img_path = '../static/img/NoMatch.svg'
     }
-    document.getElementById('table-head').classList.add('hidden')
+    err.setAttribute('src', img_path)
+    document.getElementById('table-head').classList.add('transparent-text')
+    document.getElementById('haro-counter').classList.add('transparent-text')
     document.getElementById('haro-table-body').appendChild(err)
 }
 

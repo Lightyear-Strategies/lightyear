@@ -23,6 +23,20 @@
     <title>Journalist Tracker</title>
 
     <script type="text/javascript">
+        function make_overlay () {
+            let overlay = document.createElement('div');
+            overlay.setAttribute('id', 'loading-overlay');
+            document.getElementById('dropzone-holder').appendChild(overlay);
+            let lot = document.createElement('lottie-player')
+            lot.setAttribute('id', 'loading-circle');
+            lot.setAttribute('src', '../static/img/haro_loading.json');
+            lot.setAttribute('background', 'transparent');
+            lot.setAttribute('speed', '1');
+            lot.setAttribute('loop', '');
+            lot.setAttribute('autoplay', '');
+            overlay.appendChild(lot);
+        }
+
         Dropzone.options.myDropzone = {
             // Prevents Dropzone from uploading dropped files immediately
             url: '/journalist_tracker',
@@ -38,23 +52,22 @@
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if(document.getElementById('email').value == '') {
-                }
-                else {
-                    myDropzone.processQueue();
-                }
+                $('#submitBtn').hide();
+                make_overlay();
+                myDropzone.processQueue();
             });
 
             myDropzone.on("sending", function(file, xhr, formData) {
 
                 // Adding data here
-                formData.append("email",document.getElementById('email').value);
                 formData.append("frequency", document.querySelector('input[name="freq_choice"]:checked').value);
 
                 thisxhr = xhr
                 xhr.onreadystatechange = () => {
                    if (thisxhr.readyState === XMLHttpRequest.DONE && thisxhr.status == 200) {
-                       window.location.href = "/journalist_subscribed"
+                        $('#dropzone-holder')[0].removeChild($('#loading-overlay')[0]);
+                        $('#submitBtn').show();
+                        window.location.href = "/journalist_subscribed"
                    }
                 }
             });
@@ -160,11 +173,6 @@
                     </div>
                 </div>
                 <form action="/journalist_tracker" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
-                    <div class="form__group field">
-                        <input type="input" class="form__field" placeholder="Enter Email" name="email" id="email" required />
-                        <label for="email" class="form__label">Email</label>
-                        <label class="required__label" id="email id"></label>
-                    </div>
                     <div>
                         <p id="shrinkTop">How frequently would you like to receive updates?</p>
                         <form>
@@ -174,7 +182,7 @@
                         </form>
                     </div>
 
-                    <div>
+                    <div id="dropzone-holder">
                         <div class="dropzone" id="myDropzone">
                             <div class="form-group" id="dropzone">
                                 <div class="dz-message" data-dz-message>

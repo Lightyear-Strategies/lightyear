@@ -70,14 +70,14 @@ body::-webkit-scrollbar {
 }
 
 #page-body .none-to-display-error {
-  font-weight: bold;
-  width: 94%;
+  height: 300px;
+  width: 300px;
+  position: relative;
+  left: calc(50% - 150px);
+  top: calc(50% - 150px);
   text-align: center;
   text-justify: center;
   vertical-align: middle;
-  height: 5em;
-  padding-top: 2em;
-  font-size: 2em;
 }
 
 #page-body #haro-counter {
@@ -443,7 +443,8 @@ body::-webkit-scrollbar {
     "Journalist-label Journalist"
     "Email-label Email"
     "Query-label Query"
-    "Requirements-label Requirements";
+    "Requirements-label Requirements"
+    "MonthlyTraffic-label MonthlyTraffic";
   row-gap: 0.75em;
   -webkit-column-gap: 0.75em;
   column-gap: 0.75em;
@@ -502,6 +503,10 @@ body::-webkit-scrollbar {
 
 #page-body .hidden {
   display: none;
+}
+
+#page-body .transparent-text {
+  color: rgba(0, 0, 0, 0);
 }
 
 #page-body button {
@@ -620,11 +625,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-#header #header html {
-  width: 100%;
-  height: 100%;
-}
-
 #header #header header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -634,7 +634,7 @@ body::-webkit-scrollbar {
   text-align: right;
   width: 100%;
   font-weight: 700;
-  background-color: var(--lightyear-yellow);
+  background-color: transparent;
   color: var(--contrast-color);
 }
 
@@ -681,8 +681,14 @@ body::-webkit-scrollbar {
 }
 
 #header #header .flex-6 > div:hover::after {
-  background-color: var(--contrast-color);
-  right: 0px;
+  /* background-color: var(--lightyear-yellow);
+  right: 0px; */
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+  right: 0;
 }
 
 #header #header .flex-1 {
@@ -708,6 +714,7 @@ body::-webkit-scrollbar {
   position: relative;
   overflow: hidden;
   width: fit-content;
+
   text-align: center;
 }
 
@@ -718,7 +725,8 @@ body::-webkit-scrollbar {
 }
 
 #header #header #logout-svg {
-  padding-top: 0.65em;
+  padding-top: 1em;
+  padding-bottom: 0.3em;
 }
 
 #header #header .flex-6 > *::after {
@@ -729,18 +737,24 @@ body::-webkit-scrollbar {
   transform: scaleX(0);
   bottom: 0;
   left: 0;
-  background-color: black;
+
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: transparent;
+
   -webkit-transform-origin: bottom right;
   transform-origin: bottom right;
   -webkit-transition: -webkit-transform 0.25s ease-out;
   transition: -webkit-transform 0.25s ease-out;
   transition: transform 0.25s ease-out;
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+  z-index: -1;
 }
 
 #header #header .flex-6 > *:not(#logout-svg)::after {
   height: 3px;
-  bottom: -0.25em;
+  bottom: -0.5em;
 }
 
 #header #header #logout-svg::after {
@@ -761,7 +775,15 @@ body::-webkit-scrollbar {
   height: 3px;
   bottom: 0;
   left: 0;
-  background-color: black;
+  background-color: transparent;
+}
+
+#nav-selected {
+  border-bottom: 7px solid transparent;
+  border-top: 0;
+  border-image: url(../img/YellowLine.png) 30 stretch;
+  background-color: var(--background-color);
+  z-index: 5;
 }
 
 #confetti-lottie {
@@ -1440,10 +1462,6 @@ body::-webkit-scrollbar {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
-}
-
-#nav-selected {
-  border-bottom: black solid 3.5px;
 }
 
 /* ---------------------Header------------------------- */
