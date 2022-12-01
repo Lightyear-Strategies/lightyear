@@ -48,6 +48,25 @@
             thumbnailWidth: 360,
         init: function() {
             myDropzone = this; // closure
+            this.on('addedfile', file => {
+                console.log(file)
+                var file_reader = new FileReader();
+                file_reader.onload = (function (the_file) {
+                    return function (e) {
+                        text = e.target.result;
+                        cols = text.split('\n')[0].toLowerCase();
+                        console.log(cols);
+                        if (!cols.includes('journalist')) {
+                            myDropzone.removeFile(file)
+                            $('#bad-file-format').show();
+                        }
+                        else {
+                            $('#bad-file-format').hide();
+                        }
+                    }
+                })(file)
+                file_reader.readAsText(file);
+            });
             // Dropzone uploads everything when the "Submit" button is clicked
             document.getElementById('submitBtn').addEventListener("click", function(e) {
                 e.preventDefault();
@@ -153,6 +172,7 @@
                 <div>
                     <!-- <h1 id="title-text">Subscribe to Journalist Updates</h1> -->
                     <!-- potentially add flashed messages here -->
+                <div class="flashed-message" id="bad-file-format" style="display:none;">Please ensure you have a column labeled "Journalists"</div>
                     <h1>
                         <span class="highlight">Subscribe to Journalist Updates</span>
                     </h1>
