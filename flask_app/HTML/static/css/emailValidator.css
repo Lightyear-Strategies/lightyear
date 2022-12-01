@@ -654,17 +654,9 @@ body {
 .dropzone .dz-preview .dz-details .dz-size {
   display: none;
 }
-.flashed-message {
-  display: block;
-  margin-bottom: 1em;
-  padding-top: 1em;
-  width: 100%;
-  height: 2em;
-  text-align: center;
-  border: solid;
-  border-radius: 10px;
-  border-color: var(--lightyear-red);
-  background-color: transparent;
+.errors {
+  position: relative;
+  color: red;
 }
 
 #page-main #myDropzone > div {

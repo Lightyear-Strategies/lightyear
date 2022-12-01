@@ -509,16 +509,9 @@ body {
   font-size: 1.1rem;
 }
 
-.flashed-message {
-  display: block;
-  margin-bottom: 1em;
-  padding-top: 1em;
-  width: 100%;
-  height: 2em;
-  text-align: center;
-  border: solid;
-  border-radius: 10px;
-  border-color: var(--lightyear-red);
+.errors {
+  color: red;
+  position: relative;
 }
 
 #bad-window-size {
