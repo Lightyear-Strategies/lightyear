@@ -510,8 +510,11 @@ body {
 }
 
 .errors {
-  color: red;
   position: relative;
+  color: red;
+  padding-inline-start: 0;
+  margin-top: -18px;
+  margin-bottom: 24px;
 }
 
 #bad-window-size {
