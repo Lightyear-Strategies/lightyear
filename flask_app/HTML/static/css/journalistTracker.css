@@ -624,6 +624,13 @@ body {
 .dropzone .dz-preview .dz-details .dz-size {
   display: none;
 }
+.errors {
+  position: relative;
+  color: red;
+  padding-inline-start: 0;
+  margin-top: -18px;
+  margin-bottom: 24px;
+}
 
 #page-main #myDropzone > div {
   color: black;

@@ -79,7 +79,6 @@
         </div>
         <section class="main">
                 <div>
-                    {{ FLASH|safe }}
                      <h1>
                         <span id="highlight">Subscribe to Topic Updates </span>
                     </h1>
@@ -99,6 +98,7 @@
                         <input type="radio" name="frequency" value="_once" checked="checked"> Just Once
                         <input type="radio" name="frequency" value="_day"> Daily
                         <input type="radio" name="frequency" value="_week"> Weekly
+                    {{ FLASH|safe }}
                     </div>
                     <div>
                         <button type="submit" id="submitBtn">

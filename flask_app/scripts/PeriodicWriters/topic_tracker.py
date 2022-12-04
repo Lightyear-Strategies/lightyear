@@ -129,13 +129,13 @@ def receive_category():
                 journalists_df = pd.concat([users_df,df], ignore_index=True)
                 journalists_df.to_sql(name=f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
 
-                email_html_topic(user_name,user_email,frequency,user_category)
+                email_html_topic(user_name,user_email,timeframe,user_category)
 
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
                 return render_template('topic_tracker.html',
-                                       FLASH='<div class="flashed-message">You are already subscribed to this topic!</div>')
+                                       FLASH='<ul class="errors">You are already subscribed to this topic!</ul>')
 
             except Exception:
                 traceback.print_exc()
