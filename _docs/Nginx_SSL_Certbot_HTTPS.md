@@ -27,6 +27,7 @@ Nginx:
 
 Certbot:
 * `sudo certbot --nginx`
+* `sudo certbot certificates`
 
 Gunicorn:
 * `gunicorn -w 3 wsgi:app`
