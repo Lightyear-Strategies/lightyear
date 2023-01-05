@@ -116,8 +116,9 @@ class pdfReport:
         pdf.cell(w=0, h=40, txt='', new_x="LMARGIN", new_y="NEXT", align='L')
         for name, name_df in grouped:
             # add name as header
+            # name_without_verified = name.replace("Verified", "")
             pdf.set_font('Trebuchet', 'B', 15)
-            pdf.cell(w=0, h=5, txt=name, new_x="LMARGIN", new_y="NEXT", align='L')
+            pdf.cell(w=0, h=5, txt=name.replace("Verified", ""), new_x="LMARGIN", new_y="NEXT", align='L')
             name_df = name_df.drop_duplicates(subset="Headline", keep="first")
             pdf.ln(5)
 
