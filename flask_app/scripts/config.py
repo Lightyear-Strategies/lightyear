@@ -1,21 +1,20 @@
 import os
-#from kombu.utils.url import quote    # To work with AWS SQS
+# from kombu.utils.url import quote    # To work with AWS SQS
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
 class Config:
-
     SCRIPTS_DIR = os.path.abspath(os.path.dirname(__file__))
     FLASK_DIR = os.path.dirname(SCRIPTS_DIR)
     LIGHTYEAR_DIR = os.path.dirname(FLASK_DIR)
-    CONFIG_DIR = os.path.join(FLASK_DIR,'configs')
+    CONFIG_DIR = os.path.join(FLASK_DIR, 'configs')
     HTML_DIR = os.path.join(FLASK_DIR, 'HTML')
     STATIC_DIR = os.path.join(HTML_DIR, 'static')
-    UPLOAD_DIR = os.path.join(FLASK_DIR,'uploadFolder')
-    REPORTS_DIR = os.path.join(FLASK_DIR,'scripts/PeriodicWriters/reports/')
-    EMAIL_ASSETS_DIR = os.path.join(SCRIPTS_DIR,'EmailValidator/assets/')
+    UPLOAD_DIR = os.path.join(FLASK_DIR, 'uploadFolder')
+    REPORTS_DIR = os.path.join(FLASK_DIR, 'scripts/PeriodicWriters/reports/')
+    EMAIL_ASSETS_DIR = os.path.join(SCRIPTS_DIR, 'EmailValidator/assets/')
     os.makedirs(UPLOAD_DIR, exist_ok=True)
 
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
@@ -26,7 +25,7 @@ class Config:
 
     SENDER_EMAIL_NAME = '"George Lightyear" <george@lightyearstrategies.com>'
 
-    with open(os.path.join(CONFIG_DIR, '.env.txt')) as e:
+    with open(os.path.join(CONFIG_DIR, 'env.txt')) as e:
         ENVIRONMENT = e.read().strip()
 
     if ENVIRONMENT == 'server':
@@ -34,8 +33,8 @@ class Config:
                                  'aleksei@lightyearstrategies.com',
                                  'nima@lightyearstrategies.com']
 
-        CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'web_google_client.json')
-        SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
+        CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR, 'web_google_client.json')
+        SERVICE_FILE = os.path.join(CONFIG_DIR, 'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'server_token.pickle')
 
         # BROKER_TRANSPORT_OPTIONS = {"region": os.getenv('AWS_REGION')}
@@ -50,19 +49,12 @@ class Config:
         # )
 
     elif ENVIRONMENT == 'local':
-        CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR,'local_google_client.json')
-        SERVICE_FILE = os.path.join(CONFIG_DIR,'george.json')
+        CLIENT_SECRET_FILE = os.path.join(CONFIG_DIR, 'local_google_client.json')
+        SERVICE_FILE = os.path.join(CONFIG_DIR, 'george.json')
         PICKLE_FILE = os.path.join(CONFIG_DIR, 'local_token.pickle')
-        #CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+        # CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
         CONTACT_US_RECIPIENTS = ['george@lightyearstrategies.com',
                                  'aleksei@lightyearstrategies.com']
 
     else:
         raise Exception("No proper Enviroment is found")
-
-
-
-
-
-
-
