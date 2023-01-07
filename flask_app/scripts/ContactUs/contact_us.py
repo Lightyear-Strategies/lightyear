@@ -2,6 +2,7 @@ from flask import render_template, request, session
 from flask_app.scripts.EmailValidator import  emailReport
 from flask_app.scripts.forms import ContactUs
 from flask_app.scripts.config import Config
+from flask_app.scripts.create_flask_app import mp
 import traceback
 
 
@@ -29,6 +30,8 @@ def contact_us():
             #print(request.form.get('send_copy'))
             copy = True if request.form.get('send_copy') else False
 
+            mp.track(session['email'], 'Used Contact Us', {'subject': subject, 'message': form.message.data})
+
             # print(email)
 
             if copy:
@@ -45,5 +48,6 @@ def contact_us():
         except Exception:
             traceback.print_exc()
             return render_template('ErrorPages/500.html')
+    mp.track(session['email'], 'Viewed Contact Us')
 
     return render_template('contactUs.html', form=form, message=message, subject=subject, copy=copy)

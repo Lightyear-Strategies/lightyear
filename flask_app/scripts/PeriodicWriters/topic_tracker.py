@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, send_file, session
 from flask_login import login_required
-from flask_app.scripts.create_flask_app import db, app
+from flask_app.scripts.create_flask_app import db, app, mp
 # from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.EmailValidator.emailReport import report
 
@@ -95,6 +95,7 @@ def receive_category():
 
         if timeframe == '_once':
             try:
+                mp.track(session['email'], 'Downloaded Topic Tracker Report', {'Category': user_category})
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
                                  mimetype='application/pdf',
                                  attachment_filename=csvname[user_category],
@@ -131,6 +132,7 @@ def receive_category():
 
                 email_html_topic(user_name,user_email,timeframe,user_category)
 
+                mp.track(session['email'], 'Subscribed to Topic Tracker', {'Category': user_category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
@@ -142,6 +144,7 @@ def receive_category():
 
         return redirect(JOURNALIST_ROUTE)
 
+    mp.track(session['email'], 'Viewed Topic Tracker')
     return render_template('topic_tracker.html')
 
 @app.route('/unsubscribe_topic/<token>') # must have
@@ -171,6 +174,7 @@ def unsubscribe_topic(token):
     jour_df_tf.drop(index_names, inplace=True)
     jour_df_tf.reset_index(inplace=True, drop=True)
     jour_df_tf.to_sql(f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
+    mp.track(session['email'], 'Unsubscribed from Topic Tracker', {'Category': category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
 
     return render_template('OnSuccess/Unsubscribed.html')
 

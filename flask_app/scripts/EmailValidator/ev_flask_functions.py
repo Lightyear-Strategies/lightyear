@@ -2,9 +2,10 @@ import os
 from flask import render_template, request, send_file
 from flask_login import login_required
 from werkzeug.utils import secure_filename
+from flask import session
 from flask_app.scripts.EmailValidator import ev_API
 from flask_app.scripts.config import Config
-from flask_app.scripts.create_flask_app import app
+from flask_app.scripts.create_flask_app import app, mp
 
 
 @login_required
@@ -36,6 +37,7 @@ def email_validator():
                 return response
 
             # print('Sending File')
+            mp.track(session['email'], 'Used Email Validator')
             # print(final_path.split(".")[0]+"_final.csv")
             return send_file(final_path.split(".")[0]+"_final.csv",
                              mimetype=mimetype,
@@ -45,6 +47,7 @@ def email_validator():
         else:
             print('No files')
 
+    mp.track(session['email'], 'Viewed Email Validator')
     return render_template('emailValidator.html')
 
 
