@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flask_app.scripts.forms import  SignUpForm, LoginForm
 from flask import render_template, flash, redirect, url_for, request, session
 from flask_app.scripts.config import Config
-import time
+from datetime import datetime
 
 from os import path
 
@@ -21,7 +21,7 @@ def signup():
         session['name'] = user.name
 
         # add mixpanel user
-        mp.people_set_once(user.email, {'$email': user.email, '$name': user.name, '$created': time.time()})
+        mp.people_set_once(user.email, {'$email': user.email, '$name': user.name, '$created': datetime.now().isoformat()})
 
         db.session.add(user)
         db.session.commit()
