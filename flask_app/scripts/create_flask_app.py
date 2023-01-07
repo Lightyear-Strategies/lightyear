@@ -2,6 +2,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from mixpanel import Mixpanel
 #from celery import Celery
 
 from flask_app.scripts.config import Config
@@ -74,6 +75,8 @@ def create_app(where='server'):
     return app
 
 
+# mixpanel tracking
+mp = Mixpanel(Config.MIXPANEL_TOKEN)
 # Always Created
 # either use 'local' or 'server'
 app = create_app(where=Config.ENVIRONMENT)

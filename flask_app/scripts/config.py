@@ -19,6 +19,8 @@ class Config:
 
     FLASK_SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
     EV_API_KEY = os.getenv('EV_API_KEY')
+    MIXPANEL_TOKEN = os.getenv('MIXPANEL_TOKEN')
+
     DATABASE_URI = 'sqlite:///' + os.path.join(FLASK_DIR, 'Database.sqlite3')
 
     SERVER_NAME = os.getenv('SERVER_NAME')

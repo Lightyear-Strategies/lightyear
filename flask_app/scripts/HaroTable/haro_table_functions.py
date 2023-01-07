@@ -1,6 +1,6 @@
 from flask_login import login_required
-from flask_app.scripts.create_flask_app import db
-from flask import render_template, request, current_app
+from flask_app.scripts.create_flask_app import db, mp
+from flask import render_template, request, current_app, session
 from datetime import datetime, timedelta
 import pandas as pd
 import os
@@ -73,6 +73,7 @@ def show_haro_table():
     @return:   Haros table
     """
     updated = str(get_last_updated())
+    mp.track(session['email'], 'Viewed Haro Table')
     return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0]+" "+updated.split()[1][:8])
     # return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0], time_updated=updated.split()[1][:8])
 
@@ -203,8 +204,8 @@ def serve_data(option=None):
     query = query.offset(start).limit(length)
 
     end_t = time()
-    print(end_t - start_t)
 
+    mp.track(session['email'], 'Searched Haro Table', {'keywords': keywords if keywords is not None else '', 'option' : option})
     # response to be shown on HTML side
     return {
         'data': [dict(haro) for haro in query],
