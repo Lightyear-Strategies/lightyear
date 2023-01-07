@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session
 from flask_login import login_required
-from flask_app.scripts.create_flask_app import db, app
+from flask_app.scripts.create_flask_app import db, app, mp
 from flask_app.scripts.PeriodicWriters.toPDF import pdfReport
 # from flask_app.scripts.PeriodicWriters.emailWeeklyRep import report
 from flask_app.scripts.EmailValidator.emailReport import report
@@ -134,7 +134,7 @@ def receive_journalists():
                     journalists_df.to_sql(name=f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
                     email_html_tracker(user_name,user_email,timeframe2freq(timeframe))
-
+                    mp.track(session['email'], 'Subscribed to Journalist Tracker', {'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
                     return render_template('OnSuccess/Subscribed.html')
                 except Exception:
                     traceback.print_exc()
@@ -150,6 +150,7 @@ def receive_journalists():
         else:
             print('No files')
 
+    mp.track(session['email'], 'Viewed Journalist Tracker')
     return render_template('journalistTracker.html')
 
 @app.route('/unsubscribe_journalist/<token>')
@@ -181,6 +182,7 @@ def unsubscribe_journalist(token):
     jour_df_tf.reset_index(inplace=True, drop=True)
     jour_df_tf.to_sql(f'journalists{timeframe}', con=db.engine, index=False, if_exists='replace')
 
+    mp.track(session['email'], 'Unsubscribed from Journalist Tracker', {'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
     return render_template('OnSuccess/Unsubscribed.html')
 
 

@@ -1,6 +1,6 @@
 from flask import render_template
 from flask_login import login_required
-from flask_app.scripts.create_flask_app import app
+from flask_app.scripts.create_flask_app import app, mp
 from flask_app.scripts.EmailValidator import ev_flask_functions as ev_f_f
 from flask_app.scripts.PeriodicWriters import topic_tracker as t_t
 from flask_app.scripts.PeriodicWriters import journalist_tracker as j_t

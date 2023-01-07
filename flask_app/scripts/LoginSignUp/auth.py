@@ -1,10 +1,11 @@
-from flask_app.scripts.create_flask_app import db, login_manager
+from flask_app.scripts.create_flask_app import db, login_manager, mp
 from flask_app.scripts.LoginSignUp.models import User
 from flask_app.scripts.EmailValidator.emailReport import report
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_app.scripts.forms import  SignUpForm, LoginForm
 from flask import render_template, flash, redirect, url_for, request, session
 from flask_app.scripts.config import Config
+import time
 
 from os import path
 
@@ -18,6 +19,9 @@ def signup():
 
         session['email'] = user.email
         session['name'] = user.name
+
+        # add mixpanel user
+        mp.people_set_once(user.email, {'$email': user.email, '$name': user.name, '$created': time.time()})
 
         db.session.add(user)
         db.session.commit()
@@ -53,6 +57,8 @@ def login():
         user = None
         if "@" in form.email.data:
             user = User.query.filter_by(email=form.email.data.lower().strip()).first()
+
+            mp.track(user.email, 'Login')
 
             session['email'] = user.email
             session['name'] = user.name
