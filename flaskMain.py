@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session
 from flask_login import login_required
 from flask_app.scripts.create_flask_app import app, mp
 from flask_app.scripts.EmailValidator import ev_flask_functions as ev_f_f
@@ -9,6 +9,7 @@ from flask_app.scripts.ContactUs import contact_us as c_u
 from flask_app.scripts.LoginSignUp import auth
 from flask_app.scripts import error_pages as e_p
 from flask_app.scripts.config import Config
+from datetime import datetime
 
 
 app.add_url_rule('/email_validator', view_func=ev_f_f.email_validator, methods=['GET','POST'])
@@ -51,6 +52,7 @@ def journalist_subscribed():
 @app.route('/home')
 @login_required
 def home():
+    mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat()})
     return render_template('homePage.html')
     #return render_template('welcome_old.html')
 
