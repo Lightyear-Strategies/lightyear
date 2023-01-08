@@ -21,8 +21,8 @@ def signup():
         session['name'] = user.name
 
         # add mixpanel user
-        mp.people_set_once(user.email, {'$email': user.email, '$name': user.name, '$created': datetime.now().isoformat()})
-        mp.people_set(session['email'], {'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
+        mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat()})
+        mp.people_set(session['email'], properties={'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)}, meta={'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
         mp.track(user.email, 'Sign Up', {'session_id': request.cookies.get('session')})
 
         db.session.add(user)
