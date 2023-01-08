@@ -1,4 +1,4 @@
-from flask import render_template, session
+from flask import render_template, session, request
 from flask_login import login_required
 from flask_app.scripts.create_flask_app import app, mp
 from flask_app.scripts.EmailValidator import ev_flask_functions as ev_f_f
@@ -52,7 +52,7 @@ def journalist_subscribed():
 @app.route('/home')
 @login_required
 def home():
-    mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat()})
+    mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat(), '$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
     return render_template('homePage.html')
     #return render_template('welcome_old.html')
 

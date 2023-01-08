@@ -73,7 +73,7 @@ def show_haro_table():
     @return:   Haros table
     """
     updated = str(get_last_updated())
-    mp.track(session['email'], 'Viewed Haro Table')
+    mp.track(session['email'], 'Viewed Haro Table', {'session_id': request.cookies.get('session')})
     return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0]+" "+updated.split()[1][:8])
     # return render_template('HaroTable/haroTableView.html', title='LyS Haros Database', date_updated=updated.split()[0], time_updated=updated.split()[1][:8])
 
@@ -205,7 +205,8 @@ def serve_data(option=None):
 
     end_t = time()
 
-    mp.track(session['email'], 'Searched Haro Table', {'keywords': keywords if keywords is not None else '', 'option' : option})
+    if keywords is not None and len(keywords) > 0:
+        mp.track(session['email'], 'Searched Haro Table', {'keywords': keywords, 'option' : option, 'session_id': request.cookies.get('session')})
     # response to be shown on HTML side
     return {
         'data': [dict(haro) for haro in query],

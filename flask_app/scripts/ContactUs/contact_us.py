@@ -30,7 +30,7 @@ def contact_us():
             #print(request.form.get('send_copy'))
             copy = True if request.form.get('send_copy') else False
 
-            mp.track(session['email'], 'Used Contact Us', {'subject': subject, 'message': form.message.data})
+            mp.track(session['email'], 'Used Contact Us', {'subject': subject, 'message': form.message.data, 'session_id': request.cookies.get('session')})
 
             # print(email)
 
@@ -48,6 +48,6 @@ def contact_us():
         except Exception:
             traceback.print_exc()
             return render_template('ErrorPages/500.html')
-    mp.track(session['email'], 'Viewed Contact Us')
+    mp.track(session['email'], 'Viewed Contact Us', {'session_id': request.cookies.get('session')})
 
     return render_template('contactUs.html', form=form, message=message, subject=subject, copy=copy)
