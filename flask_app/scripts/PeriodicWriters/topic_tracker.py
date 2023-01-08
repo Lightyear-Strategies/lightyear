@@ -95,7 +95,7 @@ def receive_category():
 
         if timeframe == '_once':
             try:
-                mp.track(session['email'], 'Downloaded Topic Tracker Report', {'Category': user_category})
+                mp.track(session['email'], 'Downloaded Topic Tracker Report', {'Category': user_category, 'session_id': request.cookies.get('session')})
                 return send_file(os.path.join(Config.REPORTS_DIR,csvname[user_category]),
                                  mimetype='application/pdf',
                                  attachment_filename=csvname[user_category],
@@ -132,7 +132,7 @@ def receive_category():
 
                 email_html_topic(user_name,user_email,timeframe,user_category)
 
-                mp.track(session['email'], 'Subscribed to Topic Tracker', {'Category': user_category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
+                mp.track(session['email'], 'Subscribed to Topic Tracker', {'Category': user_category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN', 'session_id': request.cookies.get('session')})
                 return render_template('OnSuccess/Subscribed.html')
 
             except UserAlreadySubscribed:
@@ -144,7 +144,7 @@ def receive_category():
 
         return redirect(JOURNALIST_ROUTE)
 
-    mp.track(session['email'], 'Viewed Topic Tracker')
+    mp.track(session['email'], 'Viewed Topic Tracker', {'session_id': request.cookies.get('session')})
     return render_template('topic_tracker.html')
 
 @app.route('/unsubscribe_topic/<token>') # must have
@@ -174,7 +174,7 @@ def unsubscribe_topic(token):
     jour_df_tf.drop(index_names, inplace=True)
     jour_df_tf.reset_index(inplace=True, drop=True)
     jour_df_tf.to_sql(f'cat_writers{timeframe}', con=db.engine, index=False, if_exists='replace')
-    mp.track(session['email'], 'Unsubscribed from Topic Tracker', {'Category': category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN'})
+    mp.track(session['email'], 'Unsubscribed from Topic Tracker', {'Category': category, 'Frequency': timeframe[1:] if timeframe else 'UNKNOWN', 'session_id': request.cookies.get('session')})
 
     return render_template('OnSuccess/Unsubscribed.html')
 

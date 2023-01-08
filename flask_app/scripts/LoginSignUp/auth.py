@@ -21,7 +21,9 @@ def signup():
         session['name'] = user.name
 
         # add mixpanel user
-        mp.people_set_once(user.email, {'$email': user.email, '$name': user.name, '$created': datetime.now().isoformat()})
+        mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat()})
+        mp.people_set(session['email'], properties={'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)}, meta={'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
+        mp.track(user.email, 'Sign Up', {'session_id': request.cookies.get('session')})
 
         db.session.add(user)
         db.session.commit()
@@ -58,7 +60,7 @@ def login():
         if "@" in form.email.data:
             user = User.query.filter_by(email=form.email.data.lower().strip()).first()
 
-            mp.track(user.email, 'Login')
+            mp.track(user.email, 'Login', {'session_id': request.cookies.get('session')})
 
             session['email'] = user.email
             session['name'] = user.name
