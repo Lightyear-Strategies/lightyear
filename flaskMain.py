@@ -52,7 +52,8 @@ def journalist_subscribed():
 @app.route('/home')
 @login_required
 def home():
-    mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat(), '$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
+    mp.people_set_once(session['email'], {'$email': session['email'], '$name': session['name'], '$created': datetime.now().isoformat()})
+    mp.people_set(session['email'], {'$ip': request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)})
     return render_template('homePage.html')
     #return render_template('welcome_old.html')
 
