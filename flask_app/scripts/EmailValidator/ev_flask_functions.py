@@ -37,7 +37,7 @@ def email_validator():
                 return response
 
             # print('Sending File')
-            mp.track(session['email'], 'Used Email Validator', {'session_id': request.cookies.get('session')})
+            mp.track(session['email'], 'Used Email Validator', {'session_id': request.cookies.get('session')}, meta={'session_id': request.cookies.get('session')})
             # print(final_path.split(".")[0]+"_final.csv")
             return send_file(final_path.split(".")[0]+"_final.csv",
                              mimetype=mimetype,
@@ -47,7 +47,7 @@ def email_validator():
         else:
             print('No files')
 
-    mp.track(session['email'], 'Viewed Email Validator', {'session_id': request.cookies.get('session')})
+    mp.track(session['email'], 'Viewed Email Validator', {'session_id': request.cookies.get('session')}, meta={'session_id': request.cookies.get('session')})
     return render_template('emailValidator.html')
 
 
