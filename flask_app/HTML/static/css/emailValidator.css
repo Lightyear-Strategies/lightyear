@@ -473,7 +473,7 @@ body {
 }
 
 #loading-overlay {
-  position:relative;
+  position: relative;
   top: -230px;
   width: calc(100% - 1.2em);
   height: 200px;
@@ -483,7 +483,7 @@ body {
 }
 
 #loading-circle {
-  position:absolute;
+  position: absolute;
   width: 75px;
   height: 75px;
   left: calc(50% - 37.5px);
@@ -638,7 +638,7 @@ body {
 
 .dz-max-files-reached {
   pointer-events: none;
-  cursor:default
+  cursor: default;
 }
 
 .dropzone .dz-preview .dz-progress {
@@ -849,4 +849,8 @@ footer h4 {
   #bad-window-size {
     display: block;
   }
+}
+
+#help-circle:hover {
+  background-color: #ead303;
 }

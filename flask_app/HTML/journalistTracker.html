@@ -95,6 +95,15 @@
 
     </script>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YS39THG7JM"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-YS39THG7JM');
+</script>
 
 
 <body>
@@ -105,7 +114,7 @@
                 <div class="alignment-wrapper">
                     <section class="flex-1">
                         <a href="/home">
-                            <img src="../static/img/logo.png" alt="" style="cursor: pointer;">
+                            <img src="../static/img/logo.png" alt="" style="height:60px !important; cursor: pointer;">
                         </a>
                     </section>
                     <section class="flex-6" id="header-nav">
@@ -182,13 +191,13 @@
                         </div>
 
                         <ol>
-                            <li>Enter the email address where you would like to receive updates</li>
-                            <li>Create a CSV file with a column labeled "Journalists" containing the reporters you would like to
+                            <li>Create a CSV with a column titled "Journalists" and add the reporter names you would like to
                                 receive updates on</li>
-                            <li>Select or drag and drop the CSV file</li>
+                            <li>Upload the the CSV file</li>
                             <li>Pick frequency of email updates</li>
-                            <li>Press "Submit" button</li>
+                            <li>Press "Submit"</li>
                         </ol>
+
                     </div>
                 </div>
                 <form action="/journalist_tracker" method="POST" enctype="multipart/form-data" style="padding-top: 0px;">
@@ -219,7 +228,7 @@
                     </div>
                 </form>
             </section>
-        <a href="#" id="help-circle">?</a>
+        <a href="https://doc.clickup.com/24566639/p/h/qdpvf-5790/e4a8a537b5417f8" id="help-circle">?</a>
         <footer>
             <h4> &copy; 2022 Lightyear Strategies</h4>
         </footer>  
