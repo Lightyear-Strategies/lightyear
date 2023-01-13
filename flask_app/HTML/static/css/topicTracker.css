@@ -179,7 +179,7 @@ body {
 /* End Header */
 #page-main {
   padding: 2.5em 0 5em 5em;
-  max-width: 472px;
+  max-width: 560px;
 }
 
 #page-main h1 {
@@ -562,7 +562,7 @@ footer h4 {
   width: 100%;
   color: var(--lightyear-gray);
   text-align: center;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 @media (max-height: 600px) {
@@ -593,4 +593,100 @@ footer h4 {
   #bad-window-size {
     display: block;
   }
+}
+
+#category-container {
+  position: relative;
+  display: inline-block;
+  left: -3.2px !important;
+  text-align: center;
+}
+
+.radio-img {
+  width: 38px;
+  height: 38px;
+  padding: 10px 20px 0;
+}
+.radio-btn {
+  display: inline-block;
+  padding: 2px;
+  margin-top: 5px;
+  border: 1.2px rgb(167, 167, 167) solid;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.radio-btn p {
+  margin: 0 !important;
+  padding-bottom: 5px;
+  font-size: 11pt !important;
+}
+
+#category-container [type="radio"] {
+  margin: 0;
+  padding: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* input[type="radio"]:checked ~ * .radio-btn {
+  border: 1.2px --lightyear-yellow solid !important;
+  background-color: var(--lightyear-yellow) !important;
+} */
+
+#category-container input[type="radio"]:checked ~ * {
+  border-color: #335ae5 !important;
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-AI {
+  content: url("../img/ai.svg");
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-Crypto {
+  content: url("../img/crypto.svg");
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-NFT {
+  content: url("../img/NFT.svg");
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-Economics {
+  content: url("../img/economics.svg");
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-Marketing {
+  content: url("../img/marketing.svg");
+}
+
+#category-container input[type="radio"]:checked ~ * #opt-Philosophy {
+  content: url("../img/philosophy.svg");
+}
+
+.radio-btn:hover {
+  border-color: #335ae5 !important;
+  background-color: #0048ff10;
+}
+
+#help-circle:hover {
+  background-color: #ead303;
+}
+
+#suggestion {
+  text-align: left;
+  padding-left: 3.4px;
+  font-size: 11pt !important;
+  margin: 10px 0 0 0 !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+#emailUs {
+  color: #335ae5;
+}
+
+#emailUs:hover {
+  color: #f1da0a;
 }
