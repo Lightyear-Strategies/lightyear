@@ -490,7 +490,7 @@ body::-webkit-scrollbar {
   border-radius: 6px;
   padding: 1.5px 0;
   transition: 0s background-color;
-  background-color: #d55eed;
+  background-color: #335ae5;
 
   /* Position the tooltip */
   z-index: 1;
@@ -1462,6 +1462,10 @@ body::-webkit-scrollbar {
   text-align: center;
   background: var(--lightyear-yellow);
   text-decoration: none;
+}
+
+#help-circle:hover {
+  background-color: #ead303;
 }
 
 /* ---------------------Header------------------------- */

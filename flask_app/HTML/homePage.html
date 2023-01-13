@@ -11,8 +11,17 @@
         <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="static/css/homePage.css">
         <link rel="shortcut icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
-        <title>Lightyear Strategies</title>
+        <title>Lightyear Tech</title>
     </head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YS39THG7JM"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-YS39THG7JM');
+    </script>
 
     <header>
         <div id="header">
@@ -22,7 +31,7 @@
                     <div class="alignment-wrapper">
                         <section class="flex-1">
                             <a href="/home">
-                                <img src="static/img/logo.png" alt="" style="cursor: pointer;">
+                                <img src="static/img/logo.png" alt="" style=" height:60px !important; cursor: pointer;">
                             </a>
                         </section>
                         <section class="flex-6" id="header-nav">
@@ -130,6 +139,7 @@
                     </main>
                 </div> 
 
+                <a href="https://doc.clickup.com/24566639/d/h/qdpvf-3770/aa32c73e1c895f6"id="help-circle">?</a>
             <footer>
                 <h4> &copy; 2022 Lightyear Strategies</h4>
             </footer>       

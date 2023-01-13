@@ -420,3 +420,26 @@ footer h4 {
     display: block;
   }
 }
+
+#help-circle {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 50%;
+  border: 1px var(--lightyear-yellow) solid;
+  font-size: 40px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  align-items: center;
+  text-align: center;
+  background: var(--lightyear-yellow);
+  text-decoration: none;
+  z-index: 10;
+}
+
+#help-circle:hover {
+  background-color: #ead303;
+}
