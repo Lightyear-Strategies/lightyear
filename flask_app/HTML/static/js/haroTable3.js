@@ -102,7 +102,6 @@ $( document ).ready(function() {
         }
 
         updateHaroCounter()
-        console.log(hit_bottom)
 
         if (Math.abs((this.scrollHeight - this.scrollTop) - this.clientHeight) < 3) {
             $('#haro-table-body').on('mousewheel', function(e) {
@@ -464,13 +463,14 @@ async function copyEmailToClipboard(copy) {
 
 
 function insertEntry(id,datum, parent) {
+
     
     const entry = document.createElement('div');
     if (id == 'DateReceived') {
         entry.innerHTML = datum['DateReceived'].substring(5,7) + '/' + datum['DateReceived'].substring(8) + '/' + datum['DateReceived'].substring(0,4);
     } else if (id == 'Deadline') {
         try {
-            deadlineArr = datum['Deadline'].split(' ');
+            let deadlineArr = datum['Deadline'].split(' ');
             let dlday = deadlineArr[4];
             if (dlday.length == 1) dlday = '0' + dlday;
             entry.innerHTML = monthToNum(deadlineArr[5]) + '/' + dlday + ' ' + (deadlineArr[0].split(':'))[0] + deadlineArr[1];
@@ -740,7 +740,7 @@ function getSavedHaros() {
 
 function monthToNum(str) {
     let num = ['01','02','03','04','05','06','07','08','09','10','11','12'];
-    let month = ['January','Feburary','March','April','May','June','July','August','September','October','November','December']
+    let month = ['January','February','March','April','May','June','July','August','September','October','November','December']
     return num[month.indexOf(str)]
 }
 
