@@ -61,6 +61,7 @@ if __name__ == "__main__":
             for jour_name in df.Journalist:
                 try:
                     if grouped_by_name == None:
+                        print('raising key error')
                         raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
                     print('df_list_to_concat: ', df_list_to_concat)
