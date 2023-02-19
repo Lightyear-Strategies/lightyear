@@ -46,20 +46,25 @@ if __name__ == "__main__":
         print(parser.df)
         try:
             grouped_by_name = parser.df.groupby('Name')
+            print(grouped_by_name.head())
         except KeyError:
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
+        
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
         for email, df in grouped_by_clientemail:
+            print('email: ', email)
             df_list_to_concat = list()
             for jour_name in df.Journalist:
+                print('jour_name: ', jour_name)
                 try:
                     if grouped_by_name == None:
                         raise KeyError
                     df_list_to_concat.append(grouped_by_name.get_group(jour_name))
+                    print('df_list_to_concat: ', df_list_to_concat)
                 except KeyError:
                     # no info for this journalist in particular
                     # TODO: add way to tell the user that no updates for this journalist are out for this week
