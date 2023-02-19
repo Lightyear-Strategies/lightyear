@@ -43,24 +43,22 @@ if __name__ == "__main__":
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         print('parsed')
-        print(parser.df)
         grouped_by_name = None
         try:
             grouped_by_name = parser.df.groupby('Name')
-            print(grouped_by_name.head())
+            print('grouped by name head: ', grouped_by_name.head())
         except KeyError:
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
         
+        print('grouped by name: ', grouped_by_name)
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
         for email, df in grouped_by_clientemail:
-            print('email: ', email)
             df_list_to_concat = list()
             for jour_name in df.Journalist:
-                print('jour_name: ', jour_name)
                 try:
                     if grouped_by_name == None:
                         raise KeyError
