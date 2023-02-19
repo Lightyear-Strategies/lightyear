@@ -44,6 +44,7 @@ if __name__ == "__main__":
         parser.parse_HTML()
         print('parsed')
         print(parser.df)
+        grouped_by_name = None
         try:
             grouped_by_name = parser.df.groupby('Name')
             print(grouped_by_name.head())
