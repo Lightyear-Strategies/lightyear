@@ -42,6 +42,7 @@ if __name__ == "__main__":
         unique_links = list(journalists_db['Muckrack'].unique())
         parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
+        print('parsed')
         try:
             grouped_by_name = parser.df.groupby('Name')
         except KeyError:
@@ -67,6 +68,7 @@ if __name__ == "__main__":
             except ValueError:
                 # No info for any of the journalists for email
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
+                print('value error for email: ', email)
                 continue
 
             clientname = df.ClientName.iloc[0]
