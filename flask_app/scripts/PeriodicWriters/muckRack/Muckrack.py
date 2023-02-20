@@ -28,9 +28,9 @@ class Muckrack:
             url_list = self.__find_list(filename)
 
         if(len(url_journalist_list)==1):
-            self.url_list = [url_journalist_list]
+            self.url_journalist_list = [url_journalist_list]
         else:
-            self.url_list = url_journalist_list
+            self.url_journalist_list = url_journalist_list
 
         self.df = pd.DataFrame()
 
