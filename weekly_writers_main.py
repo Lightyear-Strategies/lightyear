@@ -11,6 +11,7 @@ def links(journalists_db : pd.DataFrame, timeframe : str):
     links_needed = journalists_db[journalists_db['Muckrack'].isnull()]
     gm_ob = gm.google_muckrack(links_needed, 'Journalist')
     new_df = gm_ob.get_dataframe()
+    print('new_df: \n', new_df)
     journalists_db[journalists_db['Muckrack'].isnull()] = new_df
     with app.app_context():
         journalists_db.to_sql(f'journalists{timeframe}', db.engine, index=False, if_exists='replace')
@@ -46,7 +47,7 @@ if __name__ == "__main__":
         grouped_by_name = None
         try:
             grouped_by_name = parser.df.groupby('Name')
-            print('grouped by name head: ', grouped_by_name.head())
+            print('grouped by name head: \n', grouped_by_name.head())
         except KeyError:
             # no articles for anything
             grouped_by_name = None
@@ -58,12 +59,13 @@ if __name__ == "__main__":
         # this is the for loop that will make all the pdfs and send all the emails
         for email, df in grouped_by_clientemail:
             df_list_to_concat = list()
-            for jour_name in df.Journalist:
+            print('df.journalist: \n', df.Journalist)
+            for jour_name in df.Journalist: # df.Journalist and grouped_by_name.Name may not be the same
                 try:
                     if grouped_by_name == None:
                         print('raising key error')
                         raise KeyError
-                    df_list_to_concat.append(grouped_by_name.get_group(jour_name))
+                    df_list_to_concat.append(grouped_by_name.get_group(jour_name)) # this is raising keyerrors
                     print('df_list_to_concat: ', df_list_to_concat)
                 except KeyError:
                     # no info for this journalist in particular
