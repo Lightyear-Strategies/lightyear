@@ -39,13 +39,13 @@ if __name__ == "__main__":
 
 
     if sys.argv[1] == "parse":
-        unique_links = list(journalists_db['Muckrack'].unique())
-        parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
+        unique_links = list(journalists_db[['Muckrack', 'Journalist']].drop_duplicates().itertuples(index=False, name=None))
+        parser = mr.Muckrack(url_journalist_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         grouped_by_name = None
         print(parser.df.columns)
         try:
-            grouped_by_name = parser.df.groupby('Name')
+            grouped_by_name = parser.df.groupby('Journalist')
         except KeyError:
             # no articles for anything
             grouped_by_name = None
