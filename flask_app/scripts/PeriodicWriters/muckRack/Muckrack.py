@@ -23,20 +23,20 @@ logger.addHandler(handler)
 
 
 class Muckrack:
-    def __init__(self, url_list=None, filename=None, sleep_time=2.5, timeframe=7):
+    def __init__(self, url_journalist_list=None, filename=None, sleep_time=2.5, timeframe=7):
         if filename is not None:
             url_list = self.__find_list(filename)
 
-        if(len(url_list)==1):
-            self.url_list = [url_list]
+        if(len(url_journalist_list)==1):
+            self.url_journalist_list = [url_journalist_list]
         else:
-            self.url_list = url_list
+            self.url_journalist_list = url_journalist_list
 
         self.df = pd.DataFrame()
 
         self.timeframe = timeframe
         self.sleep_time = sleep_time
-        self.time_total = len(url_list)*(self.sleep_time*2)
+        self.time_total = len(url_journalist_list)*(self.sleep_time*2)
         self.time_left = self.time_total+(self.sleep_time*2)
 
     def __find_list(self, filename):
@@ -68,7 +68,7 @@ class Muckrack:
                            browser_executable_path='/usr/bin/google-chrome')
 
         with driver:
-            for url in self.url_list:
+            for url, journalist in self.url_journalist_list:
                 self.time_left -= self.sleep_time*2
                 if(type(url) is not str):
                     continue
@@ -86,7 +86,7 @@ class Muckrack:
                     # print("Time left: " + self.__time_left())
                     driver.get(url)
                     time.sleep(self.sleep_time)
-                    self.read_HTML(driver.page_source)
+                    self.read_HTML(driver.page_source, journalist)
                     time.sleep(self.sleep_time)
                 except Exception as e:
                     logger.info("Error: " + str(e))
@@ -106,7 +106,7 @@ class Muckrack:
             seconds = int(time_left%60)
             return str(minutes) + " minutes and " + str(seconds) + " seconds left"
 
-    def read_HTML(self, page_source=None):
+    def read_HTML(self, page_source=None, journalist=None):
         if page_source is None:
             logger.info("EMPTY PAGE SOURCE")
             with open('savedHTML.txt', 'r') as f:
@@ -136,6 +136,7 @@ class Muckrack:
         time_stamps = []
         headlines = []
         links = []
+        journalists = []
         #########################################
 
         outlets = soup.find_all("div", {"class": "news-story-byline"})
@@ -189,6 +190,7 @@ class Muckrack:
                 final_media.append(medias[time])
                 final_links.append(links[time])
                 final_coverage.append(coverage[time])
+                journalists.append(journalist)
             else:
                 break
 
@@ -198,7 +200,8 @@ class Muckrack:
                                      "Date": final_time,
                                      "Media": final_media,
                                      "Link": final_links,
-                                     "Coverage": final_coverage}))
+                                     "Coverage": final_coverage,
+                                     "Journalist": journalists}))
 
         #if df is empty
         if(len(df)==0):

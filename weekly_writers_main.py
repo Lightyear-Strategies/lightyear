@@ -39,25 +39,27 @@ if __name__ == "__main__":
 
 
     if sys.argv[1] == "parse":
-        unique_links = list(journalists_db['Muckrack'].unique())
-        parser = mr.Muckrack(url_list=unique_links, timeframe=days_back)
+        unique_links = list(journalists_db[['Muckrack', 'Journalist']].drop_duplicates().itertuples(index=False, name=None))
+        parser = mr.Muckrack(url_journalist_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
+        grouped_by_name = None
         try:
-            grouped_by_name = parser.df.groupby('Name')
+            grouped_by_name = parser.df.groupby('Journalist')
         except KeyError:
             # no articles for anything
             grouped_by_name = None
             print(f'no articles this {timeframe[1:]}')
+        
         grouped_by_clientemail = journalists_db.groupby('ClientEmail')
 
         # this is the for loop that will make all the pdfs and send all the emails
         for email, df in grouped_by_clientemail:
             df_list_to_concat = list()
-            for jour_name in df.Journalist:
+            for jour_name in df.Journalist: # df.Journalist and grouped_by_name.Name may not be the same
                 try:
                     if grouped_by_name == None:
                         raise KeyError
-                    df_list_to_concat.append(grouped_by_name.get_group(jour_name))
+                    df_list_to_concat.append(grouped_by_name.get_group(jour_name)) # this is raising keyerrors
                 except KeyError:
                     # no info for this journalist in particular
                     # TODO: add way to tell the user that no updates for this journalist are out for this week
@@ -67,6 +69,7 @@ if __name__ == "__main__":
             except ValueError:
                 # No info for any of the journalists for email
                 # TODO: find way to send an email letting the user know that none of their journalists had updates this week
+                print('value error for email: ', email)
                 continue
 
             clientname = df.ClientName.iloc[0]
