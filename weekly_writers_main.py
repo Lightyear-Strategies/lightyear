@@ -43,7 +43,6 @@ if __name__ == "__main__":
         parser = mr.Muckrack(url_journalist_list=unique_links, timeframe=days_back)
         parser.parse_HTML()
         grouped_by_name = None
-        print(parser.df.columns)
         try:
             grouped_by_name = parser.df.groupby('Journalist')
         except KeyError:
