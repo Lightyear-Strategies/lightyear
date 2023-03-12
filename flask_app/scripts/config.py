@@ -28,6 +28,8 @@ class Config:
     SENDER_EMAIL_NAME = '"George Lightyear" <george@lightyearstrategies.com>'
 
     SENTRY_DSN = os.getenv('SENTRY_DSN')
+    SENTRY_ENVIRONMENT = os.getenv('SENTRY_ENVIRONMENT')
+    SENTRY_RELEASE = os.getenv('SENTRY_RELEASE')
 
     with open(os.path.join(CONFIG_DIR, 'env.txt')) as e:
         ENVIRONMENT = e.read().strip()
