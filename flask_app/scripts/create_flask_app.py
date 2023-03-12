@@ -8,6 +8,9 @@ from mixpanel import Mixpanel
 from flask_app.scripts.config import Config
 from flask_app.scripts.googleAuth import g_oauth
 
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
 
 ##########################################
 ########### app created below ###########
@@ -62,6 +65,13 @@ def add_configs(app,where):
 
 
 def create_app(where='server'):
+    sentry_sdk.init(
+        dsn=Config.SENTRY_DSN,
+        integrations=[FlaskIntegration()],
+        traces_sample_rate=1.0,
+        release='lys_dev',
+    )
+
     app = Flask(__name__, template_folder=Config.HTML_DIR, static_folder=Config.STATIC_DIR)
     app = add_configs(app,where)
 
